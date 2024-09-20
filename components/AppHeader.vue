@@ -1,7 +1,15 @@
 <script setup lang="ts">
-import { routerKey } from "vue-router";
-
 const emit = defineEmits(["click-theme", "click-profile"]);
+
+const colorMode = useColorMode();
+const isDark = computed({
+  get() {
+    return colorMode.value === "dark";
+  },
+  set() {
+    colorMode.preference = colorMode.value === "dark" ? "light" : "dark";
+  },
+});
 
 const links = [
   [
@@ -35,8 +43,8 @@ const links = [
   [
     {
       label: "",
-      icon: "i-heroicons-moon",
-      click: () => emit("click-theme"),
+      icon: isDark.value ? "i-heroicons-moon-solid" : "i-heroicons-sun-solid",
+      click: () => isDark.value = !isDark.value,
     },
     {
       label: "Profile",
@@ -50,8 +58,17 @@ const links = [
 </script>
 
 <template>
-  <UHorizontalNavigation
-    :links="links"
-    class="border-b border-gray-200 dark:border-gray-800"
-  />
+  <ClientOnly>
+    <UHorizontalNavigation
+      :links="links"
+      class="border-b border-gray-200 dark:border-gray-800"
+    >
+      <template #default="{ link }">
+        <span
+          class="group-hover:text-primary relative hidden md:block first:text-xl first:font-semibold first:dark:text-white first:dark:group-hover:text-white"
+          >{{ link.label }}</span
+        >
+      </template>
+    </UHorizontalNavigation>
+  </ClientOnly>
 </template>
