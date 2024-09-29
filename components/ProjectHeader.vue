@@ -15,7 +15,7 @@ const links = [
   [
     {
       label: "Whitemind",
-      click: () => navigateTo("/home"),
+      click: () => navigateTo("/"),
     },
     {
       label: "Editor",

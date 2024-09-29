@@ -15,19 +15,14 @@ const links = [
   [
     {
       label: "Whitemind",
-      click: () => navigateTo("/home"),
+      click: () => navigateTo("/"),
     },
   ],
   [
     {
       label: "Home",
       icon: "i-heroicons-home",
-      to: "/home",
-    },
-    {
-      label: "Create",
-      icon: "i-heroicons-plus",
-      to: `/project`,
+      to: "/",
     },
     {
       label: "Tutorials",
