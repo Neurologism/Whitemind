@@ -16,14 +16,6 @@ export const useUserStore = defineStore({
       project_ids: [],
     },
   }),
-  getters: {
-    isAdult(): boolean {
-      return this.age >= 18;
-    },
-  },
-  actions: {
-    getSelf() {
-      this.age++;
-    },
-  },
+  getters: {},
+  actions: {},
 });

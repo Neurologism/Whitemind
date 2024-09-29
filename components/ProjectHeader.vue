@@ -36,7 +36,7 @@ const links = [
   [
     {
       label: "",
-      icon: 'fluent:dark-theme-20-filled',
+      icon: "fluent:dark-theme-20-filled",
       click: () => (isDark.value = !isDark.value),
     },
     {

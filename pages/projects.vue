@@ -31,7 +31,9 @@ const projects = ref([
           placeholder="Find a project..."
           class="flex-1 mr-4"
         />
-        <UButton class="flex-none" icon="i-heroicons-plus"> New Project </UButton>
+        <UButton class="flex-none" icon="i-heroicons-plus">
+          New Project
+        </UButton>
       </div>
       <div v-for="project in projects" class="p-8 flex flex-row">
         <div class="grow truncate mr-10">
@@ -47,9 +49,14 @@ const projects = ref([
           </div>
         </div>
         <div class="flex-none my-auto flex">
-          <UButton color="gray" class="rounded-none rounded-l-lg border-r-0">Open</UButton>
-          <UButton color="gray" class="rounded-none rounded-r-lg" icon="i-heroicons-adjustments-horizontal">
-
+          <UButton color="gray" class="rounded-none rounded-l-lg border-r-0"
+            >Open</UButton
+          >
+          <UButton
+            color="gray"
+            class="rounded-none rounded-r-lg"
+            icon="i-heroicons-adjustments-horizontal"
+          >
           </UButton>
         </div>
       </div>
