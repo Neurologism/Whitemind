@@ -1,4 +1,4 @@
-# Backmind
+# Pinkmind
 
 Welcome to the frontend repository for our innovative educational AI project, [Brainet](https://github.com/Neurologism/brainet)! Our goal is to empower users to build artificial intelligence systems using a visual, block-based interface similar to Scratch or LEGO, making AI development accessible and fun for everyone.
 
@@ -68,11 +68,6 @@ Use the following pnpm scripts for developement.
 pnpm run pretty # formats the code
 pnpm run dev # to start a local dev server
 ```
-
-    "build": "nuxt build",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
 
 ### Running for Deployment
 
