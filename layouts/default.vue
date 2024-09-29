@@ -1,3 +1,7 @@
+<script setup lang="ts">
+const showLoginModal = ref(false);
+</script>
+
 <template>
   <div>
     <AppHeader @click-profile="showLoginModal = true" />
@@ -10,7 +14,3 @@
     />
   </div>
 </template>
-
-<script setup lang="ts">
-const showLoginModal = ref(false);
-</script>

@@ -17,33 +17,26 @@ const links = [
       label: "Whitemind",
       click: () => navigateTo("/home"),
     },
-  ],
-  [
     {
-      label: "Home",
-      icon: "i-heroicons-home",
-      to: "/home",
+      label: "Editor",
+      icon: "i-heroicons-document",
+      to: "/project/editor",
     },
     {
-      label: "Create",
-      icon: "i-heroicons-plus",
-      to: `/project`,
+      label: "Train",
+      icon: "solar:dumbbell-outline",
+      to: "/project/train",
     },
     {
-      label: "Tutorials",
-      icon: "i-heroicons-academic-cap",
-      to: "/tutorials",
-    },
-    {
-      label: "Projects",
-      icon: "i-heroicons-folder",
-      to: "/projects",
+      label: "Settings",
+      icon: "i-heroicons-cog-8-tooth",
+      to: "/project/settings",
     },
   ],
   [
     {
       label: "",
-      icon: "fluent:dark-theme-20-filled",
+      icon: 'fluent:dark-theme-20-filled',
       click: () => (isDark.value = !isDark.value),
     },
     {
@@ -65,7 +58,7 @@ const links = [
     >
       <template #default="{ link }">
         <span
-          class="group-hover:text-primary relative hidden md:block first:text-xl first:font-semibold first:dark:text-white first:dark:group-hover:text-white"
+          class="group-hover:text-primary relative hidden md:block first:text-lg first:font-semibold first:dark:text-white first:dark:group-hover:text-white"
           >{{ link.label }}</span
         >
       </template>
