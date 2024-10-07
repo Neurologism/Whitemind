@@ -1,3 +1,1 @@
-<template>
-  hello world!
-</template>
+<template>hello world!</template>
