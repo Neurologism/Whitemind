@@ -8,7 +8,9 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "pretty": "prettier --write ."
+    "pretty": "prettier --write .",
+    "start": "pm2 start .output/server/index.mjs -i 0 --name whitemind-server",
+    "stop": "pm2 stop whitemind-server"
   },
   "dependencies": {
     "@nuxt/icon": "^1.5.1",
