@@ -6,7 +6,7 @@ git reset --hard
 git clean -f
 git checkout main
 git pull
-pnpm i
+pnpm install
 pnpm run build
 pnpm run start
 pm2 save --force
