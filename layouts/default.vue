@@ -3,14 +3,11 @@ const showLoginModal = ref(false);
 </script>
 
 <template>
-  <div>
+  <div class="flex flex-col h-screen">
     <AppHeader @click-profile="showLoginModal = true" />
-    <slot />
-    <AppFooter />
-
-    <LoginModal
-      @toggle="(n) => (showLoginModal = n)"
-      :showModalProp="showLoginModal"
-    />
+    <div class="flex-grow">
+      <slot />
+    </div>
+    <AppFooter/>
   </div>
 </template>

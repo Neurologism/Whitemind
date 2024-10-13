@@ -13,6 +13,7 @@
   "dependencies": {
     "@nuxt/icon": "^1.5.1",
     "@nuxt/ui": "^2.18.5",
+    "@nuxtjs/tailwindcss": "^6.12.1",
     "@pinia/nuxt": "^0.5.4",
     "animate.css": "^4.1.1",
     "interactjs": "^1.10.27",
@@ -24,6 +25,9 @@
   },
   "packageManager": "pnpm@9.10.0+sha512.73a29afa36a0d092ece5271de5177ecbf8318d454ecd701343131b8ebc0c1a91c487da46ab77c8e596d6acf1461e3594ced4becedf8921b074fbd8653ed7051c",
   "devDependencies": {
-    "@iconify/json": "^2.2.250"
+    "@iconify/json": "^2.2.250",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.13"
   }
 }

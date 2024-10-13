@@ -3,8 +3,11 @@ const showLoginModal = ref(false);
 </script>
 
 <template>
-  <div>
+  <div class="flex flex-col min-h-screen">
     <ProjectHeader />
-    <slot />
+    <div class="flex-grow">
+    <slot class=""/>
+    </div>
+    <AppFooter/>
   </div>
 </template>
