@@ -14,9 +14,6 @@ importers:
       '@nuxt/ui':
         specifier: ^2.18.5
         version: 2.18.5(magicast@0.3.5)(rollup@4.22.0)(vite@5.4.6(@types/node@22.5.5)(terser@5.33.0))(vue@3.5.6)
-      '@nuxtjs/tailwindcss':
-        specifier: ^6.12.1
-        version: 6.12.1(magicast@0.3.5)(rollup@4.22.0)
       '@pinia/nuxt':
         specifier: ^0.5.4
         version: 0.5.4(magicast@0.3.5)(rollup@4.22.0)(vue@3.5.6)
@@ -42,9 +39,6 @@ importers:
         specifier: ^3.23.8
         version: 3.23.8
     devDependencies:
-      '@iconify/json':
-        specifier: ^2.2.250
-        version: 2.2.250
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.20(postcss@8.4.47)
@@ -676,9 +670,6 @@ packages:
 
   '@iconify/collections@1.0.461':
     resolution: {integrity: sha512-1D6cTTL3c55SpiNFpsK8vwnSLY2ia9XbarnLeyE7L152dKRg+sofV2cRbEz6UmSZLQjsgUxe16yvNoyhhx21vg==}
-
-  '@iconify/json@2.2.250':
-    resolution: {integrity: sha512-Vgol6HzS3I2UrLksI36oxvUtAuKs/GNfz2PmCBhVaA95u/Vj0oKGgCJttcC5Co8GeMd+Qx4VwteFqmkO2/DRqg==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -4253,11 +4244,6 @@ snapshots:
   '@iconify/collections@1.0.461':
     dependencies:
       '@iconify/types': 2.0.0
-
-  '@iconify/json@2.2.250':
-    dependencies:
-      '@iconify/types': 2.0.0
-      pathe: 1.1.2
 
   '@iconify/types@2.0.0': {}
 
