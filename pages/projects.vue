@@ -52,14 +52,15 @@ const projects = ref([
 ]);
 
 const searchQuery = ref('');
-
+const navigateToProject = (projectId: string) => {
+  // Replace with your actual navigation logic
+  window.location.href = `/project/${projectId}`;
+};
 </script>
 
 <template>
   <div class="flex w-screen justify-center flex-row">
-    <div
-      class="md:basis-2/3 lg:basis-1/2 dark:divide-slate-700 mx-10 md:mx-0 truncate"
-    >
+    <div class="md:basis-2/3 lg:basis-1/2 dark:divide-slate-700 mx-10 md:mx-0 truncate">
       <div class="flex flex-row py-8 pl-8 pr-8">
         <UInput
             v-model="searchQuery"
@@ -90,22 +91,17 @@ const searchQuery = ref('');
         <UCard
             v-for="project in projects"
             :key="project.id"
+            class="transform transition-transform duration-300 hover:scale-105 cursor-pointer"
+            @click="navigateToProject(project.id)"
         >
           <template #header>
-            <h4 class="text-primary">{{project.name}}</h4>
+            <h4 class="text-primary">{{ project.name }}</h4>
           </template>
 
-          <p class="text-sm text-gray-500 whitespace-pre-line overflow-ellipsis line-clamp-2">{{project.description}}</p>
+          <p class="text-sm text-gray-500 whitespace-pre-line overflow-ellipsis line-clamp-2">{{ project.description }}</p>
 
           <template #footer>
-            <div class="flex justify-between">
-              <span class="text-sm text-gray-500">
-                Last updated: {{project.lastUpdated.toString().slice(0, 15)}}
-              </span>
-              <UButton to="/project/{{project.id}}" class="text-sm">
-                View Project
-              </UButton>
-            </div>
+            <span class="text-sm text-gray-500">Last updated: {{ project.lastUpdated.toString().slice(0, 15) }}</span>
           </template>
         </UCard>
       </div>
