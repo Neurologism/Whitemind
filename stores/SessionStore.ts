@@ -2,7 +2,7 @@ import {defineStore} from "pinia";
 
 const apiServerURLs = {
     prod: "https://backmind.icinoxis.net",
-    dev: "https://dev-backmind.icinoxis.net"
+    dev: "https://backmind.icinoxis.net"//"https://dev-backmind.icinoxis.net"
 };
 
 
@@ -29,7 +29,7 @@ export const useSessionStore = defineStore({
          * @param options The fetch options
          */
         async fetch(url: string | URL | globalThis.Request, options : RequestInit = {}) {
-            if (url.toString().startsWith("/") && !noAPIServer) {
+            if (url.toString().startsWith("/")) {
                 if (this.isProd) {
                     url = new URL(url.toString(), apiServerURLs.prod);
                 } else {
