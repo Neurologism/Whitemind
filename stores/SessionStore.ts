@@ -2,7 +2,7 @@ import {defineStore} from "pinia";
 
 const apiServerURLs = {
     prod: "https://backmind.icinoxis.net",
-    dev: "https://backmind.icinoxis.net"//"https://dev-backmind.icinoxis.net"
+    dev: "https://dev-backmind.icinoxis.net"
 };
 
 
@@ -13,14 +13,32 @@ export const useSessionStore = defineStore({
         sessionData: {
             sessionStart: Date(),
             sessionID: "",
-
+            user: {
+                _id: "",
+                brainet_tag: "",
+                email: "",
+                about_you: "",
+                displayname: "",
+                date_of_birth: 0,
+                /**
+                 * The visibility of the user's profile
+                 * "private" - Only the user can see their profile
+                 * "public" - Everyone can see the user's profile
+                 * "" - not loaded yet
+                 */
+                visibility: "",
+                followers: [] as string[],
+                following: [] as string[],
+                project_ids: [] as string[],
+            }
         },
     }),
     getters: {
-        isLoggedIn: (state) => {
+        doesSessionIdExist: (state) => {
             return state.sessionData.sessionID !== "";
         },
-        isProd: () => import.meta.env.MODE === "production",
+        // @ts-ignore somehow this is not recognized as a getter
+        isProd: () => import.meta.env.PROD,
     },
     actions: {
         /**
@@ -49,8 +67,33 @@ export const useSessionStore = defineStore({
                 headers,
             });
         },
+        async loginWithSessionToken(token: string) {
+            if (token == "" || token == undefined) {
+                console.error("No token provided to login with.");
+                navigateTo('/profile/login');
+                return;
+            }
+
+            this.sessionData.sessionID = token;
+            let response = await this.fetch("/api/user/get", {method: "POST"});
+            if (response.status === 200) {
+                let data = await response.json();
+                console.log(data);
+                this.sessionData.user = data.user;
+                localStorage.setItem('sessionData', JSON.stringify(this.sessionData));
+                navigateTo('/projects');
+            } else {
+                this.sessionData.sessionID = "";
+                console.error("Failed to log in with session token. Rerouting user to login page.");
+                navigateTo('/profile/login');
+            }
+        },
+        /**
+         * Checks if the session is still valid and navigates to the login page if it is not
+         * @param redirectIfNotLoggedIn
+         */
         async checkSession(redirectIfNotLoggedIn = true) {
-            if (!this.isLoggedIn) return;
+            if (!this.doesSessionIdExist) return;
 
             let result = await this.fetch("/api/auth/check", {
                 method: "POST",
@@ -63,9 +106,27 @@ export const useSessionStore = defineStore({
             if (result.status == 401) {
                 this.sessionData.sessionID = "";
                 if (redirectIfNotLoggedIn) {
-                    this.$router.push("/login");
+                    navigateTo('/profile/login');
                 }
             }
+        },
+        async syncLocalSessionData() {
+          if (!import.meta.client) return;
+          const localSession = JSON.parse(localStorage.getItem('sessionData') || '{}');
+          const currentSession = this.sessionData;
+
+          if (!localSession.sessionID && !currentSession.sessionID) {
+            console.warn('No session found in both local storage and current session data.');
+            return;
+          }
+
+          if (localSession.sessionID && (!currentSession.sessionID || new Date(localSession.sessionStart) > new Date(currentSession.sessionStart))) {
+            this.sessionData = localSession;
+          } else if (currentSession.sessionID && (!localSession.sessionID || new Date(currentSession.sessionStart) > new Date(localSession.sessionStart))) {
+            localStorage.setItem('sessionData', JSON.stringify(currentSession));
+          }
+
+          await this.checkSession();
         },
     },
 });

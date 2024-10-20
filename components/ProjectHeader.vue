@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const emit = defineEmits(["click-theme", "click-profile"]);
+const emit = defineEmits(["click-theme"]);
 
 const colorMode = useColorMode();
 const isDark = computed({
@@ -35,7 +35,7 @@ const links = [
   ],
   [
     {
-      label: "",
+      label: '',
       icon: "fluent:dark-theme-20-filled",
       click: () => (isDark.value = !isDark.value),
     },
@@ -44,7 +44,7 @@ const links = [
       avatar: {
         src: "/testpfp.jpg",
       },
-      click: () => emit("click-profile"),
+      click: () => navigateTo("/profile"),
     },
   ],
 ];

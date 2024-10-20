@@ -16,6 +16,8 @@
     "@nuxt/icon": "^1.5.1",
     "@nuxt/ui": "^2.18.5",
     "@pinia/nuxt": "^0.5.4",
+    "@volar/language-server": "2.4.0-alpha.18",
+    "@vue/language-server": "2.0.28",
     "animate.css": "^4.1.1",
     "interactjs": "^1.10.27",
     "nuxt": "^3.13.0",

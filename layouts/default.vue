@@ -1,10 +1,13 @@
 <script setup lang="ts">
-const showLoginModal = ref(false);
+import { useSessionStore } from "~/stores/SessionStore";
+const sessionStore = useSessionStore();
+await sessionStore.syncLocalSessionData();
+
 </script>
 
 <template>
   <div class="flex flex-col h-screen">
-    <AppHeader @click-profile="showLoginModal = true" />
+    <AppHeader/>
     <div class="flex-grow">
       <slot />
     </div>

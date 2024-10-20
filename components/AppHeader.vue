@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useSessionStore } from "~/stores/SessionStore";
+const sessionStore = useSessionStore();
+
 const emit = defineEmits(["click-theme", "click-profile"]);
 
 const colorMode = useColorMode();
@@ -42,11 +45,17 @@ const links = [
       click: () => (isDark.value = !isDark.value),
     },
     {
-      label: "Profile",
+      label: sessionStore.sessionData.user.displayname ?? "Login",
       avatar: {
-        src: "/testpfp.jpg",
+        src: "/testpfp.jpg", // TODO: Generate user profile pic based on user's DB id
       },
-      click: () => emit("click-profile"),
+      click: () => {
+        if (sessionStore.doesSessionIdExist) {
+          navigateTo("/profile");
+        } else {
+          navigateTo("/profile/login");
+        }
+      },
     },
   ],
 ];

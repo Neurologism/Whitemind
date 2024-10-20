@@ -10,14 +10,78 @@ const usernameOrEmailTaken = ref(false);
 const email = ref('');
 const password = ref('');
 const password2 = ref('');
+
 const legalStuff = ref(false);
 
-async function onUsernameOrEmailChange() {
-  if (username.value.length < 3) {
-    usernameOrEmailTaken.value = false;
-    return;
+let usernameOrEmailChangeTimeout: NodeJS.Timeout | null = null;
+
+function onUsernameOrEmailChange() {
+  if (usernameOrEmailChangeTimeout) {
+    clearTimeout(usernameOrEmailChangeTimeout);
   }
-  let result = await sessionStore.fetch('/api/user/is-taken', {
+  usernameOrEmailChangeTimeout = setTimeout( async () => {
+    if (username.value.length < 3) {
+      usernameOrEmailTaken.value = false;
+      return;
+    }
+    let result = await sessionStore.fetch('/api/user/is-taken', {
+      method: 'POST',
+      cache: 'no-cache',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user: {
+          'brainet_tag': username.value,
+          'email': email.value
+        }
+      })
+    });
+    usernameOrEmailTaken.value = !result.ok;
+  }, 300);
+}
+
+const validateEmail = (email: string) => {
+  return (String(email)
+      .toLowerCase()
+      .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      )??[]).length > 0;
+};
+
+const scorePassword = (pass: string): number => {
+  let score = 0;
+  if (!pass) return score;
+
+  // Award points for length
+  const lengthScore = Math.min(1, pass.length / 20);
+  score += lengthScore;
+
+  // Award points for containing numbers
+  const numberScore = /\d/.test(pass) ? 0.1 : 0;
+  score += numberScore;
+
+  // Award points for containing special characters
+  const specialCharScore = /[!@#$%^&*(),.?":{}|<>]/.test(pass) ? 0.1 : 0;
+  score += specialCharScore;
+
+  // Award points for containing both lowercase and uppercase letters
+  const lowerUpperScore = /[a-z]/.test(pass) && /[A-Z]/.test(pass) ? 0.2 : 0;
+  score += lowerUpperScore;
+
+  // Normalize score to be between 0 and 1
+  return Math.min(1, score);
+};
+
+const getPasswordColor = (score: number) => {
+  if (score < 0.3) return 'red';
+  if (score < 0.5) return 'orange';
+  if (score < 0.7) return 'yellow';
+  return 'green';
+};
+
+const onRegister = async () => {
+  let response = await sessionStore.fetch('/api/auth/register', {
     method: 'POST',
     cache: 'no-cache',
     headers: {
@@ -26,12 +90,22 @@ async function onUsernameOrEmailChange() {
     body: JSON.stringify({
       user: {
         'brainet_tag': username.value,
-        'email': email.value
+        'email': email.value,
+        'plain_password': password.value
       }
     })
   });
-  usernameOrEmailTaken.value = !result.ok;
-}
+  if (response.ok) {
+    console.log('Registration successful');
+    console.log(response.body);
+    let data = await response.json();
+    console.log(data);
+    await sessionStore.loginWithSessionToken(data.token);
+    navigateTo('/projects');
+  } else {
+    console.log('Registration failed');
+  }
+};
 
 </script>
 
@@ -45,7 +119,7 @@ async function onUsernameOrEmailChange() {
         </template>
           <div class="input-tile">
             <HintBox>
-              <UInput v-model="username" label="Username" placeholder="Enter your username" @input="onUsernameOrEmailChange"/>
+              <UInput v-model="username" label="Username" type="username" placeholder="Enter your username" @change="onUsernameOrEmailChange"/>
               <template #hint>
                 <UAlert
                     v-if="username.length < 3"
@@ -60,9 +134,16 @@ async function onUsernameOrEmailChange() {
           </div>
           <div class="input-tile">
             <HintBox>
-              <UInput v-model="email" label="Email" placeholder="Enter your email" type="email"/>
+              <UInput v-model="email" label="Email" placeholder="Enter your email" type="email" @change="onUsernameOrEmailChange"/>
               <template #hint>
-                <div class="text-sm text-gray-500 dark:text-gray-300">Your username must be unique</div>
+                <UAlert
+                    v-if="!validateEmail(email)"
+                    icon="mdi-info"
+                    color="red"
+                    variant="outline"
+                    title="Invalid email"
+                    message="Please enter a valid email adress!"
+                />
               </template>
             </HintBox>
           </div>
@@ -70,7 +151,20 @@ async function onUsernameOrEmailChange() {
             <HintBox>
               <UInput v-model="password" label="Password" placeholder="Enter your password" type="password"/>
               <template #hint>
-                <div class="text-sm text-gray-500 dark:text-gray-300">Your username must be unique</div>
+                <UProgress
+                  :value="scorePassword(password) * 100"
+                  :color="getPasswordColor(scorePassword(password))"
+                />
+                <div class="pt-2">
+                  <UAlert
+                      v-if="scorePassword(password) < 0.5"
+                      icon="mdi-info"
+                      color="red"
+                      variant="outline"
+                      title="Password too weak!"
+                      message="Please choose a stronger password"
+                  />
+                </div>
               </template>
             </HintBox>
           </div>
@@ -78,7 +172,13 @@ async function onUsernameOrEmailChange() {
             <HintBox>
               <UInput v-model="password2" label="Confirm Password" placeholder="Confirm your password" type="password"/>
               <template #hint>
-                <div class="text-sm text-gray-500 dark:text-gray-300">Your passwords must match</div>
+                <UAlert
+                    v-if="password != password2"
+                    icon="mdi-info"
+                    color="red"
+                    variant="outline"
+                    title="The passwords do not match!"
+                />
               </template>
             </HintBox>
           </div>
@@ -93,6 +193,20 @@ async function onUsernameOrEmailChange() {
               message="Please choose a unique username or email"
           />
         </div>
+        <div class="input-tile">
+          <UButton block
+                   :disabled="usernameOrEmailTaken || username.length < 3 || !validateEmail(email) || password != password2 || !legalStuff || scorePassword(password) < 0.5"
+                   color="primary"
+                   @click="onRegister"
+          >
+            Register
+          </UButton>
+        </div>
+        <template #footer>
+          <div class="flex justify-between">
+            <ULink to="/profile/login" class="text-blue-500 hover:underline">Already have an account? Login here!</ULink>
+          </div>
+        </template>
       </UCard>
       <div></div>
     </div>
