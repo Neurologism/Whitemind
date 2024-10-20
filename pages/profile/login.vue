@@ -131,7 +131,7 @@ const onLogin = async () => {
         </div>
         <template #footer>
           <div class="flex justify-between">
-            <ULink to="/profile/login" class="text-blue-500 hover:underline">Don't have an account yet? Create on here!</ULink>
+            <ULink to="/profile/register" class="text-blue-500 hover:underline">Don't have an account yet? Create on here!</ULink>
           </div>
         </template>
       </UCard>
