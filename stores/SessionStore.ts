@@ -46,7 +46,7 @@ export const useSessionStore = defineStore({
          * @param url The URL to fetch
          * @param options The fetch options
          */
-        async fetch(url: string | URL | globalThis.Request, options : RequestInit = {}) {
+        async fetch(url: string | URL | globalThis.Request, options : RequestInit = {}) : Promise<Response> {
             if (url.toString().startsWith("/")) {
                 if (this.isProd) {
                     url = new URL(url.toString(), apiServerURLs.prod);
@@ -62,7 +62,7 @@ export const useSessionStore = defineStore({
                 Authorization: `Bearer ${this.sessionData.sessionID}`,
             };
 
-            return await fetch(url, {
+            return fetch(url, {
                 ...options,
                 headers,
             });
@@ -76,12 +76,12 @@ export const useSessionStore = defineStore({
 
             this.sessionData.sessionID = token;
             let response = await this.fetch("/api/user/get", {method: "POST"});
-            if (response.status === 200) {
+            if (response.ok) {
                 let data = await response.json();
                 console.log(data);
                 this.sessionData.user = data.user;
                 localStorage.setItem('sessionData', JSON.stringify(this.sessionData));
-                navigateTo('/projects');
+                //navigateTo('/projects');
             } else {
                 this.sessionData.sessionID = "";
                 console.error("Failed to log in with session token. Rerouting user to login page.");
@@ -96,7 +96,7 @@ export const useSessionStore = defineStore({
             if (!this.doesSessionIdExist) return;
 
             let result = await this.fetch("/api/auth/check", {
-                method: "POST",
+                method: "GET",
             });
 
             if (result.status === 404) {
