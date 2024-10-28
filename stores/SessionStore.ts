@@ -1,9 +1,6 @@
 import {defineStore} from "pinia";
 
-const apiServerURLs = {
-    prod: "https://backmind.icinoxis.net",
-    dev: "https://dev-backmind.icinoxis.net"
-};
+const apiServerURL = "http://localhost:3000";
 
 
 
@@ -14,11 +11,11 @@ export const useSessionStore = defineStore({
             sessionStart: Date(),
             sessionID: "",
             user: {
-                _id: "",
-                brainet_tag: "",
-                email: "",
-                about_you: "",
-                displayname: "",
+                _id: "" as string | null,
+                brainet_tag: "" as string | null,
+                email: "" as string | null,
+                about_you: "" as string | null,
+                displayname: "" as string | null,
                 date_of_birth: 0,
                 /**
                  * The visibility of the user's profile
@@ -26,10 +23,10 @@ export const useSessionStore = defineStore({
                  * "public" - Everyone can see the user's profile
                  * "" - not loaded yet
                  */
-                visibility: "",
-                followers: [] as string[],
-                following: [] as string[],
-                project_ids: [] as string[],
+                visibility: "" as string | null,
+                followers: [] as string[] | null,
+                following: [] as string[] | null,
+                project_ids: [] as string[] | null,
             }
         },
     }),
@@ -48,11 +45,7 @@ export const useSessionStore = defineStore({
          */
         async fetch(url: string | URL | globalThis.Request, options : RequestInit = {}) : Promise<Response> {
             if (url.toString().startsWith("/")) {
-                if (this.isProd) {
-                    url = new URL(url.toString(), apiServerURLs.prod);
-                } else {
-                    url = new URL(url.toString(), apiServerURLs.dev);
-                }
+                url = new URL(url.toString(), apiServerURL);
             } else {
                 console.warn(`Sending session based fetch request to specified API server : ${url.toString()}`);
             }
@@ -97,14 +90,27 @@ export const useSessionStore = defineStore({
 
             let result = await this.fetch("/api/auth/check", {
                 method: "GET",
+                cache: "no-cache",
             });
 
             if (result.status === 404) {
                 console.warn('Session check not implemented on server jet.');
                 return;
             }
-            if (result.status == 401) {
+            if (result.status == 401 || (await result.json()).loggedIn == false) {
                 this.sessionData.sessionID = "";
+                this.sessionData.user = {
+                    _id: null,
+                    brainet_tag: null,
+                    email: null,
+                    about_you: null,
+                    displayname: null,
+                    date_of_birth: 0,
+                    visibility: null,
+                    followers: null,
+                    following: null,
+                    project_ids: null,
+                };
                 if (redirectIfNotLoggedIn) {
                     navigateTo('/profile/login');
                 }
@@ -126,7 +132,7 @@ export const useSessionStore = defineStore({
             localStorage.setItem('sessionData', JSON.stringify(currentSession));
           }
 
-          await this.checkSession();
+          await this.checkSession(false);
         },
     },
 });

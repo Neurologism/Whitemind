@@ -65,8 +65,13 @@ const onSearchChange = () => {
         </UButton>
       </div>
       <div class="grid md:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4 m-4">
-        <ProjectCard :id="'67163fbec2a02154d17e8ae0'"/>
+        <ProjectCard :id="'671b688747493e8d1ec6931d'"/>
         <ProjectCard v-for="id in projects" :key="id" :id="id"/>
+      </div>
+      <div v-if="projects.length === 0">
+        <div class="flex flex-col items-center justify-center">
+          <div class="text-2xl font-bold text-gray-500">No projects found</div>
+        </div>
       </div>
     </div>
   </div>
