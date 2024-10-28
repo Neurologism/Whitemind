@@ -7,6 +7,7 @@ import DropzoneBackground from '~/components/editor/DropzoneBackground.vue';
 import Sidebar from '~/components/editor/Sidebar.vue';
 import useDragAndDrop from '~/components/editor/useDnD';
 import {MiniMap} from "@vue-flow/minimap";
+import '@vue-flow/minimap/dist/style.css'
 
 
 
@@ -86,7 +87,7 @@ onMounted(() => {
         >
           <p v-if="isDragOver">Drop here</p>
         </DropzoneBackground>
-        <MiniMap zoomable/>
+        <MiniMap zoomable node-color="black" mask-color="rgba(56,56,56,0.2)"/>
       </VueFlow>
 
     </div>
@@ -99,6 +100,7 @@ onMounted(() => {
 
 /* import the default theme, this is optional but generally recommended */
 @import '@vue-flow/core/dist/theme-default.css';
+
 
 :root {
   --project-header-height: 0;
