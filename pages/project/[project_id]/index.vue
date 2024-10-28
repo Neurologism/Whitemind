@@ -2,7 +2,7 @@
 import { useSessionStore } from "~/stores/SessionStore";
 import { useProjectStore } from "~/stores/ProjectStore";
 import { ref } from 'vue';
-import { VueFlow, useVueFlow } from '@vue-flow/core';
+import { VueFlow, useVueFlow, Panel } from '@vue-flow/core';
 import DropzoneBackground from '~/components/editor/DropzoneBackground.vue';
 import Sidebar from '~/components/editor/Sidebar.vue';
 import useDragAndDrop from '~/components/editor/useDnD';
@@ -37,6 +37,8 @@ const nodes = ref([])
 
 onConnect(addEdges)
 
+const sidebarOpen = ref(false)
+
 onMounted(() => {
   const projectHeader = document.getElementById('project_header');
   const appFooter = document.getElementById('app_footer');
@@ -52,21 +54,43 @@ onMounted(() => {
   <div v-if="_loading">
     <UProgress animation="carousel" />
   </div>
-  <div class="dnd-flow" @drop="onDrop">
-    <Sidebar />
-    <VueFlow :nodes="nodes" @dragover="onDragOver" @dragleave="onDragLeave">
-      <DropzoneBackground
-          :style="{
+  <div class="flex-row">
+    <div class="dnd-flow flex-1" @drop="onDrop">
+      <!-- @ts-ignore: some linter error -->
+      <VueFlow :nodes="nodes" @dragover="onDragOver" @dragleave="onDragLeave">
+        <Panel position="top-left">
+          <div :hidden="sidebarOpen">
+            <UButton
+                size="xl"
+                @click="sidebarOpen = true"
+                class="animate__animated animate__backInDown"
+                trailing-icon="mdi-chevron-right"
+            >Toolbar</UButton>
+          </div>
+          <div :hidden="!sidebarOpen" class="node-container z-10 p-5 bg-gray-800 rounded-lg animate__animated animate__zoomInLeft">
+            <UButton
+                size="xl"
+                @click="sidebarOpen = false"
+                class="animate__animated animate__backInDown mb-3"
+                trailing-icon="mdi-chevron-left"
+                block
+            >Close</UButton>
+            <Sidebar />
+          </div>
+        </Panel>
+        <DropzoneBackground
+            :style="{
             backgroundColor: isDragOver ? '#e7f3ff !important' : 'transparent !important',
             transition: 'background-color 0.2s ease !important',
       }"
-      >
-        <p v-if="isDragOver">Drop here</p>
-      </DropzoneBackground>
-      <MiniMap zoomable/>
-    </VueFlow>
-  </div>
+        >
+          <p v-if="isDragOver">Drop here</p>
+        </DropzoneBackground>
+        <MiniMap zoomable/>
+      </VueFlow>
 
+    </div>
+  </div>
 </template>
 
 <style>
@@ -81,32 +105,22 @@ onMounted(() => {
   --app-footer-height: 0;
 }
 
+.animate__animated.animate__zoomInLeft {
+  --animate-duration: 0.4s;
+}
+.animate__animated.animate__backInDown {
+  --animate-duration: 0.4s;
+}
+
 .dnd-flow {
-  flex-direction:column;
-  display:flex;
-  flex: 1 1 auto;
   height: calc((100vh - var(--project-header-height)) - var(--app-footer-height) - var(--app-footer-height));
   width: 100vw;
 }
 
-.dnd-flow aside {
-  color:#fff;
-  font-weight:700;
-  border-right:1px solid #eee;
-  padding:15px 10px;
-  font-size:12px;
-  background:#10b981bf;
-  -webkit-box-shadow:0 5px 10px 0 rgba(0,0,0,.3);
-  box-shadow:0 5px 10px #0000004d
+.node-container {
+  max-height: calc((100vh - var(--project-header-height)) - var(--app-footer-height) - var(--app-footer-height) - 100px);
 }
 
-.dnd-flow aside .nodes>* {
-  margin-bottom:10px;
-  cursor:grab;
-  font-weight:500;
-  -webkit-box-shadow:5px 5px 10px 2px rgba(0,0,0,.25);
-  box-shadow:5px 5px 10px 2px #00000040
-}
 
 .dropzone-background .overlay {
   position:absolute;
