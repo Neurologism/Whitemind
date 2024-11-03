@@ -4,6 +4,7 @@ import { useSessionStore } from "~/stores/SessionStore";
 const sessionStore = useSessionStore();
 
 const projects = ref([] as string[]);
+const searchedProjects: Ref<string[] | null> = ref(null)
 
 const searchQuery = ref('');
 
@@ -65,10 +66,9 @@ const onSearchChange = () => {
         </UButton>
       </div>
       <div class="grid md:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4 m-4">
-        <ProjectCard :id="'671b688747493e8d1ec6931d'"/>
-        <ProjectCard v-for="id in projects" :key="id" :id="id"/>
+        <ProjectCard v-for="id in (searchedProjects ? searchedProjects : sessionStore.sessionData.user.project_ids)" :key="id" :id="id"/>
       </div>
-      <div v-if="projects.length === 0">
+      <div v-if="(searchedProjects ? searchedProjects : sessionStore.sessionData.user.project_ids ?? []).length === 0">
         <div class="flex flex-col items-center justify-center">
           <div class="text-2xl font-bold text-gray-500">No projects found</div>
         </div>
