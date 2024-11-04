@@ -18,6 +18,9 @@ const links = [
       click: () => navigateTo("/"),
     },
     {
+      label: ""
+    },
+    {
       label: "Editor",
       icon: "i-heroicons-document",
       to: "/project/editor",
@@ -62,6 +65,7 @@ const links = [
           >{{ link.label }}</span
         >
       </template>
+
     </UHorizontalNavigation>
   </ClientOnly>
 </template>

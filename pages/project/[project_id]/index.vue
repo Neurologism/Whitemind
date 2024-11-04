@@ -3,12 +3,11 @@ import { useSessionStore } from "~/stores/SessionStore";
 import { useProjectStore } from "~/stores/ProjectStore";
 import { ref } from 'vue';
 import { VueFlow, useVueFlow, Panel } from '@vue-flow/core';
-import DropzoneBackground from '~/components/editor/DropzoneBackground.vue';
 import Sidebar from '~/components/editor/Sidebar.vue';
-import useDragAndDrop from '~/components/editor/useDnD';
 import {MiniMap} from "@vue-flow/minimap";
 import '@vue-flow/minimap/dist/style.css'
-
+import {nodesList} from "~/components/editor/customNodeList";
+import {Background} from "@vue-flow/background";
 
 
 const sessionStore = useSessionStore();
@@ -20,25 +19,40 @@ definePageMeta({
 const route = useRoute();
 const projectId = route.params.project_id;
 
+
+const sidebarOpen = ref(false)
+const _loading = ref(true);
+const nodes = ref([
+  {
+    id: '1',
+    type: 'custom',
+    data: {},
+    position: { x: 100, y: 100 },
+  },
+  {
+    id: '2',
+    type: 'custom',
+    data: {},
+    position: { x: 200, y: 100 },
+  }
+])
+const edges = ref([])
+
+
 async function loadProject() {
   _loading.value = true;
   await projectStore.fetchProject(projectId as string, sessionStore.fetch);
   _loading.value = false;
 }
 
-const _loading = ref(true);
-loadProject();
+const { onConnect, addEdges, addNodes, findNode } = useVueFlow()
 
 
-const { onConnect, addEdges } = useVueFlow()
-
-const { onDragOver, onDrop, onDragLeave, isDragOver } = useDragAndDrop()
-
-const nodes = ref([])
 
 onConnect(addEdges)
 
-const sidebarOpen = ref(false)
+loadProject();
+
 
 onMounted(() => {
   const projectHeader = document.getElementById('project_header');
@@ -49,6 +63,24 @@ onMounted(() => {
   }
 });
 
+function handleDrop(event: DragEvent) {
+
+  const nodeTypeString = event.dataTransfer.getData('node');
+
+  const nodeType: CustomNodeConfig = nodesList.find(node => node.type === nodeTypeString);
+
+  const newNode: Object = {
+    id: Math.random().toString(36),
+    type: nodeTypeString,
+    data: nodeType.defaultData,
+    position: {
+      x: event.offsetX,
+      y: event.offsetY
+    }
+  };
+  addNodes([newNode]);
+}
+
 </script>
 
 <template>
@@ -56,9 +88,17 @@ onMounted(() => {
     <UProgress animation="carousel" />
   </div>
   <div class="flex-row">
-    <div class="dnd-flow flex-1" @drop="onDrop">
-      <!-- @ts-ignore: some linter error -->
-      <VueFlow :nodes="nodes" @dragover="onDragOver" @dragleave="onDragLeave">
+    <div
+       class="dnd-flow flex-1"
+       @drop="handleDrop"
+       @dragover.prevent
+    >
+      <VueFlow
+          :nodes="nodes"
+          :edges="edges"
+          class="border-3 border-amber-400"
+      >
+        <Background pattern-color="#aaa" :gap="16" />
         <Panel position="top-left">
           <div :hidden="sidebarOpen">
             <UButton
@@ -79,17 +119,15 @@ onMounted(() => {
             <Sidebar />
           </div>
         </Panel>
-        <DropzoneBackground
-            :style="{
-            backgroundColor: isDragOver ? '#e7f3ff !important' : 'transparent !important',
-            transition: 'background-color 0.2s ease !important',
-      }"
-        >
-          <p v-if="isDragOver">Drop here</p>
-        </DropzoneBackground>
         <MiniMap zoomable node-color="black" mask-color="rgba(56,56,56,0.2)"/>
+        <template
+            v-for="node in nodesList"
+            :key="node.type"
+            v-slot:[`node-${node.type}`]="props"
+        >
+        <component :is="node.component" :data="props" />
+        </template>
       </VueFlow>
-
     </div>
   </div>
 </template>
@@ -124,17 +162,5 @@ onMounted(() => {
 }
 
 
-.dropzone-background .overlay {
-  position:absolute;
-  top:0;
-  left:0;
-  height:100%;
-  width:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:1;
-  pointer-events:none
-}
 
 </style>

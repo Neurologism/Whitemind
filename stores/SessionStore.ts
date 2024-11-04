@@ -116,6 +116,9 @@ export const useSessionStore = defineStore({
                 }
             }
         },
+        async refreshUserData() {
+            await this.loginWithSessionToken(this.sessionData.sessionID);
+        },
         async syncLocalSessionData() {
           if (!import.meta.client) return;
           const localSession = JSON.parse(localStorage.getItem('sessionData') || '{}');

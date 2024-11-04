@@ -33,6 +33,11 @@ const onSearchChange = () => {
   }, 300);
 };
 
+const reloadAndReset = async () => {
+  searchedProjects.value = null;
+  await sessionStore.refreshUserData();
+};
+
 </script>
 
 <template>
@@ -60,10 +65,12 @@ const onSearchChange = () => {
             />
           </template>
         </UInput>
-
-        <UButton class="flex-none" icon="i-heroicons-plus" to="/projects/new">
-          New Project
-        </UButton>
+        <UButtonGroup class="flex-none">
+          <UButton icon="i-heroicons-plus" to="/projects/new">
+            New Project
+          </UButton>
+          <UButton icon="mdi-refresh" variant="outline" @click="reloadAndReset" />
+        </UButtonGroup>
       </div>
       <div class="grid md:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4 m-4">
         <ProjectCard v-for="id in (searchedProjects ? searchedProjects : sessionStore.sessionData.user.project_ids)" :key="id" :id="id"/>

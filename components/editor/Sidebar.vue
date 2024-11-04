@@ -1,15 +1,27 @@
-<script setup>
-import useDragAndDrop from './useDnD'
+<script setup lang="ts">
+import {nodesList} from "~/components/editor/customNodeList";
 
-const { onDragStart } = useDragAndDrop()
+function handleDragStart(event, nodeType) {
+  console.log("setting data to: ", nodeType)
+  event.dataTransfer.setData("node", nodeType);
+}
+
 </script>
 
 <template>
     <div class="border border-amber-400">
-      <div class="vue-flow__node-input" :draggable="true" @dragstart="onDragStart($event, 'input')">Input Node</div>
-
-      <div class="vue-flow__node-default" :draggable="true" @dragstart="onDragStart($event, 'default')">Default Node</div>
-
-      <div class="vue-flow__node-output" :draggable="true" @dragstart="onDragStart($event, 'output')">Output Node</div>
+      <div
+        draggable="true"
+        v-for="node in nodesList"
+        @dragstart="handleDragStart($event, node.type)"
+        :aria-current="node.type"
+      >
+        <UCard>
+          <template #header>
+            <h5>{{ node.name }}</h5>
+          </template>
+          {{ node.description }}
+        </UCard>
+      </div>
     </div>
 </template>
