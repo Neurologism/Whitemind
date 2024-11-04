@@ -6,7 +6,7 @@ import { VueFlow, useVueFlow, Panel } from '@vue-flow/core';
 import Sidebar from '~/components/editor/Sidebar.vue';
 import {MiniMap} from "@vue-flow/minimap";
 import '@vue-flow/minimap/dist/style.css'
-import {nodesList} from "~/components/editor/customNodeList";
+import {nodesList, type CustomNodeConfig} from "~/components/editor/customNodeList";
 import {Background} from "@vue-flow/background";
 
 
@@ -19,23 +19,9 @@ definePageMeta({
 const route = useRoute();
 const projectId = route.params.project_id;
 
-
 const sidebarOpen = ref(false)
 const _loading = ref(true);
-const nodes = ref([
-  {
-    id: '1',
-    type: 'custom',
-    data: {},
-    position: { x: 100, y: 100 },
-  },
-  {
-    id: '2',
-    type: 'custom',
-    data: {},
-    position: { x: 200, y: 100 },
-  }
-])
+const nodes = ref([])
 const edges = ref([])
 
 
@@ -45,7 +31,7 @@ async function loadProject() {
   _loading.value = false;
 }
 
-const { onConnect, addEdges, addNodes, findNode } = useVueFlow()
+const { onConnect, addEdges, addNodes, vueFlowRef, project } = useVueFlow()
 
 
 
@@ -64,19 +50,22 @@ onMounted(() => {
 });
 
 function handleDrop(event: DragEvent) {
+  const nodeTypeString = event.dataTransfer?.getData('node');
+  const nodeType = nodesList.find(node => node.type === nodeTypeString);
+  if (!nodeType) return;
 
-  const nodeTypeString = event.dataTransfer.getData('node');
+  const { left, top } = vueFlowRef.value!.getBoundingClientRect()
 
-  const nodeType: CustomNodeConfig = nodesList.find(node => node.type === nodeTypeString);
+  const position = project({
+    x: event.clientX - left,
+    y: event.clientY - top
+  })
 
-  const newNode: Object = {
+  const newNode = {
     id: Math.random().toString(36),
     type: nodeTypeString,
     data: nodeType.defaultData,
-    position: {
-      x: event.offsetX,
-      y: event.offsetY
-    }
+    position: position
   };
   addNodes([newNode]);
 }

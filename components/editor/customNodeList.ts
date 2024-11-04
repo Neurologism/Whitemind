@@ -1,4 +1,4 @@
-import { markRaw, Component } from "vue";
+import { markRaw } from "vue";
 
 import CustomNode from "~/components/editor/nodes/CustomNode.vue";
 
@@ -10,7 +10,7 @@ import CustomNode from "~/components/editor/nodes/CustomNode.vue";
  * @data: State data of the node
  * @component: Vue component of the node
  */
-type CustomNodeConfig = {
+export type CustomNodeConfig = {
     type: string;
     name: string;
     description: string;
@@ -23,7 +23,7 @@ export const nodesList: CustomNodeConfig[]  = [
         type: 'custom',
         name: 'Custom Node',
         description: 'Custom Node Description',
-        data: {
+        defaultData: {
             message: 'Hello World!'
         },
         component: markRaw(CustomNode)
