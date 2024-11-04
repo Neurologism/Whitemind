@@ -6,7 +6,7 @@ import { VueFlow, useVueFlow, Panel } from '@vue-flow/core';
 import Sidebar from '~/components/editor/Sidebar.vue';
 import {MiniMap} from "@vue-flow/minimap";
 import '@vue-flow/minimap/dist/style.css'
-import {nodesList, type CustomNodeConfig} from "~/components/editor/customNodeList";
+import {nodesList, getCustomNodeConfig} from "~/components/editor/customNodeList";
 import {Background} from "@vue-flow/background";
 
 
@@ -19,7 +19,6 @@ definePageMeta({
 const route = useRoute();
 const projectId = route.params.project_id;
 
-const sidebarOpen = ref(false)
 const _loading = ref(true);
 const nodes = ref([])
 const edges = ref([])
@@ -50,8 +49,8 @@ onMounted(() => {
 });
 
 function handleDrop(event: DragEvent) {
-  const nodeTypeString = event.dataTransfer?.getData('node');
-  const nodeType = nodesList.find(node => node.type === nodeTypeString);
+  const nodeTypeString = event.dataTransfer?.getData('node') ?? '';
+  const nodeType = getCustomNodeConfig(nodeTypeString);
   if (!nodeType) return;
 
   const { left, top } = vueFlowRef.value!.getBoundingClientRect()
@@ -89,28 +88,11 @@ function handleDrop(event: DragEvent) {
       >
         <Background pattern-color="#aaa" :gap="16" />
         <Panel position="top-left">
-          <div :hidden="sidebarOpen">
-            <UButton
-                size="xl"
-                @click="sidebarOpen = true"
-                class="animate__animated animate__backInDown"
-                trailing-icon="mdi-chevron-right"
-            >Toolbar</UButton>
-          </div>
-          <div :hidden="!sidebarOpen" class="node-container z-10 p-5 bg-gray-800 rounded-lg animate__animated animate__zoomInLeft">
-            <UButton
-                size="xl"
-                @click="sidebarOpen = false"
-                class="animate__animated animate__backInDown mb-3"
-                trailing-icon="mdi-chevron-left"
-                block
-            >Close</UButton>
-            <Sidebar />
-          </div>
+          <Sidebar />
         </Panel>
         <MiniMap zoomable node-color="black" mask-color="rgba(56,56,56,0.2)"/>
         <template
-            v-for="node in nodesList"
+            v-for="node in nodesList.flatMap(group => group.nodes)"
             :key="node.type"
             v-slot:[`node-${node.type}`]="props"
         >
@@ -134,21 +116,12 @@ function handleDrop(event: DragEvent) {
   --app-footer-height: 0;
 }
 
-.animate__animated.animate__zoomInLeft {
-  --animate-duration: 0.4s;
-}
-.animate__animated.animate__backInDown {
-  --animate-duration: 0.4s;
-}
 
 .dnd-flow {
   height: calc((100vh - var(--project-header-height)) - var(--app-footer-height) - var(--app-footer-height));
   width: 100vw;
 }
 
-.node-container {
-  max-height: calc((100vh - var(--project-header-height)) - var(--app-footer-height) - var(--app-footer-height) - 100px);
-}
 
 
 
