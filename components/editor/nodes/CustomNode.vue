@@ -1,20 +1,15 @@
 <script setup lang="ts">
-import { Handle, Position, useHandleConnections, useNodesData } from '@vue-flow/core'
+import { ref, watch } from 'vue';
+import { Handle, Position, useHandleConnections, useNodesData, useVueFlow } from '@vue-flow/core';
+const { updateNodeData, getConnectedEdges } = useVueFlow()
+const props = defineProps(['data']);
+const nodesData = useNodesData(props.data.id);
+const data = ref(nodesData.value!.data);
+watch(data, (newNode) => {
+  updateNodeData(props.data.id, newNode);
+});
+const connections = useHandleConnections({type: 'target',});
 
-const connections = useHandleConnections({
-  type: 'target',
-})
-
-const props = defineProps(['data'])
-
-const node = useNodesData(props.data.id)
-
-watch(() => node.data, (data) => {
-  console.log("edited!")
-  node.data = data
-})
-
-const reference: Ref<null | number> = ref(null)
 
 
 
@@ -22,8 +17,8 @@ const reference: Ref<null | number> = ref(null)
 
 <template>
   <UContainer class="text-zinc-100 rounded-xl border-4 bg-zinc-600">
-    {{ node }}
-    <UButton @click="node.data = { clicked: false }">
+    {{ data }}
+    <UButton @click="data = {clicked: true}">
       Click ME!
     </UButton>
     <Handle

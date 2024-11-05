@@ -8,6 +8,7 @@ import {MiniMap} from "@vue-flow/minimap";
 import '@vue-flow/minimap/dist/style.css'
 import {nodesList, getCustomNodeConfig} from "~/components/editor/customNodeList";
 import {Background} from "@vue-flow/background";
+const toast = useToast();
 
 
 const sessionStore = useSessionStore();
@@ -69,15 +70,29 @@ function handleDrop(event: DragEvent) {
   addNodes([newNode]);
 }
 
+function setClipboard(data: string) {
+  navigator.clipboard.writeText(data).then(() => {
+    toast.add({ title: 'Copied to clipboard!' });
+  });
+}
+
+function saveButtonPressed() {
+  setClipboard(JSON.stringify({
+    nodes: nodes.value,
+    edges: edges.value
+  }));
+  //projectStore.saveProject(projectId as string, sessionStore.fetch);
+}
+
 </script>
 
 <template>
   <div v-if="_loading">
     <UProgress animation="carousel" />
   </div>
-  <div class="flex-row">
+  <div class="flex flex-row">
     <div
-       class="dnd-flow flex-1"
+       class="dnd-flow flex-2"
        @drop="handleDrop"
        @dragover.prevent
     >
@@ -88,7 +103,23 @@ function handleDrop(event: DragEvent) {
       >
         <Background pattern-color="#aaa" :gap="16" />
         <Panel position="top-left">
-          <Sidebar />
+          <div style="max-height: 70%">
+            <UCard>
+              <Sidebar />
+            </UCard>
+          </div>
+        </Panel>
+        <Panel position="top-right">
+          <div class="p-4">
+            <UButton
+                icon="mdi-content-save"
+                size="xl"
+                variant="solid"
+                color="green"
+                class="mb-4"
+                @click="saveButtonPressed"
+            />
+          </div>
         </Panel>
         <MiniMap zoomable node-color="black" mask-color="rgba(56,56,56,0.2)"/>
         <template
