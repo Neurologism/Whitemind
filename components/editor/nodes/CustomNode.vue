@@ -22,7 +22,8 @@ const connections = useHandleConnections({type: 'target',});
       Click ME!
     </UButton>
     <Handle
-        type="source"
+        type="target"
+        id=""
         :position="Position.Left"
         :style="{ height: '16px', width: '6px', filter: 'invert(100%)' }"
     />

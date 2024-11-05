@@ -31,7 +31,7 @@ async function loadProject() {
   _loading.value = false;
 }
 
-const { onConnect, addEdges, addNodes, vueFlowRef, project } = useVueFlow()
+const { onConnect, addEdges, addNodes, vueFlowRef, project, toObject } = useVueFlow()
 
 
 
@@ -77,10 +77,8 @@ function setClipboard(data: string) {
 }
 
 function saveButtonPressed() {
-  setClipboard(JSON.stringify({
-    nodes: nodes.value,
-    edges: edges.value
-  }));
+  const object = toObject();
+  setClipboard(JSON.stringify(object));
   //projectStore.saveProject(projectId as string, sessionStore.fetch);
 }
 

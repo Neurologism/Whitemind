@@ -5,7 +5,7 @@ import type {ButtonColor} from "#ui/types";
 
 /**
  * Custom Node Config
- * @type: lower case string, no spaces
+ * @type: lower case string, no spaces "-" is allowed
  * @name: Display name of the node
  * @description: Description of the node
  * @data: State data of the node
@@ -15,7 +15,7 @@ export type CustomNodeConfig = {
     type: string;
     name: string;
     description: string;
-    defaultData: any;
+    data: any;
     component: Component;
 }
 
@@ -45,43 +45,19 @@ export const nodesList: CustomNodesGroup[]  = [
                 type: 'custom',
                 name: 'Custom Node',
                 description: 'Custom Node Description while I am a tank for some reason',
-                defaultData: {
-                    message: 'Hello World!'
+                data: {
+                    message: {
+                        type: 'string',
+                        value: 'Hello World!'
+                    },
+                    message2: {
+                        type: 'string',
+                        options: [],
+                        value: 'Hello World!'
+                    }
                 },
                 component: markRaw(CustomNode)
             }
         ]
     },
-    {
-        name: 'test group2',
-        icon: 'mdi-test-tube',
-        color: 'lime',
-        nodes: [
-            {
-                type: 'custom',
-                name: 'Custom Node',
-                description: 'Custom Node Description',
-                defaultData: {
-                    message: 'Hello World!'
-                },
-                component: markRaw(CustomNode)
-            }
-        ]
-    },
-    {
-        name: 'test group3',
-        icon: 'mdi-cube',
-        color: 'amber',
-        nodes: [
-            {
-                type: 'custom',
-                name: 'Custom Node',
-                description: 'Custom Node Description',
-                defaultData: {
-                    message: 'Hello World!'
-                },
-                component: markRaw(CustomNode)
-            }
-        ]
-    }
 ];
