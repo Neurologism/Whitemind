@@ -6,8 +6,9 @@ import { VueFlow, useVueFlow, Panel } from '@vue-flow/core';
 import Sidebar from '~/components/editor/Sidebar.vue';
 import {MiniMap} from "@vue-flow/minimap";
 import '@vue-flow/minimap/dist/style.css'
-import {nodesList, getCustomNodeConfig} from "~/components/editor/customNodeList";
+import { CustomNodes } from "~/components/editor/customNodeList";
 import {Background} from "@vue-flow/background";
+import CustomNode from "~/components/editor/CustomNode.vue";
 const toast = useToast();
 
 
@@ -51,7 +52,7 @@ onMounted(() => {
 
 function handleDrop(event: DragEvent) {
   const nodeTypeString = event.dataTransfer?.getData('node') ?? '';
-  const nodeType = getCustomNodeConfig(nodeTypeString);
+  const nodeType = CustomNodes.getCustomNodeConfig(nodeTypeString);
   if (!nodeType) return;
 
   const { left, top } = vueFlowRef.value!.getBoundingClientRect()
@@ -61,12 +62,7 @@ function handleDrop(event: DragEvent) {
     y: event.clientY - top
   })
 
-  const newNode = {
-    id: Math.random().toString(36),
-    type: nodeTypeString,
-    data: nodeType.defaultData,
-    position: position
-  };
+  const newNode = CustomNodes.getDefaultData(nodeType.type, position)
   addNodes([newNode]);
 }
 
@@ -121,11 +117,11 @@ function saveButtonPressed() {
         </Panel>
         <MiniMap zoomable node-color="black" mask-color="rgba(56,56,56,0.2)"/>
         <template
-            v-for="node in nodesList.flatMap(group => group.nodes)"
+            v-for="node in CustomNodes.nodesList.flatMap(group => group.nodes)"
             :key="node.type"
             v-slot:[`node-${node.type}`]="props"
         >
-        <component :is="node.component" :data="props" />
+        <CustomNode :props="props" :node-id="props.id" />
         </template>
       </VueFlow>
     </div>
@@ -133,11 +129,8 @@ function saveButtonPressed() {
 </template>
 
 <style>
-/* import the necessary styles for Vue Flow to work */
 @import '@vue-flow/core/dist/style.css';
-
-/* import the default theme, this is optional but generally recommended */
-@import '@vue-flow/core/dist/theme-default.css';
+/*@import '@vue-flow/core/dist/theme-default.css';*/
 
 
 :root {

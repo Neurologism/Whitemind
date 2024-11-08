@@ -1,7 +1,7 @@
-import { markRaw } from "vue";
-
-import CustomNode from "~/components/editor/nodes/CustomNode.vue";
 import type {ButtonColor} from "#ui/types";
+
+import { blocks } from "~/components/editor/blocks";
+import type {XYPosition} from "@vue-flow/core";
 
 /**
  * Custom Node Config
@@ -15,49 +15,54 @@ export type CustomNodeConfig = {
     type: string;
     name: string;
     description: string;
+    identifier: string;
     data: any;
-    component: Component;
 }
 
 export type CustomNodesGroup = {
     name: string;
     icon: string;
-    color: ButtonColor;
+    color: ButtonColor | string;
+    group_identifier: string;
     nodes: CustomNodeConfig[];
 }
 
-export function getCustomNodeConfig(type: string): CustomNodeConfig | undefined {
-    return nodesList.flatMap(group => group.nodes).find(node => node.type === type);
-}
+export class CustomNodes {
+    static nodesList: CustomNodesGroup[] = blocks;
 
-export function getColorByType(type: string): string {
-    const group = nodesList.find(group => group.nodes.some(node => node.type === type));
-    return group ? group.color : 'grey';
-}
+    static getCustomNodeConfig(type: string): CustomNodeConfig | undefined {
+        return CustomNodes.nodesList.flatMap(group => group.nodes).find(node => node.type === type);
+    }
 
-export const nodesList: CustomNodesGroup[]  = [
-    {
-        name: 'test group',
-        icon: 'mdi-test-tube',
-        color: 'green',
-        nodes: [
-            {
-                type: 'custom',
-                name: 'Custom Node',
-                description: 'Custom Node Description while I am a tank for some reason',
-                data: {
-                    message: {
-                        type: 'string',
-                        value: 'Hello World!'
-                    },
-                    message2: {
-                        type: 'string',
-                        options: [],
-                        value: 'Hello World!'
-                    }
-                },
-                component: markRaw(CustomNode)
+    static getNodeGroup(type: string): CustomNodesGroup | null {
+        const node = CustomNodes.getCustomNodeConfig(type);
+        if (!node) return null;
+        return CustomNodes.nodesList.find(group => group.nodes.some(node => node.type === type)) ?? null;
+    }
+
+    static getDefaultData(type: string, position: XYPosition) {
+        const node = CustomNodes.getCustomNodeConfig(type);
+        if (!node) return null;
+        const data = {}
+
+        for (const key in node.data) {
+            if (node.data[key]['value']) {
+                // @ts-ignore - data[key] is not a valid type
+                data[key] = node.data[key]['value'];
+                continue;
             }
-        ]
-    },
-];
+            if (node.data[key]['type'] === 'tuple') {
+                if (node.data[key]['items']) {
+                    // @ts-ignore - data[key] is not a valid type
+                    data[key] = node.data[key]['items'].map((item: any) => item['value']);
+                }
+                continue;
+            }
+        }
+
+        return {
+            id: Math.random().toString(36),
+            type, position, data,
+        };
+    }
+}

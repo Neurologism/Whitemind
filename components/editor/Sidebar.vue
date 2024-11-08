@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import {nodesList} from "~/components/editor/customNodeList";
+import { CustomNodes } from "~/components/editor/customNodeList";
+import type {ButtonColor} from "#ui/types";
 
 const isOpen = ref(false);
 
@@ -19,7 +20,7 @@ function searchButtonClicked() {
 
 <template>
   <div class="pl-4 pr-4 pb-4 flex">
-    <span class="text-indigo-50 text-3xl flex-1">Custom Nodes</span>
+    <span class="text-3xl flex-1">Custom Nodes</span>
     <UButton
         icon="mdi-search"
         size="xl"
@@ -32,7 +33,7 @@ function searchButtonClicked() {
   <div class="flex">
     <div class="flex-none pt-4">
       <div
-          v-for="(category, index) in nodesList"
+          v-for="(category, index) in CustomNodes.nodesList"
           :key="index"
           class="flex flex-col items-center mb-3"
       >
@@ -43,7 +44,7 @@ function searchButtonClicked() {
           <UButton
               :icon="category.icon"
               size="xl"
-              :color="category.color"
+              :color="category.color as ButtonColor"
               square
               :variant="selectedCategory === index ? 'solid' : 'outline'"
               @click="selectedCategory = index"
@@ -53,14 +54,14 @@ function searchButtonClicked() {
       </div>
     </div>
     <div class="flex-1 p-4">
-      <h2 :style="{ color: nodesList[selectedCategory].color }" class="text-xl font-mono mb-4">
-        {{ nodesList[selectedCategory].name }}
+      <h2 :style="{ color: CustomNodes.nodesList[selectedCategory].color }" class="text-xl font-mono mb-4">
+        {{ CustomNodes.nodesList[selectedCategory].name }}
       </h2>
       <div
-          v-for="node in nodesList[selectedCategory].nodes"
+          v-for="node in CustomNodes.nodesList[selectedCategory].nodes"
           :key="node.type"
           class="flex-1 items-center mb-3 cursor-grab border p-2 rounded-lg hover:scale-105 transition-transform"
-          :style="{ borderColor: nodesList[selectedCategory].color, width: '300px' }"
+          :style="{ borderColor: CustomNodes.nodesList[selectedCategory].color, width: '300px' }"
           draggable="true"
           @dragstart="handleDragStart($event, node.type)"
       >
