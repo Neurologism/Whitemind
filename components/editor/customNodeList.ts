@@ -46,7 +46,7 @@ export class CustomNodes {
         const data = {}
 
         for (const key in node.data) {
-            if (node.data[key]['value']) {
+            if (node.data[key]['value'] !== undefined) {
                 // @ts-ignore - data[key] is not a valid type
                 data[key] = node.data[key]['value'];
                 continue;

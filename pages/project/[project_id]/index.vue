@@ -74,7 +74,7 @@ function setClipboard(data: string) {
 
 function saveButtonPressed() {
   const object = toObject();
-  setClipboard(JSON.stringify(object));
+  setClipboard(JSON.stringify(object, null, 2));
   //projectStore.saveProject(projectId as string, sessionStore.fetch);
 }
 

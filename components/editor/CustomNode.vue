@@ -17,6 +17,10 @@ watch(data, (newData) => {
 const shapeData = CustomNodes.getCustomNodeConfig(nodesData.value.type);
 const shapeGroupData = CustomNodes.getNodeGroup(nodesData.value.type);
 
+function dataUpdated(key, value) {
+  data.value[key] = value;
+}
+
 </script>
 
 <template>
@@ -30,7 +34,7 @@ const shapeGroupData = CustomNodes.getNodeGroup(nodesData.value.type);
           :key="index"
           class="grid grid-cols-1 items-center justify-between"
       >
-      <NodeValueEditor :param-name="key" :shape-definition="shapeDefinition" :data="data" />
+      <NodeValueEditor :param-name="key" :shape-definition="shapeDefinition" :data="data" :update-data="dataUpdated" />
       </div>
     </div>
   </NodeToolbar>
