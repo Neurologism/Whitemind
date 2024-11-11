@@ -7,7 +7,7 @@ const apiServerURL = "http://localhost:3000";
 export const useSessionStore = defineStore({
     id: "sessionData",
     state: () => ({
-        sessionData: {
+        sessionData: ref({
             sessionStart: Date(),
             sessionID: "",
             user: {
@@ -28,7 +28,7 @@ export const useSessionStore = defineStore({
                 following: [] as string[] | null,
                 project_ids: [] as string[] | null,
             }
-        },
+        }),
     }),
     getters: {
         doesSessionIdExist: (state) => {

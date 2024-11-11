@@ -15,5 +15,5 @@ watch(text, (newText) => {
 </script>
 
 <template>
-  <UInput v-model="text"></UInput>
+  <UInput class="text-sky-100" v-model="text"></UInput>
 </template>

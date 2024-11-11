@@ -9,8 +9,9 @@ import '@vue-flow/minimap/dist/style.css'
 import { CustomNodes } from "~/components/editor/customNodeList";
 import {Background} from "@vue-flow/background";
 import CustomNode from "~/components/editor/CustomNode.vue";
+import ProjectHeader from "~/components/editor/ProjectHeader.vue";
 const toast = useToast();
-
+const colorMode = useColorMode();
 
 const sessionStore = useSessionStore();
 const projectStore = useProjectStore();
@@ -33,8 +34,6 @@ async function loadProject() {
 }
 
 const { onConnect, addEdges, addNodes, vueFlowRef, project, toObject } = useVueFlow()
-
-
 
 onConnect(addEdges)
 
@@ -75,12 +74,15 @@ function setClipboard(data: string) {
 function saveButtonPressed() {
   const object = toObject();
   setClipboard(JSON.stringify(object, null, 2));
-  //projectStore.saveProject(projectId as string, sessionStore.fetch);
 }
+
+const projectTitle = computed(() => projectStore.projects.find(p => p.data._id === projectId)?.data.name ?? 'Loading Project Title...');
+const projectOwner = computed(() => sessionStore.sessionData.user.displayname ?? 'Loading...');
 
 </script>
 
 <template>
+  <ProjectHeader :project-title="projectTitle" :project-owner="projectOwner" id="project_header" />
   <div v-if="_loading">
     <UProgress animation="carousel" />
   </div>
@@ -95,7 +97,7 @@ function saveButtonPressed() {
           :edges="edges"
           class="border-3 border-amber-400"
       >
-        <Background pattern-color="#aaa" :gap="16" />
+        <Background :pattern-color="colorMode.value=== 'dark' ? '#aaa' : '#222'" :gap="16" :size="2" />
         <Panel position="top-left">
           <div style="max-height: 70%">
             <UCard>
@@ -106,7 +108,7 @@ function saveButtonPressed() {
         <Panel position="top-right">
           <div class="p-4">
             <UButton
-                icon="mdi-content-save"
+                icon="mdi-json"
                 size="xl"
                 variant="solid"
                 color="green"
@@ -115,7 +117,7 @@ function saveButtonPressed() {
             />
           </div>
         </Panel>
-        <MiniMap zoomable node-color="black" mask-color="rgba(56,56,56,0.2)"/>
+        <MiniMap zoomable node-color="black" mask-color="rgba(56,56,56,0.5)"/>
         <template
             v-for="node in CustomNodes.nodesList.flatMap(group => group.nodes)"
             :key="node.type"
@@ -130,7 +132,6 @@ function saveButtonPressed() {
 
 <style>
 @import '@vue-flow/core/dist/style.css';
-/*@import '@vue-flow/core/dist/theme-default.css';*/
 
 
 :root {
@@ -140,7 +141,7 @@ function saveButtonPressed() {
 
 
 .dnd-flow {
-  height: calc((100vh - var(--project-header-height)) - var(--app-footer-height) - var(--app-footer-height));
+  height: calc((100vh - var(--project-header-height)) - var(--app-footer-height) - var(--app-footer-height) - 5px);
   width: 100vw;
 }
 

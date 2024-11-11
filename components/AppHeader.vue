@@ -2,7 +2,7 @@
 import { useSessionStore } from "~/stores/SessionStore";
 const sessionStore = useSessionStore();
 
-const emit = defineEmits(["click-theme", "click-profile"]);
+const emit = defineEmits(["click-theme"]);
 
 const colorMode = useColorMode();
 const isDark = computed({
@@ -47,7 +47,7 @@ const links = [
     {
       label: 'USERNAME',
       avatar: {
-        src: "/testpfp.jpg", // TODO: Generate user profile pic based on user's DB id
+        alt: sessionStore.sessionData.user.displayname ?? "Login",
       },
       click: () => {
         if (sessionStore.doesSessionIdExist) {
@@ -69,7 +69,7 @@ const links = [
     >
       <template #default="{ link }">
         <span
-          class="group-hover:text-primary relative hidden md:block first:text-xl first:font-semibold first:dark:text-white first:dark:group-hover:text-white"
+          class="hover:scale-105 group-hover:text-primary relative hidden md:block first:text-xl first:font-semibold first:dark:text-white first:dark:group-hover:text-white"
           >{{ link.label === 'USERNAME' ? sessionStore.sessionData.user.displayname ?? "Login" : link.label }}</span
         >
       </template>

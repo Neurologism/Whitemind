@@ -54,7 +54,7 @@ const valueDisplay = computed(() => {
 
 <template>
   <div ref="submenuRef" style="pointer-events: bounding-box">
-    <div class="hover:bg-customPrimary-700 hover:scale-105 hover:border-2 hover:rounded transition-transform border-blue-200 p-1 cursor-pointer" @click="submenuOpen = !submenuOpen">
+    <div class="hover:bg-customPrimary-700 hover:scale-105 hover:border-2 hover:rounded transition-transform border-blue-200 p-1 cursor-pointer text-sky-100" @click="submenuOpen = !submenuOpen">
       <div class="flex">
         <div class="flex-1">
           <div class="grid grid-cols-1">
@@ -67,7 +67,7 @@ const valueDisplay = computed(() => {
         </div>
       </div>
     </div>
-    <div v-if="submenuOpen" class="nested-menu bg-customPrimary-950 border-2 border-blue-400 rounded p-1 grid grid-cols-1">
+    <div v-if="submenuOpen" class="nested-menu bg-customPrimary-950 border-2 border-blue-400 rounded p-1 grid grid-cols-1 text-sky-100">
       <div class="flex flex-row">
         <div class="flex-1">
           <span class="font-mono font-bold">{{ shapeDefinition.type }}</span>
@@ -82,6 +82,22 @@ const valueDisplay = computed(() => {
       <div v-else>
         No editor for type: {{ shapeDefinition.type }}
       </div>
+      <UTooltip
+          :text="`Set value to '${shapeDefinition.value}'`"
+          v-if="shapeDefinition.value !== data[paramName]"
+          class="m-1"
+      >
+        <UButton
+            icon="mdi-backup-restore"
+            size="sm"
+            color="primary"
+            variant="outline"
+            label="Set default"
+            :trailing="false"
+            @click="updateData(paramName, shapeDefinition.value)"
+            block
+        />
+      </UTooltip>
       <pre>{{ JSON.stringify(shapeDefinition, null, 1) }}</pre>
     </div>
   </div>
@@ -90,7 +106,7 @@ const valueDisplay = computed(() => {
 <style scoped>
 .nested-menu {
   position: absolute;
-  min-width: 300px;
+  min-width: 400px;
   left: 105%;
   top: 0;
   z-index: 1000;

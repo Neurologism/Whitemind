@@ -6,7 +6,6 @@ await sessionStore.syncLocalSessionData();
 
 <template>
   <div class="flex flex-col min-h-screen">
-    <ProjectHeader id="project_header" />
     <div class="flex-grow">
       <slot class="flex-1"/>
     </div>
