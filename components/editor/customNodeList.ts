@@ -51,6 +51,7 @@ export class CustomNodes {
                 data[key] = node.data[key]['value'];
                 continue;
             }
+            /*
             if (node.data[key]['type'] === 'tuple') {
                 if (node.data[key]['items']) {
                     // @ts-ignore - data[key] is not a valid type
@@ -58,10 +59,13 @@ export class CustomNodes {
                 }
                 continue;
             }
+             */
         }
 
         return {
             id: Math.random().toString(36),
+            identifier: node.identifier,
+            group_identifier: CustomNodes.getNodeGroup(type)?.group_identifier ?? '',
             type, position, data,
         };
     }

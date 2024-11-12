@@ -50,11 +50,22 @@ const valueDisplay = computed(() => {
   return string.substring(0, 20) + '...';
 });
 
+const actionRequired = computed({
+  get: () => {
+    const required = !props.shapeDefinition.value !== undefined;
+    return required && props.data[props.paramName] === undefined;
+  }
+});
+
+function deepEqual(a, b) {
+  return JSON.stringify(a) === JSON.stringify(b);
+}
+
 </script>
 
 <template>
   <div ref="submenuRef" style="pointer-events: bounding-box">
-    <div class="hover:bg-customPrimary-700 hover:scale-105 hover:border-2 hover:rounded transition-transform border-blue-200 p-1 cursor-pointer text-sky-100" @click="submenuOpen = !submenuOpen">
+    <div :style="{backgroundColor: actionRequired ? 'red' : null}" class="hover:bg-customPrimary-700 hover:scale-105 hover:border-2 hover:rounded transition-transform border-blue-200 p-1 cursor-pointer text-sky-100" @click="submenuOpen = !submenuOpen">
       <div class="flex">
         <div class="flex-1">
           <div class="grid grid-cols-1">
@@ -84,7 +95,7 @@ const valueDisplay = computed(() => {
       </div>
       <UTooltip
           :text="`Set value to '${shapeDefinition.value}'`"
-          v-if="shapeDefinition.value !== data[paramName]"
+          v-if="!deepEqual(shapeDefinition.value, data[paramName]) && shapeDefinition.value !== undefined"
           class="m-1"
       >
         <UButton

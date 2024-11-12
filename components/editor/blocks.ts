@@ -13,12 +13,8 @@ export const blocks = [
         "data": {
           "shape": {
             "type": "tuple",
-            "items": [
-              {
-                "type": "number",
-                "value": 0
-              }
-            ]
+            "itemType": "number",
+            "value": [0]
           },
           "batch_size": {
             "type": "number",
