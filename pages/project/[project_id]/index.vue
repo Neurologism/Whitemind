@@ -2,7 +2,7 @@
 import { useSessionStore } from "~/stores/SessionStore";
 import { useProjectStore } from "~/stores/ProjectStore";
 import { ref } from 'vue';
-import { VueFlow, useVueFlow, Panel } from '@vue-flow/core';
+import {VueFlow, useVueFlow, Panel, SmoothStepEdge} from '@vue-flow/core';
 import Sidebar from '~/components/editor/Sidebar.vue';
 import {MiniMap} from "@vue-flow/minimap";
 import '@vue-flow/minimap/dist/style.css'
@@ -10,6 +10,7 @@ import { CustomNodes } from "~/components/editor/customNodeList";
 import {Background} from "@vue-flow/background";
 import CustomNode from "~/components/editor/CustomNode.vue";
 import ProjectHeader from "~/components/editor/ProjectHeader.vue";
+import IdConnectionEdge from "~/components/editor/IdConnectionEdge.vue";
 const toast = useToast();
 const colorMode = useColorMode();
 
@@ -35,7 +36,16 @@ async function loadProject() {
 
 const { onConnect, addEdges, addNodes, vueFlowRef, project, toObject } = useVueFlow()
 
-onConnect(addEdges)
+onConnect((params) => {
+  if (params.sourceHandle.startsWith('val-')) {
+    params.type = 'smoothstep';
+    console.log()
+    params.data = {
+      key: params.sourceHandle?.slice(4, params.sourceHandle.length - params.source.length - 1),
+    }
+  }
+  addEdges([params]);
+})
 
 loadProject();
 
@@ -97,7 +107,22 @@ const projectOwner = computed(() => sessionStore.sessionData.user.displayname ??
           :edges="edges"
           class="border-3 border-amber-400"
       >
-        <Background :pattern-color="colorMode.value=== 'dark' ? '#aaa' : '#222'" :gap="16" :size="2" />
+        <template #edge-id-connection="customEdgeProps">
+          <IdConnectionEdge
+              :id="customEdgeProps.id"
+              :source-x="customEdgeProps.sourceX"
+              :source-y="customEdgeProps.sourceY"
+              :target-x="customEdgeProps.targetX"
+              :target-y="customEdgeProps.targetY"
+              :source-position="customEdgeProps.sourcePosition"
+              :target-position="customEdgeProps.targetPosition"
+              :data="customEdgeProps.data"
+              :marker-end="customEdgeProps.markerEnd"
+              :style="customEdgeProps.style"
+          />
+        </template>
+
+      <Background :pattern-color="colorMode.value=== 'dark' ? '#aaa' : '#222'" :gap="16" :size="2" />
         <Panel position="top-left">
           <div style="max-height: 70%">
             <UCard>

@@ -51,15 +51,6 @@ export class CustomNodes {
                 data[key] = node.data[key]['value'];
                 continue;
             }
-            /*
-            if (node.data[key]['type'] === 'tuple') {
-                if (node.data[key]['items']) {
-                    // @ts-ignore - data[key] is not a valid type
-                    data[key] = node.data[key]['items'].map((item: any) => item['value']);
-                }
-                continue;
-            }
-             */
         }
 
         return {
