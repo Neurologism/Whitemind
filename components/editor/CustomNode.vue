@@ -21,6 +21,19 @@ function dataUpdated(key, value) {
   data.value[key] = value;
 }
 
+const actionRequired = computed({
+  get: () => {
+    for (const [key, shapeDefinition] of Object.entries(shapeData.data)) {
+      const required = !shapeDefinition.value !== undefined;
+      if (required && data.value[key] === undefined) {
+        return true;
+      }
+    }
+    return false;
+  }
+});
+
+
 </script>
 
 <template>
@@ -43,7 +56,7 @@ function dataUpdated(key, value) {
    @click="nodeToolbarOpen = !nodeToolbarOpen"
    :open-delay="750"
   >
-    <div class="sized text-zinc-50 rounded-sm bg-gray-800" :style="{ border: `2px solid ${shapeGroupData.color}`}">
+    <div class="sized text-zinc-50 rounded-sm bg-gray-800" :class="{ 'blink-border': actionRequired }" :style="{ border: `2px solid ${shapeGroupData.color}`}">
       <div class="flex justify-between items-center p-2">
         <UIcon :name="shapeGroupData.icon" mode="" />
         <span>{{ shapeData.name }}</span>
@@ -88,6 +101,16 @@ function dataUpdated(key, value) {
 </template>
 
 <style scoped>
+.blink-border {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% { border-color: red; }
+  50% { border-color: transparent; }
+  100% { border-color: red; }
+}
+
 .sized {
   min-width: 120px;
   min-height: 20px;

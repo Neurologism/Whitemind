@@ -84,7 +84,7 @@ function deepEqual(a, b) {
           <span class="font-mono font-bold">{{ shapeDefinition.type }}</span>
         </div>
         <div class="flex-1 text-end ml-1">
-          <span class="text-sky-100 font-mono">{{ shapeDefinition.value !== undefined ? 'required' : 'optional' }}</span>
+          <span class="text-sky-100 font-mono">{{ shapeDefinition.value !== null ? 'required' : 'optional' }}</span>
         </div>
       </div>
       <div v-if="!(editors[shapeDefinition.type] === undefined || editors[shapeDefinition.type] === null)" class="p-1">
