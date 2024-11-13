@@ -150,11 +150,13 @@ export const blocks = [
         "data": {
           "inputs": {
             "type": "id",
-            "value": null
           },
           "outputs": {
             "type": "id",
-            "value": null
+          },
+          "name": {
+            "type": "string",
+            "value": "model"
           }
         }
       },
@@ -239,7 +241,11 @@ export const blocks = [
               ],
               "value": "accuracy"
             }
-          ]
+          ],
+          "name": {
+            "type": "string",
+            "value": "model"
+          }
         }
       },
       {
@@ -250,7 +256,6 @@ export const blocks = [
         "data": {
           "x": {
             "type": "id",
-            "value": null
           },
           "epochs": {
             "type": "number",
@@ -258,7 +263,10 @@ export const blocks = [
           },
           "validation_data": {
             "type": "id",
-            "value": null
+          },
+          "name": {
+            "type": "string",
+            "value": "model"
           }
         }
       },
@@ -270,7 +278,10 @@ export const blocks = [
         "data": {
           "x": {
             "type": "id",
-            "value": null
+          },
+          "name": {
+            "type": "string",
+            "value": "model"
           }
         }
       }
