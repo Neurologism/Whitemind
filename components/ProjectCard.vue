@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
 import { useProjectStore } from "~/stores/ProjectStore";
 import { useSessionStore } from "~/stores/SessionStore";
 

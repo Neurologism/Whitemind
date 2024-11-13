@@ -24,6 +24,7 @@ function dataUpdated(key, value) {
 const actionRequired = computed({
   get: () => {
     for (const [key, shapeDefinition] of Object.entries(shapeData.data)) {
+      if (shapeDefinition.type === 'id') continue;
       const required = !shapeDefinition.value !== undefined;
       if (required && data.value[key] === undefined) {
         return true;
