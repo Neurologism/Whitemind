@@ -7,6 +7,7 @@ import NodeBoolEditor from "~/components/editor/typeEditors/editors/NodeBoolEdit
 import NodeSelectEditor from "~/components/editor/typeEditors/editors/NodeSelectEditor.vue";
 import NodeNumberEditor from "~/components/editor/typeEditors/editors/NodeNumberEditor.vue";
 import NodeTupleEditor from "~/components/editor/typeEditors/editors/NodeTupleEditor.vue";
+import NodeMultiselectEditor from "~/components/editor/typeEditors/editors/NodeMultiselectEditor.vue";
 
 const props = defineProps({
   paramName: String,
@@ -39,6 +40,7 @@ const editors = {
   'select': NodeSelectEditor,
   'number': NodeNumberEditor,
   'tuple': NodeTupleEditor,
+  'multiselect': NodeMultiselectEditor,
 }
 
 const valueDisplay = computed(() => {
@@ -109,7 +111,12 @@ function deepEqual(a, b) {
             block
         />
       </UTooltip>
-      <pre>{{ JSON.stringify(shapeDefinition, null, 1) }}</pre>
+      <HintBox>
+        <span class="m-1 font-mono cursor-pointer">Show definition</span>
+        <template #hint>
+          <pre class="font-mono text-sm">{{ JSON.stringify(shapeDefinition, null, 1) }}</pre>
+        </template>
+      </HintBox>
     </div>
   </div>
 </template>

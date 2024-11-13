@@ -216,32 +216,30 @@ export const blocks = [
             ],
             "value": "categorical_crossentropy"
           },
-          "metrics": [
-            {
-              "type": "select",
-              "options": [
-                "accuracy",
-                "binary_accuracy",
-                "categorical_accuracy",
-                "top_k_categorical_accuracy",
-                "sparse_top_k_categorical_accuracy",
-                "sparse_categorical_accuracy",
-                "cosine_similarity",
-                "mean_absolute_error",
-                "mean_absolute_percentage_error",
-                "mean_squared_error",
-                "mean_squared_logarithmic_error",
-                "logcosh",
-                "hinge",
-                "squared_hinge",
-                "categorical_hinge",
-                "kullback_leibler_divergence",
-                "poisson",
-                "cosine_proximity"
-              ],
-              "value": "accuracy"
-            }
-          ],
+          "metrics": {
+            "type": "multiselect",
+            "options": [
+              "accuracy",
+              "binary_accuracy",
+              "categorical_accuracy",
+              "top_k_categorical_accuracy",
+              "sparse_top_k_categorical_accuracy",
+              "sparse_categorical_accuracy",
+              "cosine_similarity",
+              "mean_absolute_error",
+              "mean_absolute_percentage_error",
+              "mean_squared_error",
+              "mean_squared_logarithmic_error",
+              "logcosh",
+              "hinge",
+              "squared_hinge",
+              "categorical_hinge",
+              "kullback_leibler_divergence",
+              "poisson",
+              "cosine_proximity"
+            ],
+            "value": ["accuracy"]
+          },
           "name": {
             "type": "string",
             "value": "model"
