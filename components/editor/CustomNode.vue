@@ -52,9 +52,8 @@ function dataUpdated(key, value) {
           v-for="(shapeDefinition, key) in shapeData.data"
       >
         <div
-            class="m-3 grid grid-cols-1 items-center justify-between bg-amber-500"
+            class="m-3 grid grid-cols-1 items-center justify-between bg-amber-500 font-mono text-sm rounded border-2 border-solid border-gray-900 hover:scale-105 relative p-1"
             v-if="shapeDefinition.type === 'id'"
-            style="position: relative; padding: 10px"
         >
           {{ key }}
           <Handle
@@ -62,26 +61,26 @@ function dataUpdated(key, value) {
               :position="Position.Right"
               :connectable-start="true"
               :connectable-end="false"
-              class="rounded-sm"
+              class="rounded-sm border-2 border-solid border-gray-900"
               :style="{ height: '10px', width: '35px', backgroundColor: shapeGroupData.color }"
           />
-
         </div>
-
       </div>
     </div>
     <Handle
-        type="target"
         :id="`in-${props.nodeId}`"
         :position="Position.Top"
         class="rounded-sm"
+        :connectable-end="true"
+        :connectable-start="false"
         :style="{ height: '10px', width: '10px', backgroundColor: shapeGroupData.color }"
     />
     <Handle
-        type="source"
         :id="`out-${props.nodeId}`"
         :position="Position.Bottom"
         class="rounded-sm"
+        :connectable-end="false"
+        :connectable-start="true"
         :style="{ height: '10px', width: '10px', backgroundColor: shapeGroupData.color }"
     />
   </UTooltip>

@@ -37,7 +37,7 @@ async function loadProject() {
 const { onConnect, addEdges, addNodes, vueFlowRef, project, toObject } = useVueFlow()
 
 onConnect((params) => {
-  if (params.sourceHandle.startsWith('val-')) {
+  if (params.sourceHandle?.startsWith('val-')) {
     params.type = 'smoothstep';
     console.log()
     params.data = {
@@ -92,7 +92,11 @@ const projectOwner = computed(() => sessionStore.sessionData.user.displayname ??
 </script>
 
 <template>
-  <ProjectHeader :project-title="projectTitle" :project-owner="projectOwner" id="project_header" />
+  <ProjectHeader :project-title="projectTitle" :project-owner="projectOwner" id="project_header">
+    <div class="bg-red-700">
+      hallo
+    </div>
+  </ProjectHeader>
   <div v-if="_loading">
     <UProgress animation="carousel" />
   </div>

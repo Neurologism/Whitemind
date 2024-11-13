@@ -17,55 +17,7 @@ export const useProjectStore = defineStore({
           visibility: "private or public",
           created_on: 0,
           last_edited: 0,
-          camera_position: [
-            0,
-            0,
-            0
-          ],
-          components: {
-            add: {
-              modules: [
-                {
-                  type: "string",
-                  value: "string or number",
-                  parameters: [
-                    {}
-                  ]
-                }
-              ],
-              connections: [
-                {
-                  from: "module1",
-                  to: "module2"
-                }
-              ]
-            },
-            train: {
-              parameters: [
-                {
-                  type: "string",
-                  value: "string or number",
-                  parameters: [
-                    {}
-                  ]
-                }
-              ]
-            },
-            predict: {
-              parameters: [
-                {
-                  type: "string",
-                  value: "string or number",
-                  parameters: [
-                    {}
-                  ]
-                }
-              ]
-            }
-          },
-          models: [
-            "string"
-          ]
+          components: null,
         },
       },
     ],

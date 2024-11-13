@@ -48,11 +48,11 @@ const breadcrumbSettings = [
           >Whitemind<span class="text-primary">Editor</span></ULink>
         </div>
       </div>
-      <div class="lg:ml-10 flex lg:mr-10">
+      <div class="lg:ml-10 flex lg:mr-5">
         <UBreadcrumb :links="breadcrumbSettings"></UBreadcrumb>
       </div>
-      <div class="flex-1 mr-2 ml-2 bg-red-700">
-        #todo
+      <div class="flex-1 mr-2 ml-2 lg:mr-10 lg:ml-5">
+        <slot />
       </div>
       <div class="mr-3 items-center flex flex-row">
         <div class="p-2 hover:scale-110 dark:bg-slate-900 hover:bg-slate-100 hover:cursor-pointer rounded" @click="toggleColorMode">
