@@ -84,6 +84,7 @@ onConnect((params) => {
 })
 
 async function loadProject() {
+  await sessionStore.checkSession(true);
   const project = await projectStore.fetchProject(projectId as string, sessionStore.fetch);
   let components;
   if (!project.components) {

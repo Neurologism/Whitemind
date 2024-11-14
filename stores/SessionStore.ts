@@ -86,7 +86,12 @@ export const useSessionStore = defineStore({
          * @param redirectIfNotLoggedIn
          */
         async checkSession(redirectIfNotLoggedIn = true) {
-            if (!this.doesSessionIdExist) return;
+            if (!this.doesSessionIdExist) {
+                if (redirectIfNotLoggedIn) {
+                    navigateTo('/profile/login');
+                }
+                return;
+            };
 
             let result = await this.fetch("/api/auth/check", {
                 method: "GET",
