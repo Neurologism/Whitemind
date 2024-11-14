@@ -19,6 +19,7 @@ export const useTrainingStore = defineStore({
   }),
   actions: {
     async startTraining(fetchFunction:Function, projectId: string) {
+      this.$reset();
         const response = await fetchFunction("/api/project/model/training-start", {
             method: "POST",
             body: JSON.stringify({
@@ -35,7 +36,7 @@ export const useTrainingStore = defineStore({
 
         if (response.ok) {
             this.training.running = true;
-            this.training.id = data['id'];
+            this.training.id = projectId;
         }
 
         return {
@@ -43,7 +44,7 @@ export const useTrainingStore = defineStore({
             message: (data['msg'] ?? null ) as string | null,
         }
     },
-    async fetchTrainingStatus(fetchFunction:Function) {
+    async fetchTrainingStatus(fetchFunction:Function, projectId: string) {
       if (!this.training.running) {
         return {
           success: false,
@@ -54,7 +55,7 @@ export const useTrainingStore = defineStore({
         method: "POST",
         body: JSON.stringify({
           model: {
-            _id: this.training.id,
+            _id: projectId,
           }
         }),
         headers: {
@@ -63,7 +64,12 @@ export const useTrainingStore = defineStore({
       });
       const data = await response.json();
       if (response.ok) {
-          this.training.data = data.model;
+        this.training.data = data.model;
+        if (data.model.status === "stopped") {
+          this.training.running = false;
+        }
+      } else {
+        this.$reset();
       }
       return {
         success: response.ok,
