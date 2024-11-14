@@ -56,9 +56,36 @@ export const useProjectStore = defineStore({
             fetchedTime: new Date(),
             data: data.project,
             });
+            return data.project;
         } else {
             console.error("Failed to fetch project.");
+            return null;
         }
-    }
+    },
+    async updateProjectComponents(id: string, components: any, fetchFunction: Function) {
+      let project = this.projects.find(project => project.data._id === id);
+      if (!project) return null;
+      project.data.components = components;
+      const body = JSON.stringify({
+        project: {
+          _id: id,
+          components: components,
+        }
+      });
+      const result = await fetchFunction('/api/project/update', {
+        method: 'POST',
+        cache: "no-cache",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: body,
+      });
+        if (result.ok) {
+          return true;
+        } else {
+          console.error("Failed to update project.");
+          return false;
+        }
+    },
   },
 });
