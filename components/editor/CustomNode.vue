@@ -74,7 +74,7 @@ const actionRequired = computed({
               :id="`val-${key}-${props.nodeId}`"
               :position="Position.Right"
               :connectable-start="true"
-              :connectable-end="false"
+              :connectable-end="true"
               class="rounded-sm border-2 border-solid border-gray-900"
               :style="{ height: '10px', width: '35px', backgroundColor: shapeGroupData.color }"
           />

@@ -48,6 +48,26 @@ export const blocks = [
         }
       },
       {
+        "type": "normalization",
+        "name": "Normalization Layer",
+        "identifier": "normalization",
+        "description": "Scales inputs into a distribution centered around 0 with standard deviation 1.",
+        "data": {
+            "adapt": {
+                "type": "id",
+            },
+
+            "axis": {
+                "type": "number",
+                "value": -1
+            },
+            "invert": {
+                "type": "boolean",
+                "value": false
+            }
+        }
+      },
+      {
         "type": "dense",
         "name": "Dense Layer",
         "identifier": "dense",
