@@ -62,7 +62,11 @@ function searchButtonClicked() {
             v-for="node in CustomNodes.nodesList[selectedCategory].nodes"
             :key="node.type"
             class="flex-1 items-center m-3 cursor-grab border p-2 rounded-lg hover:scale-105 transition-transform"
-            :style="{ zIndex: 2000, borderColor: CustomNodes.nodesList[selectedCategory].color, width: '300px' }"
+            :style="{
+              borderColor: CustomNodes.nodesList[selectedCategory].color,
+              width: '300px',
+              backgroundColor: 'rgba(0,0,0,0.2)',
+            }"
             draggable="true"
             @dragstart="handleDragStart($event, node.type)"
         >
