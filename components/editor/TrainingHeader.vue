@@ -66,6 +66,7 @@ setInterval(updateTrainingStatus, 1000);
           variant="solid"
           color="primary"
           class="hover:scale-105 transition-transform"
+          :disabled="syncStatus !== SyncStatus.synced"
       >Start Training</UButton>
       <UButton
           @abort="trainingStop"

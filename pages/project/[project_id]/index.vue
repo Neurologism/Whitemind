@@ -31,7 +31,6 @@ const title = ref('Loading...')
 
 const syncStatus = ref<SyncStatus>(SyncStatus.initializing);
 
-
 const { onConnect, addEdges, addNodes, vueFlowRef, project, toObject, fromObject, getNodes, getEdges } = useVueFlow()
 
 function handleDrop(event: DragEvent) {
