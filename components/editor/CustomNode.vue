@@ -1,12 +1,12 @@
 <!-- JS intended -->
 <script setup>
 import { ref, watch } from 'vue';
-import { Handle, Position, useHandleConnections, useNodesData, useVueFlow } from '@vue-flow/core';
+import { Handle, Position, useNodesData, useVueFlow } from '@vue-flow/core';
 import { NodeToolbar } from '@vue-flow/node-toolbar';
 import {CustomNodes} from "~/components/editor/customNodeList";
 import NodeValueEditor from "~/components/editor/typeEditors/NodeValueEditor.vue";
 const nodeToolbarOpen = ref(false);
-const { updateNodeData, edgeTypes, updateEdgeData, onConnect, addEdges } = useVueFlow()
+const { updateNodeData } = useVueFlow()
 const props = defineProps(['props', 'nodeId']);
 const nodesData = useNodesData(props.nodeId);
 const data = ref(nodesData.value.data);
@@ -82,6 +82,7 @@ const actionRequired = computed({
       </div>
     </div>
     <Handle
+        v-if="shapeData.type !== 'start'"
         :id="`in-${props.nodeId}`"
         :position="Position.Top"
         class="rounded-sm"

@@ -54,7 +54,7 @@ function searchButtonClicked() {
           </UTooltip>
         </div>
       </div>
-      <div class="flex-1 ml-2 mb-8 overflow-scroll">
+      <div class="flex-1 ml-2 mb-8 overflow-scroll overflow-x-hidden">
         <h2 :style="{ color: CustomNodes.nodesList[selectedCategory].color }" class="text-xl font-mono mb-4 mt-4">
           {{ CustomNodes.nodesList[selectedCategory].name }}
         </h2>

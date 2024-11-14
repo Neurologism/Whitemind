@@ -2,7 +2,7 @@
 import { useSessionStore } from "~/stores/SessionStore";
 import { useProjectStore } from "~/stores/ProjectStore";
 import { ref } from 'vue';
-import {VueFlow, useVueFlow, Panel, SmoothStepEdge} from '@vue-flow/core';
+import {VueFlow, useVueFlow, Panel} from '@vue-flow/core';
 import Sidebar from '~/components/editor/Sidebar.vue';
 import {MiniMap} from "@vue-flow/minimap";
 import '@vue-flow/minimap/dist/style.css'
@@ -11,6 +11,8 @@ import {Background} from "@vue-flow/background";
 import CustomNode from "~/components/editor/CustomNode.vue";
 import ProjectHeader from "~/components/editor/ProjectHeader.vue";
 import IdConnectionEdge from "~/components/editor/IdConnectionEdge.vue";
+import TrainingBlock from "~/components/editor/TrainingHeader.vue";
+import { SyncStatus } from "~/components/editor/syncStatus";
 const toast = useToast();
 const colorMode = useColorMode();
 
@@ -27,13 +29,6 @@ const nodes = ref([])
 const edges = ref([])
 const title = ref('Loading...')
 
-enum SyncStatus {
-  initializing = 'mdi-sync',
-  syncing = 'svg-spinners:270-ring',
-  unsaved = 'mdi:content-save-edit-outline',
-  synced = 'mdi:content-save-check',
-  error = 'mdi:content-save-alert',
-}
 const syncStatus = ref<SyncStatus>(SyncStatus.initializing);
 
 
@@ -52,6 +47,7 @@ function handleDrop(event: DragEvent) {
   })
 
   const newNode = CustomNodes.getDefaultData(nodeType.type, position)
+  // @ts-ignore
   addNodes([newNode]);
 }
 
@@ -110,7 +106,7 @@ async function loadProject() {
   }
 }
 
-async function syncProject(force: boolean = false) {
+async function postProject() {
   syncStatus.value = SyncStatus.syncing;
   const object = toObject();
   const success = await projectStore.updateProjectComponents(projectId as string, object, sessionStore.fetch);
@@ -129,7 +125,7 @@ function setInterval() {
     clearInterval(syncInterval);
   }
   syncInterval = setTimeout(() => {
-    syncProject(true);
+    postProject();
   }, 5000);
 
 }
@@ -152,17 +148,36 @@ watch(getEdges,  () => {
 <template>
   <ProjectHeader :project-title="title" :project-owner="projectOwner" id="project_header">
     <div class="flex flex-row">
-      <div class="flex-1">
-
+      <div class="flex-1 lg:mr-10">
+        <TrainingBlock :project-id="projectId as string" :sync-status="syncStatus" />
       </div>
       <div class="flex">
-        <div class="rounded p-1 hover:scale-110 transition-transform border-solid border border-e-orange-100"
-          :style="{
-            backgroundColor: syncStatus === SyncStatus.unsaved ? 'rgba(100, 100, 100, 0.5)' : (syncStatus === SyncStatus.synced ? 'green' : syncStatus === SyncStatus.error ? 'red' : 'rgba(255,255,255,0.3)'),
-          }"
+        <UTooltip
+          text="Copy JSON"
         >
-          <UIcon :name="syncStatus" />
-        </div>
+          <UButton
+              icon="mdi-json"
+              size="xl"
+              variant="solid"
+              color="primary"
+              class="mr-1 hover:scale-105 transition-transform"
+              @click="jsonButtonPressed"
+              square
+          />
+        </UTooltip>
+        <UTooltip
+          text="Write changes to server"
+        >
+          <UButton
+              :icon="syncStatus"
+              size="lg"
+              variant="solid"
+              :color="syncStatus === SyncStatus.unsaved ? 'orange' : (syncStatus === SyncStatus.synced ? 'green' : syncStatus === SyncStatus.error ? 'red' : 'gray')"
+              class="hover:scale-105 transition-transform"
+              @click="postProject"
+              square
+          />
+        </UTooltip>
       </div>
     </div>
   </ProjectHeader>
@@ -199,18 +214,6 @@ watch(getEdges,  () => {
         <Panel position="top-left">
           <div class="h-90-of-dnd-flow">
             <Sidebar />
-          </div>
-        </Panel>
-        <Panel position="top-right">
-          <div class="p-4">
-            <UButton
-                icon="mdi-json"
-                size="xl"
-                variant="solid"
-                color="green"
-                class="mb-4"
-                @click="jsonButtonPressed"
-            />
           </div>
         </Panel>
         <MiniMap zoomable node-color="black" mask-color="rgba(56,56,56,0.5)"/>
