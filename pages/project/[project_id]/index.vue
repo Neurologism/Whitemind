@@ -25,6 +25,7 @@ const projectId = route.params.project_id;
 
 const nodes = ref([])
 const edges = ref([])
+const title = ref('Loading...')
 
 enum SyncStatus {
   initializing = 'mdi-sync',
@@ -103,6 +104,7 @@ async function loadProject() {
     toast.add({ title: 'Failed to load project', icon: 'mdi-alert-circle', color: 'red' });
     syncStatus.value = SyncStatus.error;
   } else {
+    title.value = project.name;
     toast.add({ title: 'Project loaded', icon: 'mdi-check', color: 'green' });
     syncStatus.value = SyncStatus.synced;
   }
@@ -132,7 +134,6 @@ function setInterval() {
 
 }
 
-const projectTitle = computed(() => projectStore.projects.find(p => p.data._id === projectId)?.data.name ?? 'Loading Project Title...');
 const projectOwner = computed(() => sessionStore.sessionData.user.displayname ?? 'Loading...');
 
 loadProject();
@@ -149,7 +150,7 @@ watch(getEdges,  () => {
 </script>
 
 <template>
-  <ProjectHeader :project-title="projectTitle" :project-owner="projectOwner" id="project_header">
+  <ProjectHeader :project-title="title" :project-owner="projectOwner" id="project_header">
     <div class="flex flex-row">
       <div class="flex-1">
 

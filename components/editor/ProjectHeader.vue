@@ -21,8 +21,8 @@ const props = defineProps<{
   projectOwner: string;
 }>();
 
-const breadcrumbSettings = [
-    {
+const breadcrumbSettings = computed(() => [
+  {
     label: 'Whitemind',
     icon: 'i-heroicons-home',
     to: '/'
@@ -33,7 +33,7 @@ const breadcrumbSettings = [
   }, {
     label: props.projectTitle,
     icon: 'i-heroicons-folder',
-}];
+  }]);
 
 </script>
 
