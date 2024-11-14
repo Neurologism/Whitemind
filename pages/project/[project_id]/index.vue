@@ -197,10 +197,8 @@ watch(getEdges,  () => {
 
       <Background :pattern-color="colorMode.value=== 'dark' ? '#aaa' : '#222'" :gap="16" :size="2" />
         <Panel position="top-left">
-          <div style="max-height: 70%">
-            <UCard>
-              <Sidebar />
-            </UCard>
+          <div class="h-90-of-dnd-flow">
+            <Sidebar />
           </div>
         </Panel>
         <Panel position="top-right">
@@ -243,6 +241,10 @@ watch(getEdges,  () => {
   width: 100vw;
 }
 
+.h-90-of-dnd-flow {
+  margin: 1rem;
+  height: calc(((100vh - var(--project-header-height)) - var(--app-footer-height) - var(--app-footer-height) - 5px - 4rem));
+}
 
 
 
