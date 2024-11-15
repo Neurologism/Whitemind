@@ -3,10 +3,10 @@ const showHint = ref(false);
 </script>
 
 <template>
-  <div @click="showHint=true">
-    <slot name="default"/>
+  <div @click="showHint = true">
+    <slot name="default" />
     <div class="m-2">
-      <slot v-if="showHint" name="hint"/>
+      <slot v-if="showHint" name="hint" />
     </div>
   </div>
 </template>

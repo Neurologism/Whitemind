@@ -1,5 +1,4 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <!-- tailwind custom footer -->
@@ -8,12 +7,20 @@
       <div class="flex flex-col md:flex-row justify-between items-center">
         <div class="flex flex-col md:flex-row items-center">
           <div class="text-white text-lg font-bold">Neurologism</div>
-          <div class="text-gray-400 ml-0 md:ml-4 mt-2 md:mt-0">© {{ new Date().getFullYear() }}</div>
+          <div class="text-gray-400 ml-0 md:ml-4 mt-2 md:mt-0">
+            © {{ new Date().getFullYear() }}
+          </div>
         </div>
         <div class="flex sm:grid-cols-2 md:flex-row items-center mt-4 md:mt-0">
-          <div class="grid text-gray-400"><a href="/privacy">Privacy Policy</a></div>
-          <div class="text-gray-400 ml-4"><a href="/terms">Terms of Service</a></div>
-          <div class="text-gray-400 ml-4"><a href="/contact">Contact Us</a></div>
+          <div class="grid text-gray-400">
+            <a href="/privacy">Privacy Policy</a>
+          </div>
+          <div class="text-gray-400 ml-4">
+            <a href="/terms">Terms of Service</a>
+          </div>
+          <div class="text-gray-400 ml-4">
+            <a href="/contact">Contact Us</a>
+          </div>
           <div class="text-gray-400 ml-4 items-center">
             <a href="https://github.com/neurologism" target="_blank">
               <UIcon name="i-mdi-github" class="w-5 h-5" />

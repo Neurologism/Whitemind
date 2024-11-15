@@ -1,6 +1,6 @@
 <script setup>
-import {getBezierPath, SmoothStepEdge} from '@vue-flow/core'
-import { computed } from 'vue'
+import { getBezierPath, SmoothStepEdge } from "@vue-flow/core";
+import { computed } from "vue";
 
 const props = defineProps({
   id: {
@@ -43,30 +43,30 @@ const props = defineProps({
     type: Object,
     required: false,
   },
-})
+});
 
-const path = computed(() => getBezierPath(props))
+const path = computed(() => getBezierPath(props));
 </script>
 
 <script>
 export default {
   inheritAttrs: false,
-}
+};
 </script>
 
 <template>
   <SmoothStepEdge
-      :id="id"
-      :style="style"
-      :path="path[0]"
-      :marker-end="markerEnd"
-      :label="data.text"
-      :label-x="path[1]"
-      :label-y="path[2]"
-      :label-style="{ fill: 'white' }"
-      :label-show-bg="true"
-      :label-bg-style="{ fill: 'red' }"
-      :label-bg-padding="[2, 4]"
-      :label-bg-border-radius="2"
+    :id="id"
+    :style="style"
+    :path="path[0]"
+    :marker-end="markerEnd"
+    :label="data.text"
+    :label-x="path[1]"
+    :label-y="path[2]"
+    :label-style="{ fill: 'white' }"
+    :label-show-bg="true"
+    :label-bg-style="{ fill: 'red' }"
+    :label-bg-padding="[2, 4]"
+    :label-bg-border-radius="2"
   />
 </template>

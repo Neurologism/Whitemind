@@ -5,63 +5,76 @@ export const useTrainingStore = defineStore({
   state: () => ({
     training: {
       running: false,
-      id: null as string | null,
+      projectId: null as string | null,
+      modelId: null as string | null,
       data: {
-          "status": "stopped" as  ("queued" | "training" | "finished" | "error" | "stopped"),
-          "output": [] as string[],
-          "queued_at": null as number | null,
-          "started_at": null as number | null,
-          "finished_at": null as number | null,
-          "error": null as any,
-          "project_id": null as string | null,
+        status: "stopped" as
+          | "queued"
+          | "training"
+          | "finished"
+          | "error"
+          | "stopped",
+        output: [] as string[],
+        queued_at: null as number | null,
+        started_at: null as number | null,
+        finished_at: null as number | null,
+        error: null as any,
+        project_id: null as string | null,
       },
     },
   }),
   actions: {
-    async startTraining(fetchFunction:Function, projectId: string) {
+    async startTraining(fetchFunction: Function, projectId: string) {
       this.$reset();
-        const response = await fetchFunction("/api/project/model/training-start", {
-            method: "POST",
-            body: JSON.stringify({
-                project: {
-                    _id: projectId,
-                }
-            }),
-            headers: {
-                "Content-Type": "application/json",
+      const response = await fetchFunction(
+        "/api/project/model/training-start",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            project: {
+              _id: projectId,
             },
-        });
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        },
+      );
 
-        const data = await response.json();
+      const data = await response.json();
 
-        if (response.ok) {
-            this.training.running = true;
-            this.training.id = projectId;
-        }
+      if (response.ok) {
+        this.training.running = true;
+        this.training.projectId = projectId;
+        this.training.modelId = data.model._id;
+      }
 
-        return {
-            success: response.ok,
-            message: (data['msg'] ?? null ) as string | null,
-        }
+      return {
+        success: response.ok,
+        message: (data["msg"] ?? null) as string | null,
+      };
     },
-    async fetchTrainingStatus(fetchFunction:Function, projectId: string) {
+    async fetchTrainingStatus(fetchFunction: Function, modelId: string) {
       if (!this.training.running) {
         return {
           success: false,
           message: "Training not running",
-        }
+        };
       }
-      const response = await fetchFunction("/api/project/model/training-status", {
-        method: "POST",
-        body: JSON.stringify({
-          model: {
-            _id: projectId,
-          }
-        }),
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetchFunction(
+        "/api/project/model/training-status",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            model: {
+              _id: modelId,
+            },
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
-      });
+      );
       const data = await response.json();
       if (response.ok) {
         this.training.data = data.model;
@@ -73,22 +86,22 @@ export const useTrainingStore = defineStore({
       }
       return {
         success: response.ok,
-        message: (data['msg'] ?? null ) as string | null,
-      }
+        message: (data["msg"] ?? null) as string | null,
+      };
     },
-    async stopTraining(fetchFunction:Function) {
+    async stopTraining(fetchFunction: Function) {
       if (!this.training.running) {
         return {
           success: false,
           message: "Training not running",
-        }
+        };
       }
       const response = await fetchFunction("/api/project/model/training-stop", {
         method: "POST",
         body: JSON.stringify({
           model: {
-            _id: this.training.id,
-          }
+            _id: this.training.projectId,
+          },
         }),
         headers: {
           "Content-Type": "application/json",
@@ -100,8 +113,8 @@ export const useTrainingStore = defineStore({
       }
       return {
         success: response.ok,
-        message: (data['msg'] ?? null ) as string | null,
-      }
+        message: (data["msg"] ?? null) as string | null,
+      };
     },
   },
 });
