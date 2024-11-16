@@ -1,17 +1,15 @@
 <script setup>
-
 const props = defineProps({
   paramName: String,
   shapeDefinition: Object,
   data: Object,
-  updateData: Function
+  updateData: Function,
 });
 
 const value = ref(props.data[props.paramName]);
 watch(value, (value) => {
   props.updateData(props.paramName, value);
 });
-
 </script>
 
 <template>

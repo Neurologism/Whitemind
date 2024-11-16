@@ -45,7 +45,7 @@ const links = [
       click: () => (isDark.value = !isDark.value),
     },
     {
-      label: 'USERNAME',
+      label: "USERNAME",
       avatar: {
         alt: sessionStore.sessionData.user.displayname ?? "Login",
       },
@@ -70,7 +70,11 @@ const links = [
       <template #default="{ link }">
         <span
           class="hover:scale-105 group-hover:text-primary relative hidden md:block first:text-xl first:font-semibold first:dark:text-white first:dark:group-hover:text-white"
-          >{{ link.label === 'USERNAME' ? sessionStore.sessionData.user.displayname ?? "Login" : link.label }}</span
+          >{{
+            link.label === "USERNAME"
+              ? (sessionStore.sessionData.user.displayname ?? "Login")
+              : link.label
+          }}</span
         >
       </template>
     </UHorizontalNavigation>

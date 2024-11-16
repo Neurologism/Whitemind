@@ -1,28 +1,28 @@
 export const blocks = [
   {
-    "name": "layer",
-    "icon": "mdi-test-tube",
-    "color": "green",
-    "group_identifier": "layer",
-    "nodes": [
+    name: "layer",
+    icon: "mdi-test-tube",
+    color: "green",
+    group_identifier: "layer",
+    nodes: [
       {
-        "type": "input_layer",
-        "name": "Input Layer",
-        "identifier": "input",
-        "description": "Layer that accepts input data.",
-        "data": {
-          "shape": {
-            "type": "tuple",
-            "itemType": "number",
-            "value": [0]
+        type: "input_layer",
+        name: "Input Layer",
+        identifier: "input",
+        description: "Layer that accepts input data.",
+        data: {
+          shape: {
+            type: "tuple",
+            itemType: "number",
+            value: [0],
           },
-          "batch_size": {
-            "type": "number",
-            "value": null
+          batch_size: {
+            type: "number",
+            value: null,
           },
-          "dtype": {
-            "type": "select",
-            "options": [
+          dtype: {
+            type: "select",
+            options: [
               "float32",
               "float64",
               "int32",
@@ -33,29 +33,29 @@ export const blocks = [
               "complex64",
               "complex128",
               "bool",
-              "string"
+              "string",
             ],
-            "value": "float32"
+            value: "float32",
           },
-          "sparse": {
-            "type": "boolean",
-            "value": false
+          sparse: {
+            type: "boolean",
+            value: false,
           },
-          "optional": {
-            "type": "boolean",
-            "value": false
-          }
-        }
+          optional: {
+            type: "boolean",
+            value: false,
+          },
+        },
       },
       {
-        "type": "activation",
-        "name": "Activation Layer",
-        "identifier": "activation",
-        "description": "Applies an activation function to an output.",
-        "data": {
-          "activation": {
-            "type": "select",
-            "options": [
+        type: "activation",
+        name: "Activation Layer",
+        identifier: "activation",
+        description: "Applies an activation function to an output.",
+        data: {
+          activation: {
+            type: "select",
+            options: [
               "relu",
               "sigmoid",
               "softmax",
@@ -73,43 +73,44 @@ export const blocks = [
               "hard_sigmoid",
               "linear",
               "mish",
-              "log_softmax"
+              "log_softmax",
             ],
-          }
-        }
+          },
+        },
       },
       {
-        "type": "normalization",
-        "name": "Normalization Layer",
-        "identifier": "normalization",
-        "description": "Scales inputs into a distribution centered around 0 with standard deviation 1.",
-        "data": {
-            "adapt": {
-                "type": "id",
-            },
+        type: "normalization",
+        name: "Normalization Layer",
+        identifier: "normalization",
+        description:
+          "Scales inputs into a distribution centered around 0 with standard deviation 1.",
+        data: {
+          adapt: {
+            type: "id",
+          },
 
-            "axis": {
-                "type": "number",
-                "value": -1
-            },
-            "invert": {
-                "type": "boolean",
-                "value": false
-            }
-        }
+          axis: {
+            type: "number",
+            value: -1,
+          },
+          invert: {
+            type: "boolean",
+            value: false,
+          },
+        },
       },
       {
-        "type": "dense",
-        "name": "Dense Layer",
-        "identifier": "dense",
-        "description": "Just your regular densely-connected NN layer.",
-        "data": {
-          "units": {
-            "type": "number"
+        type: "dense",
+        name: "Dense Layer",
+        identifier: "dense",
+        description: "Just your regular densely-connected NN layer.",
+        data: {
+          units: {
+            type: "number",
           },
-          "activation": {
-            "type": "select",
-            "options": [
+          activation: {
+            type: "select",
+            options: [
               "relu",
               "sigmoid",
               "softmax",
@@ -127,188 +128,180 @@ export const blocks = [
               "hard_sigmoid",
               "linear",
               "mish",
-              "log_softmax"
+              "log_softmax",
             ],
-            "value": null,
+            value: null,
           },
-          "use_bias": {
-            "type": "boolean",
-            "value": true
+          use_bias: {
+            type: "boolean",
+            value: true,
           },
-          "lora_rank": {
-            "type": "number",
-            "value": null
-          }
-        }
+          lora_rank: {
+            type: "number",
+            value: null,
+          },
+        },
       },
       {
-        "type": "flatten",
-        "name": "Flatten Layer",
-        "identifier": "flatten",
-        "description": "Flattens the input into a 1D array.",
-        "data": {
-          "data_format": {
-            "type": "select",
-            "options": [
-              "channels_first",
-              "channels_last"
-            ],
-            "value": "channels_last"
-          }
-        }
+        type: "flatten",
+        name: "Flatten Layer",
+        identifier: "flatten",
+        description: "Flattens the input into a 1D array.",
+        data: {
+          data_format: {
+            type: "select",
+            options: ["channels_first", "channels_last"],
+            value: "channels_last",
+          },
+        },
       },
       {
-        "type": "ReLU",
-        "name": "ReLU Layer",
-        "identifier": "relu",
-        "description": "Applies the rectified linear unit activation function.",
-        "data": {
-          "max_value": {
-            "type": "number",
-            "value": null
+        type: "ReLU",
+        name: "ReLU Layer",
+        identifier: "relu",
+        description: "Applies the rectified linear unit activation function.",
+        data: {
+          max_value: {
+            type: "number",
+            value: null,
           },
-          "negative_slope": {
-            "type": "number",
-            "value": 0
+          negative_slope: {
+            type: "number",
+            value: 0,
           },
-          "threshold": {
-            "type": "number",
-            "value": 0
-          }
-        }
+          threshold: {
+            type: "number",
+            value: 0,
+          },
+        },
       },
       {
-        "type": "dropout",
-        "name": "Dropout Layer",
-        "identifier": "dropout",
-        "description": "Applies Dropout to the input.",
-        "data": {
-          "rate": {
-            "type": "number"
+        type: "dropout",
+        name: "Dropout Layer",
+        identifier: "dropout",
+        description: "Applies Dropout to the input.",
+        data: {
+          rate: {
+            type: "number",
           },
-          "noise_shape": {
-            "type": "tuple",
-            "itemType": "number",
-            "value": null
+          noise_shape: {
+            type: "tuple",
+            itemType: "number",
+            value: null,
           },
-          "seed": {
-            "type": "number",
-            "value": null
-          }
-        }
+          seed: {
+            type: "number",
+            value: null,
+          },
+        },
       },
       {
-        "type": "batch_normalization",
-        "name": "Batch Normalization Layer",
-        "identifier": "batch_normalization",
-        "description": "Normalize and scale inputs or activations.",
-        "data": {
-          "axis": {
-            "type": "number",
-            "value": -1
+        type: "batch_normalization",
+        name: "Batch Normalization Layer",
+        identifier: "batch_normalization",
+        description: "Normalize and scale inputs or activations.",
+        data: {
+          axis: {
+            type: "number",
+            value: -1,
           },
-          "momentum": {
-            "type": "number",
-            "value": 0.99
+          momentum: {
+            type: "number",
+            value: 0.99,
           },
-          "epsilon": {
-            "type": "number",
-            "value": 0.001
+          epsilon: {
+            type: "number",
+            value: 0.001,
           },
-          "center": {
-              "type": "boolean",
-              "value": true
+          center: {
+            type: "boolean",
+            value: true,
           },
-          "scale": {
-              "type": "boolean",
-              "value": true
-          }
-        }
+          scale: {
+            type: "boolean",
+            value: true,
+          },
+        },
       },
       {
-        "type": "reshape",
-        "name": "Reshape Layer",
-        "identifier": "reshape",
-        "description": "Reshapes an output to a certain shape.",
-        "data": {
-          "target_shape": {
-            "type": "tuple",
-            "itemType": "number",
-          }
-        }
+        type: "reshape",
+        name: "Reshape Layer",
+        identifier: "reshape",
+        description: "Reshapes an output to a certain shape.",
+        data: {
+          target_shape: {
+            type: "tuple",
+            itemType: "number",
+          },
+        },
       },
       {
-        "type": "average",
-        "name": "Average Layer",
-        "identifier": "average",
-        "description": "Averages a list of input element-wise.",
-        "data": {}
+        type: "average",
+        name: "Average Layer",
+        identifier: "average",
+        description: "Averages a list of input element-wise.",
+        data: {},
       },
       {
-        "type": "embedding",
-        "name": "Embedding Layer",
-        "identifier": "embedding",
-        "description": "Turns positive integers (indexes) into dense vectors of fixed size.",
-        "data": {
-          "input_dim": {
-            "type": "number"
+        type: "embedding",
+        name: "Embedding Layer",
+        identifier: "embedding",
+        description:
+          "Turns positive integers (indexes) into dense vectors of fixed size.",
+        data: {
+          input_dim: {
+            type: "number",
           },
-          "output_dim": {
-            "type": "number"
+          output_dim: {
+            type: "number",
           },
-          "mask_zero": {
-            "type": "boolean",
-            "value": false
+          mask_zero: {
+            type: "boolean",
+            value: false,
           },
-          "lora_rank": {
-            "type": "number",
-            "value": null
-          }
-        }
+          lora_rank: {
+            type: "number",
+            value: null,
+          },
+        },
       },
       {
-        "type": "conv1d",
-        "name": "1D Convolution Layer",
-        "identifier": "conv1d",
-        "description": "1D convolution layer.",
-        "data": {
-          "filters": {
-            "type": "number"
+        type: "conv1d",
+        name: "1D Convolution Layer",
+        identifier: "conv1d",
+        description: "1D convolution layer.",
+        data: {
+          filters: {
+            type: "number",
           },
-          "kernel_size": {
-            "type": "number"
+          kernel_size: {
+            type: "number",
           },
-          "strides": {
-            "type": "number",
-            "value": 1
+          strides: {
+            type: "number",
+            value: 1,
           },
-          "padding": {
-            "type": "select",
-            "options": [
-              "valid",
-              "same"
-            ],
-            "value": "valid"
+          padding: {
+            type: "select",
+            options: ["valid", "same"],
+            value: "valid",
           },
-          "data_format": {
-            "type": "select",
-            "options": [
-              "channels_first",
-              "channels_last"
-            ],
-            "value": "channels_last"
+          data_format: {
+            type: "select",
+            options: ["channels_first", "channels_last"],
+            value: "channels_last",
           },
-          "dilation_rate": {
-            "type": "number",
-            "value": 1
+          dilation_rate: {
+            type: "number",
+            value: 1,
           },
-          "groups": {
-            "type": "number",
-            "value": 1
+          groups: {
+            type: "number",
+            value: 1,
           },
-          "activation": {
-            "type": "select",
-            "options": [
+          activation: {
+            type: "select",
+            options: [
               "relu",
               "sigmoid",
               "softmax",
@@ -326,62 +319,56 @@ export const blocks = [
               "hard_sigmoid",
               "linear",
               "mish",
-              "log_softmax"
+              "log_softmax",
             ],
-            "value": null,
+            value: null,
           },
-          "use_bias": {
-            "type": "boolean",
-            "value": true
-          }
-        }
+          use_bias: {
+            type: "boolean",
+            value: true,
+          },
+        },
       },
       {
-        "type": "conv2d",
-        "name": "2D Convolution Layer",
-        "identifier": "conv2d",
-        "description": "2D convolution layer.",
-        "data": {
-          "filters": {
-            "type": "number"
+        type: "conv2d",
+        name: "2D Convolution Layer",
+        identifier: "conv2d",
+        description: "2D convolution layer.",
+        data: {
+          filters: {
+            type: "number",
           },
-          "kernel_size": {
-            "type": "tuple",
-            "itemType": "number",
+          kernel_size: {
+            type: "tuple",
+            itemType: "number",
           },
-          "strides": {
-            "type": "tuple",
-            "itemType": "number",
-            "value": [1, 1]
+          strides: {
+            type: "tuple",
+            itemType: "number",
+            value: [1, 1],
           },
-          "padding": {
-            "type": "select",
-            "options": [
-              "valid",
-              "same"
-            ],
-            "value": "valid"
+          padding: {
+            type: "select",
+            options: ["valid", "same"],
+            value: "valid",
           },
-          "data_format": {
-            "type": "select",
-            "options": [
-              "channels_first",
-              "channels_last"
-            ],
-            "value": "channels_last"
+          data_format: {
+            type: "select",
+            options: ["channels_first", "channels_last"],
+            value: "channels_last",
           },
-          "dilation_rate": {
-            "type": "tuple",
-            "itemType": "number",
-            "value": [1, 1]
+          dilation_rate: {
+            type: "tuple",
+            itemType: "number",
+            value: [1, 1],
           },
-          "groups": {
-            "type": "number",
-            "value": 1
+          groups: {
+            type: "number",
+            value: 1,
           },
-          "activation": {
-            "type": "select",
-            "options": [
+          activation: {
+            type: "select",
+            options: [
               "relu",
               "sigmoid",
               "softmax",
@@ -399,62 +386,56 @@ export const blocks = [
               "hard_sigmoid",
               "linear",
               "mish",
-              "log_softmax"
+              "log_softmax",
             ],
-            "value": null,
+            value: null,
           },
-          "use_bias": {
-            "type": "boolean",
-            "value": true
+          use_bias: {
+            type: "boolean",
+            value: true,
           },
-        }
+        },
       },
       {
-        "type": "conv3d",
-        "name": "3D Convolution Layer",
-        "identifier": "conv3d",
-        "description": "3D convolution layer.",
-        "data": {
-            "filters": {
-                "type": "number"
-            },
-            "kernel_size": {
-                "type": "tuple",
-                "itemType": "number",
-            },
-            "strides": {
-                "type": "tuple",
-                "itemType": "number",
-                "value": [1, 1, 1]
-            },
-            "padding": {
-                "type": "select",
-                "options": [
-                "valid",
-                "same"
-                ],
-                "value": "valid"
-            },
-            "data_format": {
-                "type": "select",
-                "options": [
-                "channels_first",
-                "channels_last"
-                ],
-                "value": "channels_last"
-            },
-            "dilation_rate": {
-                "type": "tuple",
-                "itemType": "number",
-                "value": [1, 1, 1]
-            },
-            "groups": {
-                "type": "number",
-                "value": 1
-            },
-          "activation": {
-            "type": "select",
-            "options": [
+        type: "conv3d",
+        name: "3D Convolution Layer",
+        identifier: "conv3d",
+        description: "3D convolution layer.",
+        data: {
+          filters: {
+            type: "number",
+          },
+          kernel_size: {
+            type: "tuple",
+            itemType: "number",
+          },
+          strides: {
+            type: "tuple",
+            itemType: "number",
+            value: [1, 1, 1],
+          },
+          padding: {
+            type: "select",
+            options: ["valid", "same"],
+            value: "valid",
+          },
+          data_format: {
+            type: "select",
+            options: ["channels_first", "channels_last"],
+            value: "channels_last",
+          },
+          dilation_rate: {
+            type: "tuple",
+            itemType: "number",
+            value: [1, 1, 1],
+          },
+          groups: {
+            type: "number",
+            value: 1,
+          },
+          activation: {
+            type: "select",
+            options: [
               "relu",
               "sigmoid",
               "softmax",
@@ -472,94 +453,94 @@ export const blocks = [
               "hard_sigmoid",
               "linear",
               "mish",
-              "log_softmax"
+              "log_softmax",
             ],
-            "value": null,
+            value: null,
           },
-          "use_bias": {
-            "type": "boolean",
-            "value": true
-          }
-        }
-      }
-    ]
+          use_bias: {
+            type: "boolean",
+            value: true,
+          },
+        },
+      },
+    ],
   },
   {
-    "name": "dataset",
-    "icon": "mdi-database",
-    "color": "blue",
-    "group_identifier": "dataset",
-    "nodes": [
+    name: "dataset",
+    icon: "mdi-database",
+    color: "blue",
+    group_identifier: "dataset",
+    nodes: [
       {
-        "type": "load",
-        "name": "Load Dataset",
-        "description": "Load a common dataset.",
-        "identifier": "load",
-        "data": {
-          "name": {
-            "type": "select",
-            "options": [
+        type: "load",
+        name: "Load Dataset",
+        description: "Load a common dataset.",
+        identifier: "load",
+        data: {
+          name: {
+            type: "select",
+            options: [
               "mnist",
               "fashion_mnist",
               "cifar10",
               "cifar100",
               "imdb",
               "reuters",
-              "boston_housing"
-            ]
+              "boston_housing",
+            ],
           },
-          "split": {
-            "type": "string",
-            "value": "train"
+          split: {
+            type: "string",
+            value: "train",
           },
-          "batch_size": {
-            "type": "number",
-            "value": 32
-          }
-        }
-      }
-    ]
+          batch_size: {
+            type: "number",
+            value: 32,
+          },
+        },
+      },
+    ],
   },
   {
-    "name": "model",
-    "icon": "mdi-cube",
-    "color": "teal",
-    "group_identifier": "model",
-    "nodes": [
+    name: "model",
+    icon: "mdi-cube",
+    color: "teal",
+    group_identifier: "model",
+    nodes: [
       {
-        "type": "start",
-        "name": "start",
-        "description": "Model entrypoint.",
-        "identifier": "start",
-        "data": {},
+        type: "start",
+        name: "start",
+        description: "Model entrypoint.",
+        identifier: "start",
+        data: {},
       },
       {
-        "type": "create",
-        "name": "create",
-        "description": "Create a model.",
-        "identifier": "create",
-        "data": {
-          "inputs": {
-            "type": "id",
+        type: "create",
+        name: "create",
+        description: "Create a model.",
+        identifier: "create",
+        data: {
+          inputs: {
+            type: "id",
           },
-          "outputs": {
-            "type": "id",
+          outputs: {
+            type: "id",
           },
-          "name": {
-            "type": "string",
-            "value": "model"
-          }
-        }
+          name: {
+            type: "string",
+            value: "model",
+          },
+        },
       },
       {
-        "type": "compile",
-        "name": "compile",
-        "description": "Compile the model.",
-        "identifier": "compile",
-        "data": {
-          "optimizer": {
-            "type": "select",
-            "options": [
+        type: "compile",
+        name: "compile",
+        description: "Compile the model.",
+        identifier: "compile",
+        data: {
+          optimizer: {
+            type: "select",
+            options: [
               "sgd",
               "rmsprop",
               "adam",
@@ -567,13 +548,13 @@ export const blocks = [
               "adagrad",
               "adamax",
               "nadam",
-              "ftrl"
+              "ftrl",
             ],
-            "value": "adam"
+            value: "adam",
           },
-          "loss": {
-            "type": "select",
-            "options": [
+          loss: {
+            type: "select",
+            options: [
               "mean_squared_error",
               "mean_absolute_error",
               "mean_absolute_percentage_error",
@@ -603,13 +584,13 @@ export const blocks = [
               "binary_crossentropy",
               "kullback_leibler_divergence",
               "poisson",
-              "cosine_similarity"
+              "cosine_similarity",
             ],
-            "value": "categorical_crossentropy"
+            value: "categorical_crossentropy",
           },
-          "metrics": {
-            "type": "multiselect",
-            "options": [
+          metrics: {
+            type: "multiselect",
+            options: [
               "accuracy",
               "binary_accuracy",
               "categorical_accuracy",
@@ -627,53 +608,53 @@ export const blocks = [
               "categorical_hinge",
               "kullback_leibler_divergence",
               "poisson",
-              "cosine_proximity"
+              "cosine_proximity",
             ],
-            "value": ["accuracy"]
+            value: ["accuracy"],
           },
-          "name": {
-            "type": "string",
-            "value": "model"
-          }
-        }
+          name: {
+            type: "string",
+            value: "model",
+          },
+        },
       },
       {
-        "type": "fit",
-        "name": "fit",
-        "description": "Fit the model.",
-        "identifier": "fit",
-        "data": {
-          "x": {
-            "type": "id",
+        type: "fit",
+        name: "fit",
+        description: "Fit the model.",
+        identifier: "fit",
+        data: {
+          x: {
+            type: "id",
           },
-          "epochs": {
-            "type": "number",
-            "value": 1
+          epochs: {
+            type: "number",
+            value: 1,
           },
-          "validation_data": {
-            "type": "id",
+          validation_data: {
+            type: "id",
           },
-          "name": {
-            "type": "string",
-            "value": "model"
-          }
-        }
+          name: {
+            type: "string",
+            value: "model",
+          },
+        },
       },
       {
-        "type": "evaluate",
-        "name": "evaluate",
-        "description": "Evaluate the model.",
-        "identifier": "evaluate",
-        "data": {
-          "x": {
-            "type": "id",
+        type: "evaluate",
+        name: "evaluate",
+        description: "Evaluate the model.",
+        identifier: "evaluate",
+        data: {
+          x: {
+            type: "id",
           },
-          "name": {
-            "type": "string",
-            "value": "model"
-          }
-        }
-      }
-    ]
-  }
-]
+          name: {
+            type: "string",
+            value: "model",
+          },
+        },
+      },
+    ],
+  },
+];

@@ -2,15 +2,14 @@
 import { useSessionStore } from "~/stores/SessionStore";
 const sessionStore = useSessionStore();
 await sessionStore.syncLocalSessionData();
-
 </script>
 
 <template>
   <div class="flex flex-col h-screen">
-    <AppHeader/>
+    <AppHeader />
     <div class="flex-grow">
       <slot />
     </div>
-    <AppFooter/>
+    <AppFooter />
   </div>
 </template>

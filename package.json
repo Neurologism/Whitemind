@@ -33,6 +33,10 @@
   },
   "packageManager": "pnpm@9.10.0+sha512.73a29afa36a0d092ece5271de5177ecbf8318d454ecd701343131b8ebc0c1a91c487da46ab77c8e596d6acf1461e3594ced4becedf8921b074fbd8653ed7051c",
   "devDependencies": {
+    "@iconify-json/heroicons": "^1.2.1",
+    "@iconify-json/material-symbols": "^1.2.6",
+    "@iconify-json/mdi": "^1.2.1",
+    "@iconify-json/svg-spinners": "^1.2.1",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.13"
