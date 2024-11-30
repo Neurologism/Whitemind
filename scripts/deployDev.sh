@@ -7,6 +7,7 @@ git clean -f
 git checkout developement
 git pull
 pnpm install
+NODE_OPTIONS="--max-old-space-size=2048"
 pnpm run build
 pnpm run start
 pm2 save --force
