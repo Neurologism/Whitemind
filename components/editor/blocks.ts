@@ -5,7 +5,7 @@ export const blocks = [
     color: "green",
     group_identifier: "layer",
     nodes: [
-        {
+      {
         type: "input_layer",
         name: "Input Layer",
         identifier: "input",
@@ -46,51 +46,51 @@ export const blocks = [
             value: false,
           },
         },
+      },
+      {
+        type: "dense",
+        name: "Dense Layer",
+        identifier: "dense",
+        description: "Just your regular densely-connected NN layer.",
+        data: {
+          units: {
+            type: "number",
+          },
+          activation: {
+            type: "select",
+            options: [
+              "relu",
+              "sigmoid",
+              "softmax",
+              "softplus",
+              "softsign",
+              "tanh",
+              "selu",
+              "elu",
+              "exponential",
+              "leaky_relu",
+              "relu6",
+              "silu",
+              "hard_silu",
+              "gelu",
+              "hard_sigmoid",
+              "linear",
+              "mish",
+              "log_softmax",
+            ],
+            value: null,
+          },
+          use_bias: {
+            type: "boolean",
+            value: true,
+          },
+          lora_rank: {
+            type: "number",
+            value: null,
+          },
         },
-        {
-            type: "dense",
-            name: "Dense Layer",
-            identifier: "dense",
-            description: "Just your regular densely-connected NN layer.",
-            data: {
-                units: {
-                    type: "number",
-                },
-                activation: {
-                    type: "select",
-                    options: [
-                        "relu",
-                        "sigmoid",
-                        "softmax",
-                        "softplus",
-                        "softsign",
-                        "tanh",
-                        "selu",
-                        "elu",
-                        "exponential",
-                        "leaky_relu",
-                        "relu6",
-                        "silu",
-                        "hard_silu",
-                        "gelu",
-                        "hard_sigmoid",
-                        "linear",
-                        "mish",
-                        "log_softmax",
-                    ],
-                    value: null,
-                },
-                use_bias: {
-                    type: "boolean",
-                    value: true,
-                },
-                lora_rank: {
-                    type: "number",
-                    value: null,
-                },
-            },
-        },
-        {
+      },
+      {
         type: "activation",
         name: "Activation Layer",
         identifier: "activation",
@@ -120,8 +120,8 @@ export const blocks = [
             ],
           },
         },
-        },
-        {
+      },
+      {
         type: "normalization",
         name: "Normalization Layer",
         identifier: "normalization",
@@ -141,8 +141,8 @@ export const blocks = [
             value: false,
           },
         },
-        },
-        {
+      },
+      {
         type: "flatten",
         name: "Flatten Layer",
         identifier: "flatten",
@@ -154,8 +154,8 @@ export const blocks = [
             value: "channels_last",
           },
         },
-        },
-        {
+      },
+      {
         type: "ReLU",
         name: "ReLU Layer",
         identifier: "relu",
@@ -174,8 +174,8 @@ export const blocks = [
             value: 0,
           },
         },
-        },
-        {
+      },
+      {
         type: "dropout",
         name: "Dropout Layer",
         identifier: "dropout",
@@ -194,8 +194,8 @@ export const blocks = [
             value: null,
           },
         },
-        },
-        {
+      },
+      {
         type: "batch_normalization",
         name: "Batch Normalization Layer",
         identifier: "batch_normalization",
@@ -222,8 +222,8 @@ export const blocks = [
             value: true,
           },
         },
-        },
-        {
+      },
+      {
         type: "reshape",
         name: "Reshape Layer",
         identifier: "reshape",
@@ -234,15 +234,15 @@ export const blocks = [
             itemType: "number",
           },
         },
-        },
-        {
+      },
+      {
         type: "average",
         name: "Average Layer",
         identifier: "average",
         description: "Averages a list of input element-wise.",
         data: {},
-        },
-        {
+      },
+      {
         type: "embedding",
         name: "Embedding Layer",
         identifier: "embedding",
@@ -264,8 +264,8 @@ export const blocks = [
             value: null,
           },
         },
-        },
-        {
+      },
+      {
         type: "conv1d",
         name: "1D Convolution Layer",
         identifier: "conv1d",
@@ -328,8 +328,8 @@ export const blocks = [
             value: true,
           },
         },
-        },
-        {
+      },
+      {
         type: "conv2d",
         name: "2D Convolution Layer",
         identifier: "conv2d",
@@ -395,8 +395,8 @@ export const blocks = [
             value: true,
           },
         },
-        },
-        {
+      },
+      {
         type: "conv3d",
         name: "3D Convolution Layer",
         identifier: "conv3d",
@@ -462,140 +462,114 @@ export const blocks = [
             value: true,
           },
         },
+      },
+      {},
+      {
+        type: "maxpooling1d",
+        name: "MaxPooling1D Layer",
+        identifier: "maxpooling1d",
+        description: "Max pooling operation for 1D temporal data.",
+        data: {
+          pool_size: {
+            type: "number",
+          },
+          strides: {
+            type: "number",
+            value: null,
+          },
+          padding: {
+            type: "select",
+            options: ["valid", "same"],
+            value: "valid",
+          },
+          data_format: {
+            type: "select",
+            options: ["channels_first", "channels_last"],
+            value: "channels_last",
+          },
         },
-        {
-            
+      },
+      {
+        type: "maxpooling2d",
+        name: "MaxPooling2D Layer",
+        identifier: "maxpooling2d",
+        description: "Max pooling operation for 2D spatial data.",
+        data: {
+          pool_size: {
+            type: "tuple",
+            itemType: "number",
+            value: [2, 2],
+          },
+          strides: {
+            type: "tuple",
+            itemType: "number",
+            value: null,
+          },
+          padding: {
+            type: "select",
+            options: ["valid", "same"],
+            value: "valid",
+          },
+          data_format: {
+            type: "select",
+            options: ["channels_first", "channels_last"],
+            value: "channels_last",
+          },
         },
-        {
-            type: "maxpooling1d",
-            name: "MaxPooling1D Layer",
-            identifier: "maxpooling1d",
-            description: "Max pooling operation for 1D temporal data.",
-            data: {
-                pool_size: {
-                    type: "number"
-                },
-                strides: {
-                    type: "number",
-                    value: null
-                },
-                padding: {
-                    type: "select",
-                    options: [
-                        "valid",
-                        "same"
-                    ],
-                    value: "valid"
-                },
-                data_format: {
-                    type: "select",
-                    options: [
-                        "channels_first",
-                        "channels_last"
-                    ],
-                    value: "channels_last"
-                }
-            }
+      },
+      {
+        type: "maxpooling3d",
+        name: "MaxPooling3D Layer",
+        identifier: "maxpooling3d",
+        description: "Max pooling operation for 3D data.",
+        data: {
+          pool_size: {
+            type: "tuple",
+            itemType: "number",
+          },
+          strides: {
+            type: "tuple",
+            itemType: "number",
+            value: null,
+          },
+          padding: {
+            type: "select",
+            options: ["valid", "same"],
+            value: "valid",
+          },
+          data_format: {
+            type: "select",
+            options: ["channels_first", "channels_last"],
+            value: "channels_last",
+          },
         },
-        {
-            type: "maxpooling2d",
-            name: "MaxPooling2D Layer",
-            identifier: "maxpooling2d",
-            description: "Max pooling operation for 2D spatial data.",
-            data: {
-                pool_size: {
-                    type: "tuple",
-                    itemType: "number",
-                    value: [2, 2]
-                },
-                strides: {
-                    type: "tuple",
-                    itemType: "number",
-                    value: null
-                },
-                padding: {
-                    type: "select",
-                    options: [
-                        "valid",
-                        "same"
-                    ],
-                    value: "valid"
-                },
-                data_format: {
-                    type: "select",
-                    options: [
-                        "channels_first",
-                        "channels_last"
-                    ],
-                    value: "channels_last"
-                }
-            }
+      },
+      {
+        type: "averagepooling1d",
+        name: "AveragePooling1D Layer",
+        identifier: "averagepooling1d",
+        description: "Average pooling operation for temporal data.",
+        data: {
+          pool_size: {
+            type: "number",
+          },
+          strides: {
+            type: "number",
+            value: null,
+          },
+          padding: {
+            type: "select",
+            options: ["valid", "same"],
+            value: "valid",
+          },
+          data_format: {
+            type: "select",
+            options: ["channels_first", "channels_last"],
+            value: "channels_last",
+          },
         },
-        {
-            type: "maxpooling3d",
-            name: "MaxPooling3D Layer",
-            identifier: "maxpooling3d",
-            description: "Max pooling operation for 3D data.",
-            data: {
-                pool_size: {
-                    type: "tuple",
-                    itemType: "number"
-                },
-                strides: {
-                    type: "tuple",
-                    itemType: "number",
-                    value: null
-                },
-                padding: {
-                    type: "select",
-                    options: [
-                        "valid",
-                        "same"
-                    ],
-                    value: "valid"
-                },
-                data_format: {
-                    type: "select",
-                    options: [
-                        "channels_first",
-                        "channels_last"
-                    ],
-                    value: "channels_last"
-                }
-            }
-        },
-        {
-            type: "averagepooling1d",
-            name: "AveragePooling1D Layer",
-            identifier: "averagepooling1d",
-            description: "Average pooling operation for temporal data.",
-            data: {
-                pool_size: {
-                    type: "number"
-                },
-                strides: {
-                    type: "number",
-                    value: null
-                },
-                padding: {
-                    type: "select",
-                    options: [
-                        "valid",
-                        "same"
-                    ],
-                    value: "valid"
-                },
-                data_format: {
-                    type: "select",
-                    options: [
-                        "channels_first",
-                        "channels_last"
-                    ],
-                    value: "channels_last"
-                }
-            }
-        },
-        {
+      },
+      {
         type: "averagepooling2d",
         name: "AveragePooling2D Layer",
         identifier: "averagepooling2d",
@@ -604,185 +578,154 @@ export const blocks = [
           pool_size: {
             type: "tuple",
             itemType: "number",
-            value: [2, 2]
+            value: [2, 2],
           },
           strides: {
             type: "tuple",
             itemType: "number",
-            value: null
+            value: null,
           },
           padding: {
             type: "select",
-            options: [
-              "valid",
-              "same"
-            ],
-            value: "valid"
+            options: ["valid", "same"],
+            value: "valid",
           },
           data_format: {
             type: "select",
-            options: [
-              "channels_first",
-              "channels_last"
-            ],
-            value: "channels_last"
-          }
-        }
+            options: ["channels_first", "channels_last"],
+            value: "channels_last",
+          },
         },
-        {
-            type: "averagepooling3d",
-            name: "AveragePooling3D Layer",
-            identifier: "averagepooling3d",
-            description: "Average pooling operation for 3D data.",
-            data: {
-                pool_size: {
-                    type: "tuple",
-                    itemType: "number"
-                },
-                strides: {
-                    type: "tuple",
-                    itemType: "number",
-                    value: null
-                },
-                padding: {
-                    type: "select",
-                    options: [
-                        "valid",
-                        "same"
-                    ],
-                    value: "valid"
-                },
-                data_format: {
-                    type: "select",
-                    options: [
-                        "channels_first",
-                        "channels_last"
-                    ],
-                    value: "channels_last"
-                }
-            }
+      },
+      {
+        type: "averagepooling3d",
+        name: "AveragePooling3D Layer",
+        identifier: "averagepooling3d",
+        description: "Average pooling operation for 3D data.",
+        data: {
+          pool_size: {
+            type: "tuple",
+            itemType: "number",
+          },
+          strides: {
+            type: "tuple",
+            itemType: "number",
+            value: null,
+          },
+          padding: {
+            type: "select",
+            options: ["valid", "same"],
+            value: "valid",
+          },
+          data_format: {
+            type: "select",
+            options: ["channels_first", "channels_last"],
+            value: "channels_last",
+          },
         },
-        {
-            type: "globalmaxpooling1d",
-            name: "GlobalMaxPooling1D Layer",
-            identifier: "globalmaxpooling1d",
-            description: "Global max pooling operation for temporal data.",
-            data: {
-                data_format: {
-                    type: "select",
-                    options: [
-                        "channels_first",
-                        "channels_last"
-                    ],
-                    value: "channels_last"
-                },
-                keepdims: {
-                    type: "boolean",
-                    value: false
-                }
-            }
-
+      },
+      {
+        type: "globalmaxpooling1d",
+        name: "GlobalMaxPooling1D Layer",
+        identifier: "globalmaxpooling1d",
+        description: "Global max pooling operation for temporal data.",
+        data: {
+          data_format: {
+            type: "select",
+            options: ["channels_first", "channels_last"],
+            value: "channels_last",
+          },
+          keepdims: {
+            type: "boolean",
+            value: false,
+          },
         },
-        {
-            type: "globalmaxpooling2d",
-            name: "GlobalMaxPooling2D Layer",
-            identifier: "globalmaxpooling2d",
-            description: "Global max pooling operation for 2D data.",
-            data: {
-                data_format: {
-                    type: "select",
-                    options: [
-                        "channels_first",
-                        "channels_last"
-                    ],
-                    value: "channels_last"
-                },
-                keepdims: {
-                    type: "boolean",
-                    value: false
-                }
-            }
+      },
+      {
+        type: "globalmaxpooling2d",
+        name: "GlobalMaxPooling2D Layer",
+        identifier: "globalmaxpooling2d",
+        description: "Global max pooling operation for 2D data.",
+        data: {
+          data_format: {
+            type: "select",
+            options: ["channels_first", "channels_last"],
+            value: "channels_last",
+          },
+          keepdims: {
+            type: "boolean",
+            value: false,
+          },
         },
-        {
-            type: "globalmaxpooling3d",
-            name: "GlobalMaxPooling3D Layer",
-            identifier: "globalmaxpooling3d",
-            description: "Global max pooling operation for 3D data.",
-            data: {
-                data_format: {
-                    type: "select",
-                    options: [
-                        "channels_first",
-                        "channels_last"
-                    ],
-                    value: "channels_last"
-                },
-                keepdims: {
-                    type: "boolean",
-                    value: false
-                }
-            }
+      },
+      {
+        type: "globalmaxpooling3d",
+        name: "GlobalMaxPooling3D Layer",
+        identifier: "globalmaxpooling3d",
+        description: "Global max pooling operation for 3D data.",
+        data: {
+          data_format: {
+            type: "select",
+            options: ["channels_first", "channels_last"],
+            value: "channels_last",
+          },
+          keepdims: {
+            type: "boolean",
+            value: false,
+          },
         },
-        {
-            type: "globalaveragepooling1d",
-            name: "GlobalAveragePooling1D layer",
-            identifier: "globalaveragepooling1d",
-            description: "Global average pooling operation for temporal data.",
-            data: {
-                data_format: {
-                    type: "select",
-                    options: [
-                        "channels_first",
-                        "channels_last"
-                    ],
-                    value: "channels_last"
-                },
-                keepdims: {
-                    type: "boolean",
-                    value: false
-                }
-            }
+      },
+      {
+        type: "globalaveragepooling1d",
+        name: "GlobalAveragePooling1D layer",
+        identifier: "globalaveragepooling1d",
+        description: "Global average pooling operation for temporal data.",
+        data: {
+          data_format: {
+            type: "select",
+            options: ["channels_first", "channels_last"],
+            value: "channels_last",
+          },
+          keepdims: {
+            type: "boolean",
+            value: false,
+          },
         },
-        {
-            type: "globalaveragepooling2d",
-            name: "GlobalAveragePooling2D Layer",
-            identifier: "globalaveragepooling2d",
-            description: "Global average pooling operation for 2D data.",
-            data: {
-                data_format: {
-                    type: "select",
-                    options: [
-                        "channels_first",
-                        "channels_last"
-                    ],
-                    value: "channels_last"
-                },
-                keepdims: {
-                    type: "boolean",
-                    value: false
-                }
-            }
+      },
+      {
+        type: "globalaveragepooling2d",
+        name: "GlobalAveragePooling2D Layer",
+        identifier: "globalaveragepooling2d",
+        description: "Global average pooling operation for 2D data.",
+        data: {
+          data_format: {
+            type: "select",
+            options: ["channels_first", "channels_last"],
+            value: "channels_last",
+          },
+          keepdims: {
+            type: "boolean",
+            value: false,
+          },
         },
-        {
-            type: "globalaveragepooling3d",
-            name: "GlobalAveragePooling3D Layer",
-            identifier: "globalaveragepooling3d",
-            description: "Global average pooling operation for 3D data.",
-            data: {
-                data_format: {
-                    type: "select",
-                    options: [
-                        "channels_first",
-                        "channels_last"
-                    ],
-                    value: "channels_last"
-                },
-                keepdims: {
-                    type: "boolean",
-                    value: false
-                }
-            }
-        }
+      },
+      {
+        type: "globalaveragepooling3d",
+        name: "GlobalAveragePooling3D Layer",
+        identifier: "globalaveragepooling3d",
+        description: "Global average pooling operation for 3D data.",
+        data: {
+          data_format: {
+            type: "select",
+            options: ["channels_first", "channels_last"],
+            value: "channels_last",
+          },
+          keepdims: {
+            type: "boolean",
+            value: false,
+          },
+        },
+      },
     ],
   },
   {
@@ -802,30 +745,30 @@ export const blocks = [
             value: 32,
           },
           train: {
-            type: "id"
+            type: "id",
           },
           test: {
-            type: "id"
+            type: "id",
           },
         },
       },
-        {
-            type: "split",
-            name: "Split",
-            description: "Split the dataset into two parts.",
-            identifier: "split",
-            data: {
-                ratio: {
-                    type: "number",
-                },
-                split1: {
-                    type: "id"
-                },
-                split2: {
-                    type: "id"
-                },
-            }
-        }
+      {
+        type: "split",
+        name: "Split",
+        description: "Split the dataset into two parts.",
+        identifier: "split",
+        data: {
+          ratio: {
+            type: "number",
+          },
+          split1: {
+            type: "id",
+          },
+          split2: {
+            type: "id",
+          },
+        },
+      },
     ],
   },
   {

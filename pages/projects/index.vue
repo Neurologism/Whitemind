@@ -81,7 +81,7 @@ const reloadAndReset = async () => {
         <ProjectCard
           v-for="id in searchedProjects
             ? searchedProjects
-            : sessionStore.sessionData.user.project_ids"
+            : sessionStore.sessionData.user.projectIds"
           :key="id"
           :id="id"
         />
@@ -90,7 +90,7 @@ const reloadAndReset = async () => {
         v-if="
           (searchedProjects
             ? searchedProjects
-            : (sessionStore.sessionData.user.project_ids ?? [])
+            : (sessionStore.sessionData.user.projectIds ?? [])
           ).length === 0
         "
       >
