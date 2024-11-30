@@ -32,7 +32,7 @@ function onUsernameOrEmailChange() {
       },
       body: JSON.stringify({
         user: {
-          brainet_tag: username.value,
+          brainetTag: username.value,
           email: email.value,
         },
       }),
@@ -93,9 +93,9 @@ const onRegister = async () => {
     },
     body: JSON.stringify({
       user: {
-        brainet_tag: username.value,
+        brainetTag: username.value,
         email: email.value,
-        plain_password: password.value,
+        plainPassword: password.value,
       },
     }),
   });
