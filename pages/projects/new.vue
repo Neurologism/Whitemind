@@ -61,7 +61,8 @@ const createProject = async () => {
     await sessionStore.loginWithSessionToken(
       sessionStore.sessionData.sessionID,
     );
-    navigateTo("/projects");
+    navigateTo(`/project/${data.project._id}`);
+
   }
 
   isProcessingCreation.value = false;
