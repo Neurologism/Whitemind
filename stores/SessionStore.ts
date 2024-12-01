@@ -10,11 +10,17 @@ export const useSessionStore = defineStore({
       sessionID: "",
       user: {
         _id: "" as string | null,
-        brainet_tag: "" as string | null,
-        email: "" as string | null,
-        about_you: "" as string | null,
+        brainetTag: "" as string | null,
+        emails: [] as
+          | {
+              emailType: string;
+              address: string;
+              verified: boolean;
+            }[]
+          | null,
+        aboutYou: "" as string | null,
         displayname: "" as string | null,
-        date_of_birth: 0,
+        dateOfBirth: "" as string | undefined,
         /**
          * The visibility of the user's profile
          * "private" - Only the user can see their profile
@@ -22,9 +28,9 @@ export const useSessionStore = defineStore({
          * "" - not loaded yet
          */
         visibility: "" as string | null,
-        followers: [] as string[] | null,
-        following: [] as string[] | null,
-        project_ids: [] as string[] | null,
+        followerIds: [] as string[] | null,
+        followingIds: [] as string[] | null,
+        projectIds: [] as string[] | null,
       },
     }),
   }),
@@ -111,15 +117,15 @@ export const useSessionStore = defineStore({
         this.sessionData.sessionID = "";
         this.sessionData.user = {
           _id: null,
-          brainet_tag: null,
-          email: null,
-          about_you: null,
+          brainetTag: null,
+          emails: null,
+          aboutYou: null,
           displayname: null,
-          date_of_birth: 0,
+          dateOfBirth: undefined,
           visibility: null,
-          followers: null,
-          following: null,
-          project_ids: null,
+          followerIds: null,
+          followingIds: null,
+          projectIds: null,
         };
         if (redirectIfNotLoggedIn) {
           navigateTo("/profile/login");

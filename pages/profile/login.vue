@@ -56,11 +56,11 @@ const onLogin = async () => {
         selectedTab.value == LoginTab.EMAIL
           ? {
               email: email.value,
-              plain_password: password.value,
+              plainPassword: password.value,
             }
           : {
-              brainet_tag: username.value,
-              plain_password: password.value,
+              brainetTag: username.value,
+              plainPassword: password.value,
             },
     }),
   });
