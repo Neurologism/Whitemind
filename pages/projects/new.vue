@@ -75,8 +75,7 @@ const createProject = async () => {
     >
       <h1 class="sm:text-3xl text-2xl">Create a new Project</h1>
       <span class="text-gray-500"
-        >Id velit magnam ipsam nostrum pariatur facilis ea ab. Quibusdam non
-        minima corporis nemo voluptatibus.
+        >
       </span>
       <div class="mt-1 mb-1">
         <UDivider />
@@ -120,7 +119,7 @@ const createProject = async () => {
         <UButton
           block
           :disabled="
-            !projectName || !projectDescription || isProcessingCreation
+            !projectName || isProcessingCreation
           "
           color="primary"
           @click="createProject"

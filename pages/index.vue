@@ -4,14 +4,13 @@
       <h1
         class="text-5xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-7xl"
       >
-        <span>The Simple</span> <br />
-        <span class="text-primary">AI Learning Platform</span>
+        <span>WhiteMind</span> <br />
+        <span class="text-primary">the lighter way to AI. </span>
       </h1>
       <div
         class="mt-6 text-md md:text-lg tracking-tight text-gray-600 dark:text-gray-300"
       >
-        Brainet is a deep learning engine developed in C++ and CUDA. <br />
-        It allows users to fully understand the underlying mechanisms.
+        Welcome to WhiteMind
       </div>
       <div class="mt-10 justify-center gap-x-6 gap-y-3">
         <UButton
