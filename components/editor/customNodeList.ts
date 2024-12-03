@@ -28,6 +28,7 @@ export type CustomNodesGroup = {
 };
 
 export class CustomNodes {
+  // @ts-ignore
   static nodesList: CustomNodesGroup[] = blocks;
 
   static getCustomNodeConfig(type: string): CustomNodeConfig | undefined {
@@ -55,7 +56,7 @@ export class CustomNodes {
       if (node.data[key]["value"] !== undefined) {
         // @ts-ignore - data[key] is not a valid type
         data[key] = node.data[key]["value"];
-        continue;
+        // continue;
       }
     }
 

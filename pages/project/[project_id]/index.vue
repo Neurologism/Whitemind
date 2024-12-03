@@ -4,7 +4,7 @@ import { useProjectStore } from "~/stores/ProjectStore";
 import { ref } from "vue";
 import { VueFlow, useVueFlow, Panel } from "@vue-flow/core";
 import Sidebar from "~/components/editor/Sidebar.vue";
-import { MiniMap } from "@vue-flow/minimap";
+// import { MiniMap } from "@vue-flow/minimap";
 import "@vue-flow/minimap/dist/style.css";
 import { CustomNodes } from "~/components/editor/customNodeList";
 import { Background } from "@vue-flow/background";
@@ -13,6 +13,7 @@ import ProjectHeader from "~/components/editor/ProjectHeader.vue";
 import IdConnectionEdge from "~/components/editor/IdConnectionEdge.vue";
 import TrainingBlock from "~/components/editor/TrainingHeader.vue";
 import { SyncStatus } from "~/components/editor/syncStatus";
+import Assistant from "~/components/editor/Assistant.vue";
 const toast = useToast();
 const colorMode = useColorMode();
 
@@ -87,9 +88,9 @@ onMounted(() => {
 });
 
 onConnect((params) => {
+  // @ts-ignore
+  params.type = "smoothstep";
   if (params.sourceHandle?.startsWith("val-")) {
-    // @ts-ignore
-    params.type = "smoothstep";
     console.log();
     // @ts-ignore
     params.data = {
@@ -264,7 +265,12 @@ watch(
             <Sidebar />
           </div>
         </Panel>
-        <MiniMap zoomable node-color="black" mask-color="rgba(56,56,56,0.5)" />
+        <Panel position="bottom-right">
+          <div>
+            <Assistant />
+          </div>
+        </Panel>
+<!--        <MiniMap zoomable node-color="black" mask-color="rgba(56,56,56,0.5)" />-->
         <template
           v-for="node in CustomNodes.nodesList.flatMap((group) => group.nodes)"
           :key="node.type"
