@@ -1,6 +1,8 @@
 #!/bin/bash
 PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/snap/bin"
 cd /home/brainet/Whitemind
+npm install pm2@latest -g
+pm2 update
 pm2 delete whitemind-server
 git reset --hard
 git clean -f
