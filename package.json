@@ -8,7 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "pretty": "prettier --write .",
+    "format": "prettier --write .",
     "start": "pm2 start .output/server/index.mjs -i 0 --name whitemind-server",
     "stop": "pm2 stop whitemind-server"
   },
