@@ -16,7 +16,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      backmindHost: process.env.BACKMIND_HOST || "http://localhost:3000",
+      backmindHost:
+        process.env.BACKMIND_HOST || "https://backmind.icinoxis.net",
     },
   },
 });
