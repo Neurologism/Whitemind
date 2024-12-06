@@ -1,11 +1,10 @@
 import { defineStore } from "pinia";
 
-const apiServerURL = "http://localhost:3000";
-
 export const useSessionStore = defineStore({
   id: "sessionData",
   state: () => ({
     sessionData: ref({
+      backmindHost: process.env.BACKMIND_HOST || "http://localhost:3000",
       sessionStart: Date(),
       sessionID: "",
       user: {
@@ -49,13 +48,13 @@ export const useSessionStore = defineStore({
      */
     async fetch(
       url: string | URL | globalThis.Request,
-      options: RequestInit = {},
+      options: RequestInit = {}
     ): Promise<Response> {
       if (url.toString().startsWith("/")) {
-        url = new URL(url.toString(), apiServerURL);
+        url = new URL(url.toString(), this.sessionData.backmindHost);
       } else {
         console.warn(
-          `Sending session based fetch request to specified API server : ${url.toString()}`,
+          `Sending session based fetch request to specified API server : ${url.toString()}`
         );
       }
 
@@ -87,7 +86,7 @@ export const useSessionStore = defineStore({
       } else {
         this.sessionData.sessionID = "";
         console.error(
-          "Failed to log in with session token. Rerouting user to login page.",
+          "Failed to log in with session token. Rerouting user to login page."
         );
         navigateTo("/profile/login");
       }
@@ -138,13 +137,13 @@ export const useSessionStore = defineStore({
     async syncLocalSessionData() {
       if (!import.meta.client) return;
       const localSession = JSON.parse(
-        localStorage.getItem("sessionData") || "{}",
+        localStorage.getItem("sessionData") || "{}"
       );
       const currentSession = this.sessionData;
 
       if (!localSession.sessionID && !currentSession.sessionID) {
         console.warn(
-          "No session found in both local storage and current session data.",
+          "No session found in both local storage and current session data."
         );
         return;
       }
