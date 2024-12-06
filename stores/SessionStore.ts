@@ -4,7 +4,6 @@ export const useSessionStore = defineStore({
   id: "sessionData",
   state: () => ({
     sessionData: ref({
-      backmindHost: process.env.BACKMIND_HOST || "http://localhost:3000",
       sessionStart: Date(),
       sessionID: "",
       user: {
@@ -50,8 +49,9 @@ export const useSessionStore = defineStore({
       url: string | URL | globalThis.Request,
       options: RequestInit = {},
     ): Promise<Response> {
+      const backmindHost = useRuntimeConfig().public.backmindHost as string;
       if (url.toString().startsWith("/")) {
-        url = new URL(url.toString(), this.sessionData.backmindHost);
+        url = new URL(url.toString(), backmindHost);
       } else {
         console.warn(
           `Sending session based fetch request to specified API server : ${url.toString()}`,

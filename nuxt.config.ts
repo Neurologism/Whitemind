@@ -14,4 +14,9 @@ export default defineNuxtConfig({
   colorMode: {
     preference: "dark",
   },
+  runtimeConfig: {
+    public: {
+      backmindHost: process.env.BACKMIND_HOST || "http://localhost:3000",
+    },
+  },
 });
