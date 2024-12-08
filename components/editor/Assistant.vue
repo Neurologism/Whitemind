@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 
 const showSpeechBubble = ref(false);
-const speechBubbleContent = ref("Hello! How can I assist you today?");
+const speechBubbleContent = ref("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
 
 function toggleSpeechBubble() {
   showSpeechBubble.value = !showSpeechBubble.value;
@@ -28,9 +28,8 @@ function toggleSpeechBubble() {
   border: 1px solid #4682b4; /* Steel Blue */
   padding: 10px;
   border-radius: 10px;
-  min-width: 300px;
-  max-width: 500px;
-  word-break: normal;
+  width: max-content;
+  max-width: 25vw;
 }
 
 .speech-bubble::after {

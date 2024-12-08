@@ -463,7 +463,6 @@ export const blocks = [
           },
         },
       },
-      {},
       {
         type: "maxpooling1d",
         name: "MaxPooling1D Layer",

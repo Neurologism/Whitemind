@@ -1,0 +1,27 @@
+{
+  "name": "Your first neural network",
+  "summary": "",
+  "description": "",
+  "ownerId": "to_be_filled",
+  "visibility": "private",
+  "dateCreatedAt": "to_be_filled",
+  "dateLastEdited": "to_be_filled",
+  "requiredTutorials": [],
+  "nextTutorials": ["Datasets and Configuration"],
+  "experienceGain": 100,
+  "startProject": {
+    "nodes": [],
+    "edges": [],
+    "position": [
+      0,
+      0
+    ],
+    "zoom": 1,
+    "viewport": {
+      "x": 0,
+      "y": 0,
+      "zoom": 1
+    }
+  },
+  "unlockNodes": [],
+  "steps": [
