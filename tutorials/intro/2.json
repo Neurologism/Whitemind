@@ -7,7 +7,7 @@
   "dateCreatedAt": "to_be_filled",
   "dateLastEdited": "to_be_filled",
   "requiredTutorials": ["Your first neural network"],
-  "nextTutorials": [],
+  "nextTutorials": ["Training routines"],
   "experienceGain": 100,
   "startProject": {
     "nodes": [

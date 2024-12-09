@@ -1,27 +1,483 @@
 {
-  "name": "Your first neural network",
+  "name": "Training routines",
   "summary": "",
   "description": "",
   "ownerId": "to_be_filled",
   "visibility": "private",
   "dateCreatedAt": "to_be_filled",
   "dateLastEdited": "to_be_filled",
-  "requiredTutorials": [],
-  "nextTutorials": ["Datasets and Configuration"],
+  "requiredTutorials": ["Datasets and Configuration"],
+  "nextTutorials": [],
   "experienceGain": 100,
-  "startProject": {
-    "nodes": [],
-    "edges": [],
+  "startProject":
+  {
+    "nodes": [
+      {
+        "id": "0.4y1xm0u0w0w",
+        "type": "input_layer",
+        "initialized": false,
+        "position": {
+          "x": 690,
+          "y": 84
+        },
+        "data": {
+          "shape": [
+            28,
+            28,
+            1
+          ],
+          "batch_size": null,
+          "dtype": "float32",
+          "sparse": false,
+          "optional": false
+        },
+        "identifier": "input",
+        "group_identifier": "layer"
+      },
+      {
+        "id": "0.5kwdzsgxuls",
+        "type": "dense",
+        "initialized": false,
+        "position": {
+          "x": 686,
+          "y": 557
+        },
+        "data": {
+          "activation": "softmax",
+          "use_bias": true,
+          "lora_rank": null,
+          "units": 10
+        },
+        "identifier": "dense",
+        "group_identifier": "layer"
+      },
+      {
+        "id": "0.q4l428dind",
+        "type": "dense",
+        "initialized": false,
+        "position": {
+          "x": 686,
+          "y": 460
+        },
+        "data": {
+          "activation": "relu",
+          "use_bias": true,
+          "lora_rank": null,
+          "units": 128
+        },
+        "identifier": "dense",
+        "group_identifier": "layer"
+      },
+      {
+        "id": "0.foz5gm6h8f",
+        "type": "normalization",
+        "initialized": false,
+        "position": {
+          "x": 660,
+          "y": 186
+        },
+        "data": {
+          "axis": -1,
+          "invert": false
+        },
+        "identifier": "normalization",
+        "group_identifier": "layer"
+      },
+      {
+        "id": "0.o2crrpwvxqr",
+        "type": "flatten",
+        "initialized": false,
+        "position": {
+          "x": 685,
+          "y": 355
+        },
+        "data": {
+          "data_format": "channels_last"
+        },
+        "identifier": "flatten",
+        "group_identifier": "layer"
+      },
+      {
+        "id": "0.bgzgmujt7vo",
+        "type": "mnist",
+        "initialized": false,
+        "position": {
+          "x": 871,
+          "y": 348
+        },
+        "data": {
+          "batch_size": 32
+        },
+        "identifier": "dataset_mnist",
+        "group_identifier": "dataset"
+      }
+    ],
+    "edges": [
+      {
+        "id": "vueflow__edge-0.foz5gm6h8fout-0.foz5gm6h8f-0.o2crrpwvxqrin-0.o2crrpwvxqr",
+        "type": "smoothstep",
+        "source": "0.foz5gm6h8f",
+        "target": "0.o2crrpwvxqr",
+        "sourceHandle": "out-0.foz5gm6h8f",
+        "targetHandle": "in-0.o2crrpwvxqr",
+        "data": {},
+        "label": "",
+        "sourceX": 749.1500244140625,
+        "sourceY": 291,
+        "targetX": 749.7000122070312,
+        "targetY": 350
+      },
+      {
+        "id": "vueflow__edge-0.o2crrpwvxqrout-0.o2crrpwvxqr-0.q4l428dindin-0.q4l428dind",
+        "type": "smoothstep",
+        "source": "0.o2crrpwvxqr",
+        "target": "0.q4l428dind",
+        "sourceHandle": "out-0.o2crrpwvxqr",
+        "targetHandle": "in-0.q4l428dind",
+        "data": {},
+        "label": "",
+        "sourceX": 749.7000122070312,
+        "sourceY": 404,
+        "targetX": 749.36669921875,
+        "targetY": 455
+      },
+      {
+        "id": "vueflow__edge-0.q4l428dindout-0.q4l428dind-0.5kwdzsgxulsin-0.5kwdzsgxuls",
+        "type": "smoothstep",
+        "source": "0.q4l428dind",
+        "target": "0.5kwdzsgxuls",
+        "sourceHandle": "out-0.q4l428dind",
+        "targetHandle": "in-0.5kwdzsgxuls",
+        "data": {},
+        "label": "",
+        "sourceX": 749.36669921875,
+        "sourceY": 509,
+        "targetX": 749.36669921875,
+        "targetY": 552
+      },
+      {
+        "id": "vueflow__edge-0.4y1xm0u0w0wout-0.4y1xm0u0w0w-0.foz5gm6h8fin-0.foz5gm6h8f",
+        "type": "smoothstep",
+        "source": "0.4y1xm0u0w0w",
+        "target": "0.foz5gm6h8f",
+        "sourceHandle": "out-0.4y1xm0u0w0w",
+        "targetHandle": "in-0.foz5gm6h8f",
+        "data": {},
+        "label": "",
+        "sourceX": 750,
+        "sourceY": 133,
+        "targetX": 749.1500244140625,
+        "targetY": 181
+      },
+      {
+        "id": "vueflow__edge-0.foz5gm6h8fval-adapt-0.foz5gm6h8f-0.bgzgmujt7voval-train-0.bgzgmujt7vo",
+        "type": "smoothstep",
+        "source": "0.foz5gm6h8f",
+        "target": "0.bgzgmujt7vo",
+        "sourceHandle": "val-adapt-0.foz5gm6h8f",
+        "targetHandle": "val-train-0.bgzgmujt7vo",
+        "data": {
+          "key": "adapt"
+        },
+        "label": "",
+        "sourceX": 839.7999877929688,
+        "sourceY": 256,
+        "targetX": 992.5,
+        "targetY": 418
+      }
+    ],
     "position": [
-      0,
-      0
+      181.1497828625471,
+      34.59244374761329
     ],
     "zoom": 1,
     "viewport": {
-      "x": 0,
-      "y": 0,
+      "x": 181.1497828625471,
+      "y": 34.59244374761329,
       "zoom": 1
     }
   },
   "unlockNodes": [],
   "steps": [
+    {
+      "text": "Hello, human. Tutorial 3: activated. It is time to build the training process and teach your network to recognize handwritten digits. Let’s begin.",
+      "narrator": "LeNet-5",
+      "addNodes": [],
+      "addEdges": [],
+      "removeNodes": [],
+      "removeEdges": [],
+      "highlightNodeTypes": [],
+      "unlockNodes": []
+    },
+    {
+      "text": "To begin, we must convert the layers into a model. Click on the model section in the toolbar and select the create node. Drag it onto the canvas.",
+      "narrator": "LeNet-5",
+      "addNodes": [
+        {
+          "id": "0.fa3nixozo2r",
+          "data": {
+            "name": "model"
+          },
+          "identifier": "create",
+          "group_identifier": "model"
+        }
+      ],
+      "addEdges": [],
+      "removeNodes": [],
+      "removeEdges": [],
+      "highlightNodeTypes": [
+        "model"
+      ],
+      "unlockNodes": [
+        {
+          "type": "create",
+          "data": [
+            "model"
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Now, connect the create Node to the input layer and the output layer (the last Dense layer). This will form your model.",
+      "narrator": "LeNet-5",
+      "addNodes": [],
+      "addEdges": [
+        {
+            "id": "vueflow__edge-0.fa3nixozo2rval-inputs-0.fa3nixozo2r-0.4y1xm0u0w0win-0.4y1xm0u0w0w",
+            "type": "smoothstep",
+            "source": "0.fa3nixozo2r",
+            "target": "0.4y1xm0u0w0w",
+            "sourceHandle": "val-inputs-0.fa3nixozo2r",
+            "targetHandle": "in-0.4y1xm0u0w0w",
+            "data": {
+              "key": "inputs"
+            },
+            "label": ""
+        },
+        {
+            "id": "vueflow__edge-0.5kwdzsgxulsout-0.5kwdzsgxuls-0.fa3nixozo2rval-outputs-0.fa3nixozo2r",
+            "type": "smoothstep",
+            "source": "0.5kwdzsgxuls",
+            "target": "0.fa3nixozo2r",
+            "sourceHandle": "out-0.5kwdzsgxuls",
+            "targetHandle": "val-outputs-0.fa3nixozo2r",
+            "data": {
+              "key": "outputs"
+            },
+            "label": ""
+        }
+      ],
+      "removeNodes": [],
+      "removeEdges": [],
+      "highlightNodeTypes": [],
+      "unlockNodes": []
+    },
+    {
+      "text": "Excellent! You have successfully created the model. Next, select the start Node from the toolbar and drag it onto the canvas.",
+      "narrator": "LeNet-5",
+      "addNodes": [
+        {
+          "id": "0.bine6jk4nlo",
+          "data": {},
+          "identifier": "start",
+          "group_identifier": "model"
+        }
+      ],
+      "addEdges": [],
+      "removeNodes": [],
+      "removeEdges": [],
+      "highlightNodeTypes": [
+        "start"
+      ],
+      "unlockNodes": [
+        {
+          "type": "start",
+          "data": []
+        }
+      ]
+    },
+    {
+      "text": "Connect the start Node to the create Node, making the create Node the first step in the training process.",
+      "narrator": "LeNet-5",
+      "addNodes": [],
+      "addEdges": [
+        {
+            "id": "vueflow__edge-0.bine6jk4nloout-0.bine6jk4nlo-0.fa3nixozo2rin-0.fa3nixozo2r",
+            "type": "smoothstep",
+            "source": "0.bine6jk4nlo",
+            "target": "0.fa3nixozo2r",
+            "sourceHandle": "out-0.bine6jk4nlo",
+            "targetHandle": "in-0.fa3nixozo2r",
+            "data": {},
+            "label": ""
+        }
+      ],
+      "removeNodes": [],
+      "removeEdges": [],
+      "highlightNodeTypes": [],
+      "unlockNodes": []
+    },
+    {
+      "text": "Now, let’s add a compile Node. This will prepare your model for training. Connect the output of the create Node to the input of the Compile Node.",
+      "narrator": "LeNet-5",
+      "addNodes": [
+        {
+          "id": "0.u5vtwtjc8km",
+          "data": {
+            "optimizer": "adam",
+            "loss": "categorical_crossentropy",
+            "metrics": [
+              "accuracy"
+            ],
+            "name": "model"
+          },
+          "identifier": "compile",
+          "group_identifier": "model"
+        }
+      ],
+      "addEdges": [
+        {
+            "id": "vueflow__edge-0.fa3nixozo2rout-0.fa3nixozo2r-0.u5vtwtjc8kmin-0.u5vtwtjc8km",
+            "type": "smoothstep",
+            "source": "0.fa3nixozo2r",
+            "target": "0.u5vtwtjc8km",
+            "sourceHandle": "out-0.fa3nixozo2r",
+            "targetHandle": "in-0.u5vtwtjc8km",
+            "data": {},
+            "label": ""
+        }
+      ],
+      "removeNodes": [],
+      "removeEdges": [],
+      "highlightNodeTypes": [
+        "compile"
+      ],
+      "unlockNodes": [
+        {
+          "type": "compile",
+          "data": [
+            "loss"
+          ]
+        }
+      ]
+    },
+    {
+      "text": "In the compile Node settings, set the loss to SparseCategoricalCrossentropy and select the Accuracy metric. These settings will help the model learn and evaluate its performance effectively.",
+      "narrator": "LeNet-5",
+      "addNodes": [
+        {
+          "id": "0.u5vtwtjc8km",
+          "data": {
+            "optimizer": "adam",
+            "loss": "sparse_categorical_crossentropy",
+            "metrics": [
+              "accuracy"
+            ],
+            "name": "model"
+          },
+          "identifier": "compile",
+          "group_identifier": "model"
+        }
+      ],
+      "addEdges": [],
+      "removeNodes": [],
+      "removeEdges": [],
+      "highlightNodeTypes": [],
+      "unlockNodes": []
+    },
+    {
+      "text": "Next, add a fit Node from the toolbar. Connect the output of the Compile Node to the input of the Fit Node.",
+      "narrator": "LeNet-5",
+      "addNodes": [
+        {
+          "id": "0.vlbi27rft9",
+          "data": {
+            "epochs": 1,
+            "name": "model"
+          },
+          "identifier": "fit",
+          "group_identifier": "model"
+        }
+      ],
+      "addEdges": [
+        {
+            "id": "vueflow__edge-0.u5vtwtjc8kmout-0.u5vtwtjc8km-0.vlbi27rft9in-0.vlbi27rft9",
+            "type": "smoothstep",
+            "source": "0.u5vtwtjc8km",
+            "target": "0.vlbi27rft9",
+            "sourceHandle": "out-0.u5vtwtjc8km",
+            "targetHandle": "in-0.vlbi27rft9",
+            "data": {},
+            "label": ""
+        }
+      ],
+      "removeNodes": [],
+      "removeEdges": [],
+      "highlightNodeTypes": [
+        "fit"
+      ],
+      "unlockNodes": [
+        {
+          "type": "fit",
+          "data": [
+            "epochs",
+            "name"
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Now connect the x input of the fit Node to the train output of the MNIST dataset. This ensures that your model will use the training data from MNIST.",
+      "narrator": "LeNet-5",
+      "addNodes": [],
+      "addEdges": [
+        {
+          "id": "vueflow__edge-0.vlbi27rft9val-x-0.vlbi27rft9-0.bgzgmujt7voval-train-0.bgzgmujt7vo",
+          "type": "smoothstep",
+          "source": "0.vlbi27rft9",
+          "target": "0.bgzgmujt7vo",
+          "sourceHandle": "val-x-0.vlbi27rft9",
+          "targetHandle": "val-train-0.bgzgmujt7vo",
+          "data": {
+            "key": "x"
+          },
+          "label": ""
+        }
+      ],
+      "removeNodes": [],
+      "removeEdges": [],
+      "highlightNodeTypes": [],
+      "unlockNodes": []
+    },
+    {
+      "text": "Fantastic! Hit the big Start Training button at the top of the screen to kick off the training process.",
+      "narrator": "LeNet-5",
+      "addNodes": [],
+      "addEdges": [],
+      "removeNodes": [],
+      "removeEdges": [],
+      "highlightNodeTypes": [],
+      "unlockNodes": []
+    },
+    {
+      "text": "The most important thing to watch is the accuracy, located to the right of the Start Training button. This percentage tells you how many digits the model correctly recognized. The higher the accuracy, the better your model has learned to recognize digits in the training data. Looks like you’re on track to get some great results!",
+      "narrator": "LeNet-5",
+      "addNodes": [],
+      "addEdges": [],
+      "removeNodes": [],
+      "removeEdges": [],
+      "highlightNodeTypes": [],
+      "unlockNodes": []
+    },
+    {
+      "text": "And that’s a wrap! You’ve successfully trained your first neural network! Congratulations! In the next tutorial, we’ll dive into how to visualize the results and understand how well your model has performed.",
+      "narrator": "LeNet-5",
+      "addNodes": [],
+      "addEdges": [],
+      "removeNodes": [],
+      "removeEdges": [],
+      "highlightNodeTypes": [],
+      "unlockNodes": []
+    }
+  ]
+}
