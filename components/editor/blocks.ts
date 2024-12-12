@@ -778,13 +778,6 @@ export const blocks = [
     group_identifier: "model",
     nodes: [
       {
-        type: "start",
-        name: "start",
-        description: "Model entrypoint.",
-        identifier: "start",
-        data: {},
-      },
-      {
         type: "create",
         name: "create",
         description: "Create a model.",
