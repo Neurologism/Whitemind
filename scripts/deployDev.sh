@@ -6,7 +6,7 @@ pm2 update
 pm2 delete whitemind-server
 git reset --hard
 git clean -f
-git checkout developement
+git checkout development
 git pull
 pnpm install
 NODE_OPTIONS="--max-old-space-size=2048"
