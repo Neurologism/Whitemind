@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 
-export const useSessionStore = defineStore({
-  id: "sessionData",
+export const useSessionStore = defineStore("sessionStore", {
   state: () => ({
     sessionData: ref({
       sessionStart: Date(),
