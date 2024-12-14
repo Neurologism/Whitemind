@@ -1,6 +1,6 @@
 export const blocks = [
   {
-    name: "layer",
+    name: "LAYERS",
     icon: "mdi-test-tube",
     color: "green",
     group_identifier: "layer",
@@ -728,7 +728,7 @@ export const blocks = [
     ],
   },
   {
-    name: "dataset",
+    name: "DATASETS",
     icon: "mdi-database",
     color: "blue",
     group_identifier: "dataset",
@@ -771,7 +771,7 @@ export const blocks = [
     ],
   },
   {
-    name: "model",
+    name: "MODELS",
     icon: "mdi-cube",
     color: "teal",
     group_identifier: "model",
