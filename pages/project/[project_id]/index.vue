@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { useSessionStore } from "~/stores/SessionStore";
-import { useProjectStore } from "~/stores/ProjectStore";
-import { ref } from "vue";
-import { VueFlow, useVueFlow, Panel } from "@vue-flow/core";
-import Sidebar from "~/components/editor/Sidebar.vue";
+import { useSessionStore } from '~/stores/SessionStore';
+import { useProjectStore } from '~/stores/ProjectStore';
+import { ref } from 'vue';
+import { VueFlow, useVueFlow, Panel } from '@vue-flow/core';
+import Sidebar from '~/components/editor/Sidebar.vue';
 // import { MiniMap } from "@vue-flow/minimap";
-import "@vue-flow/minimap/dist/style.css";
-import { CustomNodes } from "~/components/editor/customNodeList";
-import { Background } from "@vue-flow/background";
-import CustomNode from "~/components/editor/CustomNode.vue";
-import ProjectHeader from "~/components/editor/ProjectHeader.vue";
-import IdConnectionEdge from "~/components/editor/IdConnectionEdge.vue";
-import TrainingBlock from "~/components/editor/TrainingHeader.vue";
-import { SyncStatus } from "~/components/editor/syncStatus";
-import Assistant from "~/components/editor/Assistant.vue";
+import '@vue-flow/minimap/dist/style.css';
+import { CustomNodes } from '~/components/editor/customNodeList';
+import { Background } from '@vue-flow/background';
+import CustomNode from '~/components/editor/CustomNode.vue';
+import ProjectHeader from '~/components/editor/ProjectHeader.vue';
+import IdConnectionEdge from '~/components/editor/IdConnectionEdge.vue';
+import TrainingBlock from '~/components/editor/TrainingHeader.vue';
+import { SyncStatus } from '~/components/editor/syncStatus';
+import Assistant from '~/components/editor/Assistant.vue';
 const toast = useToast();
 const colorMode = useColorMode();
 
@@ -21,14 +21,14 @@ const sessionStore = useSessionStore();
 const projectStore = useProjectStore();
 
 definePageMeta({
-  layout: "project",
+  layout: 'project',
 });
 const route = useRoute();
 const projectId = route.params.project_id;
 
 const nodes = ref([]);
 const edges = ref([]);
-const title = ref("Loading...");
+const title = ref('Loading...');
 
 const syncStatus = ref<SyncStatus>(SyncStatus.initializing);
 
@@ -45,7 +45,7 @@ const {
 } = useVueFlow();
 
 function handleDrop(event: DragEvent) {
-  const nodeTypeString = event.dataTransfer?.getData("node") ?? "";
+  const nodeTypeString = event.dataTransfer?.getData('node') ?? '';
   const nodeType = CustomNodes.getCustomNodeConfig(nodeTypeString);
   if (!nodeType) return;
 
@@ -63,7 +63,7 @@ function handleDrop(event: DragEvent) {
 
 function setClipboard(data: string) {
   navigator.clipboard.writeText(data).then(() => {
-    toast.add({ title: "Copied to clipboard!" });
+    toast.add({ title: 'Copied to clipboard!' });
   });
 }
 
@@ -73,30 +73,30 @@ function jsonButtonPressed() {
 }
 
 onMounted(() => {
-  const projectHeader = document.getElementById("project_header");
-  const appFooter = document.getElementById("app_footer");
+  const projectHeader = document.getElementById('project_header');
+  const appFooter = document.getElementById('app_footer');
   if (projectHeader && appFooter) {
     document.documentElement.style.setProperty(
-      "--project-header-height",
-      `${projectHeader.offsetHeight}px`,
+      '--project-header-height',
+      `${projectHeader.offsetHeight}px`
     );
     document.documentElement.style.setProperty(
-      "--app-footer-height",
-      `${appFooter.offsetHeight}px`,
+      '--app-footer-height',
+      `${appFooter.offsetHeight}px`
     );
   }
 });
 
 onConnect((params) => {
   // @ts-ignore
-  params.type = "smoothstep";
-  if (params.sourceHandle?.startsWith("val-")) {
+  params.type = 'smoothstep';
+  if (params.sourceHandle?.startsWith('val-')) {
     console.log();
     // @ts-ignore
     params.data = {
       key: params.sourceHandle?.slice(
         4,
-        params.sourceHandle.length - params.source.length - 1,
+        params.sourceHandle.length - params.source.length - 1
       ),
     };
   }
@@ -107,7 +107,7 @@ async function loadProject() {
   await sessionStore.checkSession(true);
   const project = await projectStore.fetchProject(
     projectId as string,
-    sessionStore.fetch,
+    sessionStore.fetch
   );
   let components;
   if (!project.components) {
@@ -121,14 +121,14 @@ async function loadProject() {
   const loadResult = await fromObject(components);
   if (!loadResult) {
     toast.add({
-      title: "Failed to load project",
-      icon: "mdi-alert-circle",
-      color: "red",
+      title: 'Failed to load project',
+      icon: 'mdi-alert-circle',
+      color: 'red',
     });
     syncStatus.value = SyncStatus.error;
   } else {
     title.value = project.name;
-    toast.add({ title: "Project loaded", icon: "mdi-check", color: "green" });
+    toast.add({ title: 'Project loaded', icon: 'mdi-check', color: 'green' });
     syncStatus.value = SyncStatus.synced;
   }
 }
@@ -139,13 +139,13 @@ async function postProject() {
   const success = await projectStore.updateProjectComponents(
     projectId as string,
     object,
-    sessionStore.fetch,
+    sessionStore.fetch
   );
   if (!success) {
     toast.add({
-      title: "Failed to sync project",
-      icon: "mdi-alert-circle",
-      color: "red",
+      title: 'Failed to sync project',
+      icon: 'mdi-alert-circle',
+      color: 'red',
     });
     syncStatus.value = SyncStatus.error;
   } else {
@@ -165,7 +165,7 @@ function setInterval() {
 }
 
 const projectOwner = computed(
-  () => sessionStore.sessionData.user.displayname ?? "Loading...",
+  () => sessionStore.sessionData.user.displayname ?? 'Loading...'
 );
 
 loadProject();
@@ -176,14 +176,14 @@ watch(
   () => {
     setInterval();
   },
-  { deep: true },
+  { deep: true }
 );
 watch(
   getEdges,
   () => {
     setInterval();
   },
-  { deep: true },
+  { deep: true }
 );
 </script>
 
@@ -284,7 +284,7 @@ watch(
 </template>
 
 <style>
-@import "@vue-flow/core/dist/style.css";
+@import '@vue-flow/core/dist/style.css';
 
 :root {
   --project-header-height: 0;

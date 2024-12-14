@@ -1,13 +1,13 @@
 <script setup lang="ts">
-const emit = defineEmits(["click-theme"]);
+const emit = defineEmits(['click-theme']);
 
 const colorMode = useColorMode();
 const isDark = computed({
   get() {
-    return colorMode.value === "dark";
+    return colorMode.value === 'dark';
   },
   set() {
-    colorMode.preference = colorMode.value === "dark" ? "light" : "dark";
+    colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark';
   },
 });
 
@@ -22,18 +22,18 @@ const props = defineProps<{
 
 const breadcrumbSettings = computed(() => [
   {
-    label: "Whitemind",
-    icon: "i-heroicons-home",
-    to: "/",
+    label: 'Whitemind',
+    icon: 'i-heroicons-home',
+    to: '/',
   },
   {
     label: props.projectOwner,
-    icon: "i-heroicons-user",
-    to: "/profile",
+    icon: 'i-heroicons-user',
+    to: '/profile',
   },
   {
     label: props.projectTitle,
-    icon: "i-heroicons-folder",
+    icon: 'i-heroicons-folder',
   },
 ]);
 </script>

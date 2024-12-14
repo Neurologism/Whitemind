@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { CustomNodes } from "~/components/editor/customNodeList";
-import type { ButtonColor } from "#ui/types";
+import { CustomNodes } from '~/components/editor/customNodeList';
+import type { ButtonColor } from '#ui/types';
 
 const isOpen = ref(false);
 
@@ -8,12 +8,12 @@ const selectedCategory = ref(0);
 
 function handleDragStart(event: DragEvent, nodeType: string) {
   isOpen.value = false;
-  console.log("setting data to: ", nodeType);
-  event.dataTransfer!.setData("node", nodeType);
+  console.log('setting data to: ', nodeType);
+  event.dataTransfer!.setData('node', nodeType);
 }
 
 function searchButtonClicked() {
-  alert("Not here jet");
+  alert('Not here jet');
 }
 </script>
 

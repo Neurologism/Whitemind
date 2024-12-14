@@ -1,23 +1,23 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: "2024-04-03",
+  compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   devServer: {
     port: 8000,
   },
   routeRules: {
     // Render these routes with SPA
-    "/project/**": { ssr: false },
+    '/project/**': { ssr: false },
   },
-  modules: ["@nuxt/ui", "@pinia/nuxt", "@nuxt/icon", "@nuxtjs/tailwindcss"],
-  css: ["~/assets/css/tailwind.css", "animate.css"],
+  modules: ['@nuxt/ui', '@pinia/nuxt', '@nuxt/icon', '@nuxtjs/tailwindcss'],
+  css: ['~/assets/css/tailwind.css', 'animate.css'],
   colorMode: {
-    preference: "dark",
+    preference: 'dark',
   },
   runtimeConfig: {
     public: {
       backmindHost:
-        process.env.BACKMIND_HOST || "https://backmind.icinoxis.net",
+        process.env.BACKMIND_HOST || 'https://backmind.icinoxis.net',
     },
   },
 });

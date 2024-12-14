@@ -1,6 +1,6 @@
 <script setup>
-import { getBezierPath, SmoothStepEdge } from "@vue-flow/core";
-import { computed } from "vue";
+import { getBezierPath, SmoothStepEdge } from '@vue-flow/core';
+import { computed } from 'vue';
 
 const props = defineProps({
   id: {

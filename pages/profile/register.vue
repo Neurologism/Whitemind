@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { useSessionStore } from "~/stores/SessionStore";
+import { ref } from 'vue';
+import { useSessionStore } from '~/stores/SessionStore';
 
 const sessionStore = useSessionStore();
 
-const username = ref("");
+const username = ref('');
 const usernameOrEmailTaken = ref(false);
 
-const email = ref("");
-const password = ref("");
-const password2 = ref("");
+const email = ref('');
+const password = ref('');
+const password2 = ref('');
 
 const legalStuff = ref(false);
 
@@ -24,11 +24,11 @@ function onUsernameOrEmailChange() {
       usernameOrEmailTaken.value = false;
       return;
     }
-    let result = await sessionStore.fetch("/api/user/is-taken", {
-      method: "POST",
-      cache: "no-cache",
+    let result = await sessionStore.fetch('/api/user/is-taken', {
+      method: 'POST',
+      cache: 'no-cache',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         user: {
@@ -47,7 +47,7 @@ const validateEmail = (email: string) => {
       String(email)
         .toLowerCase()
         .match(
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         ) ?? []
     ).length > 0
   );
@@ -78,18 +78,18 @@ const scorePassword = (pass: string): number => {
 };
 
 const getPasswordColor = (score: number) => {
-  if (score < 0.3) return "red";
-  if (score < 0.5) return "orange";
-  if (score < 0.7) return "yellow";
-  return "green";
+  if (score < 0.3) return 'red';
+  if (score < 0.5) return 'orange';
+  if (score < 0.7) return 'yellow';
+  return 'green';
 };
 
 const onRegister = async () => {
-  let response = await sessionStore.fetch("/api/auth/register", {
-    method: "POST",
-    cache: "no-cache",
+  let response = await sessionStore.fetch('/api/auth/register', {
+    method: 'POST',
+    cache: 'no-cache',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       user: {
@@ -100,14 +100,14 @@ const onRegister = async () => {
     }),
   });
   if (response.ok) {
-    console.log("Registration successful");
+    console.log('Registration successful');
     console.log(response.body);
     let data = await response.json();
     console.log(data);
     await sessionStore.loginWithSessionToken(data.token);
-    navigateTo("/projects");
+    navigateTo('/projects');
   } else {
-    console.log("Registration failed");
+    console.log('Registration failed');
   }
 };
 </script>

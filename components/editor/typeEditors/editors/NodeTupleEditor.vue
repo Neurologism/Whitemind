@@ -12,7 +12,7 @@ watch(value, (newVal) => {
     newVal = JSON.parse(newVal);
     props.updateData(props.paramName, newVal);
   } catch (e) {
-    console.info("Did not update data because of invalid JSON");
+    console.info('Did not update data because of invalid JSON');
   }
 });
 </script>

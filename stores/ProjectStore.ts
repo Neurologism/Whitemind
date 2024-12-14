@@ -1,17 +1,17 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
 
-export const useProjectStore = defineStore("projectStore", {
+export const useProjectStore = defineStore('projectStore', {
   state: () => ({
     projects: [
       {
         fetchedTime: new Date(),
         data: {
-          _id: "string",
-          name: "string",
-          description: "string",
-          owner_id: "string",
-          contributors: ["string"],
-          visibility: "private or public",
+          _id: 'string',
+          name: 'string',
+          description: 'string',
+          owner_id: 'string',
+          contributors: ['string'],
+          visibility: 'private or public',
           created_on: 0,
           last_edited: 0,
           components: null,
@@ -35,11 +35,11 @@ export const useProjectStore = defineStore("projectStore", {
       return field?.data ?? null;
     },
     async fetchProject(id: string, fetchFunction: Function) {
-      let response: Response = await fetchFunction("/api/project/get", {
-        method: "POST",
-        cache: "no-cache",
+      let response: Response = await fetchFunction('/api/project/get', {
+        method: 'POST',
+        cache: 'no-cache',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           project: {
@@ -55,14 +55,14 @@ export const useProjectStore = defineStore("projectStore", {
         });
         return data.project;
       } else {
-        console.error("Failed to fetch project.");
+        console.error('Failed to fetch project.');
         return null;
       }
     },
     async updateProjectComponents(
       id: string,
       components: any,
-      fetchFunction: Function,
+      fetchFunction: Function
     ) {
       let project = this.projects.find((project) => project.data._id === id);
       if (!project) return null;
@@ -73,18 +73,18 @@ export const useProjectStore = defineStore("projectStore", {
           components: components,
         },
       });
-      const result = await fetchFunction("/api/project/update", {
-        method: "POST",
-        cache: "no-cache",
+      const result = await fetchFunction('/api/project/update', {
+        method: 'POST',
+        cache: 'no-cache',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: body,
       });
       if (result.ok) {
         return true;
       } else {
-        console.error("Failed to update project.");
+        console.error('Failed to update project.');
         return false;
       }
     },

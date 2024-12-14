@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { useProjectStore } from "~/stores/ProjectStore";
-import { useSessionStore } from "~/stores/SessionStore";
+import { useProjectStore } from '~/stores/ProjectStore';
+import { useSessionStore } from '~/stores/SessionStore';
 
 const sessionStore = useSessionStore();
 const projectStore = useProjectStore();
 
-const data: Ref<(typeof projectStore.projects)[0]["data"] | null> = ref(null);
+const data: Ref<(typeof projectStore.projects)[0]['data'] | null> = ref(null);
 const props = defineProps({
   id: String,
 });
@@ -23,7 +23,7 @@ onMounted(async () => {
     @click="navigateTo(`/project/${props.id}`)"
   >
     <template #header>
-      <h4 class="text-primary">{{ data?.name ?? "" }}</h4>
+      <h4 class="text-primary">{{ data?.name ?? '' }}</h4>
     </template>
 
     <p

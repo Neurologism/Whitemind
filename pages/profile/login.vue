@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { useSessionStore } from "~/stores/SessionStore";
+import { ref } from 'vue';
+import { useSessionStore } from '~/stores/SessionStore';
 const toast = useToast();
 
 const sessionStore = useSessionStore();
 if (sessionStore.doesSessionIdExist) {
-  navigateTo("/profile");
+  navigateTo('/profile');
 }
 
 enum LoginTab {
@@ -16,21 +16,21 @@ enum LoginTab {
 let selectedTab = ref(0);
 const loginTabOptions = [
   {
-    label: "Email",
-    icon: "mdi-email",
+    label: 'Email',
+    icon: 'mdi-email',
   },
   {
-    label: "Username",
-    icon: "mdi-account",
+    label: 'Username',
+    icon: 'mdi-account',
   },
 ];
 const onTabChange = (index: number) => {
   selectedTab.value = index;
 };
 
-const username = ref("");
-const email = ref("");
-const password = ref("");
+const username = ref('');
+const email = ref('');
+const password = ref('');
 
 const validateEmail = (email: string): boolean => {
   return (
@@ -38,18 +38,18 @@ const validateEmail = (email: string): boolean => {
       String(email)
         .toLowerCase()
         .match(
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         ) ?? []
     ).length > 0
   );
 };
 
 const onLogin = async () => {
-  let response = await sessionStore.fetch("/api/auth/login", {
-    method: "POST",
-    cache: "no-cache",
+  let response = await sessionStore.fetch('/api/auth/login', {
+    method: 'POST',
+    cache: 'no-cache',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       user:
@@ -67,13 +67,13 @@ const onLogin = async () => {
   let data = await response.json();
   if (response.ok) {
     await sessionStore.loginWithSessionToken(data.token);
-    window.location.href = "/profile";
+    window.location.href = '/profile';
   } else {
     toast.add({
-      title: "Login failed",
+      title: 'Login failed',
       description: data.msg,
-      color: "red",
-      icon: "mdi-alert-circle",
+      color: 'red',
+      icon: 'mdi-alert-circle',
     });
   }
 };

@@ -1,13 +1,13 @@
 <!-- JS intended -->
 <script setup>
-import NodeStringEditor from "~/components/editor/typeEditors/editors/NodeStringEditor.vue";
+import NodeStringEditor from '~/components/editor/typeEditors/editors/NodeStringEditor.vue';
 
-import { onMounted, onBeforeUnmount } from "vue";
-import NodeBoolEditor from "~/components/editor/typeEditors/editors/NodeBoolEditor.vue";
-import NodeSelectEditor from "~/components/editor/typeEditors/editors/NodeSelectEditor.vue";
-import NodeNumberEditor from "~/components/editor/typeEditors/editors/NodeNumberEditor.vue";
-import NodeTupleEditor from "~/components/editor/typeEditors/editors/NodeTupleEditor.vue";
-import NodeMultiselectEditor from "~/components/editor/typeEditors/editors/NodeMultiselectEditor.vue";
+import { onMounted, onBeforeUnmount } from 'vue';
+import NodeBoolEditor from '~/components/editor/typeEditors/editors/NodeBoolEditor.vue';
+import NodeSelectEditor from '~/components/editor/typeEditors/editors/NodeSelectEditor.vue';
+import NodeNumberEditor from '~/components/editor/typeEditors/editors/NodeNumberEditor.vue';
+import NodeTupleEditor from '~/components/editor/typeEditors/editors/NodeTupleEditor.vue';
+import NodeMultiselectEditor from '~/components/editor/typeEditors/editors/NodeMultiselectEditor.vue';
 
 const props = defineProps({
   paramName: String,
@@ -19,11 +19,11 @@ const props = defineProps({
 const submenuRef = ref(null);
 
 onMounted(() => {
-  document.addEventListener("click", handleClickOutside);
+  document.addEventListener('click', handleClickOutside);
 });
 
 onBeforeUnmount(() => {
-  document.removeEventListener("click", handleClickOutside);
+  document.removeEventListener('click', handleClickOutside);
 });
 
 function handleClickOutside(event) {
@@ -44,12 +44,12 @@ const editors = {
 };
 
 const valueDisplay = computed(() => {
-  if (props.data[props.paramName] === undefined) return "";
-  if (props.data[props.paramName] === null) return "null";
+  if (props.data[props.paramName] === undefined) return '';
+  if (props.data[props.paramName] === null) return 'null';
   const string = `${props.data[props.paramName]}`;
   const exedes = string.length > 20;
   if (!exedes) return string;
-  return string.substring(0, 20) + "...";
+  return string.substring(0, 20) + '...';
 });
 
 const actionRequired = computed({
@@ -93,7 +93,7 @@ function deepEqual(a, b) {
         </div>
         <div class="flex-1 text-end ml-1">
           <span class="text-sky-100 font-mono">{{
-            shapeDefinition.value !== null ? "required" : "optional"
+            shapeDefinition.value !== null ? 'required' : 'optional'
           }}</span>
         </div>
       </div>

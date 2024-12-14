@@ -13,14 +13,14 @@ watch(value, (newVal) => {
 
 const items = [
   {
-    label: "true",
+    label: 'true',
     value: true,
-    icon: "mdi-check",
+    icon: 'mdi-check',
   },
   {
-    label: "false",
+    label: 'false',
     value: false,
-    icon: "mdi-close",
+    icon: 'mdi-close',
   },
 ];
 </script>

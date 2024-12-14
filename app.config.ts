@@ -1,6 +1,6 @@
 export default defineAppConfig({
-  title: "Whitemind",
+  title: 'Whitemind',
   ui: {
-    primary: "customPrimary",
+    primary: 'customPrimary',
   },
 });

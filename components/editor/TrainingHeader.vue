@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { SyncStatus } from "~/components/editor/syncStatus";
-import { useSessionStore } from "~/stores/SessionStore";
-import { useTrainingStore } from "~/stores/TrainingStore";
-import { useToast } from "#ui/composables/useToast";
+import { SyncStatus } from '~/components/editor/syncStatus';
+import { useSessionStore } from '~/stores/SessionStore';
+import { useTrainingStore } from '~/stores/TrainingStore';
+import { useToast } from '#ui/composables/useToast';
 
 const toast = useToast();
 
@@ -18,23 +18,23 @@ async function trainingStart() {
   if (trainingStore.training.running) return;
   const result = await trainingStore.startTraining(
     sessionStore.fetch,
-    props.projectId,
+    props.projectId
   );
   toast.add({
-    icon: "material-symbols:play-circle",
-    title: result.success ? "Training started" : "Training failed",
+    icon: 'material-symbols:play-circle',
+    title: result.success ? 'Training started' : 'Training failed',
     description: result.message ?? undefined,
-    color: result.success ? "green" : "red",
+    color: result.success ? 'green' : 'red',
   });
 }
 
 async function trainingStop() {
   const result = await trainingStore.stopTraining(sessionStore.fetch);
   toast.add({
-    icon: "material-symbols:stop-circle",
-    title: result.success ? "Training stopped" : "Training stop failed",
+    icon: 'material-symbols:stop-circle',
+    title: result.success ? 'Training stopped' : 'Training stop failed',
     description: result.message ?? undefined,
-    color: result.success ? "orange" : "red",
+    color: result.success ? 'orange' : 'red',
   });
 }
 
@@ -43,14 +43,14 @@ async function updateTrainingStatus() {
   if (!trainingStore.training.modelId) return;
   const result = await trainingStore.fetchTrainingStatus(
     sessionStore.fetch,
-    trainingStore.training.modelId,
+    trainingStore.training.modelId
   );
   if (!result.success) {
     toast.add({
-      icon: "material-symbols:stop-circle",
-      title: "Aborting training",
-      description: result.message ?? "Failed to fetch training status",
-      color: "red",
+      icon: 'material-symbols:stop-circle',
+      title: 'Aborting training',
+      description: result.message ?? 'Failed to fetch training status',
+      color: 'red',
     });
     return;
   }
@@ -93,8 +93,8 @@ setInterval(updateTrainingStatus, 1000);
           trainingStore.training.running
             ? (trainingStore.training.data.output[
                 trainingStore.training.data.output.length - 1
-              ] ?? "initializing...")
-            : "No training is happening at the moment."
+              ] ?? 'initializing...')
+            : 'No training is happening at the moment.'
         }}
       </div>
     </div>

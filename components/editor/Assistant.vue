@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref } from 'vue';
 
 const showSpeechBubble = ref(false);
-const speechBubbleContent = ref("Hello! How can I assist you today?");
+const speechBubbleContent = ref('Hello! How can I assist you today?');
 
 function toggleSpeechBubble() {
   showSpeechBubble.value = !showSpeechBubble.value;
@@ -44,7 +44,7 @@ function toggleSpeechBubble() {
 }
 
 .speech-bubble::after {
-  content: "";
+  content: '';
   position: absolute;
   top: 100%;
   right: 10px;

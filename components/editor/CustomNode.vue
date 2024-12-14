@@ -1,13 +1,13 @@
 <!-- JS intended -->
 <script setup>
-import { ref, watch } from "vue";
-import { Handle, Position, useNodesData, useVueFlow } from "@vue-flow/core";
-import { NodeToolbar } from "@vue-flow/node-toolbar";
-import { CustomNodes } from "~/components/editor/customNodeList";
-import NodeValueEditor from "~/components/editor/typeEditors/NodeValueEditor.vue";
+import { ref, watch } from 'vue';
+import { Handle, Position, useNodesData, useVueFlow } from '@vue-flow/core';
+import { NodeToolbar } from '@vue-flow/node-toolbar';
+import { CustomNodes } from '~/components/editor/customNodeList';
+import NodeValueEditor from '~/components/editor/typeEditors/NodeValueEditor.vue';
 const nodeToolbarOpen = ref(false);
 const { updateNodeData } = useVueFlow();
-const props = defineProps(["props", "nodeId"]);
+const props = defineProps(['props', 'nodeId']);
 const nodesData = useNodesData(props.nodeId);
 const data = ref(nodesData.value.data);
 watch(data, (newData) => {
@@ -24,7 +24,7 @@ function dataUpdated(key, value) {
 const actionRequired = computed({
   get: () => {
     for (const [key, shapeDefinition] of Object.entries(shapeData.data)) {
-      if (shapeDefinition.type === "id") continue;
+      if (shapeDefinition.type === 'id') continue;
       const required = !shapeDefinition.value !== undefined;
       if (required && data.value[key] === undefined) {
         return true;

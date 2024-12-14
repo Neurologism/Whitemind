@@ -1,6 +1,6 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
 
-export const useTutorialStore = defineStore("tutorialStore", {
+export const useTutorialStore = defineStore('tutorialStore', {
   state: () => ({
     tutorial: {
       fetchedTime: null as null | Date,
@@ -33,11 +33,11 @@ export const useTutorialStore = defineStore("tutorialStore", {
   getters: {},
   actions: {
     async fetchTutorial(fetchFunction: Function, id: string) {
-      let response: Response = await fetchFunction("/api/tutorial/get", {
-        method: "POST",
-        cache: "no-cache",
+      let response: Response = await fetchFunction('/api/tutorial/get', {
+        method: 'POST',
+        cache: 'no-cache',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           tutorialId: id,
@@ -48,7 +48,7 @@ export const useTutorialStore = defineStore("tutorialStore", {
         let data = await response.json();
         return data.tutorial;
       } else {
-        console.error("Failed to fetch tutorial.");
+        console.error('Failed to fetch tutorial.');
         return null;
       }
     },
@@ -57,7 +57,7 @@ export const useTutorialStore = defineStore("tutorialStore", {
       fetchFunction: Function,
       id: string | null = null,
       setStep: number | null = null,
-      setCompleted: boolean | null = null,
+      setCompleted: boolean | null = null
     ) {
       const body = JSON.stringify({
         tutorialId: id === null ? this.tutorial.data?._id : id,
@@ -68,11 +68,11 @@ export const useTutorialStore = defineStore("tutorialStore", {
             : setCompleted,
       });
 
-      const result = await fetchFunction("/api/tutorial/set-state", {
-        method: "POST",
-        cache: "no-cache",
+      const result = await fetchFunction('/api/tutorial/set-state', {
+        method: 'POST',
+        cache: 'no-cache',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: body,
       });
@@ -80,7 +80,7 @@ export const useTutorialStore = defineStore("tutorialStore", {
       if (result.ok) {
         return true;
       } else {
-        console.error("Failed to update project.");
+        console.error('Failed to update project.');
         return false;
       }
     },
