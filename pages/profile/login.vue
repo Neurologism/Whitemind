@@ -67,7 +67,7 @@ const onLogin = async () => {
   let data = await response.json();
   if (response.ok) {
     await sessionStore.loginWithSessionToken(data.token);
-    window.location.href = '/profile';
+    navigateTo('/profile');
   } else {
     toast.add({
       title: 'Login failed',
