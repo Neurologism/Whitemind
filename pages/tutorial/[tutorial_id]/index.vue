@@ -57,7 +57,7 @@ onMounted(() => {
   <ProjectEditor :project-id="projectId" :tutorial-project="true">
     <template v-slot:bottomright>
       <EditorAssistant>
-        <template v-slot:content> Test </template>
+        <!-- <template v-slot:content> Test </template> -->
       </EditorAssistant>
     </template>
   </ProjectEditor>

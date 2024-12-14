@@ -72,7 +72,7 @@ setInterval(updateTrainingStatus, 1000);
         size="lg"
         variant="solid"
         color="primary"
-        class="hover:scale-105 transition-transform"
+        class="transition-transform"
         :disabled="syncStatus !== SyncStatus.synced"
         >Start Training</UButton
       >
@@ -83,7 +83,7 @@ setInterval(updateTrainingStatus, 1000);
         size="lg"
         variant="solid"
         color="red"
-        class="hover:scale-105 transition-transform"
+        class="transition-transform"
         >Stop Training</UButton
       >
       <div

@@ -19,7 +19,7 @@ onMounted(async () => {
 <template>
   <UCard
     v-if="data"
-    class="transform transition-transform duration-300 hover:scale-105 cursor-pointer"
+    class="transform transition-transform duration-300 cursor-pointer"
     @click="navigateTo(`/project/${props.id}`)"
   >
     <template #header>
@@ -40,7 +40,7 @@ onMounted(async () => {
   </UCard>
   <UCard
     v-else
-    class="transform transition-transform duration-300 hover:scale-105 cursor-pointer"
+    class="transform transition-transform duration-300 cursor-pointer"
   >
     <template #header>
       <h4 class="text-primary">Loading...</h4>

@@ -68,7 +68,7 @@ function deepEqual(a, b) {
   <div ref="submenuRef" style="pointer-events: bounding-box">
     <div
       :style="{ backgroundColor: actionRequired ? 'red' : null }"
-      class="hover:bg-customPrimary-700 hover:scale-105 hover:border-2 hover:rounded transition-transform border-blue-200 p-1 cursor-pointer text-sky-100"
+      class="hover:bg-customPrimary-700 hover:border-2 hover:rounded transition-transform border-blue-200 p-1 cursor-pointer text-sky-100"
       @click="submenuOpen = !submenuOpen"
     >
       <div class="flex">

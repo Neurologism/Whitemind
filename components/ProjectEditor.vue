@@ -216,17 +216,17 @@ watch(
         />
       </div>
       <div class="flex">
-        <UTooltip text="Copy JSON">
+        <!-- <UTooltip text="Copy JSON">
           <UButton
             icon="mdi-json"
             size="xl"
             variant="solid"
             color="primary"
-            class="mr-1 hover:scale-105 transition-transform"
+            class="mr-1 transition-transform"
             @click="jsonButtonPressed"
             square
           />
-        </UTooltip>
+        </UTooltip> -->
         <UTooltip text="Write changes to server">
           <UButton
             :icon="syncStatus"
@@ -241,7 +241,7 @@ watch(
                     ? 'red'
                     : 'gray'
             "
-            class="hover:scale-105 transition-transform"
+            class="transition-transform"
             @click="postProject"
             square
           />

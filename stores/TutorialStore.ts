@@ -33,6 +33,26 @@ export const useTutorialStore = defineStore('tutorialStore', {
   }),
   getters: {},
   actions: {
+    stepForward() {
+      if (this.tutorial.data === null) {
+        return false;
+      }
+      if (this.tutorial.currentStep < this.tutorial.data.steps.length - 1) {
+        this.tutorial.currentStep++;
+        return true;
+      }
+    },
+
+    stepBack() {
+      if (this.tutorial.data === null) {
+        return false;
+      }
+      if (this.tutorial.currentStep > 0) {
+        this.tutorial.currentStep--;
+        return true;
+      }
+    },
+
     async fetchTutorial(fetchFunction: Function, id: string) {
       const response: Response = await fetchFunction('/api/tutorial/get', {
         method: 'POST',

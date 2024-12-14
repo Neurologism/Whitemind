@@ -69,7 +69,7 @@ const links = [
     >
       <template #default="{ link }">
         <span
-          class="hover:scale-105 group-hover:text-primary relative hidden md:block first:text-xl first:font-semibold first:dark:text-white first:dark:group-hover:text-white"
+          class="group-hover:text-primary relative hidden md:block first:text-xl first:font-semibold first:dark:text-white first:dark:group-hover:text-white"
           >{{
             link.label === 'USERNAME'
               ? (sessionStore.sessionData.user.displayname ?? 'Login')

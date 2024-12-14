@@ -38,7 +38,7 @@ const actionRequired = computed({
 <template>
   <NodeToolbar :position="Position.Right" :is-visible="nodeToolbarOpen">
     <div
-      :class="`hover:scale-105 sized-params bg-customPrimary-950 border-2 border-blue-200 rounded animate__animated animate__fadeIn`"
+      :class="`sized-params bg-customPrimary-950 border-2 border-blue-200 rounded animate__animated animate__fadeIn`"
     >
       <div
         v-for="(shapeDefinition, key) in shapeData.data"
@@ -71,7 +71,7 @@ const actionRequired = computed({
       </div>
       <div v-for="(shapeDefinition, key) in shapeData.data">
         <div
-          class="m-3 grid grid-cols-1 items-center justify-between bg-amber-500 font-mono text-sm rounded border-2 border-solid border-gray-900 hover:scale-105 relative p-1"
+          class="m-3 grid grid-cols-1 items-center justify-between bg-amber-500 font-mono text-sm rounded border-2 border-solid border-gray-900 relative p-1"
           v-if="shapeDefinition.type === 'id'"
         >
           {{ key }}

@@ -29,7 +29,7 @@ function searchButtonClicked() {
         size="xl"
         variant="outline"
         @click="searchButtonClicked"
-        class="hover:scale-105 transition-transform mb-2"
+        class="transition-transform mb-2"
       />
     </div>
     <UDivider />
@@ -48,7 +48,7 @@ function searchButtonClicked() {
               square
               :variant="selectedCategory === index ? 'solid' : 'outline'"
               @click="selectedCategory = index"
-              class="hover:scale-105 transition-transform"
+              class="transition-transform"
             />
           </UTooltip>
         </div>
@@ -63,7 +63,7 @@ function searchButtonClicked() {
         <div
           v-for="node in CustomNodes.nodesList[selectedCategory].nodes"
           :key="node.type"
-          class="flex-1 items-center m-3 cursor-grab border p-2 rounded-lg hover:scale-105 transition-transform"
+          class="flex-1 items-center m-3 cursor-grab border p-2 rounded-lg transition-transform"
           :style="{
             borderColor: CustomNodes.nodesList[selectedCategory].color,
             width: '300px',
