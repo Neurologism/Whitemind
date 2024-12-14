@@ -11,7 +11,20 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  tutorialProject: {
+    type: Boolean,
+    default: false,
+  },
 });
+
+watch(
+  () => props.projectId,
+  () => {
+    console.log('Project ID changed');
+    loadProject();
+  },
+  { deep: true }
+);
 
 const toast = useToast();
 const colorMode = useColorMode();
@@ -121,7 +134,9 @@ async function loadProject() {
     syncStatus.value = SyncStatus.error;
   } else {
     title.value = project.name;
-    toast.add({ title: 'Project loaded', icon: 'mdi-check', color: 'green' });
+    if (!props.tutorialProject) {
+      toast.add({ title: 'Project loaded', icon: 'mdi-check', color: 'green' });
+    }
     syncStatus.value = SyncStatus.synced;
   }
 }
@@ -161,20 +176,27 @@ const projectOwner = computed(
   () => sessionStore.sessionData.user.displayname ?? 'Loading...'
 );
 
-loadProject();
+if (props.projectId !== '') {
+  loadProject();
+}
 
 // save to server 5 seconds after last edit
 watch(
   getNodes,
   () => {
-    setInterval();
+    if (props.projectId !== '') {
+      setInterval();
+    }
   },
   { deep: true }
 );
+
 watch(
   getEdges,
   () => {
-    setInterval();
+    if (props.projectId !== '') {
+      setInterval();
+    }
   },
   { deep: true }
 );
@@ -260,7 +282,7 @@ watch(
         </Panel>
         <Panel position="bottom-right">
           <div>
-            <slot name="bottom-right" />
+            <slot name="bottomright"></slot>
           </div>
         </Panel>
         <!--        <MiniMap zoomable node-color="black" mask-color="rgba(56,56,56,0.5)" />-->
