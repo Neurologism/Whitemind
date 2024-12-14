@@ -81,7 +81,7 @@ export const useSessionStore = defineStore('sessionStore', {
         console.log(data);
         this.sessionData.user = data.user;
         localStorage.setItem('sessionData', JSON.stringify(this.sessionData));
-        //navigateTo('/projects');
+        navigateTo('/projects');
       } else {
         this.sessionData.sessionID = '';
         console.error(
