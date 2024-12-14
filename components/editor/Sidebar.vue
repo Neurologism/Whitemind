@@ -19,7 +19,7 @@ function searchButtonClicked() {
 
 <template>
   <div
-    class="rounded-xl border-2 border-customPrimary-900 bg-customPrimary-950 p-4 pb-8"
+    class="rounded-xl border-2 border-customPrimary-900 bg-customPrimary-950 p-4 pb-8 text-white"
     style="height: 100%"
   >
     <div class="flex">
