@@ -25,15 +25,17 @@ export const useTutorialStore = defineStore('tutorialStore', {
           unlockNodes: any[];
           trainingEnabled: boolean;
         }[];
-        tutorialCompleted: boolean;
-        tutorialStarted: boolean;
       } | null,
+      tutorialCompleted: false as boolean,
+      tutorialStarted: false as boolean,
+      projectId: null as string | null,
+      currentStep: 0 as number,
     },
   }),
   getters: {},
   actions: {
     async fetchTutorial(fetchFunction: Function, id: string) {
-      let response: Response = await fetchFunction('/api/tutorial/get', {
+      const response: Response = await fetchFunction('/api/tutorial/get', {
         method: 'POST',
         cache: 'no-cache',
         headers: {
@@ -45,30 +47,40 @@ export const useTutorialStore = defineStore('tutorialStore', {
       });
 
       if (response.ok) {
-        let data = await response.json();
-        return data.tutorial;
+        const data = await response.json();
+        console.log(data);
+        return data;
       } else {
         console.error('Failed to fetch tutorial.');
         return null;
       }
     },
 
-    async tutorialSetState(
-      fetchFunction: Function,
-      id: string | null = null,
-      setStep: number | null = null,
-      setCompleted: boolean | null = null
-    ) {
+    async getTutorial(fetchFunction: Function, id: string) {
+      const fetchResponse = await this.fetchTutorial(fetchFunction, id);
+
+      if (fetchResponse) {
+        this.tutorial.fetchedTime = new Date();
+
+        this.tutorial.data = fetchResponse.tutorial;
+        this.tutorial.tutorialCompleted = fetchResponse.tutorialCompleted;
+        this.tutorial.tutorialStarted = fetchResponse.tutorialStarted;
+        this.tutorial.currentStep = fetchResponse.currentStep;
+        this.tutorial.projectId = fetchResponse.projectId;
+        return true;
+      } else {
+        return false;
+      }
+    },
+
+    async tutorialSetState(fetchFunction: Function, id: string | null = null) {
       const body = JSON.stringify({
         tutorialId: id === null ? this.tutorial.data?._id : id,
-        step: setStep === null ? this.tutorial.data?.steps.length : setStep,
-        completed:
-          setCompleted === null
-            ? this.tutorial.data?.tutorialCompleted
-            : setCompleted,
+        setStep: this.tutorial.currentStep,
+        setCompleted: this.tutorial.tutorialCompleted,
       });
 
-      const result = await fetchFunction('/api/tutorial/set-state', {
+      const response = await fetchFunction('/api/tutorial/set-state', {
         method: 'POST',
         cache: 'no-cache',
         headers: {
@@ -77,10 +89,14 @@ export const useTutorialStore = defineStore('tutorialStore', {
         body: body,
       });
 
-      if (result.ok) {
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        this.tutorial.projectId = data.projectId;
+        console.log(this.tutorial.projectId);
         return true;
       } else {
-        console.error('Failed to update project.');
+        console.error('Failed to update tutorial.');
         return false;
       }
     },
