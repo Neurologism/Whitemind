@@ -9,20 +9,21 @@ if (sessionStore.doesSessionIdExist) {
 }
 
 enum LoginTab {
-  EMAIL = 0,
-  USERNAME = 1,
+  EMAIL = 1,
+  USERNAME = 0,
 }
 
 let selectedTab = ref(0);
 const loginTabOptions = [
   {
-    label: "Email",
-    icon: "mdi-email",
-  },
-  {
     label: "Username",
     icon: "mdi-account",
   },
+  {
+    label: "Email",
+    icon: "mdi-email",
+  },
+
 ];
 const onTabChange = (index: number) => {
   selectedTab.value = index;
@@ -149,8 +150,8 @@ const onLogin = async () => {
             block
             :disabled="
               !password ||
-              (!validateEmail(email) && selectedTab == 0) ||
-              (username.length < 3 && selectedTab == 1)
+              (!validateEmail(email) && selectedTab == 1) ||
+              (username.length < 3 && selectedTab == 0)
             "
             color="primary"
             @click="onLogin"
