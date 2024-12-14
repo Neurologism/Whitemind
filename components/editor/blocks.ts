@@ -752,6 +752,21 @@ export const blocks = [
         },
       },
       {
+        type: "wine_quality",
+        name: "Wine Quality",
+        description: "Load the Wine Quality dataset.",
+        identifier: "dataset_wine_quality",
+        data: {
+          batch_size: {
+            type: "number",
+            value: 32,
+          },
+          train: {
+            type: "id",
+          },
+        },
+      },
+      {
         type: "split",
         name: "Split",
         description: "Split the dataset into two parts.",
