@@ -12,7 +12,6 @@ export const useTutorialStore = defineStore('tutorialStore', {
         requiredTutorials: string[];
         nextTutorials: string[];
         experienceGain: number;
-        startproject: string;
         unlockNodes: string[];
         steps: {
           text: string;
