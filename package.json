@@ -8,12 +8,13 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "pretty": "prettier --write .",
+    "format": "prettier --write .",
     "start": "pm2 start .output/server/index.mjs -i 0 --name whitemind-server",
-    "stop": "pm2 stop whitemind-server"
+    "stop": "pm2 stop whitemind-server",
+    "prepare": "husky"
   },
   "dependencies": {
-    "@nuxt/icon": "^1.9.0",
+    "@nuxt/icon": "^1.9.1",
     "@nuxt/ui": "^2.19.2",
     "@pinia/nuxt": "^0.5.5",
     "@volar/language-server": "2.4.0-alpha.18",
@@ -25,7 +26,7 @@
     "animate.css": "^4.1.1",
     "interactjs": "^1.10.27",
     "nuxt": "^3.14.1592",
-    "prettier": "^3.4.1",
+    "prettier": "^3.4.2",
     "vue": "latest",
     "vue-multiselect": "^3.1.0",
     "vue-router": "latest",
@@ -34,11 +35,12 @@
   "packageManager": "pnpm@9.10.0+sha512.73a29afa36a0d092ece5271de5177ecbf8318d454ecd701343131b8ebc0c1a91c487da46ab77c8e596d6acf1461e3594ced4becedf8921b074fbd8653ed7051c",
   "devDependencies": {
     "@iconify-json/heroicons": "^1.2.1",
-    "@iconify-json/material-symbols": "^1.2.8",
+    "@iconify-json/material-symbols": "^1.2.9",
     "@iconify-json/mdi": "^1.2.1",
     "@iconify-json/svg-spinners": "^1.2.1",
     "autoprefixer": "^10.4.20",
+    "husky": "^9.1.7",
     "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.15"
+    "tailwindcss": "^3.4.16"
   }
 }

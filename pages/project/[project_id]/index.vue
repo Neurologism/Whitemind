@@ -270,7 +270,7 @@ watch(
             <Assistant />
           </div>
         </Panel>
-<!--        <MiniMap zoomable node-color="black" mask-color="rgba(56,56,56,0.5)" />-->
+        <!--        <MiniMap zoomable node-color="black" mask-color="rgba(56,56,56,0.5)" />-->
         <template
           v-for="node in CustomNodes.nodesList.flatMap((group) => group.nodes)"
           :key="node.type"

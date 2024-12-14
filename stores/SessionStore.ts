@@ -1,7 +1,5 @@
 import { defineStore } from "pinia";
 
-const apiServerURL = "http://localhost:3000";
-
 export const useSessionStore = defineStore({
   id: "sessionData",
   state: () => ({
@@ -51,8 +49,9 @@ export const useSessionStore = defineStore({
       url: string | URL | globalThis.Request,
       options: RequestInit = {},
     ): Promise<Response> {
+      const backmindHost = useRuntimeConfig().public.backmindHost as string;
       if (url.toString().startsWith("/")) {
-        url = new URL(url.toString(), apiServerURL);
+        url = new URL(url.toString(), backmindHost);
       } else {
         console.warn(
           `Sending session based fetch request to specified API server : ${url.toString()}`,

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const showSpeechBubble = ref(false);
 const speechBubbleContent = ref("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
@@ -10,9 +10,19 @@ function toggleSpeechBubble() {
 </script>
 
 <template>
-  <div class="relative rounded-full w-12 h-12 border flex items-center justify-center" @click="toggleSpeechBubble">
-    <img src="/assets/img/test.jpg" alt="Assistant" class="w-full h-full object-cover rounded-full" />
-    <div v-if="showSpeechBubble" class="speech-bubble border-2 border-customPrimary-900">
+  <div
+    class="relative rounded-full w-12 h-12 border flex items-center justify-center"
+    @click="toggleSpeechBubble"
+  >
+    <img
+      src="/assets/img/test.jpg"
+      alt="Assistant"
+      class="w-full h-full object-cover rounded-full"
+    />
+    <div
+      v-if="showSpeechBubble"
+      class="speech-bubble border-2 border-customPrimary-900"
+    >
       {{ speechBubbleContent }}
     </div>
   </div>
@@ -33,7 +43,7 @@ function toggleSpeechBubble() {
 }
 
 .speech-bubble::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 100%;
   right: 10px;

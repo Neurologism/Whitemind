@@ -83,7 +83,7 @@ const onLogin = async () => {
 <template>
   <div class="flex w-screen justify-center flex-row conte">
     <div
-      class="md:basis-2/3 lg:basis-2/5 sm:basis-full basis-full dark:divide-slate-700 mx-5"
+      class="md:basis-4/5 lg:basis-3/5 xl:basis-2/5 basis-full dark:divide-slate-700 mx-5"
     >
       <UCard class="sm:m-10 m-2 mt-10">
         <template #header>
