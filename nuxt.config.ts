@@ -6,8 +6,8 @@ export default defineNuxtConfig({
     port: 8000,
   },
   routeRules: {
-    // Render these routes with SPA
     '/project/**': { ssr: false },
+    '/tutorial/**': { ssr: false },
   },
   modules: ['@nuxt/ui', '@pinia/nuxt', '@nuxt/icon', '@nuxtjs/tailwindcss'],
   css: ['~/assets/css/tailwind.css', 'animate.css'],
