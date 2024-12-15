@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const emit = defineEmits(['click-theme']);
 
+const isOpen = ref(false);
+
 const colorMode = useColorMode();
 const isDark = computed({
   get() {
@@ -63,9 +65,12 @@ const breadcrumbSettings = computed(() => [
           <UIcon name="fluent:dark-theme-20-filled" />
         </div>
         <UTooltip class="ml-3" :text="`Show profile (${props.projectOwner})`">
-          <ULink to="/profile">
+          <!-- <ULink to="/profile">
+          </ULink> -->
+          <UButton variant="ghost" @click="isOpen = !isOpen">
             <UAvatar size="md" :alt="projectOwner" />
-          </ULink>
+          </UButton>
+          <ProfileSlideover v-model="isOpen" />
         </UTooltip>
       </div>
     </div>
