@@ -39,6 +39,30 @@ export const useSessionStore = defineStore('sessionStore', {
     isProd: () => import.meta.env.PROD,
   },
   actions: {
+    async signOut() {
+      const toast = useToast();
+
+      this.sessionData.sessionID = '';
+      this.sessionData.user = {
+        _id: null,
+        brainetTag: null,
+        emails: null,
+        aboutYou: null,
+        displayname: null,
+        dateOfBirth: undefined,
+        visibility: null,
+        followerIds: null,
+        followingIds: null,
+        projectIds: null,
+      };
+      localStorage.setItem('sessionData', JSON.stringify(this.sessionData));
+      navigateTo('/');
+
+      toast.add({
+        title: 'Signed out',
+      });
+    },
+
     /**
      * Fetches a URL, adding the Authorization header with the session ID
      * @param url The URL to fetch
