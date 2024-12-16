@@ -159,11 +159,13 @@ const onLogin = async () => {
           </UButton>
         </div>
         <template #footer>
-          <div class="flex justify-between">
-            <ULink to="/profile/register" class="text-blue-500 hover:underline"
-              >Don't have an account yet? Create on here!</ULink
-            >
-          </div>
+          Don't have an account yet?
+          <ULink
+            to="/profile/register"
+            class="text-blue-500 hover:underline ml-1"
+          >
+            Sign up</ULink
+          >
         </template>
       </UCard>
       <div></div>

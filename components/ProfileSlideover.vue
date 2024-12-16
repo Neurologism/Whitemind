@@ -101,7 +101,12 @@ watch(isOpen, (newValue) => {
           color="gray"
           size="md"
           class="w-full"
-          @click="sessionStore.signOut"
+          @click="
+            () => {
+              isOpen = false;
+              sessionStore.signOut();
+            }
+          "
         >
           Sign out
         </UButton>

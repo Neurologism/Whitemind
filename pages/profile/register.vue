@@ -245,11 +245,10 @@ const onRegister = async () => {
           </UButton>
         </div>
         <template #footer>
-          <div class="flex justify-between">
-            <ULink to="/profile/login" class="text-blue-500 hover:underline"
-              >Already have an account? Login here!</ULink
-            >
-          </div>
+          Already have an account?
+          <ULink to="/profile/login" class="text-blue-500 hover:underline ml-1">
+            Login</ULink
+          >
         </template>
       </UCard>
       <div></div>

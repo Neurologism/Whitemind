@@ -9,7 +9,13 @@ export default defineNuxtConfig({
     '/project/**': { ssr: false },
     '/tutorial/**': { ssr: false },
   },
-  modules: ['@nuxt/ui', '@pinia/nuxt', '@nuxt/icon', '@nuxtjs/tailwindcss'],
+  modules: [
+    '@nuxt/ui',
+    '@pinia/nuxt',
+    '@nuxt/icon',
+    '@nuxtjs/tailwindcss',
+    '@nuxt/image',
+  ],
   css: ['~/assets/css/tailwind.css', 'animate.css'],
   colorMode: {
     preference: 'dark',
