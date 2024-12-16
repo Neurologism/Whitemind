@@ -298,7 +298,7 @@ watch(
   </div>
 </template>
 
-<style>
+<style scoped>
 @import '@vue-flow/core/dist/style.css';
 
 :root {

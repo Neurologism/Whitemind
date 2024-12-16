@@ -15,60 +15,13 @@ const isDark = computed({
     colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark';
   },
 });
-
-const links = [
-  [
-    {
-      label: 'Whitemind',
-      click: () => navigateTo('/'),
-    },
-  ],
-  [
-    {
-      label: 'Home',
-      icon: 'i-heroicons-home',
-      to: '/',
-    },
-    {
-      label: 'Tutorials',
-      icon: 'i-heroicons-academic-cap',
-      to: '/tutorials',
-    },
-    {
-      label: 'Projects',
-      icon: 'i-heroicons-folder',
-      to: '/projects',
-    },
-  ],
-  [
-    {
-      label: '',
-      icon: 'fluent:dark-theme-20-filled',
-      click: () => (isDark.value = !isDark.value),
-    },
-    {
-      label: 'USERNAME',
-      avatar: {
-        alt: sessionStore.sessionData.user.displayname ?? 'Login',
-      },
-      click: () => {
-        if (sessionStore.doesSessionIdExist) {
-          navigateTo('/profile');
-        } else {
-          navigateTo('/profile/login');
-        }
-      },
-    },
-  ],
-];
 </script>
 
 <template>
   <ClientOnly>
     <ProfileSlideover v-model="showProfileSlideover" />
-    <div class="h-16"></div>
     <div
-      class="border-b border-gray-200 dark:border-gray-800 flex items-center w-full z-50 fixed h-16"
+      class="bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center w-full z-50 fixed h-16"
     >
       <div
         @click="() => navigateTo('/')"
@@ -121,21 +74,5 @@ const links = [
       </UTooltip>
     </div>
   </ClientOnly>
-  <!-- <ClientOnly>
-    <UHorizontalNavigation
-      :links="links"
-      class="border-b border-gray-200 dark:border-gray-800"
-    >
-      <template #default="{ link }">
-        <span
-          class="group-hover:text-primary relative hidden md:block first:text-xl first:font-semibold first:dark:text-white first:dark:group-hover:text-white"
-          >{{
-            link.label === 'USERNAME'
-              ? (sessionStore.sessionData.user.displayname ?? 'Login')
-              : link.label
-          }}</span
-        >
-      </template>
-    </UHorizontalNavigation>
-  </ClientOnly> -->
+  <div class="h-16"></div>
 </template>

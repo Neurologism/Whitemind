@@ -40,6 +40,9 @@ importers:
       animate.css:
         specifier: ^4.1.1
         version: 4.1.1
+      gsap:
+        specifier: ^3.12.5
+        version: 3.12.5
       interactjs:
         specifier: ^1.10.27
         version: 1.10.27
@@ -62,9 +65,15 @@ importers:
         specifier: ^3.23.8
         version: 3.23.8
     devDependencies:
+      '@iconify-json/fluent':
+        specifier: ^1.2.1
+        version: 1.2.11
       '@iconify-json/heroicons':
         specifier: ^1.2.1
         version: 1.2.1
+      '@iconify-json/mage':
+        specifier: ^1.2.1
+        version: 1.2.2
       '@iconify-json/material-symbols':
         specifier: ^1.2.9
         version: 1.2.9
@@ -74,6 +83,9 @@ importers:
       '@iconify-json/svg-spinners':
         specifier: ^1.2.1
         version: 1.2.1
+      '@iconify-json/tabler':
+        specifier: ^1.2.1
+        version: 1.2.13
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.20(postcss@8.4.49)
@@ -859,10 +871,22 @@ packages:
     peerDependencies:
       vue: ^3.2.0
 
+  '@iconify-json/fluent@1.2.11':
+    resolution:
+      {
+        integrity: sha512-cIaUZiNoEFF22tldJOh2mcwk/d6C+kpo5R4xhgLAy6HH61NaY4Lqktje4qK2nqzQqAvYB2NpDjJnmBQw6zUlJw==,
+      }
+
   '@iconify-json/heroicons@1.2.1':
     resolution:
       {
         integrity: sha512-TkKfS5U27kE5MXmSGLzPoz95BP5VA9xEJXwJFwmPMVLX+xyWq0OkoiWTUXB0uAoQODpb8BaRpzSydItrq9fIRA==,
+      }
+
+  '@iconify-json/mage@1.2.2':
+    resolution:
+      {
+        integrity: sha512-sCn5NRf4MrKjGzElJ7LtZHCNcyTEc/+szCAgpuOujaL7Qhht+cMNwmKXJmlcCcezxiOmL0TDjwdzQZ5xkSkJhw==,
       }
 
   '@iconify-json/material-symbols@1.2.9':
@@ -881,6 +905,12 @@ packages:
     resolution:
       {
         integrity: sha512-QZNA4YzFD2zqdC6nIBJM6WlAGakUCjvMt92Ks1R4XFxkd76Ps3rdiauYWESDRZvNYURAByp2b9cwZarFula65g==,
+      }
+
+  '@iconify-json/tabler@1.2.13':
+    resolution:
+      {
+        integrity: sha512-vXnl0db3Q/v1e+lMEGmdrzJeFVyR//20gbUU2HFOrJP08nbz1EGRa8urNS4zL3oEV6Wjgo11AHJLSs628I6swQ==,
       }
 
   '@iconify/collections@1.0.491':
@@ -3660,6 +3690,12 @@ packages:
     resolution:
       {
         integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==,
+      }
+
+  gsap@3.12.5:
+    resolution:
+      {
+        integrity: sha512-srBfnk4n+Oe/ZnMIOXt3gT605BX9x5+rh/prT2F1SsNJsU1XuMiP0E2aptW481OnonOGACZWBqseH5Z7csHxhQ==,
       }
 
   gzip-size@7.0.0:
@@ -7327,7 +7363,15 @@ snapshots:
       '@tanstack/vue-virtual': 3.11.0(vue@3.5.13(typescript@5.7.2))
       vue: 3.5.13(typescript@5.7.2)
 
+  '@iconify-json/fluent@1.2.11':
+    dependencies:
+      '@iconify/types': 2.0.0
+
   '@iconify-json/heroicons@1.2.1':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/mage@1.2.2':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -7340,6 +7384,10 @@ snapshots:
       '@iconify/types': 2.0.0
 
   '@iconify-json/svg-spinners@1.2.1':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/tabler@1.2.13':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -9402,6 +9450,8 @@ snapshots:
   gopd@1.2.0: {}
 
   graceful-fs@4.2.11: {}
+
+  gsap@3.12.5: {}
 
   gzip-size@7.0.0:
     dependencies:

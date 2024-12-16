@@ -5,11 +5,7 @@ await sessionStore.syncLocalSessionData();
 </script>
 
 <template>
-  <div class="flex flex-col h-screen">
-    <AppHeader />
-    <div class="flex-grow">
-      <slot />
-    </div>
-    <AppFooter />
-  </div>
+  <AppHeader />
+  <slot> </slot>
+  <AppFooter />
 </template>
