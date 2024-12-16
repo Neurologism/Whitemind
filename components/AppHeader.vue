@@ -37,13 +37,13 @@ const isDark = computed({
       </div>
 
       <div class="flex-grow"></div>
-      <UTooltip
+      <!-- <UTooltip
         class="hover:cursor-pointer sm:mr-2"
         @click="() => (isDark = !isDark)"
         :text="isDark ? 'light theme' : 'dark theme'"
       >
         <UIcon name="fluent:dark-theme-20-filled" size="large" />
-      </UTooltip>
+      </UTooltip> -->
       <div
         v-if="!sessionStore.doesSessionIdExist"
         class="ml-1 sm:ml-3 lg:ml-5 grow-0 mr-3 lg:mr-5"
