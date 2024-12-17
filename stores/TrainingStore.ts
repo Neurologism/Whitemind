@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 
-export const useTrainingStore = defineStore({
-  id: "training-store",
+export const useTrainingStore = defineStore("training-store", {
   state: () => ({
     training: {
       running: false,

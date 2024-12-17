@@ -1008,4 +1008,19 @@ export const blocks = [
       },
     ],
   },
+  {
+    name: "VISUALIZER",
+    icon: "mdi-chart-line",
+    color: "purple",
+    group_identifier: "visualizer",
+    nodes: [
+      {
+        type: "line-chart",
+        name: "Line Chart",
+        description: "Plots a line chart while training the model.",
+        identifier: "line-chart",
+        data: {},
+      },
+    ],
+  },
 ];

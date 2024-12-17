@@ -77,7 +77,7 @@ setInterval(updateTrainingStatus, 1000);
         >Start Training</UButton
       >
       <UButton
-        @abort="trainingStop"
+        @click="trainingStop"
         v-else
         icon="material-symbols:stop-circle"
         size="lg"

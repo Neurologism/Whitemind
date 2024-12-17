@@ -72,6 +72,10 @@ function jsonButtonPressed() {
   setClipboard(JSON.stringify(object, null, 2));
 }
 
+const showJsonButton = computed(() => {
+  return document.location.hostname.includes("localhost");
+});
+
 onMounted(() => {
   const projectHeader = document.getElementById("project_header");
   const appFooter = document.getElementById("app_footer");
@@ -201,7 +205,7 @@ watch(
         />
       </div>
       <div class="flex">
-        <UTooltip text="Copy JSON">
+        <UTooltip text="Copy JSON" v-if="showJsonButton">
           <UButton
             icon="mdi-json"
             size="xl"

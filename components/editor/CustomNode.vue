@@ -5,6 +5,10 @@ import { Handle, Position, useNodesData, useVueFlow } from "@vue-flow/core";
 import { NodeToolbar } from "@vue-flow/node-toolbar";
 import { CustomNodes } from "~/components/editor/customNodeList";
 import NodeValueEditor from "~/components/editor/typeEditors/NodeValueEditor.vue";
+import LineChart from "~/components/editor/charts/LineChart.vue";
+import { NodeResizer } from "@vue-flow/node-resizer";
+import "@vue-flow/node-resizer/dist/style.css";
+
 const nodeToolbarOpen = ref(false);
 const { updateNodeData } = useVueFlow();
 const props = defineProps(["props", "nodeId"]);
@@ -33,6 +37,15 @@ const actionRequired = computed({
     return false;
   },
 });
+
+const chartComponentsByIdentifier = {
+  "line-chart": LineChart,
+};
+
+function toggleNodeToolbar() {
+  if (Object.keys(shapeData.data).length === 0) return;
+  nodeToolbarOpen.value = !nodeToolbarOpen.value;
+}
 </script>
 
 <template>
@@ -57,11 +70,12 @@ const actionRequired = computed({
   </NodeToolbar>
   <UTooltip
     :text="shapeData.description"
-    @click="nodeToolbarOpen = !nodeToolbarOpen"
+    @click="toggleNodeToolbar"
     :open-delay="750"
+    class="h-full w-full"
   >
     <div
-      class="sized text-zinc-50 rounded-sm bg-gray-800"
+      class="text-zinc-50 rounded-sm bg-gray-800 w-full flex flex-col"
       :class="{ 'blink-border': actionRequired }"
       :style="{ border: `2px solid ${shapeGroupData.color}` }"
     >
@@ -69,53 +83,68 @@ const actionRequired = computed({
         <UIcon :name="shapeGroupData.icon" mode="" />
         <span>{{ shapeData.name }}</span>
       </div>
-      <div v-for="(shapeDefinition, key) in shapeData.data">
-        <div
-          class="m-3 grid grid-cols-1 items-center justify-between bg-amber-500 font-mono text-sm rounded border-2 border-solid border-gray-900 hover:scale-105 relative p-1"
-          v-if="shapeDefinition.type === 'id'"
-        >
-          {{ key }}
-          <Handle
-            :id="`val-${key}-${props.nodeId}`"
-            :position="Position.Right"
-            :connectable-start="true"
-            :connectable-end="true"
-            class="rounded-sm border-2 border-solid border-gray-900"
-            :style="{
-              height: '10px',
-              width: '35px',
-              backgroundColor: shapeGroupData.color,
-            }"
-          />
+      <div v-if="shapeGroupData.group_identifier !== 'visualizer'">
+        <div v-for="(shapeDefinition, key) in shapeData.data">
+          <div
+            class="m-3 grid grid-cols-1 items-center justify-between bg-amber-500 font-mono text-sm rounded border-2 border-solid border-gray-900 hover:scale-105 relative p-1"
+            v-if="shapeDefinition.type === 'id'"
+          >
+            {{ key }}
+            <Handle
+              :id="`val-${key}-${props.nodeId}`"
+              :position="Position.Right"
+              :connectable-start="true"
+              :connectable-end="true"
+              class="rounded-sm border-2 border-solid border-gray-900"
+              :style="{
+                height: '10px',
+                width: '35px',
+                backgroundColor: shapeGroupData.color,
+              }"
+            />
+          </div>
         </div>
       </div>
+      <div class="p-2 flex-1 w-full" v-else>
+        <component
+          :is="chartComponentsByIdentifier[shapeData.identifier]"
+        ></component>
+      </div>
     </div>
-    <Handle
-      v-if="shapeData.type !== 'start'"
-      :id="`in-${props.nodeId}`"
-      :position="Position.Top"
-      class="rounded-sm"
-      :connectable-end="true"
-      :connectable-start="false"
-      :style="{
-        height: '10px',
-        width: '10px',
-        backgroundColor: shapeGroupData.color,
-      }"
-    />
-    <Handle
-      :id="`out-${props.nodeId}`"
-      :position="Position.Bottom"
-      class="rounded-sm"
-      :connectable-end="false"
-      :connectable-start="true"
-      :style="{
-        height: '10px',
-        width: '10px',
-        backgroundColor: shapeGroupData.color,
-      }"
-    />
   </UTooltip>
+  <Handle
+    v-if="shapeData.type !== 'start'"
+    :id="`in-${props.nodeId}`"
+    :position="Position.Top"
+    class="rounded-sm"
+    :connectable-end="true"
+    :connectable-start="false"
+    :style="{
+      height: '10px',
+      width: '10px',
+      backgroundColor: shapeGroupData.color,
+    }"
+  />
+  <Handle
+    :id="`out-${props.nodeId}`"
+    :position="Position.Bottom"
+    class="rounded-sm"
+    :connectable-end="false"
+    :connectable-start="true"
+    :style="{
+      height: '10px',
+      width: '10px',
+      backgroundColor: shapeGroupData.color,
+    }"
+  />
+  <NodeResizer
+    v-if="shapeGroupData.group_identifier === 'visualizer'"
+    min-width="400"
+    min-height="300"
+    :color="shapeGroupData.color"
+    handle-style="border: 6px solid"
+    handle-class-name="rounded-lg"
+  />
 </template>
 
 <style scoped>
@@ -133,12 +162,6 @@ const actionRequired = computed({
   100% {
     border-color: red;
   }
-}
-
-.sized {
-  min-width: 120px;
-  min-height: 20px;
-  cursor: pointer;
 }
 
 .sized-params {
