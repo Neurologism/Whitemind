@@ -19,22 +19,20 @@ function searchButtonClicked() {
 
 <template>
   <div
-    class="rounded-xl border-2 border-customPrimary-900 bg-customPrimary-950 p-4 pb-8"
-    style="height: 100%"
+    class="rounded-md border-2 border-customPrimary-900 bg-customPrimary-950 bg-opacity-85 p-4 pb-8 h-full w-20 hover:w-96 focus-within:w-96 hover:scale-x-105 transition-transform"
   >
-    <div class="flex">
-      <span class="text-3xl flex-1">Components</span>
-      <UButton
-        icon="mdi-search"
-        size="xl"
-        variant="outline"
-        @click="searchButtonClicked"
-        class="hover:scale-105 transition-transform mb-2"
-      />
-    </div>
-    <UDivider />
     <div class="flex" style="height: 100%">
       <div class="flex-none pt-4">
+        <div class="mb-4">
+          <UButton
+            icon="mdi-magnify"
+            size="xl"
+            color="gray"
+            square
+            @click="isOpen = !isOpen"
+            class="hover:scale-105 transition-transform"
+          ></UButton>
+        </div>
         <div
           v-for="(category, index) in CustomNodes.nodesList"
           :key="index"
@@ -53,26 +51,33 @@ function searchButtonClicked() {
           </UTooltip>
         </div>
       </div>
-      <div class="flex-1 ml-2 mb-8 overflow-scroll overflow-x-hidden">
-        <h2
-          :style="{ color: CustomNodes.nodesList[selectedCategory].color }"
-          class="text-xl font-mono mb-4 mt-4"
+      <div class="flex-1 ml-2 mb-2 overflow-scroll overflow-x-hidden">
+        <span
+          :style="{
+            color: CustomNodes.nodesList[selectedCategory].color,
+            textShadow: '1px 1px 12px rgba(255,255,255,0.4)',
+          }"
+          class="text-2xl font-mono p-8 brightness-200"
         >
           {{ CustomNodes.nodesList[selectedCategory].name }}
-        </h2>
+        </span>
         <div
           v-for="node in CustomNodes.nodesList[selectedCategory].nodes"
           :key="node.type"
-          class="flex-1 items-center m-3 cursor-grab border p-2 rounded-lg hover:scale-105 transition-transform"
+          class="flex-1 items-center m-3 cursor-grab border p-2 rounded-md hover:scale-105 transition-transform"
           :style="{
             borderColor: CustomNodes.nodesList[selectedCategory].color,
-            width: '300px',
-            backgroundColor: 'rgba(0,0,0,0.2)',
+            backgroundColor: 'rgba(0,0,0,0.5)',
           }"
           draggable="true"
           @dragstart="handleDragStart($event, node.type)"
         >
-          {{ node.name }}
+          <!-- @ts-ignore -->
+          <UIcon
+            class="text-slate-50"
+            :name="node.icon ?? CustomNodes.nodesList[selectedCategory].icon"
+          ></UIcon>
+          <span class="text-slate-50">{{ node.name }}</span>
           <small class="text-gray-500">{{ node.description }}</small>
         </div>
       </div>
