@@ -78,7 +78,7 @@ function searchButtonClicked() {
             :name="node.icon ?? CustomNodes.nodesList[selectedCategory].icon"
           ></UIcon>
           <span class="text-slate-50">{{ node.name }}</span>
-          <small class="text-gray-500">{{ node.description }}</small>
+          <small class="text-gray-500">&nbsp;{{ node.description }}</small>
         </div>
       </div>
     </div>
