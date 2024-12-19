@@ -1019,7 +1019,23 @@ export const blocks = [
         name: "Line Chart",
         description: "Plots a line chart while training the model.",
         identifier: "line-chart",
-        data: {},
+        data: {
+          x_label: {
+            type: "select",
+            options: [
+              "epoch"
+            ],
+            value: "epoch"
+          },
+          y_label: {
+            type: "select",
+            options: [
+              "loss",
+              "accuracy"
+            ],
+            value: "loss"
+          }
+        },
       },
     ],
   },
