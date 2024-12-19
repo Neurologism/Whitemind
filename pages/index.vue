@@ -102,28 +102,129 @@ onMounted(() => {
       end: 'bottom top',
     },
     ease: 'none',
-    duration: 10,
   });
 
-  // gsap.from('.icon4', {
-  //   scrollTrigger: {
-  //     trigger: '.icon4',
-  //     start: 'top bottom',
-  //     end: 'top center',
-  //     scrub: 3,
-  //     markers: true,
-  //   },
-  //   x: 200,
-  //   y: 50,
-  //   ease: 'none',
-  //   duration: 10,
-  // });
+  gsap
+    .timeline({
+      scrollTrigger: {
+        trigger: '.text4',
+        start: 'bottom bottom',
+      },
+    })
+    .to('.text4', {
+      opacity: 1,
+      ease: 'power3.out',
+      duration: 1,
+    })
+    .from(
+      '.text4',
+      {
+        y: 100,
+        ease: 'power3.out',
+        duration: 1,
+      },
+      '-=1'
+    )
+    .to(
+      '.text5',
+      {
+        opacity: 1,
+        ease: 'power3.out',
+        duration: 1,
+      },
+      '-=0.5'
+    )
+    .from(
+      '.text5',
+      {
+        y: 100,
+        ease: 'power3.out',
+        duration: 1,
+      },
+      '-=1'
+    );
+
+  gsap.from('.puzzle1', {
+    scrollTrigger: {
+      trigger: '.mainpanel',
+      start: '20% center',
+      end: '26% center',
+      scrub: 1,
+    },
+    opacity: 0,
+    y: 50,
+    ease: 'none',
+    duration: 1,
+  });
+
+  gsap.from('.puzzle2', {
+    scrollTrigger: {
+      trigger: '.mainpanel',
+      start: '26% center',
+      end: '32% center',
+      scrub: 1,
+    },
+    opacity: 0,
+    y: -200,
+    ease: 'none',
+    duration: 1,
+  });
+
+  gsap.from('.puzzle3', {
+    scrollTrigger: {
+      trigger: '.mainpanel',
+      start: '32% center',
+      end: '38% center',
+      scrub: 1,
+    },
+    opacity: 0,
+    x: 200,
+    ease: 'none',
+    duration: 1,
+  });
+
+  gsap.from('.icon4', {
+    scrollTrigger: {
+      trigger: '.mainpanel',
+      start: '24% center',
+      end: '38% center',
+      scrub: 1,
+    },
+    opacity: 0,
+    x: -200,
+    ease: 'none',
+    duration: 1,
+  });
+
+  gsap.to('.text6', {
+    scrollTrigger: {
+      trigger: '.panel3',
+      pin: true,
+      start: 'center center',
+      end: 'bottom top',
+      scrub: 0.5,
+    },
+    x: '200%',
+    ease: 'none',
+  });
+
+  gsap.from('.text7', {
+    scrollTrigger: {
+      trigger: '.panel4',
+      pin: true,
+      start: 'center center',
+      end: 'bottom top',
+      scrub: 0.5,
+    },
+    x: '-200%',
+    ease: 'none',
+  });
 });
 </script>
 
 <template>
   <div
-    class="flex flex-col w-full overflow-scroll bg-black"
+    class="mainpanel flex flex-col w-full overflow-scroll bg-black"
     @mousemove="onMouseMove"
   >
     <!-- style="background-image: linear-gradient(to bottom, #340062ff, #003ff0ff)" -->
@@ -170,11 +271,11 @@ onMounted(() => {
         style="top: 40%; left: 30%; transform: translate(-50%, -50%)"
       >
         <h2
-          class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white"
+          class="text4 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white opacity-0"
         >
           Create AI without coding skills
         </h2>
-        <p class="text-2xl mt-4 text-slate-300">
+        <p class="text5 text-2xl mt-4 text-slate-300 opacity-0">
           Whitemind lets anyone create advanced AI models <br />
           with an intuitive drag-and-drop interface.
         </p>
@@ -182,46 +283,46 @@ onMounted(() => {
 
       <UIcon
         name="mdi:puzzle"
-        class="absolute"
+        class="absolute puzzle1"
+        style="font-size: 15rem; bottom: 26vh; right: 20vw"
+      ></UIcon>
+      <UIcon
+        name="mdi:puzzle"
+        class="absolute puzzle2"
+        style="font-size: 15rem; bottom: calc(26vh + 9rem); right: calc(20vw)"
+      ></UIcon>
+      <UIcon
+        name="mdi:puzzle"
+        class="absolute puzzle3"
         style="
-          font-size: 10rem;
-          bottom: calc(20vh - 6rem);
-          left: calc(26vw - 6rem);
+          font-size: 15rem;
+          bottom: calc(26vh + 9rem);
+          right: calc(20vw - 9rem);
         "
       ></UIcon>
       <UIcon
-        name="mdi:puzzle"
-        class="absolute"
-        style="font-size: 10rem; bottom: 20vh; left: calc(26vw - 6rem)"
-      ></UIcon>
-      <UIcon
-        name="mdi:puzzle"
-        class="absolute"
-        style="font-size: 10rem; bottom: 20vh; left: 26vw"
-      ></UIcon>
-      <UIcon
         name="mingcute:code-fill"
-        class="absolute"
-        style="font-size: 10rem; top: 12vh; right: 28vw"
+        class="absolute icon4"
+        style="font-size: 10rem; bottom: 12vh; left: 28vw"
       ></UIcon>
       <UIcon
         name="mage:mouse-pointer-fill"
-        class="absolute"
+        class="absolute icon5 opacity-0"
         style="font-size: 20rem; bottom: 14vh; right: 14vw"
       ></UIcon>
     </div>
     <div class="panel3 panel flex relative">
       <div
         class="absolute w-1/2 text-left"
-        style="top: 40%; left: 60%; transform: translate(-50%, -50%)"
+        style="top: 60%; left: 60%; transform: translate(-50%, -50%)"
       >
         <h2
-          class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white"
+          class="text6 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white"
         >
           No need for <br />
           expensive hardware
         </h2>
-        <p class="text-2xl mt-4 text-slate-300">
+        <p class="text6 text-2xl mt-4 text-slate-300">
           Whitemind provides cloud-based infrastructure, so you can build
           <br />
           powerful AI without the need for costly equipment.
@@ -229,50 +330,50 @@ onMounted(() => {
       </div>
 
       <UIcon
-        name="mdi:cloud"
+        name="fluent:hat-graduation-12-filled"
         class="absolute"
         style="
-          font-size: 10rem;
-          bottom: calc(20vh - 6rem);
-          left: calc(26vw - 6rem);
+          font-size: 15rem;
+          bottom: calc(24vh - 6rem);
+          left: calc(10vw - 6rem);
         "
       ></UIcon>
       <UIcon
         name="mdi:server"
-        class="absolute"
+        class="absolute opacity-0"
         style="font-size: 10rem; top: 4vh; right: 28vw"
       ></UIcon>
       <UIcon
         name="ph:graphics-card-fill"
         class="absolute"
-        style="font-size: 20rem; bottom: 14vh; right: 14vw"
+        style="font-size: 20rem; bottom: 56vh; right: 11vw"
       ></UIcon>
     </div>
 
     <div class="panel4 panel flex relative">
       <div
-        class="absolute w-1/2 text-center"
-        style="top: 40%; left: 50%; transform: translate(-50%, -50%)"
+        class="absolute w-1/2 text-right"
+        style="top: 30%; left: 35%; transform: translate(-50%, -50%)"
       >
         <h2
-          class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white"
+          class="text7 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white"
         >
           Learn with easy-to-follow tutorials
         </h2>
-        <p class="text-2xl mt-4 text-slate-300">
+        <p class="text7 text-2xl mt-4 text-slate-300">
           Access step-by-step tutorials that make complex AI concepts easy to
           grasp.
         </p>
       </div>
 
       <UIcon
-        name="fluent:hat-graduation-12-filled"
-        class="absolute"
+        name="mdi:cloud"
+        class="absolute opacity-0"
         style="font-size: 10rem; top: 50vh; left: 10vw"
       ></UIcon>
       <UIcon
         name="mage:book-fill"
-        class="absolute"
+        class="absolute opacity-0"
         style="font-size: 10rem; top: 10vh; right: 8vw"
       ></UIcon>
     </div>
@@ -329,5 +430,14 @@ onMounted(() => {
 
 .panel2 {
   margin-bottom: calc(100vh - 4rem);
+}
+
+.panel4 {
+  margin-top: calc(4rem - 100vh);
+  margin-bottom: calc(100vh - 4rem);
+}
+
+.mainpanel {
+  scrollbar-width: none;
 }
 </style>
