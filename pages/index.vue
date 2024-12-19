@@ -276,7 +276,7 @@ onMounted(() => {
           Create AI without coding skills
         </h2>
         <p class="text5 text-2xl mt-4 text-slate-300 opacity-0">
-          Whitemind lets anyone create advanced AI models <br />
+          WhiteMind lets anyone create advanced AI models <br />
           with an intuitive drag-and-drop interface.
         </p>
       </div>
@@ -323,7 +323,7 @@ onMounted(() => {
           expensive hardware
         </h2>
         <p class="text6 text-2xl mt-4 text-slate-300">
-          Whitemind provides cloud-based infrastructure, so you can build
+          WhiteMind provides cloud-based infrastructure, so you can build
           <br />
           powerful AI without the need for costly equipment.
         </p>
@@ -389,7 +389,7 @@ onMounted(() => {
           Built on leading technology
         </h2>
         <p class="text-2xl mt-4 text-slate-300">
-          Whitemind leverages Keras, a high-level neural networks API, utilizing
+          WhiteMind leverages Keras, a high-level neural networks API, utilizing
           <br />
           several state-of-the-art deep learning frameworks such as TensorFlow,
           <br />

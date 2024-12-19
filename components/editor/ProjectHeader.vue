@@ -24,7 +24,7 @@ const props = defineProps<{
 
 const breadcrumbSettings = computed(() => [
   {
-    label: 'Whitemind',
+    label: 'WhiteMind',
     icon: 'i-heroicons-home',
     to: '/',
   },
@@ -50,7 +50,7 @@ const breadcrumbSettings = computed(() => [
           <ULink
             to="/"
             class="group-hover:text-primary hover:bg-blend relative hidden md:block first:text-xl first:font-semibold first:dark:text-white first:dark:group-hover:text-white p-2"
-            >Whitemind<span class="text-primary">Editor</span></ULink
+            >WhiteMind<span class="text-primary">Editor</span></ULink
           >
         </div>
       </div>

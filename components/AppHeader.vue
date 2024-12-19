@@ -31,7 +31,7 @@ const isDark = computed({
           src="/favicon-32x32.png"
           width="48"
           height="48"
-          alt="Whitemind"
+          alt="WhiteMind"
           class="drop-shadow-md group-hover:text-primary hover:bg-blend relative first:text-xl first:font-semibold first:dark:text-white first:dark:group-hover:text-white p-2"
         />
       </div>
