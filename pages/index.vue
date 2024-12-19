@@ -249,7 +249,7 @@ onMounted(() => {
           icon="i-heroicons-rocket-launch-solid"
           :color="'none' as any"
         >
-          Sign up
+          Sign up for WhiteMind
         </UButton>
       </div>
 
@@ -384,13 +384,17 @@ onMounted(() => {
         style="top: 40%; left: 50%; transform: translate(-50%, -50%)"
       >
         <h2
-          class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white"
+          class="text-4xl sm:text-5xl md:text-8xl font-bold tracking-tight text-gray-900 dark:text-white mx-auto"
         >
-          Built on leading tensorflow technology
+          Built on leading technology
         </h2>
         <p class="text-2xl mt-4 text-slate-300">
-          Whitemind leverages TensorFlow, one of the most powerful AI
-          frameworks, ensuring your models are cutting-edge.
+          Whitemind leverages Keras, a high-level neural networks API, utilizing
+          <br />
+          several state-of-the-art deep learning frameworks such as TensorFlow,
+          <br />
+          Theano and CNTK, to deliver highly efficient and scalable AI
+          solutions.
         </p>
         <UButton
           :to="
@@ -405,7 +409,7 @@ onMounted(() => {
       </div>
 
       <UIcon
-        name="cib:tensorflow"
+        name="cib:keras"
         class="absolute"
         style="font-size: 10rem; top: 50vh; left: 10vw"
       ></UIcon>
@@ -415,7 +419,7 @@ onMounted(() => {
         style="font-size: 10rem; top: 10vh; right: 8vw"
       ></UIcon>
       <UIcon
-        name="iconoir:network-right-solid"
+        name="cib:tensorflow"
         class="absolute"
         style="font-size: 10rem; bottom: 15vh; right: 20vw"
       ></UIcon>

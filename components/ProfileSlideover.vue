@@ -61,7 +61,12 @@ watch(isOpen, (newValue) => {
           color="gray"
           size="md"
           class="w-full"
-          to="/profile"
+          @click="
+            () => {
+              navigateTo('/profile');
+              isOpen = false;
+            }
+          "
         >
           Your profile
         </UButton>
@@ -71,7 +76,12 @@ watch(isOpen, (newValue) => {
           color="gray"
           size="md"
           class="w-full"
-          to="/projects"
+          @click="
+            () => {
+              navigateTo('/projects');
+              isOpen = false;
+            }
+          "
         >
           Your Projects
         </UButton>
@@ -81,7 +91,12 @@ watch(isOpen, (newValue) => {
           color="gray"
           size="md"
           class="w-full"
-          to="/tutorials"
+          @click="
+            () => {
+              navigateTo('/tutorials');
+              isOpen = false;
+            }
+          "
         >
           Tutorials
         </UButton>
@@ -91,7 +106,12 @@ watch(isOpen, (newValue) => {
           color="gray"
           size="md"
           class="w-full"
-          to="/profile/settings"
+          @click="
+            () => {
+              navigateTo('/profile/settings');
+              isOpen = false;
+            }
+          "
         >
           Settings
         </UButton>
