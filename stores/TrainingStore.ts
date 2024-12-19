@@ -77,7 +77,10 @@ export const useTrainingStore = defineStore("training-store", {
       const data = await response.json();
       if (response.ok) {
         this.training.data = data.model;
-        if (data.model.status === "stopped") {
+        if (
+          data.model.status === "stopped" ||
+          data.model.status === "finished"
+        ) {
           this.training.running = false;
         }
       } else {
@@ -99,7 +102,7 @@ export const useTrainingStore = defineStore("training-store", {
         method: "POST",
         body: JSON.stringify({
           model: {
-            _id: this.training.projectId,
+            _id: this.training.modelId,
           },
         }),
         headers: {
