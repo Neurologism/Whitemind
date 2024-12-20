@@ -76,21 +76,6 @@ const showJsonButton = computed(() => {
   return document.location.hostname.includes("localhost");
 });
 
-onMounted(() => {
-  const projectHeader = document.getElementById("project_header");
-  const appFooter = document.getElementById("app_footer");
-  if (projectHeader && appFooter) {
-    document.documentElement.style.setProperty(
-      "--project-header-height",
-      `${projectHeader.offsetHeight}px`,
-    );
-    document.documentElement.style.setProperty(
-      "--app-footer-height",
-      `${appFooter.offsetHeight}px`,
-    );
-  }
-});
-
 onConnect((params) => {
   // @ts-ignore
   params.type = "smoothstep";
@@ -192,56 +177,7 @@ watch(
 </script>
 
 <template>
-  <ProjectHeader
-    :project-title="title"
-    :project-owner="projectOwner"
-    id="project_header"
-  >
-    <div class="flex flex-row">
-      <div class="flex-1 lg:mr-10">
-        <TrainingBlock
-          :project-id="projectId as string"
-          :sync-status="syncStatus"
-        />
-      </div>
-      <div class="flex">
-        <UTooltip text="Copy JSON" v-if="showJsonButton">
-          <UButton
-            icon="mdi-json"
-            size="xl"
-            variant="solid"
-            color="primary"
-            class="mr-1 hover:scale-105 transition-transform"
-            @click="jsonButtonPressed"
-            square
-          />
-        </UTooltip>
-        <UTooltip text="Write changes to server">
-          <UButton
-            :icon="syncStatus"
-            size="lg"
-            variant="solid"
-            :color="
-              syncStatus === SyncStatus.unsaved
-                ? 'orange'
-                : syncStatus === SyncStatus.synced
-                  ? 'green'
-                  : syncStatus === SyncStatus.error
-                    ? 'red'
-                    : 'gray'
-            "
-            class="hover:scale-105 transition-transform"
-            @click="postProject"
-            square
-          />
-        </UTooltip>
-      </div>
-    </div>
-  </ProjectHeader>
-  <div v-if="syncStatus === SyncStatus.initializing">
-    <UProgress animation="carousel" />
-  </div>
-  <div class="flex flex-row">
+  <div class="flex flex-row relative">
     <div class="dnd-flow flex-2" @drop="handleDrop" @dragover.prevent>
       <VueFlow :nodes="nodes" :edges="edges" class="border-3 border-amber-400">
         <template #edge-id-connection="customEdgeProps">
@@ -264,11 +200,6 @@ watch(
           :gap="16"
           :size="2"
         />
-        <Panel position="top-left">
-          <div class="h-90-of-dnd-flow">
-            <Sidebar />
-          </div>
-        </Panel>
         <Panel position="bottom-right">
           <div>
             <Assistant />
@@ -285,31 +216,77 @@ watch(
       </VueFlow>
     </div>
   </div>
+  <div class="h-full absolute-overlay flex flex-col">
+    <div class="pointer-events-auto">
+      <ProjectHeader
+        :project-title="title"
+        :project-owner="projectOwner"
+        class="w-full"
+      >
+        <div class="flex flex-row">
+          <div class="flex-1 lg:mr-10">
+            <TrainingBlock
+              :project-id="projectId as string"
+              :sync-status="syncStatus"
+            />
+          </div>
+          <div class="flex">
+            <UTooltip text="Copy JSON" v-if="showJsonButton">
+              <UButton
+                icon="mdi-json"
+                size="xl"
+                variant="solid"
+                color="primary"
+                class="mr-1 hover:scale-105 transition-transform"
+                @click="jsonButtonPressed"
+                square
+              />
+            </UTooltip>
+            <UTooltip text="Write changes to server">
+              <UButton
+                :icon="syncStatus"
+                size="lg"
+                variant="solid"
+                :color="
+                  syncStatus === SyncStatus.unsaved
+                    ? 'orange'
+                    : syncStatus === SyncStatus.synced
+                      ? 'green'
+                      : syncStatus === SyncStatus.error
+                        ? 'red'
+                        : 'gray'
+                "
+                class="hover:scale-105 transition-transform"
+                @click="postProject"
+                square
+              />
+            </UTooltip>
+          </div>
+        </div>
+      </ProjectHeader>
+    </div>
+    <div class="" v-if="syncStatus === SyncStatus.initializing">
+      <UProgress animation="carousel" />
+    </div>
+    <div v-else class="flex-1">
+      <Sidebar class="h-full pointer-events-auto" />
+    </div>
+  </div>
 </template>
 
 <style>
 @import "@vue-flow/core/dist/style.css";
 
-:root {
-  --project-header-height: 0;
-  --app-footer-height: 0;
+.absolute-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  pointer-events: none;
 }
 
 .dnd-flow {
-  height: calc(
-    (100vh - var(--project-header-height)) - var(--app-footer-height) -
-      var(--app-footer-height) - 5px
-  );
+  height: 100vh;
   width: 100vw;
-}
-
-.h-90-of-dnd-flow {
-  margin: 1rem;
-  height: calc(
-    (
-      (100vh - var(--project-header-height)) - var(--app-footer-height) -
-        var(--app-footer-height) - 5px - 4rem
-    )
-  );
 }
 </style>

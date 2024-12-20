@@ -1,7 +1,7 @@
 export const blocks = [
   {
     name: "LAYERS",
-    icon: "mdi-test-tube",
+    icon: "mdi-layers",
     color: "green",
     group_identifier: "layer",
     nodes: [
@@ -1022,19 +1022,14 @@ export const blocks = [
         data: {
           x_label: {
             type: "select",
-            options: [
-              "epoch"
-            ],
-            value: "epoch"
+            options: ["epoch"],
+            value: "epoch",
           },
           y_label: {
             type: "select",
-            options: [
-              "loss",
-              "accuracy"
-            ],
-            value: "loss"
-          }
+            options: ["loss", "accuracy"],
+            value: "loss",
+          },
         },
       },
     ],
