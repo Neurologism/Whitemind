@@ -1,7 +1,7 @@
 export const blocks = [
   {
     name: "LAYERS",
-    icon: "mdi-test-tube",
+    icon: "mdi-layers",
     color: "green",
     group_identifier: "layer",
     nodes: [

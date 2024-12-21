@@ -41,7 +41,7 @@ const breadcrumbSettings = computed(() => [
 <template>
   <ClientOnly>
     <div
-      class="border-b border-gray-200 dark:border-gray-800 h-16 flex flex-row items-center select-none"
+      class="bg-slate-200 dark:bg-slate-800 border-b-2 border-slate-300 dark:border-slate-600 h-16 flex flex-row items-center select-none"
     >
       <div class="ml-3">
         <div
