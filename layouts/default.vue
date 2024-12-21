@@ -6,6 +6,7 @@ await sessionStore.syncLocalSessionData();
 
 <template>
   <AppHeader />
+  <div class="h-16"></div>
   <slot> </slot>
-  <AppFooter />
+  <AppFooter class="bg-black" />
 </template>
