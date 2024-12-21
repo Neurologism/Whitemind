@@ -21,7 +21,7 @@ const isDark = computed({
   <ClientOnly>
     <ProfileSlideover v-model="showProfileSlideover" />
     <div
-      class="bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center w-full z-50 fixed h-16"
+      class="bg-black border-gray-200 border-none flex items-center w-full z-50 fixed h-16"
     >
       <div
         @click="() => navigateTo('/')"
