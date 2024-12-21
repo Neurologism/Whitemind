@@ -11,11 +11,6 @@ export const blocks = [
         identifier: 'input',
         description: 'Layer that accepts input data.',
         data: {
-          shape: {
-            type: 'tuple',
-            itemType: 'number',
-            value: [0],
-          },
           batch_size: {
             type: 'number',
             value: null,
@@ -128,10 +123,6 @@ export const blocks = [
         description:
           'Scales inputs into a distribution centered around 0 with standard deviation 1.',
         data: {
-          adapt: {
-            type: 'id',
-          },
-
           axis: {
             type: 'number',
             value: -1,
