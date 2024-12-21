@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { VueFlow, useVueFlow, Panel } from '@vue-flow/core';
 // import { MiniMap } from "@vue-flow/minimap";
-// import '@vue-flow/minimap/dist/style.css';
+// import "@vue-flow/minimap/dist/style.css";
 import { CustomNodes } from '~/components/editor/customNodeList';
 import { Background } from '@vue-flow/background';
 import { SyncStatus } from '~/components/editor/syncStatus';
@@ -67,32 +67,6 @@ function handleDrop(event: DragEvent) {
   addNodes([newNode]);
 }
 
-function setClipboard(data: string) {
-  navigator.clipboard.writeText(data).then(() => {
-    toast.add({ title: 'Copied to clipboard!' });
-  });
-}
-
-function jsonButtonPressed() {
-  const object = toObject();
-  setClipboard(JSON.stringify(object, null, 2));
-}
-
-onMounted(() => {
-  const projectHeader = document.getElementById('project_header');
-  const appFooter = document.getElementById('app_footer');
-  if (projectHeader && appFooter) {
-    document.documentElement.style.setProperty(
-      '--project-header-height',
-      `${projectHeader.offsetHeight}px`
-    );
-    document.documentElement.style.setProperty(
-      '--app-footer-height',
-      `${appFooter.offsetHeight}px`
-    );
-  }
-});
-
 onConnect((params) => {
   // @ts-ignore
   params.type = 'smoothstep';
@@ -134,9 +108,7 @@ async function loadProject() {
     syncStatus.value = SyncStatus.error;
   } else {
     title.value = project.name;
-    if (!props.tutorialProject) {
-      toast.add({ title: 'Project loaded', icon: 'mdi-check', color: 'green' });
-    }
+    toast.add({ title: 'Project loaded', icon: 'mdi-check', color: 'green' });
     syncStatus.value = SyncStatus.synced;
   }
 }
@@ -203,56 +175,7 @@ watch(
 </script>
 
 <template>
-  <EditorProjectHeader
-    :project-title="title"
-    :project-owner="projectOwner"
-    id="project_header"
-  >
-    <div class="flex flex-row">
-      <div class="flex-1 lg:mr-10">
-        <EditorTrainingHeader
-          :project-id="props.projectId"
-          :sync-status="syncStatus"
-        />
-      </div>
-      <div class="flex">
-        <!-- <UTooltip text="Copy JSON">
-          <UButton
-            icon="mdi-json"
-            size="xl"
-            variant="solid"
-            color="primary"
-            class="mr-1 transition-transform"
-            @click="jsonButtonPressed"
-            square
-          />
-        </UTooltip> -->
-        <UTooltip text="Write changes to server">
-          <UButton
-            :icon="syncStatus"
-            size="lg"
-            variant="solid"
-            :color="
-              syncStatus === SyncStatus.unsaved
-                ? 'orange'
-                : syncStatus === SyncStatus.synced
-                  ? 'green'
-                  : syncStatus === SyncStatus.error
-                    ? 'red'
-                    : 'gray'
-            "
-            class="transition-transform"
-            @click="postProject"
-            square
-          />
-        </UTooltip>
-      </div>
-    </div>
-  </EditorProjectHeader>
-  <div v-if="syncStatus === SyncStatus.initializing">
-    <UProgress animation="carousel" />
-  </div>
-  <div class="flex flex-row">
+  <div class="flex flex-row relative">
     <div class="dnd-flow flex-2" @drop="handleDrop" @dragover.prevent>
       <VueFlow :nodes="nodes" :edges="edges" class="border-3 border-amber-400">
         <template #edge-id-connection="customEdgeProps">
@@ -275,11 +198,6 @@ watch(
           :gap="16"
           :size="2"
         />
-        <Panel position="top-left">
-          <div class="h-90-of-dnd-flow">
-            <EditorSidebar />
-          </div>
-        </Panel>
         <Panel position="bottom-right">
           <div>
             <slot name="bottomright"></slot>
@@ -296,31 +214,66 @@ watch(
       </VueFlow>
     </div>
   </div>
+  <div class="h-full absolute-overlay flex flex-col">
+    <div class="pointer-events-auto">
+      <EditorProjectHeader
+        :project-title="title"
+        :project-owner="projectOwner"
+        class="w-full"
+      >
+        <div class="flex flex-row">
+          <div class="flex-1 lg:mr-10">
+            <EditorTrainingHeader
+              :project-id="props.projectId"
+              :sync-status="syncStatus"
+            />
+          </div>
+          <div class="flex">
+            <UTooltip text="Write changes to server">
+              <UButton
+                :icon="syncStatus"
+                size="lg"
+                variant="solid"
+                :color="
+                  syncStatus === SyncStatus.unsaved
+                    ? 'orange'
+                    : syncStatus === SyncStatus.synced
+                      ? 'green'
+                      : syncStatus === SyncStatus.error
+                        ? 'red'
+                        : 'gray'
+                "
+                class="hover:scale-105 transition-transform"
+                @click="postProject"
+                square
+              />
+            </UTooltip>
+          </div>
+        </div>
+      </EditorProjectHeader>
+    </div>
+    <div class="" v-if="syncStatus === SyncStatus.initializing">
+      <UProgress animation="carousel" />
+    </div>
+    <div v-else class="flex-1">
+      <EditorSidebar class="h-full pointer-events-auto" />
+    </div>
+  </div>
 </template>
 
-<style scoped>
+<style>
 @import '@vue-flow/core/dist/style.css';
 
-:root {
-  --project-header-height: 0;
-  --app-footer-height: 0;
+.absolute-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  pointer-events: none;
 }
 
 .dnd-flow {
-  height: calc(
-    (100vh - var(--project-header-height)) - var(--app-footer-height) -
-      var(--app-footer-height) - 5px
-  );
+  height: 100vh;
   width: 100vw;
-}
-
-.h-90-of-dnd-flow {
-  margin: 1rem;
-  height: calc(
-    (
-      (100vh - var(--project-header-height)) - var(--app-footer-height) -
-        var(--app-footer-height) - 5px - 4rem
-    )
-  );
 }
 </style>

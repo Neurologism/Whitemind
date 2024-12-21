@@ -31,6 +31,9 @@ importers:
       '@vue-flow/minimap':
         specifier: ^1.5.0
         version: 1.5.0(@vue-flow/core@1.41.5(vue@3.5.13(typescript@5.7.2)))(vue@3.5.13(typescript@5.7.2))
+      '@vue-flow/node-resizer':
+        specifier: ^1.4.0
+        version: 1.4.0(@vue-flow/core@1.41.5(vue@3.5.13(typescript@5.7.2)))(vue@3.5.13(typescript@5.7.2))
       '@vue-flow/node-toolbar':
         specifier: ^1.1.0
         version: 1.1.0(@vue-flow/core@1.41.5(vue@3.5.13(typescript@5.7.2)))
@@ -40,6 +43,9 @@ importers:
       animate.css:
         specifier: ^4.1.1
         version: 4.1.1
+      echarts:
+        specifier: ^5.5.1
+        version: 5.5.1
       gsap:
         specifier: ^3.12.5
         version: 3.12.5
@@ -55,6 +61,9 @@ importers:
       vue:
         specifier: latest
         version: 3.5.13(typescript@5.7.2)
+      vue-echarts:
+        specifier: ^7.0.3
+        version: 7.0.3(@vue/runtime-core@3.5.13)(echarts@5.5.1)(vue@3.5.13(typescript@5.7.2))
       vue-multiselect:
         specifier: ^3.1.0
         version: 3.1.0
@@ -1835,6 +1844,15 @@ packages:
       '@vue-flow/core': ^1.23.0
       vue: ^3.3.0
 
+  '@vue-flow/node-resizer@1.4.0':
+    resolution:
+      {
+        integrity: sha512-S52MRcSpd6asza8Cl0bKM2sHGrbq7vBydKHDuPdoTD+cvjNX6XF4LSiPZOuzExePI6b+O6dg2EZ1378oOLGFpA==,
+      }
+    peerDependencies:
+      '@vue-flow/core': ^1.23.0
+      vue: ^3.3.0
+
   '@vue-flow/node-toolbar@1.1.0':
     resolution:
       {
@@ -3220,6 +3238,12 @@ packages:
     resolution:
       {
         integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==,
+      }
+
+  echarts@5.5.1:
+    resolution:
+      {
+        integrity: sha512-Fce8upazaAXUVUVsjgV6mBnGuqgO+JNDlcgF79Dksy4+wgGpQB2lmYoO4TSweFg/mZITdpGHomw/cNBJZj1icA==,
       }
 
   ee-first@1.1.1:
@@ -6227,6 +6251,12 @@ packages:
         integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==,
       }
 
+  tslib@2.3.0:
+    resolution:
+      {
+        integrity: sha512-N82ooyxVNm6h1riLCoyS9e3fuJ3AMG2zIZs2Gd1ATcSFjSA23Q0fzjjZeh0jbJvWVDZ0cJT8yaNNaaXHzueNjg==,
+      }
+
   tsscmp@1.0.6:
     resolution:
       {
@@ -6761,6 +6791,20 @@ packages:
         integrity: sha512-+qALLI5cQncuetYOXp4yScwYvqh8c6SMXee3B+M7oTZxOgtESP0l4j/fXdEJoZ+EdMxkGWIj+aSEyjXkOdmd7g==,
       }
 
+  vue-demi@0.13.11:
+    resolution:
+      {
+        integrity: sha512-IR8HoEEGM65YY3ZJYAjMlKygDQn25D5ajNFNoKh9RSDMQtlzCxtfQjdQgv9jjK+m3377SsJXY8ysq8kLCZL25A==,
+      }
+    engines: { node: '>=12' }
+    hasBin: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+
   vue-demi@0.14.10:
     resolution:
       {
@@ -6780,6 +6824,19 @@ packages:
       {
         integrity: sha512-RutnB7X8c5hjq39NceArgXg28WZtZpGc3+J16ljMiYnFhKvd8hITxSWQSQ5bvldxMDU6gG5mkxl1MTQLXckVSQ==,
       }
+
+  vue-echarts@7.0.3:
+    resolution:
+      {
+        integrity: sha512-/jSxNwOsw5+dYAUcwSfkLwKPuzTQ0Cepz1LxCOpj2QcHrrmUa/Ql0eQqMmc1rTPQVrh2JQ29n2dhq75ZcHvRDw==,
+      }
+    peerDependencies:
+      '@vue/runtime-core': ^3.0.0
+      echarts: ^5.5.1
+      vue: ^2.7.0 || ^3.1.1
+    peerDependenciesMeta:
+      '@vue/runtime-core':
+        optional: true
 
   vue-multiselect@3.1.0:
     resolution:
@@ -6967,6 +7024,12 @@ packages:
     resolution:
       {
         integrity: sha512-XBx9AXhXktjUqnepgTiE5flcKIYWi/rme0Eaj+5Y0lftuGBq+jyRu/md4WnuxqgP1ubdpNCsYEYPxrzVHD8d6g==,
+      }
+
+  zrender@5.6.0:
+    resolution:
+      {
+        integrity: sha512-uzgraf4njmmHAbEUxMJ8Oxg+P3fT04O+9p7gY+wJRVxo8Ge+KmYv0WJev945EH4wFuc4OY2NLXz46FZrWS9xJg==,
       }
 
 snapshots:
@@ -8267,6 +8330,13 @@ snapshots:
       d3-zoom: 3.0.0
       vue: 3.5.13(typescript@5.7.2)
 
+  '@vue-flow/node-resizer@1.4.0(@vue-flow/core@1.41.5(vue@3.5.13(typescript@5.7.2)))(vue@3.5.13(typescript@5.7.2))':
+    dependencies:
+      '@vue-flow/core': 1.41.5(vue@3.5.13(typescript@5.7.2))
+      d3-drag: 3.0.0
+      d3-selection: 3.0.0
+      vue: 3.5.13(typescript@5.7.2)
+
   '@vue-flow/node-toolbar@1.1.0(@vue-flow/core@1.41.5(vue@3.5.13(typescript@5.7.2)))':
     dependencies:
       '@vue-flow/core': 1.41.5(vue@3.5.13(typescript@5.7.2))
@@ -9138,6 +9208,11 @@ snapshots:
   duplexer@0.1.2: {}
 
   eastasianwidth@0.2.0: {}
+
+  echarts@5.5.1:
+    dependencies:
+      tslib: 2.3.0
+      zrender: 5.6.0
 
   ee-first@1.1.1: {}
 
@@ -11174,6 +11249,8 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
+  tslib@2.3.0: {}
+
   tsscmp@1.0.6: {}
 
   tunnel-agent@0.6.0:
@@ -11553,11 +11630,25 @@ snapshots:
     dependencies:
       ufo: 1.5.4
 
+  vue-demi@0.13.11(vue@3.5.13(typescript@5.7.2)):
+    dependencies:
+      vue: 3.5.13(typescript@5.7.2)
+
   vue-demi@0.14.10(vue@3.5.13(typescript@5.7.2)):
     dependencies:
       vue: 3.5.13(typescript@5.7.2)
 
   vue-devtools-stub@0.1.0: {}
+
+  vue-echarts@7.0.3(@vue/runtime-core@3.5.13)(echarts@5.5.1)(vue@3.5.13(typescript@5.7.2)):
+    dependencies:
+      echarts: 5.5.1
+      vue: 3.5.13(typescript@5.7.2)
+      vue-demi: 0.13.11(vue@3.5.13(typescript@5.7.2))
+    optionalDependencies:
+      '@vue/runtime-core': 3.5.13
+    transitivePeerDependencies:
+      - '@vue/composition-api'
 
   vue-multiselect@3.1.0: {}
 
@@ -11657,3 +11748,7 @@ snapshots:
       readable-stream: 4.5.2
 
   zod@3.23.8: {}
+
+  zrender@5.6.0:
+    dependencies:
+      tslib: 2.3.0
