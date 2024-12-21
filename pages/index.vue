@@ -1,12 +1,7 @@
 <script setup lang="ts">
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
 definePageMeta({
   layout: 'plain',
 });
-
-gsap.registerPlugin(ScrollTrigger);
 
 const sessionStore = useSessionStore();
 
