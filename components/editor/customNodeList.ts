@@ -1,7 +1,7 @@
-import type { ButtonColor } from "#ui/types";
+import type { ButtonColor } from '#ui/types';
 
-import { blocks } from "~/components/editor/blocks";
-import type { XYPosition } from "@vue-flow/core";
+import { blocks } from '~/components/editor/blocks';
+import type { XYPosition } from '@vue-flow/core';
 
 /**
  * Custom Node Config
@@ -42,7 +42,7 @@ export class CustomNodes {
     if (!node) return null;
     return (
       CustomNodes.nodesList.find((group) =>
-        group.nodes.some((node) => node.type === type),
+        group.nodes.some((node) => node.type === type)
       ) ?? null
     );
   }
@@ -53,9 +53,9 @@ export class CustomNodes {
     const data = {};
 
     for (const key in node.data) {
-      if (node.data[key]["value"] !== undefined) {
+      if (node.data[key]['value'] !== undefined) {
         // @ts-ignore - data[key] is not a valid type
-        data[key] = node.data[key]["value"];
+        data[key] = node.data[key]['value'];
         // continue;
       }
     }
@@ -63,7 +63,7 @@ export class CustomNodes {
     return {
       id: Math.random().toString(36),
       identifier: node.identifier,
-      group_identifier: CustomNodes.getNodeGroup(type)?.group_identifier ?? "",
+      group_identifier: CustomNodes.getNodeGroup(type)?.group_identifier ?? '',
       type,
       position,
       data,

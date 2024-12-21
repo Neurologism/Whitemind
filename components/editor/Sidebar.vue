@@ -1,18 +1,17 @@
 <script lang="ts" setup>
-import { ref } from "vue";
-import { CustomNodes } from "~/components/editor/customNodeList";
-import type { ButtonColor } from "#ui/types";
+import { CustomNodes } from '~/components/editor/customNodeList';
+import type { ButtonColor } from '#ui/types';
 
 const selectedCategory = ref(0);
 const isPermaOpen = ref(false);
 
 function handleDragStart(event: DragEvent, nodeType: string) {
-  console.log("setting data to: ", nodeType);
-  event.dataTransfer!.setData("node", nodeType);
+  console.log('setting data to: ', nodeType);
+  event.dataTransfer!.setData('node', nodeType);
 }
 
 function getRGBColor(colorName: string) {
-  const tempElement = document.createElement("div");
+  const tempElement = document.createElement('div');
   tempElement.style.color = colorName;
   document.body.appendChild(tempElement);
 
@@ -55,7 +54,6 @@ function toggleSidebar() {
               :color="category.color as ButtonColor"
               :icon="category.icon"
               :variant="selectedCategory === index ? 'solid' : 'outline'"
-              class="hover:scale-105 transition-transform"
               size="xl"
               square
               @click="selectedCategory = index"
@@ -106,7 +104,10 @@ function toggleSidebar() {
               :style="{
                 color: CustomNodes.nodesList[selectedCategory].color,
               }"
-              :name="node.icon ?? CustomNodes.nodesList[selectedCategory].icon"
+              :name="
+                (node as any).icon ??
+                CustomNodes.nodesList[selectedCategory].icon
+              "
             ></UIcon>
             <span class="text-slate-950 dark:text-slate-50 brightness-150">{{
               node.name

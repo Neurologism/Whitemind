@@ -1,18 +1,18 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
 
-export const useTrainingStore = defineStore("training-store", {
+export const useTrainingStore = defineStore('trainingStore', {
   state: () => ({
     training: {
       running: false,
       projectId: null as string | null,
       modelId: null as string | null,
       data: {
-        status: "stopped" as
-          | "queued"
-          | "training"
-          | "finished"
-          | "error"
-          | "stopped",
+        status: 'stopped' as
+          | 'queued'
+          | 'training'
+          | 'finished'
+          | 'error'
+          | 'stopped',
         output: [] as string[],
         queued_at: null as number | null,
         started_at: null as number | null,
@@ -26,18 +26,18 @@ export const useTrainingStore = defineStore("training-store", {
     async startTraining(fetchFunction: Function, projectId: string) {
       this.$reset();
       const response = await fetchFunction(
-        "/api/project/model/training-start",
+        '/api/project/model/training-start',
         {
-          method: "POST",
+          method: 'POST',
           body: JSON.stringify({
             project: {
               _id: projectId,
             },
           }),
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-        },
+        }
       );
 
       const data = await response.json();
@@ -50,36 +50,36 @@ export const useTrainingStore = defineStore("training-store", {
 
       return {
         success: response.ok,
-        message: (data["msg"] ?? null) as string | null,
+        message: (data['msg'] ?? null) as string | null,
       };
     },
     async fetchTrainingStatus(fetchFunction: Function, modelId: string) {
       if (!this.training.running) {
         return {
           success: false,
-          message: "Training not running",
+          message: 'Training not running',
         };
       }
       const response = await fetchFunction(
-        "/api/project/model/training-status",
+        '/api/project/model/training-status',
         {
-          method: "POST",
+          method: 'POST',
           body: JSON.stringify({
             model: {
               _id: modelId,
             },
           }),
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-        },
+        }
       );
       const data = await response.json();
       if (response.ok) {
         this.training.data = data.model;
         if (
-          data.model.status === "stopped" ||
-          data.model.status === "finished"
+          data.model.status === 'stopped' ||
+          data.model.status === 'finished'
         ) {
           this.training.running = false;
         }
@@ -88,25 +88,25 @@ export const useTrainingStore = defineStore("training-store", {
       }
       return {
         success: response.ok,
-        message: (data["msg"] ?? null) as string | null,
+        message: (data['msg'] ?? null) as string | null,
       };
     },
     async stopTraining(fetchFunction: Function) {
       if (!this.training.running) {
         return {
           success: false,
-          message: "Training not running",
+          message: 'Training not running',
         };
       }
-      const response = await fetchFunction("/api/project/model/training-stop", {
-        method: "POST",
+      const response = await fetchFunction('/api/project/model/training-stop', {
+        method: 'POST',
         body: JSON.stringify({
           model: {
             _id: this.training.modelId,
           },
         }),
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       });
       const data = await response.json();
@@ -115,7 +115,7 @@ export const useTrainingStore = defineStore("training-store", {
       }
       return {
         success: response.ok,
-        message: (data["msg"] ?? null) as string | null,
+        message: (data['msg'] ?? null) as string | null,
       };
     },
   },

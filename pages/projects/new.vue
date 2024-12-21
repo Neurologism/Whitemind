@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { useSessionStore } from "~/stores/SessionStore";
-import { useProjectStore } from "~/stores/ProjectStore";
+import { ref } from 'vue';
+import { useSessionStore } from '~/stores/SessionStore';
+import { useProjectStore } from '~/stores/ProjectStore';
 
 const toast = useToast();
 
@@ -9,49 +9,49 @@ const sessionStore = useSessionStore();
 const projectStore = useProjectStore();
 
 if (!sessionStore.doesSessionIdExist) {
-  navigateTo("/");
+  navigateTo('/');
   toast.add({
-    title: "You are not logged in",
-    description: "You must be logged in to create a project",
+    title: 'You are not logged in',
+    description: 'You must be logged in to create a project',
   });
 }
 
-let projectName = ref("");
-let projectDescription = ref("");
+let projectName = ref('');
+let projectDescription = ref('');
 let projectVisible = ref(true);
 
 let isProcessingCreation = ref(false);
 
 const tabValues = [
   {
-    label: "Public",
+    label: 'Public',
     value: false,
   },
   {
-    label: "Private",
+    label: 'Private',
     value: true,
   },
 ];
 
 const createProject = async () => {
   isProcessingCreation.value = true;
-  let response = await sessionStore.fetch("/api/project/create", {
-    method: "POST",
-    cache: "no-cache",
+  let response = await sessionStore.fetch('/api/project/create', {
+    method: 'POST',
+    cache: 'no-cache',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       project: {
         name: projectName.value,
         description: projectDescription.value,
-        visibility: projectVisible.value ? "private" : "public",
+        visibility: projectVisible.value ? 'private' : 'public',
       },
     }),
   });
   if (!response.ok) {
     toast.add({
-      title: "Failed to create project",
+      title: 'Failed to create project',
     });
   }
   let data = await response.json();
@@ -59,7 +59,7 @@ const createProject = async () => {
   if (data.project?._id) {
     await projectStore.fetchProject(data.project._id, sessionStore.fetch);
     await sessionStore.loginWithSessionToken(
-      sessionStore.sessionData.sessionID,
+      sessionStore.sessionData.sessionID
     );
     navigateTo(`/project/${data.project._id}`);
   }

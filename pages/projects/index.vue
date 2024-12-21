@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useSessionStore } from "~/stores/SessionStore";
+import { useSessionStore } from '~/stores/SessionStore';
 
 const sessionStore = useSessionStore();
 
 const projects = ref([] as string[]);
 const searchedProjects: Ref<string[] | null> = ref(null);
 
-const searchQuery = ref("");
+const searchQuery = ref('');
 
 let searchTimeout: NodeJS.Timeout | null = null;
 
@@ -15,11 +15,11 @@ const onSearchChange = () => {
     clearTimeout(searchTimeout);
   }
   searchTimeout = setTimeout(async () => {
-    let response = await sessionStore.fetch("/api/project/search", {
-      method: "POST",
-      cache: "no-cache",
+    let response = await sessionStore.fetch('/api/project/search', {
+      method: 'POST',
+      cache: 'no-cache',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         query: {

@@ -1,12 +1,13 @@
 <script setup lang="ts"></script>
 
 <template>
-  <!-- tailwind custom footer -->
-  <footer class="bg-gray-800 justify-center">
+  <footer class="w-full">
     <div class="container p-4 mx-auto">
       <div class="flex flex-col md:flex-row justify-between items-center">
         <div class="flex flex-col md:flex-row items-center">
-          <div class="text-white text-lg font-bold">Neurologism</div>
+          <div class="text-white text-lg font-bold">
+            <a href="/">WhiteMind</a>
+          </div>
           <div class="text-gray-400 ml-0 md:ml-4 mt-2 md:mt-0">
             © {{ new Date().getFullYear() }}
           </div>

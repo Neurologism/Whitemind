@@ -1,7 +1,7 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'project',
+  layout: 'plain',
 });
 </script>
 
-<template></template>
+<template>nothing</template>
