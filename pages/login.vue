@@ -57,13 +57,15 @@ const onLogin = async () => {
     },
     body: JSON.stringify({
       user:
-        selectedTab.value == LoginTab.EMAIL
+        // selectedTab.value == LoginTab.EMAIL
+        email.value.includes('@')
           ? {
               email: email.value,
               plainPassword: password.value,
             }
           : {
-              brainetTag: username.value,
+              // brainetTag: username.value,
+              brainetTag: email.value,
               plainPassword: password.value,
             },
     }),
@@ -95,29 +97,17 @@ const onLogin = async () => {
     <h1 class="text-3xl font-semibold text-white text-center mb-8">
       Login to WhiteMind
     </h1>
-    <UCard class="md:w-3/5 lg:w-2/5 xl:w-2/5 mx-auto">
-      <div class="input-tile">
+    <UCard class="md:w-3/5 lg:w-2/5 xl:w-4/12 2xl:w-3/12 mx-auto">
+      <!-- <div class="input-tile">
         <UTabs :items="loginTabOptions" @change="onTabChange" />
-      </div>
+      </div> -->
       <div v-if="selectedTab == LoginTab.EMAIL" class="input-tile">
-        <HintBox>
-          <UInput
-            v-model="email"
-            label="Email"
-            placeholder="Enter your email"
-            type="email"
-          />
-          <template #hint>
-            <UAlert
-              v-if="!validateEmail(email)"
-              icon="mdi-info"
-              color="red"
-              variant="outline"
-              title="Invalid email"
-              message="Please enter a valid email adress!"
-            />
-          </template>
-        </HintBox>
+        <UInput
+          v-model="email"
+          label="Email"
+          placeholder="Enter your email or username"
+          type="email"
+        />
       </div>
       <div v-if="selectedTab == LoginTab.USERNAME" class="input-tile">
         <HintBox>
@@ -151,15 +141,24 @@ const onLogin = async () => {
         <UButton
           block
           :disabled="
-            !password ||
-            (!validateEmail(email) && selectedTab == 0) ||
-            (username.length < 3 && selectedTab == 1)
+            !password || email.includes('@')
+              ? !validateEmail(email)
+              : email.length < 3
           "
           color="primary"
           @click="onLogin"
         >
           Login
         </UButton>
+        <UAlert
+          v-if="email.includes(`@`) && !validateEmail(email)"
+          icon="mdi-info"
+          color="red"
+          variant="outline"
+          title="Invalid email"
+          message="Please enter a valid email adress!"
+          class="mt-4"
+        ></UAlert>
       </div>
       <template #footer>
         Don't have an account yet?
