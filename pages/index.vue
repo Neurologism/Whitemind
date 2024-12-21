@@ -319,12 +319,10 @@ onMounted(() => {
         <h2
           class="text6 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white"
         >
-          No need for <br />
-          expensive hardware
+          No need for expensive hardware
         </h2>
         <p class="text6 text-2xl mt-4 text-slate-300">
           WhiteMind provides cloud-based infrastructure, so you can build
-          <br />
           powerful AI without the need for costly equipment.
         </p>
       </div>
@@ -380,7 +378,7 @@ onMounted(() => {
 
     <div class="panel5 panel flex relative">
       <div
-        class="absolute w-1/2 text-center"
+        class="absolute w-2/3 text-center"
         style="top: 40%; left: 50%; transform: translate(-50%, -50%)"
       >
         <h2
@@ -416,7 +414,7 @@ onMounted(() => {
       <UIcon
         name="eos-icons:rotating-gear"
         class="absolute"
-        style="font-size: 10rem; top: 10vh; right: 8vw"
+        style="font-size: 10rem; top: 6vh; right: 8vw"
       ></UIcon>
       <UIcon
         name="cib:tensorflow"
