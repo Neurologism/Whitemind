@@ -49,7 +49,7 @@ const isDark = computed({
         class="ml-1 sm:ml-3 lg:ml-5 grow-0 mr-3 lg:mr-5"
       >
         <UButton
-          to="/profile/login"
+          to="/login"
           variant="ghost"
           color="gray"
           class="mr-1 sm:mr-3 lg:mr-5"

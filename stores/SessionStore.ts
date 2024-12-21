@@ -94,7 +94,7 @@ export const useSessionStore = defineStore('sessionStore', {
     async loginWithSessionToken(token: string) {
       if (token == '' || token == undefined) {
         console.error('No token provided to login with.');
-        navigateTo('/profile/login');
+        navigateTo('/login');
         return;
       }
 
@@ -111,7 +111,7 @@ export const useSessionStore = defineStore('sessionStore', {
         console.error(
           'Failed to log in with session token. Rerouting user to login page.'
         );
-        navigateTo('/profile/login');
+        navigateTo('/login');
       }
     },
     /**
@@ -121,7 +121,7 @@ export const useSessionStore = defineStore('sessionStore', {
     async checkSession(redirectIfNotLoggedIn = true) {
       if (!this.doesSessionIdExist) {
         if (redirectIfNotLoggedIn) {
-          navigateTo('/profile/login');
+          navigateTo('/login');
         }
         return;
       }
@@ -150,7 +150,7 @@ export const useSessionStore = defineStore('sessionStore', {
           projectIds: null,
         };
         if (redirectIfNotLoggedIn) {
-          navigateTo('/profile/login');
+          navigateTo('/login');
         }
       }
     },

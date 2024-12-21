@@ -246,7 +246,7 @@ const onRegister = async () => {
         </div>
         <template #footer>
           Already have an account?
-          <ULink to="/profile/login" class="text-blue-500 hover:underline ml-1">
+          <ULink to="/login" class="text-blue-500 hover:underline ml-1">
             Login</ULink
           >
         </template>
