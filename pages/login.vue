@@ -84,7 +84,7 @@ const onLogin = async () => {
 </script>
 
 <template>
-  <div class="w-screen bg-black min-h-screen pt-8 px-8">
+  <div class="w-screen bg-black min-h-screen pt-8 px-8 flex flex-col">
     <img
       src="/android-chrome-512x512.png"
       width="128"
@@ -171,6 +171,8 @@ const onLogin = async () => {
         >
       </template>
     </UCard>
+    <div class="flex-grow"></div>
+    <AppFooter />
   </div>
 </template>
 
