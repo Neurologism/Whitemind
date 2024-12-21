@@ -35,6 +35,12 @@ const isDark = computed({
           class="drop-shadow-md group-hover:text-primary hover:bg-blend relative first:text-xl first:font-semibold first:dark:text-white first:dark:group-hover:text-white p-2"
         />
       </div>
+      <div
+        class="text-white text-2xl font-semibold hover:cursor-pointer grow-0"
+        @click="() => navigateTo('/')"
+      >
+        WhiteMind
+      </div>
 
       <div class="flex-grow"></div>
       <!-- <UTooltip
