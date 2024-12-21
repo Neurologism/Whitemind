@@ -7,6 +7,9 @@ await sessionStore.syncLocalSessionData();
 <template>
   <AppHeader />
   <div class="h-16"></div>
-  <slot> </slot>
-  <AppFooter class="bg-black" />
+  <div class="flex flex-col" style="min-height: calc(100vh - 4rem)">
+    <slot> </slot>
+    <div class="flex-grow"></div>
+    <AppFooter />
+  </div>
 </template>
