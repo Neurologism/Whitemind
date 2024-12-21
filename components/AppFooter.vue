@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <footer class="bg-black w-full">
+  <footer class="w-full">
     <div class="container p-4 mx-auto">
       <div class="flex flex-col md:flex-row justify-between items-center">
         <div class="flex flex-col md:flex-row items-center">
