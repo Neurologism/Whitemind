@@ -21,7 +21,8 @@ const isDark = computed({
   <ClientOnly>
     <ProfileSlideover v-model="showProfileSlideover" />
     <div
-      class="bg-black border-gray-200 border-none flex items-center w-full z-50 fixed h-16"
+      class="backdrop-blur-md border-slate-800 flex items-center w-full z-50 fixed h-16"
+      style="border-bottom-width: 0.5px"
     >
       <div
         @click="() => navigateTo('/')"
@@ -32,11 +33,13 @@ const isDark = computed({
           width="48"
           height="48"
           alt="WhiteMind"
-          class="drop-shadow-md group-hover:text-primary hover:bg-blend relative first:text-xl first:font-semibold first:dark:text-white first:dark:group-hover:text-white p-2"
+          class="group-hover:text-primary hover:bg-blend relative first:text-xl first:font-semibold first:dark:text-white first:dark:group-hover:text-white p-2"
+          style="filter: drop-shadow(2px 4px 3px rgba(0, 0, 0, 0.5))"
         />
       </div>
       <div
         class="text-white text-2xl font-semibold hover:cursor-pointer grow-0"
+        style="filter: drop-shadow(2px 4px 3px rgba(0, 0, 0, 0.5))"
         @click="() => navigateTo('/')"
       >
         WhiteMind
@@ -80,5 +83,4 @@ const isDark = computed({
       </UTooltip>
     </div>
   </ClientOnly>
-  <div class="h-16"></div>
 </template>
