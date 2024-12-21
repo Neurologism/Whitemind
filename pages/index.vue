@@ -2,6 +2,10 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+definePageMeta({
+  layout: 'plain',
+});
+
 gsap.registerPlugin(ScrollTrigger);
 
 const sessionStore = useSessionStore();
@@ -253,6 +257,8 @@ function initGsap() {
 </script>
 
 <template>
+  <AppHeader />
+  <div class="h-16 bg-black"></div>
   <div
     class="mainpanel flex flex-col w-full overflow-scroll bg-black"
     @mousemove="onMouseMove"
@@ -446,6 +452,7 @@ function initGsap() {
         style="font-size: 10rem; bottom: 15vh; right: 20vw"
       ></UIcon>
     </div>
+    <AppFooter />
   </div>
 </template>
 
