@@ -12,27 +12,6 @@ if (sessionStore.doesSessionIdExist) {
   navigateTo('/profile');
 }
 
-enum LoginTab {
-  EMAIL = 0,
-  USERNAME = 1,
-}
-
-let selectedTab = ref(0);
-const loginTabOptions = [
-  {
-    label: 'Email',
-    icon: 'mdi-email',
-  },
-  {
-    label: 'Username',
-    icon: 'mdi-account',
-  },
-];
-const onTabChange = (index: number) => {
-  selectedTab.value = index;
-};
-
-const username = ref('');
 const email = ref('');
 const password = ref('');
 
@@ -83,12 +62,19 @@ const onLogin = async () => {
     });
   }
 };
+
+onMounted(() => {
+  gsap.from('.wm-path', {
+    duration: 1,
+    drawSVG: 0,
+  });
+});
 </script>
 
 <template>
   <div class="w-screen bg-black min-h-screen pt-8 px-8 flex flex-col">
     <img
-      src="/android-chrome-512x512.png"
+      src="/whitemindLogo.svg"
       width="128"
       height="128"
       class="mx-auto mb-8 hover:cursor-pointer"
@@ -98,43 +84,20 @@ const onLogin = async () => {
       Login to WhiteMind
     </h1>
     <UCard class="md:w-3/5 lg:w-2/5 xl:w-4/12 2xl:w-3/12 mx-auto">
-      <!-- <div class="input-tile">
-        <UTabs :items="loginTabOptions" @change="onTabChange" />
-      </div> -->
-      <div v-if="selectedTab == LoginTab.EMAIL" class="input-tile">
-        <UInput
-          v-model="email"
-          label="Email"
-          placeholder="Enter your email or username"
-          type="email"
-        />
-      </div>
-      <div v-if="selectedTab == LoginTab.USERNAME" class="input-tile">
-        <HintBox>
-          <UInput
-            v-model="username"
-            label="Username"
-            type="username"
-            placeholder="Enter your username"
-          />
-          <template #hint>
-            <UAlert
-              v-if="username.length < 3"
-              icon="mdi-info"
-              color="red"
-              variant="outline"
-              title="Username must be at least 3 characters long"
-              message="Please choose a unique username"
-            />
-          </template>
-        </HintBox>
-      </div>
+      <UInput
+        v-model="email"
+        label="Email or Username"
+        placeholder="Enter your email or username"
+        type="email"
+        class="input-tile"
+      />
       <div class="input-tile">
         <UInput
           v-model="password"
           label="Password"
           placeholder="Enter your password"
           type="password"
+          @keyup.enter="onLogin"
         />
       </div>
       <div class="input-tile">
