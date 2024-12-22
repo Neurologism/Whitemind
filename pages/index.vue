@@ -307,7 +307,7 @@ function initGsap() {
           Turn your concepts into smart, AI-powered solutions effortlessly.
         </p>
         <UButton
-          :to="sessionStore.doesSessionIdExist ? '/profile' : '/signup'"
+          :to="sessionStore.isAuthorized ? '/profile' : '/signup'"
           class="text3 px-4 py-2 md:px-6 md:py-3 text-lg font-semibold dark:text-white bg-blue-600 hover:bg-blue-700 mt-8"
           icon="i-heroicons-rocket-launch-solid"
           :color="'none' as any"
@@ -486,7 +486,7 @@ function initGsap() {
           solutions.
         </p>
         <UButton
-          :to="sessionStore.doesSessionIdExist ? '/profile' : '/signup'"
+          :to="sessionStore.isAuthorized ? '/profile' : '/signup'"
           class="px-4 py-2 md:px-6 md:py-3 text-lg font-semibold dark:text-white bg-purple-700 mt-8"
           icon="i-heroicons-rocket-launch-solid"
           :color="'none' as any"
