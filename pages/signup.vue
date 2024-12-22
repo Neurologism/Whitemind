@@ -203,6 +203,7 @@ const onRegister = async () => {
             label="Confirm Password"
             placeholder="Confirm your password"
             type="password"
+            @keyup.enter="onRegister"
           />
           <template #hint>
             <UAlert
@@ -243,7 +244,7 @@ const onRegister = async () => {
           color="primary"
           @click="onRegister"
         >
-          Register
+          Sign up
         </UButton>
       </div>
       <template #footer>
