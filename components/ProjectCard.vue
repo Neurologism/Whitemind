@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { useProjectStore } from '~/stores/ProjectStore';
-import { useSessionStore } from '~/stores/SessionStore';
-
 const sessionStore = useSessionStore();
 const projectStore = useProjectStore();
 
