@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useSessionStore } from '~/stores/SessionStore';
-import { useProjectStore } from '~/stores/ProjectStore';
 
 const toast = useToast();
 
 const sessionStore = useSessionStore();
 const projectStore = useProjectStore();
 
-if (!sessionStore.doesSessionIdExist) {
+if (!sessionStore.isAuthorized) {
   navigateTo('/');
   toast.add({
     title: 'You are not logged in',
@@ -59,7 +57,7 @@ const createProject = async () => {
   if (data.project?._id) {
     await projectStore.fetchProject(data.project._id, sessionStore.fetch);
     await sessionStore.loginWithSessionToken(
-      sessionStore.sessionData.sessionID
+      sessionStore.sessionData.Authorization
     );
     navigateTo(`/project/${data.project._id}`);
   }
