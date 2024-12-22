@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useSessionStore } from '~/stores/SessionStore';
-
 definePageMeta({
   layout: 'plain',
 });
