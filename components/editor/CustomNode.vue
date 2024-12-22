@@ -86,19 +86,21 @@ function toggleNodeToolbar() {
       <div v-if="shapeGroupData.group_identifier !== 'visualizer'">
         <div v-for="(shapeDefinition, key) in shapeData.data">
           <div
-            class="m-3 grid grid-cols-1 items-center justify-between bg-amber-500 font-mono text-sm rounded border-2 border-solid border-gray-900 hover:scale-105 relative p-1"
+            class="mb-2 ml-3 grid grid-cols-1 items-center justify-between bg-slate-700 font-mono text-sm rounded-l-md border-2 border-r-0 border-solid border-gray-300 hover:scale-105 origin-right relative p-1"
             v-if="shapeDefinition.type === 'id'"
           >
-            {{ key }}
+            <span class="pr-2 font-semibold font-mono brightness-200">{{
+              key
+            }}</span>
             <Handle
               :id="`val-${key}-${props.nodeId}`"
               :position="Position.Right"
               :connectable-start="true"
               :connectable-end="true"
-              class="rounded-sm border-2 border-solid border-gray-900"
+              class="rounded-sm border-solid"
               :style="{
-                height: '10px',
-                width: '35px',
+                height: '12px',
+                width: '12px',
                 backgroundColor: shapeGroupData.color,
               }"
             />
@@ -121,8 +123,8 @@ function toggleNodeToolbar() {
     :connectable-end="true"
     :connectable-start="false"
     :style="{
-      height: '10px',
-      width: '10px',
+      height: '12px',
+      width: '12px',
       backgroundColor: shapeGroupData.color,
     }"
   />
@@ -133,8 +135,8 @@ function toggleNodeToolbar() {
     :connectable-end="false"
     :connectable-start="true"
     :style="{
-      height: '10px',
-      width: '10px',
+      height: '12px',
+      width: '12px',
       backgroundColor: shapeGroupData.color,
     }"
   />
