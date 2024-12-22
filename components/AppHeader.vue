@@ -65,9 +65,7 @@ const isDark = computed({
         >
           Sign in
         </UButton>
-        <UButton to="/profile/register" variant="solid" color="gray">
-          Sign up
-        </UButton>
+        <UButton to="/signup" variant="solid" color="gray"> Sign up </UButton>
       </div>
 
       <UTooltip class="mr-1 sm:mr-3 lg:mr-5 grow-0" v-else>

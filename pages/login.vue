@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useSessionStore } from '~/stores/SessionStore';
 const toast = useToast();
 
@@ -89,9 +88,9 @@ onMounted(() => {
         label="Email or Username"
         placeholder="Enter your email or username"
         type="email"
-        class="input-tile"
+        class="mb-4 ml-5 mr-5"
       />
-      <div class="input-tile">
+      <div class="mb-4 ml-5 mr-5">
         <UInput
           v-model="password"
           label="Password"
@@ -100,7 +99,7 @@ onMounted(() => {
           @keyup.enter="onLogin"
         />
       </div>
-      <div class="input-tile">
+      <div class="mb-4 ml-5 mr-5">
         <UButton
           block
           :disabled="
@@ -125,10 +124,7 @@ onMounted(() => {
       </div>
       <template #footer>
         Don't have an account yet?
-        <ULink
-          to="/profile/register"
-          class="text-blue-500 hover:underline ml-1"
-        >
+        <ULink to="/signup" class="text-blue-500 hover:underline ml-1">
           Sign up</ULink
         >
       </template>
@@ -138,8 +134,4 @@ onMounted(() => {
   </div>
 </template>
 
-<style scoped>
-.input-tile {
-  @apply mb-4 ml-5 mr-5;
-}
-</style>
+<style scoped></style>
