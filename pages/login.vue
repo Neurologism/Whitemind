@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useSessionStore } from '~/stores/SessionStore';
 const toast = useToast();
 
 definePageMeta({
@@ -7,7 +6,7 @@ definePageMeta({
 });
 
 const sessionStore = useSessionStore();
-if (sessionStore.doesSessionIdExist) {
+if (sessionStore.isAuthorized) {
   navigateTo('/profile');
 }
 
