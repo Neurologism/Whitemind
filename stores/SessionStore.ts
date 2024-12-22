@@ -4,7 +4,7 @@ export const useSessionStore = defineStore('sessionStore', {
   state: () => ({
     sessionData: ref({
       sessionStart: Date(),
-      sessionID: '',
+      Authorization: '',
       user: {
         _id: '' as string | null,
         brainetTag: '' as string | null,
@@ -32,8 +32,8 @@ export const useSessionStore = defineStore('sessionStore', {
     }),
   }),
   getters: {
-    doesSessionIdExist: (state) => {
-      return state.sessionData.sessionID !== '';
+    isAuthorized: (state) => {
+      return state.sessionData.Authorization !== '';
     },
     // @ts-ignore somehow this is not recognized as a getter
     isProd: () => import.meta.env.PROD,
@@ -42,7 +42,7 @@ export const useSessionStore = defineStore('sessionStore', {
     async signOut() {
       const toast = useToast();
 
-      this.sessionData.sessionID = '';
+      this.sessionData.Authorization = '';
       this.sessionData.user = {
         _id: null,
         brainetTag: null,
@@ -83,7 +83,7 @@ export const useSessionStore = defineStore('sessionStore', {
 
       const headers = {
         ...options.headers,
-        Authorization: `Bearer ${this.sessionData.sessionID}`,
+        Authorization: `Bearer ${this.sessionData.Authorization}`,
       };
 
       return fetch(url, {
@@ -98,7 +98,7 @@ export const useSessionStore = defineStore('sessionStore', {
         return;
       }
 
-      this.sessionData.sessionID = token;
+      this.sessionData.Authorization = token;
       let response = await this.fetch('/api/user/get', { method: 'POST' });
       if (response.ok) {
         let data = await response.json();
@@ -107,7 +107,7 @@ export const useSessionStore = defineStore('sessionStore', {
         localStorage.setItem('sessionData', JSON.stringify(this.sessionData));
         // navigateTo('/projects');
       } else {
-        this.sessionData.sessionID = '';
+        this.sessionData.Authorization = '';
         console.error(
           'Failed to log in with session token. Rerouting user to login page.'
         );
@@ -119,7 +119,7 @@ export const useSessionStore = defineStore('sessionStore', {
      * @param redirectIfNotLoggedIn
      */
     async checkSession(redirectIfNotLoggedIn = true) {
-      if (!this.doesSessionIdExist) {
+      if (!this.isAuthorized) {
         if (redirectIfNotLoggedIn) {
           navigateTo('/login');
         }
@@ -136,7 +136,7 @@ export const useSessionStore = defineStore('sessionStore', {
         return;
       }
       if (result.status == 401 || (await result.json()).loggedIn == false) {
-        this.sessionData.sessionID = '';
+        this.sessionData.Authorization = '';
         this.sessionData.user = {
           _id: null,
           brainetTag: null,
@@ -155,7 +155,7 @@ export const useSessionStore = defineStore('sessionStore', {
       }
     },
     async refreshUserData() {
-      await this.loginWithSessionToken(this.sessionData.sessionID);
+      await this.loginWithSessionToken(this.sessionData.Authorization);
     },
     async syncLocalSessionData() {
       if (!import.meta.client) return;
@@ -164,7 +164,7 @@ export const useSessionStore = defineStore('sessionStore', {
       );
       const currentSession = this.sessionData;
 
-      if (!localSession.sessionID && !currentSession.sessionID) {
+      if (!localSession.Authorization && !currentSession.Authorization) {
         console.warn(
           'No session found in both local storage and current session data.'
         );
@@ -172,15 +172,15 @@ export const useSessionStore = defineStore('sessionStore', {
       }
 
       if (
-        localSession.sessionID &&
-        (!currentSession.sessionID ||
+        localSession.Authorization &&
+        (!currentSession.Authorization ||
           new Date(localSession.sessionStart) >
             new Date(currentSession.sessionStart))
       ) {
         this.sessionData = localSession;
       } else if (
-        currentSession.sessionID &&
-        (!localSession.sessionID ||
+        currentSession.Authorization &&
+        (!localSession.Authorization ||
           new Date(currentSession.sessionStart) >
             new Date(localSession.sessionStart))
       ) {
