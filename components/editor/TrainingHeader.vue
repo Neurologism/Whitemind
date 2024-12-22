@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import { SyncStatus } from '~/components/editor/syncStatus';
-import { useSessionStore } from '~/stores/SessionStore';
-import { useTrainingStore } from '~/stores/TrainingStore';
-import { useToast } from '#ui/composables/useToast';
 
 const toast = useToast();
 

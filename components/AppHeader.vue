@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useSessionStore } from '~/stores/SessionStore';
 const sessionStore = useSessionStore();
 
 const emit = defineEmits(['click-theme']);
@@ -54,7 +53,7 @@ const isDark = computed({
         <UIcon name="fluent:dark-theme-20-filled" size="large" />
       </UTooltip> -->
       <div
-        v-if="!sessionStore.doesSessionIdExist"
+        v-if="!sessionStore.isAuthorized"
         class="ml-1 sm:ml-3 lg:ml-5 grow-0 mr-3 lg:mr-5"
       >
         <UButton
