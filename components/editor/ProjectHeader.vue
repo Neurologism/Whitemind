@@ -61,9 +61,9 @@ const breadcrumbSettings = computed(() => [
         <slot />
       </div>
       <div class="mr-3 items-center flex flex-row">
-        <div class="p-2 hover:cursor-pointer rounded" @click="toggleColorMode">
+        <!-- <div class="p-2 hover:cursor-pointer rounded" @click="toggleColorMode">
           <UIcon name="fluent:dark-theme-20-filled" />
-        </div>
+        </div> -->
         <UTooltip class="ml-3" :text="`Show profile (${props.projectOwner})`">
           <!-- <ULink to="/profile">
           </ULink> -->
