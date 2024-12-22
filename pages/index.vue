@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { current } from 'tailwindcss/colors';
+import BrainCircuit20Filled from '~/components/icon/BrainCircuit20Filled.vue';
+
 definePageMeta({
   layout: 'plain',
 });
@@ -34,16 +37,29 @@ function onMouseMove(event: MouseEvent) {
     ease: 'power3.out',
   });
 
-  gsap.to('.icon2', {
+  gsap.to('.icon2-0', {
     x: -x * 1.5,
     y: -y * 1.5,
     duration: 2,
     ease: 'power3.out',
   });
+  gsap.to('.icon2-1', {
+    x: -x * 0.5,
+    y: -y * 0.5,
+    duration: 2,
+    ease: 'power3.out',
+  });
 
-  gsap.to('.icon3', {
-    x: -x * 1.5,
-    y: -y * 1.5,
+  gsap.to('.icon3-0', {
+    x: -x * 1.0,
+    y: -y * 1.0,
+    duration: 2,
+    ease: 'power3.out',
+  });
+
+  gsap.to('.icon3-1', {
+    x: -x * 0.5,
+    y: -y * 0.5,
     duration: 2,
     ease: 'power3.out',
   });
@@ -51,87 +67,133 @@ function onMouseMove(event: MouseEvent) {
 
 onMounted(() => {
   initGsap();
-  window.addEventListener('resize', initGsap);
 });
 
 function initGsap() {
-  gsap.killTweensOf('.text1');
-  gsap.killTweensOf('.text2');
-  gsap.killTweensOf('.text3');
-  gsap.killTweensOf('.icon2');
-  gsap.killTweensOf('.icon3');
-  gsap.killTweensOf('.text4');
-  gsap.killTweensOf('.text5');
-  gsap.killTweensOf('.puzzle1');
-  gsap.killTweensOf('.puzzle2');
-  gsap.killTweensOf('.puzzle3');
-  gsap.killTweensOf('.icon4');
-  gsap.killTweensOf('.text6');
-  gsap.killTweensOf('.text7');
+  const matchMedia = gsap.matchMedia();
 
-  const xl = window.innerWidth >= 1280;
-
-  const panel1Timeline = gsap
-    .timeline()
-    .from('.text1', {
-      duration: 1,
-      y: 100,
-      opacity: 0,
-      ease: 'power3.out',
-    })
-    .from(
-      '.text2',
-      {
+  matchMedia.add('(min-width: 1280px)', () => {
+    gsap
+      .timeline()
+      .from('.text1', {
         duration: 1,
         y: 100,
         opacity: 0,
         ease: 'power3.out',
-      },
-      '-=0.5'
-    );
-
-  if (xl) {
-    panel1Timeline.from(
-      '.icon2',
-      {
-        duration: 1,
-        x: 200,
-        y: 50,
+      })
+      .from(
+        '.text2',
+        {
+          duration: 1,
+          y: 100,
+          opacity: 0,
+          ease: 'power3.out',
+        },
+        '-=0.5'
+      )
+      .from(
+        '.icon2',
+        {
+          duration: 1,
+          x: 200,
+          y: 50,
+          opacity: 0,
+          ease: 'power3.out',
+        },
+        '-=0.5'
+      )
+      .from(
+        '.icon3',
+        {
+          duration: 2,
+          rotation: 180,
+          opacity: 0,
+          ease: 'elastic.out',
+        },
+        '-=0.5'
+      )
+      .from('.text3', {
+        duration: 3,
         opacity: 0,
         ease: 'power3.out',
-      },
-      '-=0.5'
-    );
-  }
-
-  panel1Timeline
-    .from(
-      '.icon3',
-      {
-        duration: 2,
-        rotation: 180,
-        opacity: 0,
-        ease: 'elastic.out',
-      },
-      '-=0.5'
-    )
-    .from('.text3', {
-      duration: 3,
-      opacity: 0,
-      ease: 'power3.out',
-    });
-
-  gsap.from('.panel2', {
-    scrollTrigger: {
-      trigger: '.panel2',
-      pin: true,
-      start: 'center center',
-      end: 'bottom top',
-    },
-    ease: 'none',
+      });
   });
 
-  if (xl) {
+  matchMedia.add('(max-width: 1279px)', () => {
+    gsap
+      .timeline()
+      .from('.text1', {
+        duration: 1,
+        y: 100,
+        opacity: 0,
+        ease: 'power3.out',
+      })
+      .from(
+        '.text2',
+        {
+          duration: 1,
+          y: 100,
+          opacity: 0,
+          ease: 'power3.out',
+        },
+        '-=0.5'
+      )
+      .from(
+        '.icon3',
+        {
+          duration: 2,
+          rotation: 180,
+          opacity: 0,
+          ease: 'elastic.out',
+        },
+        '-=0.5'
+      )
+      .from('.text3', {
+        duration: 3,
+        opacity: 0,
+        ease: 'power3.out',
+      });
+  });
+
+  matchMedia.add('(min-width: 1280px)', () => {
+    gsap.from('.puzzle1', {
+      scrollTrigger: {
+        trigger: '.mainpanel',
+        start: '20% center',
+        end: '26% center',
+        scrub: 1,
+      },
+      opacity: 0,
+      y: 50,
+      ease: 'none',
+      duration: 1,
+    });
+
+    gsap.from('.puzzle2', {
+      scrollTrigger: {
+        trigger: '.mainpanel',
+        start: '26% center',
+        end: '32% center',
+        scrub: 1,
+      },
+      opacity: 0,
+      y: -200,
+      ease: 'none',
+      duration: 1,
+    });
+
+    gsap.from('.puzzle3', {
+      scrollTrigger: {
+        trigger: '.mainpanel',
+        start: '32% center',
+        end: '38% center',
+        scrub: 1,
+      },
+      opacity: 0,
+      x: 200,
+      ease: 'none',
+      duration: 1,
+    });
     gsap
       .timeline({
         scrollTrigger: {
@@ -171,45 +233,17 @@ function initGsap() {
         },
         '-=1'
       );
-  }
-
-  gsap.from('.puzzle1', {
-    scrollTrigger: {
-      trigger: '.mainpanel',
-      start: '20% center',
-      end: '26% center',
-      scrub: 1,
-    },
-    opacity: 0,
-    y: 50,
-    ease: 'none',
-    duration: 1,
   });
+  matchMedia.add('(max-width: 1279px)', () => {});
 
-  gsap.from('.puzzle2', {
+  gsap.from('.panel2', {
     scrollTrigger: {
-      trigger: '.mainpanel',
-      start: '26% center',
-      end: '32% center',
-      scrub: 1,
+      trigger: '.panel2',
+      pin: true,
+      start: 'center center',
+      end: 'bottom top',
     },
-    opacity: 0,
-    y: -200,
     ease: 'none',
-    duration: 1,
-  });
-
-  gsap.from('.puzzle3', {
-    scrollTrigger: {
-      trigger: '.mainpanel',
-      start: '32% center',
-      end: '38% center',
-      scrub: 1,
-    },
-    opacity: 0,
-    x: 200,
-    ease: 'none',
-    duration: 1,
   });
 
   gsap.from('.icon4', {
@@ -225,27 +259,27 @@ function initGsap() {
     duration: 1,
   });
 
-  gsap.to('.text6', {
+  gsap.to('.panel3', {
     scrollTrigger: {
       trigger: '.panel3',
       pin: true,
       start: 'center center',
       end: 'bottom top',
-      scrub: 0.5,
+      scrub: 1,
     },
-    x: '200%',
+    x: '-100%',
     ease: 'none',
   });
 
-  gsap.from('.text7', {
+  gsap.from('.panel4', {
     scrollTrigger: {
       trigger: '.panel4',
       pin: true,
       start: 'center center',
       end: 'bottom top',
-      scrub: 0.5,
+      scrub: 1,
     },
-    x: '-200%',
+    x: '100%',
     ease: 'none',
   });
 }
@@ -255,7 +289,7 @@ function initGsap() {
   <AppHeader />
   <div class="h-16 bg-black"></div>
   <div
-    class="mainpanel flex flex-col w-full overflow-scroll bg-black"
+    class="mainpanel flex flex-col w-full overflow-hidden bg-black"
     @mousemove="onMouseMove"
   >
     <!-- style="background-image: linear-gradient(to bottom, #340062ff, #003ff0ff)" -->
@@ -265,11 +299,11 @@ function initGsap() {
         style="top: 40%; left: 50%; transform: translate(-50%, -50%)"
       >
         <h2
-          class="text1 text-4xl sm:text-5xl md:text-8xl font-bold tracking-tight text-gray-900 dark:text-white mx-auto"
+          class="text1 text-4xl sm:text-5xl lg:text-6xl xl:text-8xl font-bold tracking-tight text-gray-900 dark:text-white mx-auto"
         >
           Unlock the power of AI creation
         </h2>
-        <p class="text2 text-2xl mt-4 text-slate-200">
+        <p class="text2 text-xl lg:text-2xl mt-4 text-slate-200">
           Turn your concepts into smart, AI-powered solutions effortlessly.
         </p>
         <UButton
@@ -282,19 +316,48 @@ function initGsap() {
         >
           Sign up for WhiteMind
         </UButton>
+        <UIcon
+          name="mage:robot-uwu-fill"
+          class="icon3 icon3-0 mt-14 xl:hidden text"
+          style="font-size: 10rem"
+        ></UIcon>
       </div>
 
       <UIcon
         name="fluent:brain-circuit-20-filled"
-        class="absolute icon2 hidden xl:block"
+        class="absolute icon2 icon2-0 hidden xl:block z-10"
         style="font-size: 15rem; top: 50vh; left: 10vw"
       ></UIcon>
-      <UIcon name="mage:robot-uwu-fill" class="icon3"></UIcon>
+      <BrainCircuit20Filled
+        size="225"
+        class="icon2 icon2-1 hidden xl:block absolute text-blue-500 blur-sm"
+        style="top: calc(50vh - 8px); left: calc(10vw - 8px); font-size: 10rem"
+      />
+      <UIcon
+        name="mage:robot-uwu-fill"
+        class="icon3 icon3-0 hidden xl:block absolute z-10"
+        style="bottom: 50vh; right: 10vw; font-size: 10rem"
+      ></UIcon>
+      <!-- <UIcon
+        name="mdi:circle"
+        class="icon3 icon3-0 hidden xl:block absolute text-blue-500"
+        style="bottom: 52vh; right: 11vw; font-size: 7rem"
+      ></UIcon> -->
+
+      <IconRobotUwuFill
+        size="150"
+        class="icon3 icon3-1 hidden xl:block absolute text-blue-500 blur-sm"
+        style="
+          bottom: calc(50vh + 8px);
+          right: calc(10vw + 8px);
+          font-size: 10rem;
+        "
+      />
     </div>
 
     <div class="panel2 panel flex relative">
       <div
-        class="absolute w-2/3 md:w-1/2 text-center left-1/2 xl:left-1/3"
+        class="absolute w-2/3 md:w-1/2 text-center left-1/2 xl:left-1/3 mt-16 xl:mt-0"
         style="top: 40%; transform: translate(-50%, -50%)"
       >
         <h2
@@ -306,6 +369,11 @@ function initGsap() {
           WhiteMind lets anyone create advanced AI models <br />
           with an intuitive drag-and-drop interface.
         </p>
+        <UIcon
+          name="mingcute:code-fill"
+          class="icon4 mt-16 text xl:hidden"
+          style="font-size: 12rem"
+        ></UIcon>
       </div>
 
       <UIcon
@@ -329,7 +397,7 @@ function initGsap() {
       ></UIcon>
       <UIcon
         name="mingcute:code-fill"
-        class="absolute icon4"
+        class="absolute icon4 hidden xl:block"
         style="font-size: 10rem; bottom: 12vh; left: 28vw"
       ></UIcon>
       <UIcon
@@ -341,7 +409,7 @@ function initGsap() {
     <div class="panel3 panel flex relative">
       <div
         class="absolute w-2/3 md:w-1/2 text-left text6 left-1/2"
-        style="top: 60%; transform: translate(-50%, -50%)"
+        style="top: 50%; transform: translate(-50%, -50%)"
       >
         <h2
           class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white"
@@ -355,7 +423,7 @@ function initGsap() {
       </div>
 
       <UIcon
-        name="fluent:hat-graduation-12-filled"
+        name="mdi:server"
         class="absolute hidden xl:block"
         style="
           font-size: 15rem;
@@ -364,7 +432,7 @@ function initGsap() {
         "
       ></UIcon>
       <UIcon
-        name="mdi:server"
+        name="mdi:cloud"
         class="absolute opacity-0 hidden xl:block"
         style="font-size: 10rem; top: 4vh; right: 28vw"
       ></UIcon>
@@ -377,8 +445,8 @@ function initGsap() {
 
     <div class="panel4 panel flex relative">
       <div
-        class="absolute w-2/3 md:w-1/2 text-right xl:left-1/3 left-1/2"
-        style="top: 30%; transform: translate(-50%, -50%)"
+        class="absolute w-2/3 md:w-1/2 text-left text6 left-1/2"
+        style="top: 50%; transform: translate(-50%, -50%)"
       >
         <h2
           class="text7 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white"
@@ -392,14 +460,14 @@ function initGsap() {
       </div>
 
       <UIcon
-        name="mdi:cloud"
-        class="absolute opacity-0 hidden xl:block"
-        style="font-size: 10rem; top: 50vh; left: 10vw"
+        name="fluent:hat-graduation-12-filled"
+        class="absolute hidden xl:block"
+        style="font-size: 15rem; top: 50vh; left: 10vw"
       ></UIcon>
       <UIcon
         name="mage:book-fill"
-        class="absolute opacity-0 hidden xl:block"
-        style="font-size: 10rem; top: 10vh; right: 8vw"
+        class="absolute hidden xl:block"
+        style="font-size: 15rem; top: 10vh; right: 8vw"
       ></UIcon>
     </div>
 
@@ -452,44 +520,19 @@ function initGsap() {
 </template>
 
 <style scoped>
-/* .panel {
-  height: 80vh;
-} */
-
-/* @media (min-width: 1280px) { */
 .panel {
   height: calc(100vh - 4rem);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
-/* } */
 
-/* @media (min-width: 1280px) { */
 .panel2 {
   margin-bottom: calc(100vh - 4rem);
 }
-/* } */
 
-/* @media (min-width: 1280px) { */
 .panel4 {
   margin-top: calc(4rem - 100vh);
   margin-bottom: calc(100vh - 4rem);
-}
-/* } */
-
-.icon3 {
-  font-size: 10rem;
-  margin-right: auto;
-  margin-left: auto;
-  align-self: self-end;
-  margin-bottom: 5vh;
-}
-
-@media (min-width: 1280px) {
-  .icon3 {
-    font-size: 10rem;
-    bottom: 50vh;
-    right: 10vw;
-    position: absolute;
-  }
 }
 
 .mainpanel {
