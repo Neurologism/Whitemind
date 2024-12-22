@@ -108,6 +108,7 @@ function toggleNodeToolbar() {
       <div class="p-2 flex-1 w-full" v-else>
         <component
           :is="chartComponentsByIdentifier[shapeData.identifier]"
+          :nodeid="props.nodeId"
         ></component>
       </div>
     </div>

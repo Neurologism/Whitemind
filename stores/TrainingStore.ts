@@ -1,24 +1,36 @@
 import { defineStore } from 'pinia';
 
+interface trainingState {
+  training: {
+    running: boolean;
+    projectId?: string;
+    modelId?: string;
+    data: {
+      status: 'queued' | 'training' | 'finished' | 'error' | 'stopped';
+      output: object[];
+      queued_at?: number;
+      started_at?: number;
+      finished_at?: number;
+      error?: object;
+      project_id?: string;
+    };
+  };
+}
+
 export const useTrainingStore = defineStore('trainingStore', {
-  state: () => ({
+  state: (): trainingState => ({
     training: {
       running: false,
-      projectId: null as string | null,
-      modelId: null as string | null,
+      projectId: undefined,
+      modelId: undefined,
       data: {
-        status: 'stopped' as
-          | 'queued'
-          | 'training'
-          | 'finished'
-          | 'error'
-          | 'stopped',
-        output: [] as string[],
-        queued_at: null as number | null,
-        started_at: null as number | null,
-        finished_at: null as number | null,
-        error: null as any,
-        project_id: null as string | null,
+        status: 'stopped',
+        output: [],
+        queued_at: undefined,
+        started_at: undefined,
+        finished_at: undefined,
+        error: undefined,
+        project_id: undefined,
       },
     },
   }),
@@ -117,6 +129,11 @@ export const useTrainingStore = defineStore('trainingStore', {
         success: response.ok,
         message: (data['msg'] ?? null) as string | null,
       };
+    },
+    getVisualizerData(nodeID: string) {
+      return this.training.data.output.filter((data) =>
+        Object.keys(data).includes(nodeID)
+      );
     },
   },
 });
