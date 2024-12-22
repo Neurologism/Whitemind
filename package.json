@@ -26,6 +26,7 @@
     "@vue-flow/node-toolbar": "^1.1.0",
     "@vue/language-server": "2.0.28",
     "animate.css": "^4.1.1",
+    "axios": "^1.7.9",
     "echarts": "^5.5.1",
     "gsap": "^3.12.5",
     "interactjs": "^1.10.27",
