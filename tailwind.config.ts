@@ -6,7 +6,8 @@ export default <Partial<Config>>{
     extend: {
       colors: {
         customPrimary: colors.blue,
-        customBlue: '#003ff0ff',
+        logoBlueBright: '#00b8fc',
+        logoBlueDark: '#009cf0',
         customPurple: '#003ff0ff',
       },
     },
