@@ -1,7 +1,20 @@
 <script setup lang="ts">
-const sessionStore = useSessionStore();
+import axios from 'axios';
+import type { User } from '~/types/user';
 
+const props = defineProps<{
+  brainetTag: string;
+}>();
+
+const sessionStore = useSessionStore();
+const userStore = useUserStore();
 const fileInput = ref<HTMLInputElement | null>(null);
+const backmindHost = useRuntimeConfig().public.backmindHost as string;
+const user = ref<User | undefined>(undefined);
+const userLoading = ref(true);
+const pfpUrl = ref<string>('https://whitemind.icinoxis.net/user.svg');
+const hasPfp = ref(true);
+const toast = useToast();
 
 function triggerFileInput() {
   if (fileInput.value) {
@@ -9,21 +22,14 @@ function triggerFileInput() {
   }
 }
 
-const backmindHost = useRuntimeConfig().public.backmindHost as string;
+async function checkForPfp() {
+  const response = await axios
+    .get(pfpUrl.value)
+    .then((response) => (hasPfp.value = response.status === 200))
+    .catch(() => (hasPfp.value = false));
+}
 
-const user = ref<User | undefined>();
-
-const pfpUrl = ref<string>('https://whitemind.icinoxis.net/testpfp.jpg');
-
-watch(user, () => {
-  if (user.value) {
-    pfpUrl.value = backmindHost + '/api/user/get-pfp/' + user.value._id;
-  }
-});
-
-const toast = useToast();
-
-const handleFileChange = async (event: Event) => {
+async function handleFileChange(event: Event) {
   const target = event.target as HTMLInputElement;
   const file = target.files ? target.files[0] : null;
 
@@ -63,19 +69,7 @@ const handleFileChange = async (event: Event) => {
       console.error(error);
     }
   }
-};
-
-import type { User } from '~/types/user';
-
-const props = defineProps<{
-  brainetTag: string;
-}>();
-
-const userStore = useUserStore();
-
-const userLoading = computed(() => {
-  return user.value === undefined;
-});
+}
 
 const isSelf = computed(() => {
   return (
@@ -93,6 +87,14 @@ async function loadUser() {
   user.value = await userStore.getUserByBrainetTag(props.brainetTag);
 }
 
+watch(user, async () => {
+  if (user.value) {
+    pfpUrl.value = backmindHost + '/api/user/get-pfp/' + user.value._id;
+    checkForPfp();
+    userLoading.value = false;
+  }
+});
+
 loadUser();
 </script>
 
@@ -108,29 +110,29 @@ loadUser();
   <div class="w-full">
     <div class="w-2/3 mx-auto flex mt-6">
       <div class="w-52">
-        <LoadingSkeleton
-          :active="userLoading"
-          :inline="true"
-          rounded="full w-52 h-52"
-        >
-          <div v-if="!userLoading">
+        <LoadingSkeleton :active="userLoading" class="w-52 h-52" rounded="full">
+          <UTooltip
+            class="w-full h-full rounded-full overflow-hidden"
+            v-if="!hasPfp"
+            text="no profile picture"
+            ><NuxtImg src="/user256.png" class="w-full h-full"
+          /></UTooltip>
+          <div
+            class="w-52 h-52 rounded-full overflow-hidden relative hover:cursor-pointer"
+            @click="triggerFileInput"
+            v-else-if="isSelf"
+          >
             <div
-              class="w-52 h-52 rounded-full overflow-hidden relative hover:cursor-pointer"
-              @click="triggerFileInput"
-              v-if="isSelf"
+              class="z-10 absolute w-full h-full bg-black transition-all duration-300 bg-opacity-0 hover:bg-opacity-50 hover:opacity-100 opacity-0"
             >
-              <div
-                class="z-10 absolute w-full h-full bg-black transition-all duration-300 bg-opacity-0 hover:bg-opacity-50 hover:opacity-100 opacity-0"
-              >
-                <UIcon
-                  name="fluent:edit-32-filled"
-                  class="text-white w-8 h-8 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
-                />
-              </div>
-              <NuxtImg :src="pfpUrl" class="absolute w-full h-full" />
+              <UIcon
+                name="fluent:edit-32-filled"
+                class="text-white w-8 h-8 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
+              />
             </div>
-            <NuxtImg v-else :src="pfpUrl" class="w-52 h-52 rounded-full" />
+            <NuxtImg :src="pfpUrl" class="absolute w-full h-full" />
           </div>
+          <NuxtImg v-else :src="pfpUrl" class="w-52 h-52 rounded-full" />
         </LoadingSkeleton>
 
         <div class="mt-6">
@@ -196,7 +198,10 @@ loadUser();
             @click="navigateTo('/profile/settings')"
           />
         </div>
-        <div class="w-full mt-6 flex" v-else-if="sessionStore.isAuthorized">
+        <div
+          class="w-full mt-6 flex"
+          v-if="!userLoading && !isSelf && sessionStore.isAuthorized"
+        >
           <UButton class="justify-center mr-2 flex-grow" color="blue" size="sm"
             >Follow</UButton
           >
