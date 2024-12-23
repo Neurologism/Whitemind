@@ -95,6 +95,10 @@ watch(user, async () => {
   }
 });
 
+onMounted(() => {
+  sessionStore.loading = false;
+});
+
 loadUser();
 </script>
 

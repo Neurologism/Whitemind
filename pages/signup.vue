@@ -14,6 +14,8 @@ const password2 = ref('');
 
 const legalStuff = ref(false);
 
+const toast = useToast();
+
 let usernameOrEmailChangeTimeout: NodeJS.Timeout | null = null;
 
 function onUsernameOrEmailChange() {
@@ -86,6 +88,7 @@ const getPasswordColor = (score: number) => {
 };
 
 const onRegister = async () => {
+  sessionStore.showLoadingAnimation('REGISTERING...');
   let response = await sessionStore.fetch('/api/auth/register', {
     method: 'POST',
     cache: 'no-cache',
@@ -108,7 +111,13 @@ const onRegister = async () => {
     await sessionStore.loginWithSessionToken(data.token);
     navigateTo('/projects');
   } else {
-    console.log('Registration failed');
+    sessionStore.loading = false;
+    toast.add({
+      title: 'Registration failed',
+      description: 'Please try again',
+      color: 'red',
+      icon: 'mdi-alert-circle',
+    });
   }
 };
 </script>

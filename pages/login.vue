@@ -26,6 +26,7 @@ const validateEmail = (email: string): boolean => {
 };
 
 const onLogin = async () => {
+  sessionStore.showLoadingAnimation('LOGGING IN...');
   let response = await sessionStore.fetch('/api/auth/login', {
     method: 'POST',
     cache: 'no-cache',
@@ -52,6 +53,7 @@ const onLogin = async () => {
     await sessionStore.loginWithSessionToken(data.token);
     navigateTo('/profile');
   } else {
+    sessionStore.loading = false;
     toast.add({
       title: 'Login failed',
       description: data.msg,
