@@ -3,6 +3,7 @@ import axios from 'axios';
 
 export const useSessionStore = defineStore('sessionStore', {
   state: () => ({
+    loading: false,
     hasPfp: true,
     sessionData: ref({
       sessionStart: Date(),
