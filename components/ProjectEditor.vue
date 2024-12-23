@@ -111,7 +111,7 @@ async function loadProject() {
   } else {
     title.value = project.name;
     sessionStore.loading = false;
-    toast.add({ title: 'Project loaded', icon: 'mdi-check', color: 'green' });
+    // toast.add({ title: 'Project loaded', icon: 'mdi-check', color: 'green' });
     syncStatus.value = SyncStatus.synced;
   }
 }
