@@ -176,7 +176,11 @@ watch(
 
 <template>
   <div class="flex flex-row relative">
-    <div class="dnd-flow flex-2" @drop="handleDrop" @dragover.prevent>
+    <div
+      class="dnd-flow flex-2 bg-slate-900"
+      @drop="handleDrop"
+      @dragover.prevent
+    >
       <VueFlow :nodes="nodes" :edges="edges" class="border-3 border-amber-400">
         <template #edge-id-connection="customEdgeProps">
           <EditorIdConnectionEdge
