@@ -2,6 +2,7 @@
 
 <template>
   <div>
+    <LoadingOverlay />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
