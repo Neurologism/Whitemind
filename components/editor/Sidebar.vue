@@ -31,7 +31,7 @@ function toggleSidebar() {
     :style="{
       width: isPermaOpen ? '28rem' : '',
     }"
-    class="parent-div border-r-2 h-100 border-slate-600 bg-opacity-90 dark:bg-opacity-90 bg-slate-200 dark:bg-slate-800 p-4 pb-8 w-20 focus-within:w-[28rem] origin-left transition-transform flex flex-row flex-nowrap"
+    class="parent-div border-r-2 h-100 border-slate-600 bg-opacity-90 dark:bg-opacity-90 bg-slate-200 dark:bg-slate-800 p-4 pb-8 w-20 focus-within:w-[28rem] origin-left transition-transform flex flex-row flex-nowrap select-none"
     :class="{
       'hover:w-[28rem]': !isPermaOpen,
       'hover:scale-x-105': !isPermaOpen,
