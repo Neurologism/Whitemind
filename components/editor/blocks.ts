@@ -1,4 +1,9 @@
-export const blocks = [
+enum FlowOrientation {
+  INPUT = 'input',
+  OUTPUT = 'output',
+}
+
+export const blocks: NodeGroupDefinition[] = [
   {
     name: 'LAYERS',
     icon: 'mdi-layers',
@@ -736,9 +741,11 @@ export const blocks = [
           },
           train: {
             type: 'id',
+            flowOrientation: FlowOrientation.OUTPUT,
           },
           test: {
             type: 'id',
+            flowOrientation: FlowOrientation.OUTPUT,
           },
         },
       },
@@ -754,6 +761,7 @@ export const blocks = [
           },
           train: {
             type: 'id',
+            flowOrientation: FlowOrientation.OUTPUT,
           },
         },
       },
@@ -768,9 +776,11 @@ export const blocks = [
           },
           split1: {
             type: 'id',
+            flowOrientation: FlowOrientation.OUTPUT,
           },
           split2: {
             type: 'id',
+            flowOrientation: FlowOrientation.OUTPUT,
           },
         },
       },
@@ -790,9 +800,13 @@ export const blocks = [
         data: {
           inputs: {
             type: 'id',
+            flowOrientation: FlowOrientation.INPUT,
+            required: true,
           },
           outputs: {
             type: 'id',
+            flowOrientation: FlowOrientation.OUTPUT,
+            required: true,
           },
           optimizer: {
             type: 'select',
@@ -968,6 +982,7 @@ export const blocks = [
         data: {
           x: {
             type: 'id',
+            flowOrientation: FlowOrientation.INPUT,
           },
           epochs: {
             type: 'number',
@@ -979,6 +994,7 @@ export const blocks = [
           },
           validation_data: {
             type: 'id',
+            flowOrientation: FlowOrientation.INPUT,
           },
 
           name: {
@@ -995,6 +1011,7 @@ export const blocks = [
         data: {
           x: {
             type: 'id',
+            flowOrientation: FlowOrientation.INPUT,
           },
           name: {
             type: 'string',
@@ -1013,6 +1030,7 @@ export const blocks = [
       {
         type: 'line-chart',
         name: 'Line Chart',
+        hideOutput: true,
         description: 'Plots a line chart while training the model.',
         identifier: 'line-chart',
         minSize: { width: 450, height: 300 },
@@ -1032,3 +1050,56 @@ export const blocks = [
     ],
   },
 ];
+
+type NodeGroupDefinition = {
+  name: string;
+  icon: string;
+  color: string;
+  group_identifier: string;
+  nodes: NodeDefinition[];
+};
+type NodeDefinition = {
+  type: string;
+  name: string;
+  description: string;
+  identifier: string;
+  minSize?: { width: number; height: number };
+  hideInput?: boolean;
+  hideOutput?: boolean;
+  data: Record<
+    string,
+    | {
+        type: 'select';
+        options: string[];
+        value?: string | null;
+      }
+    | {
+        type: 'number';
+        value?: number | null;
+      }
+    | {
+        type: 'boolean';
+        value?: boolean | null;
+      }
+    | {
+        type: 'id';
+        flowOrientation: FlowOrientation;
+        required?: boolean;
+        rules?: any[];
+      }
+    | {
+        type: 'tuple';
+        itemType: 'number' | 'string';
+        value?: string[] | null;
+      }
+    | {
+        type: 'multiselect';
+        options: string[];
+        value?: string[] | null;
+      }
+    | {
+        type: 'string';
+        value?: string | null;
+      }
+  >;
+};
