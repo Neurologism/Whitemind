@@ -1,7 +1,9 @@
 import { defineStore } from 'pinia';
+import axios from 'axios';
 
 export const useSessionStore = defineStore('sessionStore', {
   state: () => ({
+    hasPfp: true,
     sessionData: ref({
       sessionStart: Date(),
       Authorization: '',
@@ -35,10 +37,23 @@ export const useSessionStore = defineStore('sessionStore', {
     isAuthorized: (state) => {
       return state.sessionData.Authorization !== '';
     },
+
+    pfpUrl: (state) => {
+      const backmindHost = useRuntimeConfig().public.backmindHost as string;
+      return backmindHost + `/api/user/get-pfp/` + state.sessionData.user._id;
+    },
+
     // @ts-ignore somehow this is not recognized as a getter
     isProd: () => import.meta.env.PROD,
   },
   actions: {
+    async checkForPfp() {
+      await axios
+        .get(this.pfpUrl)
+        .then((response) => (this.hasPfp = response.status === 200))
+        .catch(() => (this.hasPfp = false));
+    },
+
     async signOut() {
       const toast = useToast();
 
@@ -105,6 +120,7 @@ export const useSessionStore = defineStore('sessionStore', {
         console.log(data);
         this.sessionData.user = data.user;
         localStorage.setItem('sessionData', JSON.stringify(this.sessionData));
+        this.checkForPfp();
         // navigateTo('/projects');
       } else {
         this.sessionData.Authorization = '';
