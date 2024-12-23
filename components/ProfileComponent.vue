@@ -1,15 +1,77 @@
 <script setup lang="ts">
+const sessionStore = useSessionStore();
+
+const fileInput = ref<HTMLInputElement | null>(null);
+
+function triggerFileInput() {
+  if (fileInput.value) {
+    fileInput.value.click();
+  }
+}
+
+const backmindHost = useRuntimeConfig().public.backmindHost as string;
+
+const user = ref<User | undefined>();
+
+const pfpUrl = ref<string>('https://whitemind.icinoxis.net/testpfp.jpg');
+
+watch(user, () => {
+  if (user.value) {
+    pfpUrl.value = backmindHost + '/api/user/get-pfp/' + user.value._id;
+  }
+});
+
+const toast = useToast();
+
+const handleFileChange = async (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  const file = target.files ? target.files[0] : null;
+
+  if (file) {
+    try {
+      const formData = new FormData();
+      formData.append('pfp', file);
+
+      const response = await sessionStore.fetch('/api/user/upload-pfp', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.add({
+          title: 'Profile picture uploaded',
+          icon: 'mdi-check',
+          color: 'green',
+        });
+        window.location.reload();
+      } else {
+        toast.add({
+          title: "Project picture couldn't be uploaded",
+          icon: 'mdi-alert-circle',
+          color: 'red',
+        });
+        console.error(data);
+      }
+    } catch (error) {
+      toast.add({
+        title: "Project picture couldn't be uploaded",
+        icon: 'mdi-alert-circle',
+        color: 'red',
+      });
+      console.error(error);
+    }
+  }
+};
+
 import type { User } from '~/types/user';
 
 const props = defineProps<{
   brainetTag: string;
 }>();
 
-const sessionStore = useSessionStore();
-
 const userStore = useUserStore();
-
-const user = ref<User | undefined>();
 
 const userLoading = computed(() => {
   return user.value === undefined;
@@ -35,25 +97,40 @@ loadUser();
 </script>
 
 <template>
+  <input
+    ref="fileInput"
+    type="file"
+    name="pfp"
+    accept="image/*"
+    @change="handleFileChange"
+    class="hidden"
+  />
   <div class="w-full">
     <div class="w-2/3 mx-auto flex mt-6">
       <div class="w-52">
-        <LoadingSkeleton :active="userLoading" :inline="true" rounded="full">
-          <div
-            class="w-52 h-52 rounded-full overflow-hidden relative hover:cursor-pointer"
-            v-if="isSelf"
-          >
+        <LoadingSkeleton
+          :active="userLoading"
+          :inline="true"
+          rounded="full w-52 h-52"
+        >
+          <div v-if="!userLoading">
             <div
-              class="z-10 absolute w-full h-full bg-black transition-all duration-300 bg-opacity-0 hover:bg-opacity-50 hover:opacity-100 opacity-0"
+              class="w-52 h-52 rounded-full overflow-hidden relative hover:cursor-pointer"
+              @click="triggerFileInput"
+              v-if="isSelf"
             >
-              <UIcon
-                name="fluent:edit-32-filled"
-                class="text-white w-8 h-8 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
-              />
+              <div
+                class="z-10 absolute w-full h-full bg-black transition-all duration-300 bg-opacity-0 hover:bg-opacity-50 hover:opacity-100 opacity-0"
+              >
+                <UIcon
+                  name="fluent:edit-32-filled"
+                  class="text-white w-8 h-8 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
+                />
+              </div>
+              <NuxtImg :src="pfpUrl" class="absolute w-full h-full" />
             </div>
-            <img :src="'/testpfp.jpg'" class="absolute w-full h-full" />
+            <NuxtImg v-else :src="pfpUrl" class="w-52 h-52 rounded-full" />
           </div>
-          <img v-else :src="'/testpfp.jpg'" class="w-52 h-52 rounded-full" />
         </LoadingSkeleton>
 
         <div class="mt-6">
