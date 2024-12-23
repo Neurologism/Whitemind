@@ -115,16 +115,10 @@ loadUser();
     <div class="w-2/3 mx-auto flex mt-6">
       <div class="w-52">
         <LoadingSkeleton :active="userLoading" class="w-52 h-52" rounded="full">
-          <UTooltip
-            class="w-full h-full rounded-full overflow-hidden"
-            v-if="!hasPfp"
-            text="no profile picture"
-            ><NuxtImg src="/user.svg" class="w-full h-full"
-          /></UTooltip>
           <div
             class="w-52 h-52 rounded-full overflow-hidden relative hover:cursor-pointer"
             @click="triggerFileInput"
-            v-else-if="isSelf"
+            v-if="isSelf"
           >
             <div
               class="z-10 absolute w-full h-full bg-black transition-all duration-300 bg-opacity-0 hover:bg-opacity-50 hover:opacity-100 opacity-0"
@@ -134,7 +128,8 @@ loadUser();
                 class="text-white w-8 h-8 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
               />
             </div>
-            <NuxtImg :src="pfpUrl" class="absolute w-full h-full" />
+            <NuxtImg src="/user.svg" class="w-full h-full" v-if="!hasPfp" />
+            <NuxtImg :src="pfpUrl" class="absolute w-full h-full" v-else />
           </div>
           <NuxtImg v-else :src="pfpUrl" class="w-52 h-52 rounded-full" />
         </LoadingSkeleton>
