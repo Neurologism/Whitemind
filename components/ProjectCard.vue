@@ -17,7 +17,10 @@ onMounted(async () => {
   <UCard
     v-if="data"
     class="transform transition-transform duration-300 cursor-pointer"
-    @click="navigateTo(`/project/${props.id}`)"
+    @click="
+      sessionStore.loading = true;
+      navigateTo(`/project/${props.id}`);
+    "
   >
     <template #header>
       <h4 class="text-primary">{{ data?.name ?? '' }}</h4>

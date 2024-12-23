@@ -93,7 +93,9 @@ function fadeOut() {
 }
 
 onMounted(() => {
-  gsap.set('.frame', { backgroundColor: 'rgba(0, 0, 0, 0)' });
+  if (!sessionStore.loading) {
+    gsap.set('.frame', { backgroundColor: 'rgba(0, 0, 0, 0)' });
+  }
 });
 
 watch(
