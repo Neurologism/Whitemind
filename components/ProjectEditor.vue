@@ -102,12 +102,11 @@ async function loadProject() {
   }
   const loadResult = await fromObject(components);
   if (!loadResult) {
-    navigateTo('/login');
-    // toast.add({
-    //   title: 'Failed to load project',
-    //   icon: 'mdi-alert-circle',
-    //   color: 'red',
-    // });
+    toast.add({
+      title: 'Failed to load project',
+      icon: 'mdi-alert-circle',
+      color: 'red',
+    });
     syncStatus.value = SyncStatus.error;
   } else {
     title.value = project.name;

@@ -64,6 +64,7 @@ const onLogin = async () => {
 };
 
 onMounted(() => {
+  sessionStore.loading = false;
   gsap.from('.wm-path', {
     duration: 1,
     drawSVG: 0,
