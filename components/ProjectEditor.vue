@@ -73,7 +73,6 @@ onConnect((params) => {
   // @ts-ignore
   params.type = 'smoothstep';
   if (params.sourceHandle?.startsWith('val-')) {
-    console.log();
     // @ts-ignore
     params.data = {
       key: params.sourceHandle?.slice(
@@ -137,7 +136,7 @@ async function postProject() {
   }
 }
 let syncInterval: NodeJS.Timeout | null = null;
-function setInterval() {
+function setSyncInterval() {
   syncStatus.value = SyncStatus.unsaved;
   if (syncInterval) {
     clearInterval(syncInterval);
@@ -160,7 +159,7 @@ watch(
   getNodes,
   () => {
     if (props.projectId !== '') {
-      setInterval();
+      setSyncInterval();
     }
   },
   { deep: true }
@@ -170,7 +169,7 @@ watch(
   getEdges,
   () => {
     if (props.projectId !== '') {
-      setInterval();
+      setSyncInterval();
     }
   },
   { deep: true }
@@ -195,8 +194,9 @@ watch(
             :source-position="customEdgeProps.sourcePosition"
             :target-position="customEdgeProps.targetPosition"
             :data="customEdgeProps.data"
-            :marker-end="customEdgeProps.markerEnd"
             :style="customEdgeProps.style"
+            :marker-start="customEdgeProps.markerStart"
+            :marker-end="customEdgeProps.markerEnd"
           />
         </template>
 

@@ -1,5 +1,3 @@
-import type { ButtonColor } from '#ui/types';
-
 import { blocks } from '~/components/editor/blocks';
 import type {
   NodeGroupDefinition,
@@ -8,8 +6,7 @@ import type {
 import type { XYPosition } from '@vue-flow/core';
 
 export class CustomNodes {
-  // @ts-ignore
-  static nodesList: CustomNodesGroup[] = blocks;
+  static nodesList: NodeGroupDefinition[] = blocks;
 
   static getCustomNodeConfig(type: string): NodeDefinition | undefined {
     return CustomNodes.nodesList
@@ -50,5 +47,22 @@ export class CustomNodes {
       width: node.minSize?.width,
       data,
     };
+  }
+
+  static getColorOfCategory(category: string) {
+    const group = CustomNodes.nodesList.find(
+      (group) => group.group_identifier === category
+    );
+    return group?.color ?? '#000000';
+  }
+
+  static getHardGradientOfMultipleCategories(
+    categories: string[],
+    vertical: boolean = false
+  ) {
+    const colors = categories.map((category) =>
+      CustomNodes.getColorOfCategory(category)
+    );
+    return `linear-gradient(to ${vertical ? 'top' : 'right'}, ${colors.map((color, index) => `${color} ${index * (100 / colors.length)}%, ${color} ${(index + 1) * (100 / colors.length)}%`).join(', ')})`;
   }
 }

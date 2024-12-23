@@ -10,6 +10,7 @@ import {
   ResizeControlVariant,
 } from '@vue-flow/node-resizer';
 import '@vue-flow/node-resizer/dist/style.css';
+import { image } from 'zrender/lib/svg-legacy/graphic';
 
 const nodeToolbarOpen = ref(false);
 const { updateNodeData } = useVueFlow();
@@ -53,7 +54,7 @@ function toggleNodeToolbar() {
 
 <template>
   <NodeResizeControl
-    v-if="shapeGroupData.group_identifier === 'visualizer'"
+    v-if="shapeData.minSize !== undefined"
     :variant="ResizeControlVariant.Handle"
     :node-id="props.nodeId"
     position="bottom-right"
@@ -107,33 +108,50 @@ function toggleNodeToolbar() {
       <div v-if="shapeGroupData.group_identifier !== 'visualizer'">
         <div v-for="(shapeDefinition, key) in shapeData.data">
           <div
-            class="mb-2 ml-3 grid grid-cols-1 items-center justify-between bg-slate-700 font-mono text-sm rounded-l-md border-2 border-r-0 border-solid border-gray-300 relative p-1"
             v-if="shapeDefinition.type === 'id'"
+            class="mb-2 ml-3 p-0.5 pr-0 rounded-l-sm bg-gray-300"
+            :style="{
+              backgroundImage: shapeDefinition.allowedCategories
+                ? CustomNodes.getHardGradientOfMultipleCategories(
+                    shapeDefinition.allowedCategories
+                  )
+                : undefined,
+            }"
           >
-            <span class="pr-2 font-semibold font-mono brightness-200">{{
-              key
-            }}</span>
-            <Handle
-              :id="`val-${key}-${props.nodeId}`"
-              :position="Position.Right"
-              :connectable-start="true"
-              :connectable-end="true"
-              class="rounded-sm h-3 w-3 hover:w-4 hover:h-4 origin-center text-center border-solid flex items-center justify-center"
-              :style="{
-                backgroundColor: shapeGroupData.color,
-              }"
+            <div
+              class="grid grid-cols-1 items-center justify-between bg-slate-700 font-mono text-sm rounded-l-sm relative p-1"
             >
-              <UIcon
-                :name="
-                  shapeData.data[key].flowOrientation! === 'output'
-                    ? 'material-symbols:play-arrow'
-                    : 'material-symbols:arrow-back-2'
-                "
-                mode="css"
-                size="1rem"
-                class="text-white pointer-events-none"
-              />
-            </Handle>
+              <span class="pr-2 font-semibold font-mono brightness-200">{{
+                key
+              }}</span>
+              <Handle
+                :id="`val-${key}-${props.nodeId}`"
+                :position="Position.Right"
+                :connectable-start="true"
+                :connectable-end="true"
+                class="rounded-sm h-3 w-3 hover:w-4 hover:h-4 origin-center text-center border-solid flex items-center justify-center"
+                :style="{
+                  backgroundImage: shapeDefinition.allowedCategories
+                    ? CustomNodes.getHardGradientOfMultipleCategories(
+                        shapeDefinition.allowedCategories,
+                        true
+                      )
+                    : undefined,
+                  backgroundColor: shapeGroupData.color,
+                }"
+              >
+                <UIcon
+                  :name="
+                    shapeData.data[key].flowOrientation! === 'output'
+                      ? 'material-symbols:play-arrow'
+                      : 'material-symbols:arrow-back-2'
+                  "
+                  mode="css"
+                  size="1rem"
+                  class="text-white pointer-events-none"
+                />
+              </Handle>
+            </div>
           </div>
         </div>
       </div>

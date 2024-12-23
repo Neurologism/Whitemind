@@ -55,12 +55,15 @@ function toggleSidebar() {
         >
           <UTooltip :popper="{ placement: 'right' }" :text="category.name">
             <UButton
-              :color="category.color as ButtonColor"
               :icon="category.icon"
-              :variant="selectedCategory === index ? 'solid' : 'outline'"
+              :variant="selectedCategory === index ? 'soft' : 'outline'"
               size="xl"
               square
               @click="selectedCategory = index"
+              :style="{
+                color: category.color,
+                borderColor: category.color,
+              }"
             />
           </UTooltip>
         </div>
@@ -82,7 +85,7 @@ function toggleSidebar() {
     >
       <!-- TODO: better overflow scrolling solution. Wasted 1h minimum here -->
       <div
-        class="m-2 h-[85vh] overflow-y-hidden hover:overflow-y-auto overflow-x-hidden"
+        class="m-2 h-[83vh] overflow-y-hidden hover:overflow-y-auto overflow-x-hidden"
       >
         <span
           class="text-2xl text-slate-800 dark:text-slate-200 brightness-200 font-semibold"

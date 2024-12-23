@@ -39,6 +39,10 @@ const props = defineProps({
     type: String,
     required: false,
   },
+  markerStart: {
+    type: String,
+    required: false,
+  },
   style: {
     type: Object,
     required: false,
@@ -59,6 +63,7 @@ export default {
     :id="id"
     :style="style"
     :path="path[0]"
+    :marker-start="markerStart"
     :marker-end="markerEnd"
     :label="data.text"
     :label-x="path[1]"

@@ -726,7 +726,7 @@ export const blocks: NodeGroupDefinition[] = [
   {
     name: 'DATASETS',
     icon: 'mdi-database',
-    color: 'blue',
+    color: '#ff5722',
     group_identifier: 'dataset',
     nodes: [
       {
@@ -744,10 +744,12 @@ export const blocks: NodeGroupDefinition[] = [
           train: {
             type: 'id',
             flowOrientation: FlowOrientation.OUTPUT,
+            allowedCategories: ['dataset'],
           },
           test: {
             type: 'id',
             flowOrientation: FlowOrientation.OUTPUT,
+            allowedCategories: ['dataset'],
           },
         },
       },
@@ -766,6 +768,7 @@ export const blocks: NodeGroupDefinition[] = [
           train: {
             type: 'id',
             flowOrientation: FlowOrientation.OUTPUT,
+            allowedCategories: ['dataset'],
           },
         },
       },
@@ -774,7 +777,7 @@ export const blocks: NodeGroupDefinition[] = [
         name: 'Split',
         description: 'Split the dataset into two parts.',
         identifier: 'split',
-        hideInput: true,
+        hideInput: false,
         hideOutput: true,
         data: {
           ratio: {
@@ -783,10 +786,12 @@ export const blocks: NodeGroupDefinition[] = [
           split1: {
             type: 'id',
             flowOrientation: FlowOrientation.OUTPUT,
+            allowedCategories: ['dataset'],
           },
           split2: {
             type: 'id',
             flowOrientation: FlowOrientation.OUTPUT,
+            allowedCategories: ['dataset'],
           },
         },
       },
@@ -809,11 +814,18 @@ export const blocks: NodeGroupDefinition[] = [
             type: 'id',
             flowOrientation: FlowOrientation.OUTPUT,
             required: true,
+            allowedCategories: ['layer'],
           },
           outputs: {
             type: 'id',
             flowOrientation: FlowOrientation.INPUT,
             required: true,
+            allowedCategories: ['layer'],
+          },
+          visualizers: {
+            type: 'id',
+            flowOrientation: FlowOrientation.OUTPUT,
+            allowedCategories: ['visualizer'],
           },
           optimizer: {
             type: 'select',
@@ -990,6 +1002,7 @@ export const blocks: NodeGroupDefinition[] = [
           x: {
             type: 'id',
             flowOrientation: FlowOrientation.INPUT,
+            allowedCategories: ['dataset'],
           },
           epochs: {
             type: 'number',
@@ -1002,6 +1015,7 @@ export const blocks: NodeGroupDefinition[] = [
           validation_data: {
             type: 'id',
             flowOrientation: FlowOrientation.INPUT,
+            allowedCategories: ['dataset'],
           },
 
           name: {
@@ -1019,6 +1033,7 @@ export const blocks: NodeGroupDefinition[] = [
           x: {
             type: 'id',
             flowOrientation: FlowOrientation.INPUT,
+            allowedCategories: ['dataset'],
           },
           name: {
             type: 'string',
@@ -1079,6 +1094,7 @@ export type NodeDefinition = {
         type: 'id';
         flowOrientation: FlowOrientation;
         required?: boolean;
+        allowedCategories?: string[];
         rules?: any[];
       }
     | {
