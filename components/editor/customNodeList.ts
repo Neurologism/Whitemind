@@ -12,6 +12,7 @@ import type { XYPosition } from '@vue-flow/core';
  * @component: Vue component of the node
  */
 export type CustomNodeConfig = {
+  minSize?: { width: number; height: number };
   type: string;
   name: string;
   description: string;
@@ -66,6 +67,8 @@ export class CustomNodes {
       group_identifier: CustomNodes.getNodeGroup(type)?.group_identifier ?? '',
       type,
       position,
+      height: node.minSize?.height,
+      width: node.minSize?.width,
       data,
     };
   }

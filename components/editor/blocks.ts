@@ -1010,6 +1010,7 @@ export const blocks = [
         name: 'Line Chart',
         description: 'Plots a line chart while training the model.',
         identifier: 'line-chart',
+        minSize: { width: 450, height: 300 },
         data: {
           x_label: {
             type: 'select',

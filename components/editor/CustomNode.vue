@@ -6,7 +6,10 @@ import { NodeToolbar } from '@vue-flow/node-toolbar';
 import { CustomNodes } from '~/components/editor/customNodeList';
 import NodeValueEditor from '~/components/editor/typeEditors/NodeValueEditor.vue';
 import LineChart from '~/components/editor/charts/LineChart.vue';
-import { NodeResizer } from '@vue-flow/node-resizer';
+import {
+  NodeResizeControl,
+  ResizeControlVariant,
+} from '@vue-flow/node-resizer';
 import '@vue-flow/node-resizer/dist/style.css';
 
 const nodeToolbarOpen = ref(false);
@@ -49,6 +52,24 @@ function toggleNodeToolbar() {
 </script>
 
 <template>
+  <NodeResizeControl
+    v-if="shapeGroupData.group_identifier === 'visualizer'"
+    :variant="ResizeControlVariant.Handle"
+    :node-id="props.nodeId"
+    position="bottom-right"
+    color="white"
+    class="z-10 rounded-sm hover:scale-105"
+    :min-width="shapeData.minSize.width"
+    :min-height="shapeData.minSize.height"
+    :style="{
+      height: '1rem',
+      width: '1rem',
+      alignItems: 'center',
+      borderRadius: '2px',
+    }"
+  >
+    <UIcon name="gridicons:resize" class="resize-arrow" />
+  </NodeResizeControl>
   <NodeToolbar :position="Position.Right" :is-visible="nodeToolbarOpen">
     <div
       :class="`sized-params bg-customPrimary-950 border-2 border-blue-200 rounded animate__animated animate__fadeIn`"
@@ -86,7 +107,7 @@ function toggleNodeToolbar() {
       <div v-if="shapeGroupData.group_identifier !== 'visualizer'">
         <div v-for="(shapeDefinition, key) in shapeData.data">
           <div
-            class="mb-2 ml-3 grid grid-cols-1 items-center justify-between bg-slate-700 font-mono text-sm rounded-l-md border-2 border-r-0 border-solid border-gray-300 hover:scale-105 origin-right relative p-1"
+            class="mb-2 ml-3 grid grid-cols-1 items-center justify-between bg-slate-700 font-mono text-sm rounded-l-md border-2 border-r-0 border-solid border-gray-300 relative p-1"
             v-if="shapeDefinition.type === 'id'"
           >
             <span class="pr-2 font-semibold font-mono brightness-200">{{
@@ -97,10 +118,8 @@ function toggleNodeToolbar() {
               :position="Position.Right"
               :connectable-start="true"
               :connectable-end="true"
-              class="rounded-sm border-solid"
+              class="rounded-sm h-3 w-3 hover:w-4 hover:h-4 origin-center border-solid"
               :style="{
-                height: '12px',
-                width: '12px',
                 backgroundColor: shapeGroupData.color,
               }"
             />
@@ -119,34 +138,22 @@ function toggleNodeToolbar() {
     v-if="shapeData.type !== 'start'"
     :id="`in-${props.nodeId}`"
     :position="Position.Top"
-    class="rounded-sm"
+    class="rounded-sm h-3 w-3 hover:w-4 hover:h-4"
     :connectable-end="true"
     :connectable-start="false"
     :style="{
-      height: '12px',
-      width: '12px',
       backgroundColor: shapeGroupData.color,
     }"
   />
   <Handle
     :id="`out-${props.nodeId}`"
     :position="Position.Bottom"
-    class="rounded-sm"
+    class="rounded-sm h-3 w-3 hover:w-4 hover:h-4"
     :connectable-end="false"
     :connectable-start="true"
     :style="{
-      height: '12px',
-      width: '12px',
       backgroundColor: shapeGroupData.color,
     }"
-  />
-  <NodeResizer
-    v-if="shapeGroupData.group_identifier === 'visualizer'"
-    min-width="400"
-    min-height="300"
-    :color="shapeGroupData.color"
-    handle-style="border: 6px solid"
-    handle-class-name="rounded-lg"
   />
 </template>
 
@@ -165,6 +172,14 @@ function toggleNodeToolbar() {
   100% {
     border-color: red;
   }
+}
+
+.resize-arrow {
+  position: absolute;
+  left: -0.5px;
+  top: -0.5px;
+  font-size: 1rem;
+  color: black;
 }
 
 .sized-params {
