@@ -74,6 +74,7 @@ const isDark = computed({
         >
           <UAvatar
             size="md"
+            :src="sessionStore.hasPfp ? sessionStore.pfpUrl : '/user.svg'"
             :alt="sessionStore.sessionData.user.displayname ?? ''"
           />
         </div>

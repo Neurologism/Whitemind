@@ -115,7 +115,7 @@ loadUser();
             class="w-full h-full rounded-full overflow-hidden"
             v-if="!hasPfp"
             text="no profile picture"
-            ><NuxtImg src="/user256.png" class="w-full h-full"
+            ><NuxtImg src="/user.svg" class="w-full h-full"
           /></UTooltip>
           <div
             class="w-52 h-52 rounded-full overflow-hidden relative hover:cursor-pointer"

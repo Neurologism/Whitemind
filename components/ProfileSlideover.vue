@@ -37,6 +37,7 @@ watch(isOpen, (newValue) => {
         <div class="flex items-center justify-between">
           <UAvatar
             size="lg"
+            :src="sessionStore.hasPfp ? sessionStore.pfpUrl : '/user.svg'"
             :alt="sessionStore.sessionData.user.displayname ?? ''"
             class="flex-initial"
           />
