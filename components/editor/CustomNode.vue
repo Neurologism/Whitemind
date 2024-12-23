@@ -1,5 +1,4 @@
-<!-- JS intended -->
-<script setup>
+<script lang="ts" setup>
 import { ref, watch } from 'vue';
 import { Handle, Position, useNodesData, useVueFlow } from '@vue-flow/core';
 import { NodeToolbar } from '@vue-flow/node-toolbar';
@@ -16,18 +15,19 @@ const nodeToolbarOpen = ref(false);
 const { updateNodeData } = useVueFlow();
 const props = defineProps(['props', 'nodeId']);
 const nodesData = useNodesData(props.nodeId);
-const data = ref(nodesData.value.data);
+const data = ref(nodesData.value!.data);
 watch(data, (newData) => {
   console.log(newData);
   updateNodeData(props.nodeId, newData);
 });
-const shapeData = CustomNodes.getCustomNodeConfig(nodesData.value.type);
-const shapeGroupData = CustomNodes.getNodeGroup(nodesData.value.type);
+const shapeData = CustomNodes.getCustomNodeConfig(nodesData.value!.type)!;
+const shapeGroupData = CustomNodes.getNodeGroup(nodesData.value!.type)!;
 
-function dataUpdated(key, value) {
+function dataUpdated(key: string, value: any) {
   data.value[key] = value;
 }
 
+// @ts-ignore
 const actionRequired = computed({
   get: () => {
     for (const [key, shapeDefinition] of Object.entries(shapeData.data)) {
@@ -41,7 +41,7 @@ const actionRequired = computed({
   },
 });
 
-const chartComponentsByIdentifier = {
+const chartComponentsByIdentifier: Record<string, any> = {
   'line-chart': LineChart,
 };
 
@@ -59,8 +59,8 @@ function toggleNodeToolbar() {
     position="bottom-right"
     color="white"
     class="z-10 rounded-sm hover:scale-105"
-    :min-width="shapeData.minSize.width"
-    :min-height="shapeData.minSize.height"
+    :min-width="shapeData.minSize?.width"
+    :min-height="shapeData.minSize?.height"
     :style="{
       height: '1rem',
       width: '1rem',
@@ -101,7 +101,7 @@ function toggleNodeToolbar() {
       :style="{ border: `2px solid ${shapeGroupData.color}` }"
     >
       <div class="flex justify-between items-center p-2">
-        <UIcon :name="shapeGroupData.icon" mode="" />
+        <UIcon :name="shapeGroupData.icon" />
         <span>{{ shapeData.name }}</span>
       </div>
       <div v-if="shapeGroupData.group_identifier !== 'visualizer'">
@@ -118,43 +118,69 @@ function toggleNodeToolbar() {
               :position="Position.Right"
               :connectable-start="true"
               :connectable-end="true"
-              class="rounded-sm h-3 w-3 hover:w-4 hover:h-4 origin-center border-solid"
+              class="rounded-sm h-3 w-3 hover:w-4 hover:h-4 origin-center text-center border-solid flex items-center justify-center"
               :style="{
                 backgroundColor: shapeGroupData.color,
               }"
-            />
+            >
+              <UIcon
+                :name="
+                  shapeData.data[key].flowOrientation! === 'output'
+                    ? 'material-symbols:play-arrow'
+                    : 'material-symbols:arrow-back-2'
+                "
+                mode="css"
+                size="1rem"
+                class="text-white pointer-events-none"
+              />
+            </Handle>
           </div>
         </div>
       </div>
       <div class="p-2 flex-1 w-full" v-else>
         <component
-          :is="chartComponentsByIdentifier[shapeData.identifier]"
+          :is="chartComponentsByIdentifier[shapeData.identifier]!"
           :nodeid="props.nodeId"
         ></component>
       </div>
     </div>
   </UTooltip>
   <Handle
-    v-if="shapeData.type !== 'start'"
+    v-if="shapeData.hideInput !== true"
     :id="`in-${props.nodeId}`"
     :position="Position.Top"
-    class="rounded-sm h-3 w-3 hover:w-4 hover:h-4"
+    class="rounded-sm h-3 w-3 hover:w-4 hover:h-4 flex items-center justify-center"
     :connectable-end="true"
     :connectable-start="false"
     :style="{
       backgroundColor: shapeGroupData.color,
     }"
-  />
+  >
+    <UIcon
+      name="material-symbols:arrow-back-2"
+      mode="css"
+      size="1rem"
+      class="text-white rotate-[270deg] pointer-events-none"
+    />
+  </Handle>
   <Handle
+    v-if="shapeData.hideOutput !== true"
     :id="`out-${props.nodeId}`"
     :position="Position.Bottom"
-    class="rounded-sm h-3 w-3 hover:w-4 hover:h-4"
+    class="rounded-sm h-3 w-3 hover:w-4 hover:h-4 flex items-center justify-center"
     :connectable-end="false"
     :connectable-start="true"
     :style="{
       backgroundColor: shapeGroupData.color,
     }"
-  />
+  >
+    <UIcon
+      name="material-symbols:arrow-back-2"
+      mode="css"
+      size="1rem"
+      class="text-white rotate-[270deg] pointer-events-none"
+    />
+  </Handle>
 </template>
 
 <style scoped>

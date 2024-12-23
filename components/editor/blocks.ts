@@ -734,6 +734,8 @@ export const blocks: NodeGroupDefinition[] = [
         name: 'MNIST',
         description: 'Load the MNIST dataset.',
         identifier: 'dataset_mnist',
+        hideInput: true,
+        hideOutput: true,
         data: {
           batch_size: {
             type: 'number',
@@ -754,6 +756,8 @@ export const blocks: NodeGroupDefinition[] = [
         name: 'Wine Quality',
         description: 'Load the Wine Quality dataset.',
         identifier: 'dataset_wine_quality',
+        hideInput: true,
+        hideOutput: true,
         data: {
           batch_size: {
             type: 'number',
@@ -770,6 +774,8 @@ export const blocks: NodeGroupDefinition[] = [
         name: 'Split',
         description: 'Split the dataset into two parts.',
         identifier: 'split',
+        hideInput: true,
+        hideOutput: true,
         data: {
           ratio: {
             type: 'number',
@@ -797,15 +803,16 @@ export const blocks: NodeGroupDefinition[] = [
         name: 'Model',
         description: 'Create and compile a new model.',
         identifier: 'Model',
+        hideInput: true,
         data: {
           inputs: {
             type: 'id',
-            flowOrientation: FlowOrientation.INPUT,
+            flowOrientation: FlowOrientation.OUTPUT,
             required: true,
           },
           outputs: {
             type: 'id',
-            flowOrientation: FlowOrientation.OUTPUT,
+            flowOrientation: FlowOrientation.INPUT,
             required: true,
           },
           optimizer: {
@@ -1051,14 +1058,14 @@ export const blocks: NodeGroupDefinition[] = [
   },
 ];
 
-type NodeGroupDefinition = {
+export type NodeGroupDefinition = {
   name: string;
   icon: string;
   color: string;
   group_identifier: string;
   nodes: NodeDefinition[];
 };
-type NodeDefinition = {
+export type NodeDefinition = {
   type: string;
   name: string;
   description: string;
@@ -1068,6 +1075,12 @@ type NodeDefinition = {
   hideOutput?: boolean;
   data: Record<
     string,
+    | {
+        type: 'id';
+        flowOrientation: FlowOrientation;
+        required?: boolean;
+        rules?: any[];
+      }
     | {
         type: 'select';
         options: string[];
@@ -1080,12 +1093,6 @@ type NodeDefinition = {
     | {
         type: 'boolean';
         value?: boolean | null;
-      }
-    | {
-        type: 'id';
-        flowOrientation: FlowOrientation;
-        required?: boolean;
-        rules?: any[];
       }
     | {
         type: 'tuple';

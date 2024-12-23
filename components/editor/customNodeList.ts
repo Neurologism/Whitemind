@@ -1,49 +1,28 @@
 import type { ButtonColor } from '#ui/types';
 
 import { blocks } from '~/components/editor/blocks';
+import type {
+  NodeGroupDefinition,
+  NodeDefinition,
+} from '~/components/editor/blocks';
 import type { XYPosition } from '@vue-flow/core';
-
-/**
- * Custom Node Config
- * @type: lower case string, no spaces "-" is allowed
- * @name: Display name of the node
- * @description: Description of the node
- * @data: State data of the node
- * @component: Vue component of the node
- */
-export type CustomNodeConfig = {
-  minSize?: { width: number; height: number };
-  type: string;
-  name: string;
-  description: string;
-  identifier: string;
-  data: any;
-};
-
-export type CustomNodesGroup = {
-  name: string;
-  icon: string;
-  color: ButtonColor | string;
-  group_identifier: string;
-  nodes: CustomNodeConfig[];
-};
 
 export class CustomNodes {
   // @ts-ignore
   static nodesList: CustomNodesGroup[] = blocks;
 
-  static getCustomNodeConfig(type: string): CustomNodeConfig | undefined {
+  static getCustomNodeConfig(type: string): NodeDefinition | undefined {
     return CustomNodes.nodesList
       .flatMap((group) => group.nodes)
       .find((node) => node.type === type);
   }
 
-  static getNodeGroup(type: string): CustomNodesGroup | null {
+  static getNodeGroup(type: string): NodeGroupDefinition | null {
     const node = CustomNodes.getCustomNodeConfig(type);
     if (!node) return null;
     return (
       CustomNodes.nodesList.find((group) =>
-        group.nodes.some((node) => node.type === type)
+        group.nodes.some((node: NodeDefinition) => node.type === type)
       ) ?? null
     );
   }
@@ -54,10 +33,10 @@ export class CustomNodes {
     const data = {};
 
     for (const key in node.data) {
-      if (node.data[key]['value'] !== undefined) {
+      // @ts-ignore - data[key] is not a valid type
+      if (node.data[key].value !== undefined) {
         // @ts-ignore - data[key] is not a valid type
         data[key] = node.data[key]['value'];
-        // continue;
       }
     }
 
