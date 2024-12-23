@@ -35,6 +35,10 @@ const reloadAndReset = async () => {
   searchedProjects.value = null;
   await sessionStore.refreshUserData();
 };
+
+onMounted(() => {
+  sessionStore.loading = false;
+});
 </script>
 
 <template>
