@@ -306,17 +306,19 @@ function initGsap() {
         <p class="text2 text-xl lg:text-2xl mt-4 text-slate-200">
           Turn your concepts into smart, AI-powered solutions effortlessly.
         </p>
-        <UButton
-          :to="sessionStore.isAuthorized ? '/profile' : '/signup'"
-          class="text3 px-4 py-2 md:px-6 md:py-3 text-lg font-semibold dark:text-white bg-blue-600 hover:bg-blue-700 mt-8"
-          icon="i-heroicons-rocket-launch-solid"
-          :color="'none' as any"
-        >
-          Sign up for WhiteMind
-        </UButton>
+        <div>
+          <UButton
+            :to="sessionStore.isAuthorized ? '/profile' : '/signup'"
+            class="text3 px-4 py-2 md:px-6 md:py-3 text-lg font-semibold dark:text-white bg-blue-600 hover:bg-blue-700 mt-8"
+            icon="i-heroicons-rocket-launch-solid"
+            :color="'none' as any"
+          >
+            Sign up for WhiteMind
+          </UButton>
+        </div>
         <UIcon
           name="mage:robot-uwu-fill"
-          class="icon3 icon3-0 mt-14 xl:hidden text"
+          class="icon3 icon3-0 mt-14 xl:hidden text mx-auto"
           style="font-size: 10rem"
         ></UIcon>
       </div>
