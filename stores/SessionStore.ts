@@ -4,6 +4,7 @@ import axios from 'axios';
 export const useSessionStore = defineStore('sessionStore', {
   state: () => ({
     loading: false,
+    loadingText: 'Loading...',
     hasPfp: true,
     sessionData: ref({
       sessionStart: Date(),
@@ -48,6 +49,13 @@ export const useSessionStore = defineStore('sessionStore', {
     isProd: () => import.meta.env.PROD,
   },
   actions: {
+    showLoadingAnimation(text = '') {
+      if (text) {
+        this.loadingText = text;
+      }
+      this.loading = true;
+    },
+
     async checkForPfp() {
       await axios
         .get(this.pfpUrl)

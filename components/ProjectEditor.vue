@@ -32,7 +32,7 @@ const colorMode = useColorMode();
 const sessionStore = useSessionStore();
 const projectStore = useProjectStore();
 
-sessionStore.loading = true;
+sessionStore.showLoadingAnimation();
 
 const nodes = ref([]);
 const edges = ref([]);

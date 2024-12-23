@@ -1,13 +1,12 @@
 <script setup lang="ts">
 const sessionStore = useSessionStore();
 
-const text = 'LOADING...';
 const textProgress = ref(0);
 const inAnimation = ref(false);
 
 function incrementTextProgress() {
   textProgress.value = textProgress.value + 1;
-  if (textProgress.value < text.length) {
+  if (textProgress.value < sessionStore.loadingText.length) {
     setTimeout(incrementTextProgress, 50);
   } else if (!sessionStore.loading) {
     fadeOut();
@@ -21,7 +20,7 @@ function decrementTextProgress() {
   if (textProgress.value > 0) {
     setTimeout(
       decrementTextProgress,
-      textProgress.value === text.length - 1 ? 100 : 25
+      textProgress.value === sessionStore.loadingText.length - 1 ? 100 : 25
     );
   } else {
     gsap.killTweensOf('.typingCursor');
@@ -127,7 +126,7 @@ watch(
       <h1 class="whitemindText text-4xl font-bold hidden">WhiteMind</h1>
       <div class="flex flex-row">
         <h3 class="text-2xl font-mono mt-4">
-          {{ 'LOADING...'.slice(0, textProgress) }}
+          {{ sessionStore.loadingText.slice(0, textProgress) }}
         </h3>
         <div class="typingCursor h-2 w-4 bg-white mt-8 ml-1 opacity-0"></div>
       </div>

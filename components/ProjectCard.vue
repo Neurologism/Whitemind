@@ -18,7 +18,7 @@ onMounted(async () => {
     v-if="data"
     class="transform transition-transform duration-300 cursor-pointer"
     @click="
-      sessionStore.loading = true;
+      sessionStore.showLoadingAnimation('LOADING...');
       navigateTo(`/project/${props.id}`);
     "
   >
