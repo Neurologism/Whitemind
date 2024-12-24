@@ -10,7 +10,6 @@ import {
   ResizeControlVariant,
 } from '@vue-flow/node-resizer';
 import '@vue-flow/node-resizer/dist/style.css';
-import { image } from 'zrender/lib/svg-legacy/graphic';
 
 const nodeToolbarOpen = ref(false);
 const { updateNodeData } = useVueFlow();
@@ -18,9 +17,9 @@ const props = defineProps(['props', 'nodeId']);
 const nodesData = useNodesData(props.nodeId);
 const data = ref(nodesData.value!.data);
 watch(data, (newData) => {
-  console.log(newData);
   updateNodeData(props.nodeId, newData);
 });
+
 const shapeData = CustomNodes.getCustomNodeConfig(nodesData.value!.type)!;
 const shapeGroupData = CustomNodes.getNodeGroup(nodesData.value!.type)!;
 
@@ -28,19 +27,18 @@ function dataUpdated(key: string, value: any) {
   data.value[key] = value;
 }
 
-// @ts-ignore
-const actionRequired = computed({
-  get: () => {
-    for (const [key, shapeDefinition] of Object.entries(shapeData.data)) {
-      if (shapeDefinition.type === 'id') continue;
-      const required = !shapeDefinition.value !== undefined;
-      if (required && data.value[key] === undefined) {
-        return true;
-      }
+const actionRequired = computed(() => {
+  for (const [key, shapeDefinition] of Object.entries(shapeData.data)) {
+    if (shapeDefinition.type === 'id') continue;
+    const required = !shapeDefinition.value !== undefined;
+    if (required && data.value[key] === undefined) {
+      return true;
     }
-    return false;
-  },
+  }
+  return false;
 });
+
+const isResizing = ref(false);
 
 const chartComponentsByIdentifier: Record<string, any> = {
   'line-chart': LineChart,
@@ -62,6 +60,8 @@ function toggleNodeToolbar() {
     class="z-10 rounded-sm hover:scale-105"
     :min-width="shapeData.minSize?.width"
     :min-height="shapeData.minSize?.height"
+    @resize-start="isResizing = true"
+    @resize-end="isResizing = false"
     :style="{
       height: '1rem',
       width: '1rem',
@@ -157,9 +157,11 @@ function toggleNodeToolbar() {
       </div>
       <div class="p-2 flex-1 w-full" v-else>
         <component
+          v-if="!isResizing"
           :is="chartComponentsByIdentifier[shapeData.identifier]!"
           :nodeid="props.nodeId"
         ></component>
+        <div v-else class="h-full w-full bg-slate-700 rounded-sm" />
       </div>
     </div>
   </UTooltip>
