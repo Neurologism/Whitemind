@@ -31,12 +31,9 @@ const colorMode = useColorMode();
 
 const sessionStore = useSessionStore();
 const projectStore = useProjectStore();
+const flowStore = useVueFlowStore();
 
 sessionStore.showLoadingAnimation();
-
-const nodes = ref([]);
-const edges = ref([]);
-const title = ref('Loading...');
 
 const syncStatus = ref<SyncStatus>(SyncStatus.initializing);
 
@@ -50,7 +47,7 @@ const {
   fromObject,
   getNodes,
   getEdges,
-} = useVueFlow();
+} = useVueFlow(flowStore);
 
 function handleDrop(event: DragEvent) {
   const nodeTypeString = event.dataTransfer?.getData('node') ?? '';
@@ -108,9 +105,8 @@ async function loadProject() {
     });
     syncStatus.value = SyncStatus.error;
   } else {
-    title.value = project.name;
+    flowStore.remote_data = project;
     sessionStore.loading = false;
-    // toast.add({ title: 'Project loaded', icon: 'mdi-check', color: 'green' });
     syncStatus.value = SyncStatus.synced;
   }
 }
@@ -183,7 +179,11 @@ watch(
       @drop="handleDrop"
       @dragover.prevent
     >
-      <VueFlow :nodes="nodes" :edges="edges" class="border-3 border-amber-400">
+      <VueFlow
+        v-model:nodes="flowStore.nodes"
+        v-model:edges="flowStore.edges"
+        class="border-3 border-amber-400"
+      >
         <template #edge-id-connection="customEdgeProps">
           <EditorIdConnectionEdge
             :id="customEdgeProps.id"
@@ -224,7 +224,7 @@ watch(
   <div class="h-full absolute-overlay flex flex-col">
     <div class="pointer-events-auto">
       <EditorProjectHeader
-        :project-title="title"
+        :project-title="flowStore.remote_data.name"
         :project-owner="projectOwner"
         class="w-full"
       >
