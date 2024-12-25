@@ -744,12 +744,16 @@ export const blocks: NodeGroupDefinition[] = [
           train: {
             type: 'id',
             flowOrientation: FlowOrientation.OUTPUT,
-            allowedCategories: ['dataset'],
+            constrains: {
+              allowedCategories: ['dataset'],
+            },
           },
           test: {
             type: 'id',
             flowOrientation: FlowOrientation.OUTPUT,
-            allowedCategories: ['dataset'],
+            constrains: {
+              allowedCategories: ['dataset'],
+            },
           },
         },
       },
@@ -768,7 +772,9 @@ export const blocks: NodeGroupDefinition[] = [
           train: {
             type: 'id',
             flowOrientation: FlowOrientation.OUTPUT,
-            allowedCategories: ['dataset'],
+            constrains: {
+              allowedCategories: ['dataset'],
+            },
           },
         },
       },
@@ -786,12 +792,16 @@ export const blocks: NodeGroupDefinition[] = [
           split1: {
             type: 'id',
             flowOrientation: FlowOrientation.OUTPUT,
-            allowedCategories: ['dataset'],
+            constrains: {
+              allowedCategories: ['dataset'],
+            },
           },
           split2: {
             type: 'id',
             flowOrientation: FlowOrientation.OUTPUT,
-            allowedCategories: ['dataset'],
+            constrains: {
+              allowedCategories: ['dataset'],
+            },
           },
         },
       },
@@ -814,18 +824,28 @@ export const blocks: NodeGroupDefinition[] = [
             type: 'id',
             flowOrientation: FlowOrientation.OUTPUT,
             required: true,
-            allowedCategories: ['layer'],
+            constrains: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
           },
           outputs: {
             type: 'id',
             flowOrientation: FlowOrientation.INPUT,
             required: true,
-            allowedCategories: ['layer'],
+            constrains: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
           },
           visualizers: {
             type: 'id',
             flowOrientation: FlowOrientation.OUTPUT,
-            allowedCategories: ['visualizer'],
+            constrains: {
+              allowedCategories: ['visualizer'],
+            },
           },
           optimizer: {
             type: 'select',
@@ -1002,7 +1022,11 @@ export const blocks: NodeGroupDefinition[] = [
           x: {
             type: 'id',
             flowOrientation: FlowOrientation.INPUT,
-            allowedCategories: ['dataset'],
+            constrains: {
+              allowedCategories: ['dataset'],
+              max: 1,
+              min: 1,
+            },
           },
           epochs: {
             type: 'number',
@@ -1015,7 +1039,10 @@ export const blocks: NodeGroupDefinition[] = [
           validation_data: {
             type: 'id',
             flowOrientation: FlowOrientation.INPUT,
-            allowedCategories: ['dataset'],
+            constrains: {
+              allowedCategories: ['dataset'],
+              max: 1,
+            },
           },
 
           name: {
@@ -1033,7 +1060,11 @@ export const blocks: NodeGroupDefinition[] = [
           x: {
             type: 'id',
             flowOrientation: FlowOrientation.INPUT,
-            allowedCategories: ['dataset'],
+            constrains: {
+              allowedCategories: ['dataset'],
+              max: 1,
+              min: 1,
+            },
           },
           name: {
             type: 'string',
@@ -1080,6 +1111,13 @@ export type NodeGroupDefinition = {
   group_identifier: string;
   nodes: NodeDefinition[];
 };
+
+export type NodeConnectionConstraint = {
+  allowedCategories?: string[];
+  min?: number;
+  max?: number;
+};
+
 export type NodeDefinition = {
   type: string;
   name: string;
@@ -1088,13 +1126,15 @@ export type NodeDefinition = {
   minSize?: { width: number; height: number };
   hideInput?: boolean;
   hideOutput?: boolean;
+  inputConstraints?: NodeConnectionConstraint;
+  outputConstraints?: NodeConnectionConstraint;
   data: Record<
     string,
     | {
         type: 'id';
         flowOrientation: FlowOrientation;
+        constrains?: NodeConnectionConstraint;
         required?: boolean;
-        allowedCategories?: string[];
         rules?: any[];
       }
     | {

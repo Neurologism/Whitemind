@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { VueFlow, useVueFlow, Panel } from '@vue-flow/core';
+import { VueFlow, useVueFlow, Panel, MarkerType } from '@vue-flow/core';
+import type { Connection } from '@vue-flow/core';
 // import { MiniMap } from "@vue-flow/minimap";
 // import "@vue-flow/minimap/dist/style.css";
 import { CustomNodes } from '~/components/editor/customNodeList';
@@ -66,18 +67,15 @@ function handleDrop(event: DragEvent) {
   addNodes([newNode]);
 }
 
-onConnect((params) => {
+onConnect((params: Connection) => {
   // @ts-ignore
   params.type = 'smoothstep';
-  if (params.sourceHandle?.startsWith('val-')) {
-    // @ts-ignore
-    params.data = {
-      key: params.sourceHandle?.slice(
-        4,
-        params.sourceHandle.length - params.source.length - 1
-      ),
-    };
-  }
+  params.animated = false;
+  params.animationSpeed = 0.5;
+  params.style = {
+    stroke: CustomNodes.getColorOfConnection(params.sourceHandle ?? ''),
+    strokeWidth: 2,
+  };
   addEdges([params]);
 });
 
@@ -184,22 +182,6 @@ watch(
         v-model:edges="flowStore.edges"
         class="border-3 border-amber-400"
       >
-        <template #edge-id-connection="customEdgeProps">
-          <EditorIdConnectionEdge
-            :id="customEdgeProps.id"
-            :source-x="customEdgeProps.sourceX"
-            :source-y="customEdgeProps.sourceY"
-            :target-x="customEdgeProps.targetX"
-            :target-y="customEdgeProps.targetY"
-            :source-position="customEdgeProps.sourcePosition"
-            :target-position="customEdgeProps.targetPosition"
-            :data="customEdgeProps.data"
-            :style="customEdgeProps.style"
-            :marker-start="customEdgeProps.markerStart"
-            :marker-end="customEdgeProps.markerEnd"
-          />
-        </template>
-
         <Background
           :pattern-color="colorMode.value === 'dark' ? '#aaa' : '#222'"
           :gap="16"

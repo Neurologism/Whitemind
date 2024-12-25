@@ -4,6 +4,9 @@ import type {
   NodeDefinition,
 } from '~/components/editor/blocks';
 import type { XYPosition } from '@vue-flow/core';
+import { useVueFlowStore } from '~/stores/VueFlowStore';
+
+const flowStore = useVueFlowStore();
 
 export class CustomNodes {
   static nodesList: NodeGroupDefinition[] = blocks;
@@ -64,5 +67,28 @@ export class CustomNodes {
       CustomNodes.getColorOfCategory(category)
     );
     return `linear-gradient(to ${vertical ? 'top' : 'right'}, ${colors.map((color, index) => `${color} ${index * (100 / colors.length)}%, ${color} ${(index + 1) * (100 / colors.length)}%`).join(', ')})`;
+  }
+
+  static getColorOfConnection(sourceHandle: string) {
+    const split = sourceHandle.split('-');
+    console.log(split);
+    const nodeId = split[split.length - 1];
+    console.log(nodeId, split.length);
+    if (split.length === 1) return '#000000';
+    if (split.length === 2) {
+      const node = flowStore.nodeById(nodeId!)!;
+      const group = CustomNodes.getNodeGroup(node.type ?? '');
+      return group?.color ?? '#000000';
+    }
+    if (split.length === 3) {
+      const node = flowStore.nodeById(nodeId!)!;
+      const nodeDef = CustomNodes.getCustomNodeConfig(node.type ?? '');
+      const handleTypeKey = split[split.length - 2];
+      //@ts-ignore "constrains" exists on type 'id'
+      const handleCategoryType =
+        nodeDef?.data[handleTypeKey!]?.constrains?.allowedCategories[0] ??
+        CustomNodes.getNodeGroup(node.type ?? '')?.group_identifier;
+      return CustomNodes.getColorOfCategory(handleCategoryType ?? '');
+    }
   }
 }

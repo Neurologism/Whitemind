@@ -9,7 +9,12 @@ import {
   NodeResizeControl,
   ResizeControlVariant,
 } from '@vue-flow/node-resizer';
+import type { Connection, GraphEdge, GraphNode } from '@vue-flow/core';
 import '@vue-flow/node-resizer/dist/style.css';
+import type {
+  NodeConnectionConstraint,
+  NodeDefinition,
+} from '~/components/editor/blocks';
 
 const nodeToolbarOpen = ref(false);
 const { updateNodeData } = useVueFlow();
@@ -47,6 +52,40 @@ const chartComponentsByIdentifier: Record<string, any> = {
 function toggleNodeToolbar() {
   if (Object.keys(shapeData.data).length === 0) return;
   nodeToolbarOpen.value = !nodeToolbarOpen.value;
+}
+
+function checkConnection(
+  connection: Connection,
+  elements: {
+    edges: GraphEdge[];
+    nodes: GraphNode[];
+    sourceNode: GraphNode;
+    targetNode: GraphNode;
+  }
+): boolean {
+  const sourceNodeDefinition: NodeDefinition = CustomNodes.getCustomNodeConfig(
+    elements.sourceNode.type
+  )!;
+  const targetNodeDefinition: NodeDefinition = CustomNodes.getCustomNodeConfig(
+    elements.targetNode.type
+  )!;
+  let sourceConstrains: NodeConnectionConstraint = {};
+  let targetConstrains: NodeConnectionConstraint = {};
+  if (connection.sourceHandle!.startsWith('out')) {
+    sourceConstrains = sourceNodeDefinition.outputConstraints ?? {};
+  } else if (connection.sourceHandle!.startsWith('val')) {
+    let key = connection.sourceHandle!.split('-')[1];
+    sourceConstrains = sourceNodeDefinition.data[key].constrains ?? {};
+  }
+  if (connection.targetHandle!.startsWith('in')) {
+    targetConstrains = targetNodeDefinition.inputConstraints ?? {};
+  } else if (connection.targetHandle!.startsWith('val')) {
+    let key = connection.targetHandle!.split('-')[1];
+    targetConstrains = targetNodeDefinition.data[key].constrains ?? {};
+  }
+  console.log(sourceConstrains, targetConstrains);
+  //TODO: Implement connection constraints checks
+  return true;
 }
 </script>
 
@@ -111,9 +150,9 @@ function toggleNodeToolbar() {
             v-if="shapeDefinition.type === 'id'"
             class="mb-2 ml-3 p-0.5 pr-0 rounded-l-sm bg-gray-300"
             :style="{
-              backgroundImage: shapeDefinition.allowedCategories
+              backgroundImage: shapeDefinition.constrains?.allowedCategories
                 ? CustomNodes.getHardGradientOfMultipleCategories(
-                    shapeDefinition.allowedCategories
+                    shapeDefinition.constrains!.allowedCategories
                   )
                 : undefined,
             }"
@@ -127,13 +166,18 @@ function toggleNodeToolbar() {
               <Handle
                 :id="`val-${key}-${props.nodeId}`"
                 :position="Position.Right"
-                :connectable-start="true"
-                :connectable-end="true"
+                :connectable-start="
+                  shapeData.data[key].flowOrientation! === 'output'
+                "
+                :connectable-end="
+                  shapeData.data[key].flowOrientation! === 'input'
+                "
+                :is-valid-connection="checkConnection"
                 class="rounded-sm h-3 w-3 hover:w-4 hover:h-4 origin-center text-center border-solid flex items-center justify-center"
                 :style="{
-                  backgroundImage: shapeDefinition.allowedCategories
+                  backgroundImage: shapeDefinition.constrains?.allowedCategories
                     ? CustomNodes.getHardGradientOfMultipleCategories(
-                        shapeDefinition.allowedCategories,
+                        shapeDefinition.constrains!.allowedCategories,
                         true
                       )
                     : undefined,
@@ -169,6 +213,7 @@ function toggleNodeToolbar() {
     v-if="shapeData.hideInput !== true"
     :id="`in-${props.nodeId}`"
     :position="Position.Top"
+    :is-valid-connection="checkConnection"
     class="rounded-sm h-3 w-3 hover:w-4 hover:h-4 flex items-center justify-center"
     :connectable-end="true"
     :connectable-start="false"
@@ -187,6 +232,7 @@ function toggleNodeToolbar() {
     v-if="shapeData.hideOutput !== true"
     :id="`out-${props.nodeId}`"
     :position="Position.Bottom"
+    :is-valid-connection="checkConnection"
     class="rounded-sm h-3 w-3 hover:w-4 hover:h-4 flex items-center justify-center"
     :connectable-end="false"
     :connectable-start="true"
