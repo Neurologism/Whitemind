@@ -976,6 +976,10 @@ export const blocks = [
           validation_data: {
             type: 'id',
           },
+          early_stopping: {
+            type: 'number',
+            value: null,
+          },
           name: {
             type: 'string',
             value: 'model',
