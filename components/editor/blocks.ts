@@ -973,13 +973,14 @@ export const blocks = [
             type: 'number',
             value: 1,
           },
-          validation_data: {
-            type: 'id',
-          },
           early_stopping: {
             type: 'number',
             value: null,
           },
+          validation_data: {
+            type: 'id',
+          },
+
           name: {
             type: 'string',
             value: 'model',
