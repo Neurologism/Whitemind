@@ -1087,6 +1087,10 @@ export const blocks: NodeGroupDefinition[] = [
         description: 'Plots a line chart while training the model.',
         identifier: 'line-chart',
         minSize: { width: 450, height: 300 },
+        inputConstraints: {
+          allowedCategories: ['visualizer'],
+          max: 1,
+        },
         data: {
           x_label: {
             type: 'select',

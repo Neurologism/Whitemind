@@ -71,9 +71,7 @@ export class CustomNodes {
     const flowStore = useVueFlowStore();
 
     const split = sourceHandle.split('-');
-    console.log(split);
     const nodeId = split[split.length - 1];
-    console.log(nodeId, split.length);
     if (split.length === 1) return '#000000';
     if (split.length === 2) {
       const node = flowStore.nodeById(nodeId!)!;
