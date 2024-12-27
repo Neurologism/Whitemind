@@ -182,6 +182,11 @@ watch(
         v-model:nodes="flowStore.nodes"
         v-model:edges="flowStore.edges"
         class="border-3 border-amber-400"
+        @edge-mouse-enter="
+          (infos) => (flowStore.highlightedEdge = infos.edge.id)
+        "
+        @edge-mouse-leave="(infos) => (flowStore.highlightedEdge = null)"
+        @edge-click="(infos) => flowStore.removeEdge(infos.edge.id)"
       >
         <Background
           :pattern-color="colorMode.value === 'dark' ? '#aaa' : '#222'"

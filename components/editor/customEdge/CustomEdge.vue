@@ -1,5 +1,12 @@
 <script lang="ts" setup>
-import { Position, SmoothStepEdge } from '@vue-flow/core';
+import {
+  BaseEdge,
+  EdgeLabelRenderer,
+  getSmoothStepPath,
+  Position,
+} from '@vue-flow/core';
+
+const flowStore = useVueFlowStore();
 
 const props = defineProps({
   id: {
@@ -52,24 +59,47 @@ const offset = Math.abs(
     20) +
     15
 );
+
+const path = computed(() =>
+  getSmoothStepPath({
+    sourceX: props.sourceX,
+    sourceY: props.sourceY,
+    targetX: props.targetX,
+    targetY: props.targetY,
+    sourcePosition: props.sourcePosition,
+    targetPosition: props.targetPosition,
+    offset,
+  })
+);
+
+const isHovered = computed(() => flowStore.highlightedEdge === props.id);
+</script>
+
+<script lang="ts">
+export default {
+  inheritAttrs: false,
+};
 </script>
 
 <template>
-  <SmoothStepEdge
-    :id="id"
-    :sourceX="sourceX"
-    :sourceY="sourceY"
-    :targetX="targetX"
-    :targetY="targetY"
-    :sourcePosition="sourcePosition"
-    :targetPosition="targetPosition"
-    :style="style"
-    :offset="offset"
-    :marker-end="markerEnd"
-    :label-style="{ fill: 'white' }"
-    :label-show-bg="true"
-    :label-bg-style="{ fill: 'red' }"
-    :label-bg-padding="[2, 4]"
-    :label-bg-border-radius="2"
-  />
+  <BaseEdge
+    :path="path[0]"
+    :style="{ ...style, strokeWidth: isHovered ? 3 : 2 }"
+  ></BaseEdge>
+  <EdgeLabelRenderer>
+    <div
+      :style="{
+        pointerEvents: 'all',
+        position: 'absolute',
+        backgroundColor: style!.stroke,
+        transform: `translate(-50%, -50%) translate(${path[1]}px,${path[2]}px)`,
+      }"
+      class="hover:scale-110 h-4 w-4 hover:bg-gray-800 p-1 rounded-sm cursor-pointer text-center flex justify-center items-center text-white text-lg"
+      :class="{
+        hidden: !isHovered,
+      }"
+    >
+      ×
+    </div>
+  </EdgeLabelRenderer>
 </template>
