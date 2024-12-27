@@ -67,7 +67,7 @@ export class CustomNodes {
     return `linear-gradient(to ${vertical ? 'top' : 'right'}, ${colors.map((color, index) => `${color} ${index * (100 / colors.length)}%, ${color} ${(index + 1) * (100 / colors.length)}%`).join(', ')})`;
   }
 
-  static getColorOfConnection(sourceHandle: string) {
+  static getColorOfHandle(sourceHandle: string) {
     const flowStore = useVueFlowStore();
 
     const split = sourceHandle.split('-');

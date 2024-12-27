@@ -6,6 +6,7 @@ import type { Connection } from '@vue-flow/core';
 import { CustomNodes } from '~/components/editor/customNodeList';
 import { Background } from '@vue-flow/background';
 import { SyncStatus } from '~/components/editor/syncStatus';
+import CustomConnectionEdge from '~/components/editor/customEdge/CustomConnectionEdge.vue';
 
 const props = defineProps({
   projectId: {
@@ -72,7 +73,7 @@ onConnect((params: Connection) => {
   params.animated = false;
   params.animationSpeed = 0.5;
   params.style = {
-    stroke: CustomNodes.getColorOfConnection(params.sourceHandle ?? ''),
+    stroke: CustomNodes.getColorOfHandle(params.sourceHandle ?? ''),
     strokeWidth: 2,
   };
   addEdges([params]);
@@ -192,6 +193,9 @@ watch(
           </div>
         </Panel>
         <!--        <MiniMap zoomable node-color="black" mask-color="rgba(56,56,56,0.5)" />-->
+        <template #connection-line="props">
+          <CustomConnectionEdge v-bind="props" />
+        </template>
         <template
           v-for="node in CustomNodes.nodesList.flatMap((group) => group.nodes)"
           :key="node.type"
