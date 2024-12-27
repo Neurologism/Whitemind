@@ -1,49 +1,26 @@
-import type { ButtonColor } from '#ui/types';
-
 import { blocks } from '~/components/editor/blocks';
+import type {
+  NodeGroupDefinition,
+  NodeDefinition,
+} from '~/components/editor/blocks';
 import type { XYPosition } from '@vue-flow/core';
-
-/**
- * Custom Node Config
- * @type: lower case string, no spaces "-" is allowed
- * @name: Display name of the node
- * @description: Description of the node
- * @data: State data of the node
- * @component: Vue component of the node
- */
-export type CustomNodeConfig = {
-  minSize?: { width: number; height: number };
-  type: string;
-  name: string;
-  description: string;
-  identifier: string;
-  data: any;
-};
-
-export type CustomNodesGroup = {
-  name: string;
-  icon: string;
-  color: ButtonColor | string;
-  group_identifier: string;
-  nodes: CustomNodeConfig[];
-};
+import { useVueFlowStore } from '~/stores/VueFlowStore';
 
 export class CustomNodes {
-  // @ts-ignore
-  static nodesList: CustomNodesGroup[] = blocks;
+  static nodesList: NodeGroupDefinition[] = blocks;
 
-  static getCustomNodeConfig(type: string): CustomNodeConfig | undefined {
+  static getCustomNodeConfig(type: string): NodeDefinition | undefined {
     return CustomNodes.nodesList
       .flatMap((group) => group.nodes)
       .find((node) => node.type === type);
   }
 
-  static getNodeGroup(type: string): CustomNodesGroup | null {
+  static getNodeGroup(type: string): NodeGroupDefinition | null {
     const node = CustomNodes.getCustomNodeConfig(type);
     if (!node) return null;
     return (
       CustomNodes.nodesList.find((group) =>
-        group.nodes.some((node) => node.type === type)
+        group.nodes.some((node: NodeDefinition) => node.type === type)
       ) ?? null
     );
   }
@@ -54,10 +31,10 @@ export class CustomNodes {
     const data = {};
 
     for (const key in node.data) {
-      if (node.data[key]['value'] !== undefined) {
+      // @ts-ignore - data[key] is not a valid type
+      if (node.data[key].value !== undefined) {
         // @ts-ignore - data[key] is not a valid type
         data[key] = node.data[key]['value'];
-        // continue;
       }
     }
 
@@ -71,5 +48,45 @@ export class CustomNodes {
       width: node.minSize?.width,
       data,
     };
+  }
+
+  static getColorOfCategory(category: string) {
+    const group = CustomNodes.nodesList.find(
+      (group) => group.group_identifier === category
+    );
+    return group?.color ?? '#000000';
+  }
+
+  static getHardGradientOfMultipleCategories(
+    categories: string[],
+    vertical: boolean = false
+  ) {
+    const colors = categories.map((category) =>
+      CustomNodes.getColorOfCategory(category)
+    );
+    return `linear-gradient(to ${vertical ? 'top' : 'right'}, ${colors.map((color, index) => `${color} ${index * (100 / colors.length)}%, ${color} ${(index + 1) * (100 / colors.length)}%`).join(', ')})`;
+  }
+
+  static getColorOfConnection(sourceHandle: string) {
+    const flowStore = useVueFlowStore();
+
+    const split = sourceHandle.split('-');
+    const nodeId = split[split.length - 1];
+    if (split.length === 1) return '#000000';
+    if (split.length === 2) {
+      const node = flowStore.nodeById(nodeId!)!;
+      const group = CustomNodes.getNodeGroup(node.type ?? '');
+      return group?.color ?? '#000000';
+    }
+    if (split.length === 3) {
+      const node = flowStore.nodeById(nodeId!)!;
+      const nodeDef = CustomNodes.getCustomNodeConfig(node.type ?? '');
+      const handleTypeKey = split[split.length - 2];
+      const handleCategoryType =
+        //@ts-ignore "constraints" exists on type 'id'
+        nodeDef?.data[handleTypeKey!]?.constraints?.allowedCategories[0] ??
+        CustomNodes.getNodeGroup(node.type ?? '')?.group_identifier;
+      return CustomNodes.getColorOfCategory(handleCategoryType ?? '');
+    }
   }
 }

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { VueFlow, useVueFlow, Panel } from '@vue-flow/core';
+import type { Connection } from '@vue-flow/core';
 // import { MiniMap } from "@vue-flow/minimap";
 // import "@vue-flow/minimap/dist/style.css";
 import { CustomNodes } from '~/components/editor/customNodeList';
@@ -31,12 +32,9 @@ const colorMode = useColorMode();
 
 const sessionStore = useSessionStore();
 const projectStore = useProjectStore();
+const flowStore = useVueFlowStore();
 
 sessionStore.showLoadingAnimation();
-
-const nodes = ref([]);
-const edges = ref([]);
-const title = ref('Loading...');
 
 const syncStatus = ref<SyncStatus>(SyncStatus.initializing);
 
@@ -69,19 +67,14 @@ function handleDrop(event: DragEvent) {
   addNodes([newNode]);
 }
 
-onConnect((params) => {
-  // @ts-ignore
+onConnect((params: Connection) => {
   params.type = 'smoothstep';
-  if (params.sourceHandle?.startsWith('val-')) {
-    console.log();
-    // @ts-ignore
-    params.data = {
-      key: params.sourceHandle?.slice(
-        4,
-        params.sourceHandle.length - params.source.length - 1
-      ),
-    };
-  }
+  params.animated = false;
+  params.animationSpeed = 0.5;
+  params.style = {
+    stroke: CustomNodes.getColorOfConnection(params.sourceHandle ?? ''),
+    strokeWidth: 2,
+  };
   addEdges([params]);
 });
 
@@ -109,9 +102,8 @@ async function loadProject() {
     });
     syncStatus.value = SyncStatus.error;
   } else {
-    title.value = project.name;
+    flowStore.remote_data = project;
     sessionStore.loading = false;
-    // toast.add({ title: 'Project loaded', icon: 'mdi-check', color: 'green' });
     syncStatus.value = SyncStatus.synced;
   }
 }
@@ -137,7 +129,7 @@ async function postProject() {
   }
 }
 let syncInterval: NodeJS.Timeout | null = null;
-function setInterval() {
+function setSyncInterval() {
   syncStatus.value = SyncStatus.unsaved;
   if (syncInterval) {
     clearInterval(syncInterval);
@@ -160,7 +152,7 @@ watch(
   getNodes,
   () => {
     if (props.projectId !== '') {
-      setInterval();
+      setSyncInterval();
     }
   },
   { deep: true }
@@ -170,7 +162,7 @@ watch(
   getEdges,
   () => {
     if (props.projectId !== '') {
-      setInterval();
+      setSyncInterval();
     }
   },
   { deep: true }
@@ -184,22 +176,11 @@ watch(
       @drop="handleDrop"
       @dragover.prevent
     >
-      <VueFlow :nodes="nodes" :edges="edges" class="border-3 border-amber-400">
-        <template #edge-id-connection="customEdgeProps">
-          <EditorIdConnectionEdge
-            :id="customEdgeProps.id"
-            :source-x="customEdgeProps.sourceX"
-            :source-y="customEdgeProps.sourceY"
-            :target-x="customEdgeProps.targetX"
-            :target-y="customEdgeProps.targetY"
-            :source-position="customEdgeProps.sourcePosition"
-            :target-position="customEdgeProps.targetPosition"
-            :data="customEdgeProps.data"
-            :marker-end="customEdgeProps.markerEnd"
-            :style="customEdgeProps.style"
-          />
-        </template>
-
+      <VueFlow
+        v-model:nodes="flowStore.nodes"
+        v-model:edges="flowStore.edges"
+        class="border-3 border-amber-400"
+      >
         <Background
           :pattern-color="colorMode.value === 'dark' ? '#aaa' : '#222'"
           :gap="16"
@@ -224,7 +205,7 @@ watch(
   <div class="h-full absolute-overlay flex flex-col">
     <div class="pointer-events-auto">
       <EditorProjectHeader
-        :project-title="title"
+        :project-title="flowStore.remote_data.name"
         :project-owner="projectOwner"
         class="w-full"
       >

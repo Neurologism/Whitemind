@@ -1,4 +1,9 @@
-export const blocks = [
+enum FlowOrientation {
+  INPUT = 'input',
+  OUTPUT = 'output',
+}
+
+export const blocks: NodeGroupDefinition[] = [
   {
     name: 'LAYERS',
     icon: 'mdi-layers',
@@ -721,7 +726,7 @@ export const blocks = [
   {
     name: 'DATASETS',
     icon: 'mdi-database',
-    color: 'blue',
+    color: '#ff5722',
     group_identifier: 'dataset',
     nodes: [
       {
@@ -729,6 +734,8 @@ export const blocks = [
         name: 'MNIST',
         description: 'Load the MNIST dataset.',
         identifier: 'dataset_mnist',
+        hideInput: true,
+        hideOutput: true,
         data: {
           batch_size: {
             type: 'number',
@@ -736,9 +743,17 @@ export const blocks = [
           },
           train: {
             type: 'id',
+            flowOrientation: FlowOrientation.OUTPUT,
+            constraints: {
+              allowedCategories: ['dataset'],
+            },
           },
           test: {
             type: 'id',
+            flowOrientation: FlowOrientation.OUTPUT,
+            constraints: {
+              allowedCategories: ['dataset'],
+            },
           },
         },
       },
@@ -747,6 +762,8 @@ export const blocks = [
         name: 'Wine Quality',
         description: 'Load the Wine Quality dataset.',
         identifier: 'dataset_wine_quality',
+        hideInput: true,
+        hideOutput: true,
         data: {
           batch_size: {
             type: 'number',
@@ -754,6 +771,10 @@ export const blocks = [
           },
           train: {
             type: 'id',
+            flowOrientation: FlowOrientation.OUTPUT,
+            constraints: {
+              allowedCategories: ['dataset'],
+            },
           },
         },
       },
@@ -762,15 +783,25 @@ export const blocks = [
         name: 'Split',
         description: 'Split the dataset into two parts.',
         identifier: 'split',
+        hideInput: false,
+        hideOutput: true,
         data: {
           ratio: {
             type: 'number',
           },
           split1: {
             type: 'id',
+            flowOrientation: FlowOrientation.OUTPUT,
+            constraints: {
+              allowedCategories: ['dataset'],
+            },
           },
           split2: {
             type: 'id',
+            flowOrientation: FlowOrientation.OUTPUT,
+            constraints: {
+              allowedCategories: ['dataset'],
+            },
           },
         },
       },
@@ -787,12 +818,34 @@ export const blocks = [
         name: 'Model',
         description: 'Create and compile a new model.',
         identifier: 'Model',
+        hideInput: true,
         data: {
           inputs: {
             type: 'id',
+            flowOrientation: FlowOrientation.OUTPUT,
+            required: true,
+            constraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
           },
           outputs: {
             type: 'id',
+            flowOrientation: FlowOrientation.INPUT,
+            required: true,
+            constraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+          },
+          visualizers: {
+            type: 'id',
+            flowOrientation: FlowOrientation.OUTPUT,
+            constraints: {
+              allowedCategories: ['visualizer'],
+            },
           },
           optimizer: {
             type: 'select',
@@ -968,6 +1021,12 @@ export const blocks = [
         data: {
           x: {
             type: 'id',
+            flowOrientation: FlowOrientation.INPUT,
+            constraints: {
+              allowedCategories: ['dataset'],
+              max: 1,
+              min: 1,
+            },
           },
           epochs: {
             type: 'number',
@@ -979,6 +1038,11 @@ export const blocks = [
           },
           validation_data: {
             type: 'id',
+            flowOrientation: FlowOrientation.INPUT,
+            constraints: {
+              allowedCategories: ['dataset'],
+              max: 1,
+            },
           },
 
           name: {
@@ -995,6 +1059,12 @@ export const blocks = [
         data: {
           x: {
             type: 'id',
+            flowOrientation: FlowOrientation.INPUT,
+            constraints: {
+              allowedCategories: ['dataset'],
+              max: 1,
+              min: 1,
+            },
           },
           name: {
             type: 'string',
@@ -1013,9 +1083,14 @@ export const blocks = [
       {
         type: 'line-chart',
         name: 'Line Chart',
+        hideOutput: true,
         description: 'Plots a line chart while training the model.',
         identifier: 'line-chart',
         minSize: { width: 450, height: 300 },
+        inputConstraints: {
+          allowedCategories: ['visualizer'],
+          max: 1,
+        },
         data: {
           x_label: {
             type: 'select',
@@ -1032,3 +1107,66 @@ export const blocks = [
     ],
   },
 ];
+
+export type NodeGroupDefinition = {
+  name: string;
+  icon: string;
+  color: string;
+  group_identifier: string;
+  nodes: NodeDefinition[];
+};
+
+export type NodeConnectionConstraint = {
+  allowedCategories?: string[];
+  min?: number;
+  max?: number;
+};
+
+export type NodeDefinition = {
+  type: string;
+  name: string;
+  description: string;
+  identifier: string;
+  minSize?: { width: number; height: number };
+  hideInput?: boolean;
+  hideOutput?: boolean;
+  inputConstraints?: NodeConnectionConstraint;
+  outputConstraints?: NodeConnectionConstraint;
+  data: Record<
+    string,
+    | {
+        type: 'id';
+        flowOrientation: FlowOrientation;
+        constraints?: NodeConnectionConstraint;
+        required?: boolean;
+        rules?: any[];
+      }
+    | {
+        type: 'select';
+        options: string[];
+        value?: string | null;
+      }
+    | {
+        type: 'number';
+        value?: number | null;
+      }
+    | {
+        type: 'boolean';
+        value?: boolean | null;
+      }
+    | {
+        type: 'tuple';
+        itemType: 'number' | 'string';
+        value?: string[] | null;
+      }
+    | {
+        type: 'multiselect';
+        options: string[];
+        value?: string[] | null;
+      }
+    | {
+        type: 'string';
+        value?: string | null;
+      }
+  >;
+};
