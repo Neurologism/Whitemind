@@ -744,14 +744,14 @@ export const blocks: NodeGroupDefinition[] = [
           train: {
             type: 'id',
             flowOrientation: FlowOrientation.OUTPUT,
-            constrains: {
+            constraints: {
               allowedCategories: ['dataset'],
             },
           },
           test: {
             type: 'id',
             flowOrientation: FlowOrientation.OUTPUT,
-            constrains: {
+            constraints: {
               allowedCategories: ['dataset'],
             },
           },
@@ -772,7 +772,7 @@ export const blocks: NodeGroupDefinition[] = [
           train: {
             type: 'id',
             flowOrientation: FlowOrientation.OUTPUT,
-            constrains: {
+            constraints: {
               allowedCategories: ['dataset'],
             },
           },
@@ -792,14 +792,14 @@ export const blocks: NodeGroupDefinition[] = [
           split1: {
             type: 'id',
             flowOrientation: FlowOrientation.OUTPUT,
-            constrains: {
+            constraints: {
               allowedCategories: ['dataset'],
             },
           },
           split2: {
             type: 'id',
             flowOrientation: FlowOrientation.OUTPUT,
-            constrains: {
+            constraints: {
               allowedCategories: ['dataset'],
             },
           },
@@ -824,7 +824,7 @@ export const blocks: NodeGroupDefinition[] = [
             type: 'id',
             flowOrientation: FlowOrientation.OUTPUT,
             required: true,
-            constrains: {
+            constraints: {
               allowedCategories: ['layer'],
               max: 1,
               min: 1,
@@ -834,7 +834,7 @@ export const blocks: NodeGroupDefinition[] = [
             type: 'id',
             flowOrientation: FlowOrientation.INPUT,
             required: true,
-            constrains: {
+            constraints: {
               allowedCategories: ['layer'],
               max: 1,
               min: 1,
@@ -843,7 +843,7 @@ export const blocks: NodeGroupDefinition[] = [
           visualizers: {
             type: 'id',
             flowOrientation: FlowOrientation.OUTPUT,
-            constrains: {
+            constraints: {
               allowedCategories: ['visualizer'],
             },
           },
@@ -1022,7 +1022,7 @@ export const blocks: NodeGroupDefinition[] = [
           x: {
             type: 'id',
             flowOrientation: FlowOrientation.INPUT,
-            constrains: {
+            constraints: {
               allowedCategories: ['dataset'],
               max: 1,
               min: 1,
@@ -1039,7 +1039,7 @@ export const blocks: NodeGroupDefinition[] = [
           validation_data: {
             type: 'id',
             flowOrientation: FlowOrientation.INPUT,
-            constrains: {
+            constraints: {
               allowedCategories: ['dataset'],
               max: 1,
             },
@@ -1060,7 +1060,7 @@ export const blocks: NodeGroupDefinition[] = [
           x: {
             type: 'id',
             flowOrientation: FlowOrientation.INPUT,
-            constrains: {
+            constraints: {
               allowedCategories: ['dataset'],
               max: 1,
               min: 1,
@@ -1133,7 +1133,7 @@ export type NodeDefinition = {
     | {
         type: 'id';
         flowOrientation: FlowOrientation;
-        constrains?: NodeConnectionConstraint;
+        constraints?: NodeConnectionConstraint;
         required?: boolean;
         rules?: any[];
       }

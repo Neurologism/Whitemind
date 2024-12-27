@@ -6,8 +6,6 @@ import type {
 import type { XYPosition } from '@vue-flow/core';
 import { useVueFlowStore } from '~/stores/VueFlowStore';
 
-const flowStore = useVueFlowStore();
-
 export class CustomNodes {
   static nodesList: NodeGroupDefinition[] = blocks;
 
@@ -70,6 +68,8 @@ export class CustomNodes {
   }
 
   static getColorOfConnection(sourceHandle: string) {
+    const flowStore = useVueFlowStore();
+
     const split = sourceHandle.split('-');
     console.log(split);
     const nodeId = split[split.length - 1];
@@ -84,9 +84,9 @@ export class CustomNodes {
       const node = flowStore.nodeById(nodeId!)!;
       const nodeDef = CustomNodes.getCustomNodeConfig(node.type ?? '');
       const handleTypeKey = split[split.length - 2];
-      //@ts-ignore "constrains" exists on type 'id'
       const handleCategoryType =
-        nodeDef?.data[handleTypeKey!]?.constrains?.allowedCategories[0] ??
+        //@ts-ignore "constraints" exists on type 'id'
+        nodeDef?.data[handleTypeKey!]?.constraints?.allowedCategories[0] ??
         CustomNodes.getNodeGroup(node.type ?? '')?.group_identifier;
       return CustomNodes.getColorOfCategory(handleCategoryType ?? '');
     }

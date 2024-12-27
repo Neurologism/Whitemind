@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { VueFlow, useVueFlow, Panel, MarkerType } from '@vue-flow/core';
+import { VueFlow, useVueFlow, Panel } from '@vue-flow/core';
 import type { Connection } from '@vue-flow/core';
 // import { MiniMap } from "@vue-flow/minimap";
 // import "@vue-flow/minimap/dist/style.css";
@@ -48,7 +48,7 @@ const {
   fromObject,
   getNodes,
   getEdges,
-} = useVueFlow(flowStore);
+} = useVueFlow();
 
 function handleDrop(event: DragEvent) {
   const nodeTypeString = event.dataTransfer?.getData('node') ?? '';
@@ -68,7 +68,6 @@ function handleDrop(event: DragEvent) {
 }
 
 onConnect((params: Connection) => {
-  // @ts-ignore
   params.type = 'smoothstep';
   params.animated = false;
   params.animationSpeed = 0.5;
