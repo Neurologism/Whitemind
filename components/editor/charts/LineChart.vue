@@ -52,6 +52,31 @@ const option: Ref<EChartsOption> = ref({
   backgroundColor: 'transparent',
 });
 
+// Helper function to convert numbers to Unicode superscript
+function toSuperscript(num) {
+  const superscripts = {
+    0: '⁰',
+    1: '¹',
+    2: '²',
+    3: '³',
+    4: '⁴',
+    5: '⁵',
+    6: '⁶',
+    7: '⁷',
+    8: '⁸',
+    9: '⁹',
+    '-': '⁻',
+  };
+
+  return [
+    ' ',
+    String(num)
+      .split('')
+      .map((char) => superscripts[char] || '')
+      .join(''),
+  ].join('');
+}
+
 watchEffect(() => {
   const data = trainingStore.getVisualizerData(nodeid);
   if (data.length && data.length > 0) {
@@ -67,11 +92,16 @@ watchEffect(() => {
         data: data_x,
       },
       yAxis: {
-        type: 'value',
+        type: 'log',
+        logBase: 10,
+        axisLabel: {
+          formatter: function (value) {
+            const exponent = Math.log10(value); // Calculate the power of ten
+            return `10${toSuperscript(exponent)}`; // Format as 10^x with superscripts
+          },
+        },
         // @ts-ignore - y_label is not defined in the type
         name: data[0][nodeid].y_label,
-        min: Math.min(...data_y),
-        max: Math.max(...data_y),
       },
       series: [
         {
