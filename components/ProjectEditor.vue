@@ -7,6 +7,7 @@ import { CustomNodes } from '~/components/editor/customNodeList';
 import { Background } from '@vue-flow/background';
 import { SyncStatus } from '~/components/editor/syncStatus';
 import CustomConnectionEdge from '~/components/editor/customEdge/CustomConnectionEdge.vue';
+import CustomEdge from '~/components/editor/customEdge/CustomEdge.vue';
 
 const props = defineProps({
   projectId: {
@@ -195,6 +196,21 @@ watch(
         <!--        <MiniMap zoomable node-color="black" mask-color="rgba(56,56,56,0.5)" />-->
         <template #connection-line="props">
           <CustomConnectionEdge v-bind="props" />
+        </template>
+        <!-- this warning is an webstorm/lang server error, code works -->
+        <template #edge-smoothstep="props">
+          <CustomEdge
+            :id="props.id"
+            :marker-end="props.markerEnd"
+            :sourcePosition="props.sourcePosition"
+            :targetPosition="props.targetPosition"
+            :style="props.style"
+            :sourceX="props.sourceX"
+            :sourceY="props.sourceY"
+            :targetX="props.targetX"
+            :targetY="props.targetY"
+            :data="props.data"
+          />
         </template>
         <template
           v-for="node in CustomNodes.nodesList.flatMap((group) => group.nodes)"
