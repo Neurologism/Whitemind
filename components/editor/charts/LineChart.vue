@@ -71,7 +71,7 @@ watchEffect(() => {
         // @ts-ignore - y_label is not defined in the type
         name: data[0][nodeid].y_label,
         min: Math.min(...data_y),
-        max: Math.max(...data_x),
+        max: Math.max(...data_y),
       },
       series: [
         {
