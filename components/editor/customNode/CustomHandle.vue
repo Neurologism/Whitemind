@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { PropType } from 'vue';
-import { Handle, Position } from '@vue-flow/core';
 import type { Connection, GraphEdge, GraphNode } from '@vue-flow/core';
+import { Handle, Position } from '@vue-flow/core';
 import type {
   NodeConnectionConstraint,
   NodeDefinition,
@@ -38,6 +38,12 @@ const props = defineProps({
   },
 });
 
+function getHandleConnectionCount(handleId: string): number {
+  return flowStore.edges.filter(
+    (edge) => edge.sourceHandle === handleId || edge.targetHandle === handleId
+  ).length;
+}
+
 function checkConnection(
   connection: Connection,
   elements: {
@@ -72,40 +78,32 @@ function checkConnection(
     sourceConstraints?.allowedCategories &&
     targetConstraints?.allowedCategories
   ) {
-    let res = sourceConstraints.allowedCategories.some((category) =>
+    return sourceConstraints.allowedCategories.some((category) =>
       targetConstraints.allowedCategories!.includes(category)
     );
-    console.log(res);
-    return res;
   }
   if (sourceConstraints?.min || sourceConstraints?.max) {
     let newSourceConnectionCount =
-      flowStore.handleConnectionCount(connection.sourceHandle!) + 1;
-    console.log(newSourceConnectionCount);
+      getHandleConnectionCount(connection.sourceHandle!) + 1;
     if (
       !(
         (sourceConstraints.min ?? 0 <= newSourceConnectionCount) &&
         newSourceConnectionCount <= (sourceConstraints.max ?? Infinity)
       )
     ) {
-      console.log(
-        `Source constraints failed: ${sourceConstraints.min} <= ${newSourceConnectionCount} <= ${sourceConstraints.max}`
-      );
       return false;
     }
   }
   if (targetConstraints?.min || targetConstraints?.max) {
     let newTargetConnectionCount =
-      flowStore.handleConnectionCount(connection.targetHandle!) + 1;
-    if (targetConstraints.min) {
-      if (newTargetConnectionCount <= targetConstraints.min) {
-        return false;
-      }
-    }
-    if (targetConstraints.max) {
-      if (newTargetConnectionCount >= targetConstraints.max) {
-        return false;
-      }
+      getHandleConnectionCount(connection.targetHandle!) + 1;
+    if (
+      !(
+        (targetConstraints.min ?? 0 <= newTargetConnectionCount) &&
+        newTargetConnectionCount <= (targetConstraints.max ?? Infinity)
+      )
+    ) {
+      return false;
     }
   }
 

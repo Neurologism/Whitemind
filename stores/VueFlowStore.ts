@@ -18,14 +18,6 @@ export const useVueFlowStore = defineStore('vueFlowStore', {
     },
   }),
   getters: {
-    handleConnectionCount:
-      (state) =>
-      (handleId: string): number => {
-        console.log('handleId', handleId);
-        return state.edges.filter(
-          (edge) => edge.source === handleId || edge.target === handleId
-        ).length;
-      },
     nodeById:
       (state) =>
       (id: string): Node | undefined => {

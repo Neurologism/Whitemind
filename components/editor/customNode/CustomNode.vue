@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import { Handle, Position, useNodesData, useVueFlow } from '@vue-flow/core';
+import { Position, useNodesData, useVueFlow } from '@vue-flow/core';
 import { NodeToolbar } from '@vue-flow/node-toolbar';
 import { CustomNodes } from '~/components/editor/customNodeList';
 import NodeValueEditor from '~/components/editor/customNode/typeEditors/NodeValueEditor.vue';
@@ -54,25 +54,25 @@ function toggleNodeToolbar() {
 <template>
   <NodeResizeControl
     v-if="shapeData.minSize !== undefined"
-    :variant="ResizeControlVariant.Handle"
-    :node-id="props.nodeId"
-    position="bottom-right"
-    color="white"
-    class="z-10 rounded-sm hover:scale-105"
-    :min-width="shapeData.minSize?.width"
     :min-height="shapeData.minSize?.height"
-    @resize-start="isResizing = true"
-    @resize-end="isResizing = false"
+    :min-width="shapeData.minSize?.width"
+    :node-id="props.nodeId"
     :style="{
       height: '1rem',
       width: '1rem',
       alignItems: 'center',
       borderRadius: '2px',
     }"
+    :variant="ResizeControlVariant.Handle"
+    class="z-10 rounded-sm hover:scale-105"
+    color="white"
+    position="bottom-right"
+    @resize-start="isResizing = true"
+    @resize-end="isResizing = false"
   >
-    <UIcon name="gridicons:resize" class="resize-arrow" />
+    <UIcon class="resize-arrow" name="gridicons:resize" />
   </NodeResizeControl>
-  <NodeToolbar :position="Position.Right" :is-visible="nodeToolbarOpen">
+  <NodeToolbar :is-visible="nodeToolbarOpen" :position="Position.Right">
     <div
       :class="`sized-params bg-customPrimary-950 border-2 border-blue-200 rounded animate__animated animate__fadeIn`"
     >
@@ -83,24 +83,24 @@ function toggleNodeToolbar() {
       >
         <NodeValueEditor
           v-if="shapeDefinition.type !== 'id'"
+          :data="data"
           :param-name="key"
           :shape-definition="shapeDefinition"
-          :data="data"
           :update-data="dataUpdated"
         />
       </div>
     </div>
   </NodeToolbar>
   <UTooltip
-    :text="shapeData.description"
-    @click="toggleNodeToolbar"
     :open-delay="750"
+    :text="shapeData.description"
     class="h-full w-full"
+    @click="toggleNodeToolbar"
   >
     <div
-      class="text-zinc-50 rounded-sm bg-gray-800 w-full flex flex-col"
       :class="{ 'blink-border': actionRequired }"
       :style="{ border: `2px solid ${shapeGroupData.color}` }"
+      class="text-zinc-50 rounded-sm bg-gray-800 w-full flex flex-col"
     >
       <div class="flex justify-between items-center p-2">
         <UIcon :name="shapeGroupData.icon" />
@@ -110,7 +110,6 @@ function toggleNodeToolbar() {
         <div v-for="(shapeDefinition, key) in shapeData.data">
           <div
             v-if="shapeDefinition.type === 'id'"
-            class="mb-2 ml-3 p-0.5 pr-0 rounded-l-sm bg-gray-300"
             :style="{
               backgroundImage: shapeDefinition.constraints?.allowedCategories
                 ? CustomNodes.getHardGradientOfMultipleCategories(
@@ -118,6 +117,7 @@ function toggleNodeToolbar() {
                   )
                 : undefined,
             }"
+            class="mb-2 ml-3 p-0.5 pr-0 rounded-l-sm bg-gray-300"
           >
             <div
               class="grid grid-cols-1 items-center justify-between bg-slate-700 font-mono text-sm rounded-l-sm relative p-1"
@@ -126,21 +126,21 @@ function toggleNodeToolbar() {
                 key
               }}</span>
               <CustomHandle
-                :shape-group-data="shapeGroupData"
-                :shape-data="shapeData"
+                :constraints="shapeDefinition.constraints"
+                :handle-id="`val-${key}-${props.nodeId}`"
                 :is-input="shapeData.data[key].flowOrientation! === 'input'"
                 :position="Position.Right"
-                :handle-id="`val-${key}-${props.nodeId}`"
-                :constraints="shapeDefinition.constraints"
+                :shape-data="shapeData"
+                :shape-group-data="shapeGroupData"
               />
             </div>
           </div>
         </div>
       </div>
-      <div class="p-2 flex-1 w-full" v-else>
+      <div v-else class="p-2 flex-1 w-full">
         <component
-          v-if="!isResizing"
           :is="chartComponentsByIdentifier[shapeData.identifier]!"
+          v-if="!isResizing"
           :nodeid="props.nodeId"
         ></component>
         <div v-else class="h-full w-full bg-slate-700 rounded-sm" />
@@ -149,21 +149,21 @@ function toggleNodeToolbar() {
   </UTooltip>
   <CustomHandle
     v-if="shapeData.hideInput !== true"
-    :shape-group-data="shapeGroupData"
-    :shape-data="shapeData"
-    :is-input="true"
     :constraints="shapeData.inputConstraints"
     :handle-id="`in-${props.nodeId}`"
+    :is-input="true"
     :position="Position.Top"
+    :shape-data="shapeData"
+    :shape-group-data="shapeGroupData"
   />
   <CustomHandle
     v-if="shapeData.hideOutput !== true"
-    :shape-group-data="shapeGroupData"
-    :shape-data="shapeData"
-    :is-input="false"
-    :handle-id="`out-${props.nodeId}`"
     :constraints="shapeData.outputConstraints"
+    :handle-id="`out-${props.nodeId}`"
+    :is-input="false"
     :position="Position.Bottom"
+    :shape-data="shapeData"
+    :shape-group-data="shapeGroupData"
   />
 </template>
 
