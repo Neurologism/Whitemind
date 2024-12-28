@@ -1099,7 +1099,7 @@ export const blocks: NodeGroupDefinition[] = [
           },
           y_label: {
             type: 'select',
-            options: ['loss', 'accuracy'],
+            options: ['loss', 'accuracy', 'mean_absolute_error'],
             value: 'loss',
           },
         },
