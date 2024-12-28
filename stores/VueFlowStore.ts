@@ -6,6 +6,7 @@ export const useVueFlowStore = defineStore('vueFlowStore', {
   state: () => ({
     nodes: ref<Node[]>([]),
     edges: ref<Edge[]>([]),
+    highlightedEdge: ref<string | null>(null),
     remote_data: {
       _id: 'string',
       name: 'string',
@@ -23,5 +24,12 @@ export const useVueFlowStore = defineStore('vueFlowStore', {
       (id: string): Node | undefined => {
         return state.nodes.find((node: Node) => node.id === id);
       },
+  },
+  actions: {
+    removeEdge(edgeId: string) {
+      console.log('Removing edge', edgeId);
+      this.edges = this.edges.filter((edge) => edge.id !== edgeId);
+      this.highlightedEdge = null;
+    },
   },
 });
