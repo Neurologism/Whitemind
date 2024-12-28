@@ -91,7 +91,7 @@ watchEffect(() => {
   const data = trainingStore.getVisualizerData(nodeid);
   if (data.length && data.length > 0) {
     const data_y = data.map((d: any) => d[nodeid].y) as number[];
-    const data_validation = data.map((d: any) => d[nodeid]?.val_yy ?? null) as (
+    const data_validation = data.map((d: any) => d[nodeid]?.val_y ?? null) as (
       | number
       | null
     )[];
