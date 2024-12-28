@@ -7,6 +7,7 @@ import {
   TitleComponent,
   TooltipComponent,
   GridComponent,
+  LegendComponent, // Add LegendComponent
 } from 'echarts/components';
 import VChart, { THEME_KEY } from 'vue-echarts';
 import { useTrainingStore } from '~/stores/TrainingStore';
@@ -19,6 +20,7 @@ use([
   TitleComponent,
   TooltipComponent,
   GridComponent,
+  LegendComponent, // Register LegendComponent
 ]);
 
 const { nodeid } = defineProps({
@@ -47,8 +49,16 @@ const option: Ref<EChartsOption> = ref({
       ],
       type: 'line',
       smooth: true,
+      name: 'Series 1', // Add name for legend
     },
   ],
+  legend: {
+    show: true, // Enable the legend
+    top: 'top', // Position the legend
+    textStyle: {
+      color: '#fff', // Adjust legend text color
+    },
+  },
   backgroundColor: 'transparent',
 });
 
@@ -81,7 +91,30 @@ watchEffect(() => {
   const data = trainingStore.getVisualizerData(nodeid);
   if (data.length && data.length > 0) {
     const data_y = data.map((d: any) => d[nodeid].y) as number[];
+    const data_validation = data.map((d: any) => d[nodeid]?.val_yy ?? null) as (
+      | number
+      | null
+    )[];
     const data_x = data.map((d: any) => d[nodeid].x) as number[];
+
+    const series = [
+      {
+        name: 'Training',
+        data: data_y,
+        type: 'line',
+        smooth: false,
+      },
+    ];
+
+    // Add validation series only if it contains valid data
+    if (data_validation.some((value) => value !== null)) {
+      series.push({
+        name: 'Validation',
+        data: data_validation as number[],
+        type: 'line',
+        smooth: false,
+      });
+    }
 
     dataExists.value = true;
     option.value = {
@@ -103,15 +136,14 @@ watchEffect(() => {
         // @ts-ignore - y_label is not defined in the type
         name: data[0][nodeid].y_label,
       },
-      series: [
-        {
-          // @ts-ignore - y_label is not defined in the type
-          name: data[0][nodeid].y_label,
-          data: data_y,
-          type: 'line',
-          smooth: false,
+      series: series as any,
+      legend: {
+        show: true,
+        top: 'top',
+        textStyle: {
+          color: '#fff',
         },
-      ],
+      },
       backgroundColor: 'transparent',
     };
   }
