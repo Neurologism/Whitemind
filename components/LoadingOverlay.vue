@@ -114,7 +114,10 @@ watch(
 </script>
 <template>
   <div
-    class="frame z-[100] bg-black absolute w-screen h-screen justify-center flex pointer-events-none"
+    class="frame z-[100] bg-black absolute w-screen h-screen justify-center flex"
+    :class="{
+      'pointer-events-none': !sessionStore.loading,
+    }"
   >
     <div class="relative justify-center items-center my-auto">
       <NuxtImg
