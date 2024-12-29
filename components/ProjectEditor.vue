@@ -185,7 +185,7 @@ watch(
         @edge-mouse-enter="
           (infos) => (flowStore.highlightedEdge = infos.edge.id)
         "
-        @edge-mouse-leave="(infos) => (flowStore.highlightedEdge = null)"
+        @edge-mouse-leave="(_infos) => (flowStore.highlightedEdge = null)"
         @edge-click="(infos) => flowStore.removeEdge(infos.edge.id)"
       >
         <Background
@@ -227,7 +227,7 @@ watch(
       </VueFlow>
     </div>
   </div>
-  <div class="h-full absolute-overlay flex flex-col">
+  <div class="h-full absolute-overlay flex flex-col overflow-hidden">
     <div class="pointer-events-auto">
       <EditorProjectHeader
         :project-title="flowStore.remote_data.name"
@@ -265,10 +265,13 @@ watch(
         </div>
       </EditorProjectHeader>
     </div>
-    <div class="" v-if="syncStatus === SyncStatus.initializing">
+    <div
+      class="flex-1 overflow-auto"
+      v-if="syncStatus === SyncStatus.initializing"
+    >
       <UProgress animation="carousel" />
     </div>
-    <div v-else class="flex-1">
+    <div class="flex-1 overflow-auto" v-else>
       <EditorSidebar class="h-full pointer-events-auto" />
     </div>
   </div>

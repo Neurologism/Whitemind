@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { CustomNodes } from '~/components/editor/customNodeList';
-import type { ButtonColor } from '#ui/types';
 
 const selectedCategory = ref(0);
 const isPermaOpen = ref(false);
@@ -81,19 +80,20 @@ function toggleSidebar() {
       </div>
     </div>
     <div
-      :class="`${!isPermaOpen ? 'child-div' : ''} h-full flex-none pt-4 ml-2`"
+      class="overflow-y-hidden hover:overflow-y-auto overflow-x-hidden pt-4 ml-2`"
+      :class="{
+        'child-div': !isPermaOpen,
+      }"
     >
-      <!-- TODO: better overflow scrolling solution. Wasted 1h minimum here -->
-      <div
-        class="m-2 h-[83vh] overflow-y-hidden hover:overflow-y-auto overflow-x-hidden"
-      >
+      <div class="m-2">
         <span
           class="text-2xl text-slate-800 dark:text-slate-200 brightness-200 font-semibold"
           ><UIcon
             class="ml-2 mr-2"
             :name="CustomNodes.nodesList[selectedCategory].icon"
-          />{{ CustomNodes.nodesList[selectedCategory].name }}</span
-        >
+          />
+          {{ CustomNodes.nodesList[selectedCategory].name }}
+        </span>
         <div class="flex flex-col">
           <div
             v-for="node in CustomNodes.nodesList[selectedCategory].nodes"
@@ -130,7 +130,6 @@ function toggleSidebar() {
 </template>
 
 <style scoped>
-/* the warning is wrong. Do not delete this CSS classes! */
 .parent-div .child-div {
   display: none;
 }
