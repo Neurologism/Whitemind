@@ -86,6 +86,12 @@ async function loadProject() {
     props.projectId,
     sessionStore.fetch
   );
+
+  if (!project) {
+    navigateTo('/404');
+    return;
+  }
+
   let components;
   if (!project.components) {
     components = {
