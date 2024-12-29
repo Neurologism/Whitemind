@@ -91,6 +91,7 @@ onMounted(() => {
         placeholder="Enter your email or username"
         type="email"
         class="mb-4 ml-5 mr-5"
+        @keyup.enter="onLogin"
       />
       <div class="mb-4 ml-5 mr-5">
         <UInput
