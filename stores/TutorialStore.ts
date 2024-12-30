@@ -32,6 +32,16 @@ export const useTutorialStore = defineStore('tutorialStore', {
     },
   }),
   getters: {
+    progress(data): number {
+      return data.tutorial.data === null
+        ? 0
+        : (data.tutorial.currentStep / data.tutorial.data.steps.length) * 100;
+    },
+
+    isLoaded(data): boolean {
+      return data.tutorial.data !== null;
+    },
+
     isTrainingEnabled(data): boolean {
       return data.tutorial.data
         ? data.tutorial.data.steps[data.tutorial.currentStep].trainingEnabled

@@ -34,23 +34,26 @@ function stepBack() {
         }}
       </slot>
       <br /><br />
-      <UButton
-        :disabled="tutorialStore.tutorial.currentStep === 0"
-        icon="i-heroicons-chevron-left"
-        variant="ghost"
-        @click="stepBack"
-      ></UButton>
-      <UButton
-        :disabled="
-          tutorialStore.tutorial.data === null
-            ? true
-            : tutorialStore.tutorial.currentStep ===
-              tutorialStore.tutorial.data.steps.length - 1
-        "
-        icon="i-heroicons-chevron-right"
-        variant="ghost"
-        @click="stepForward"
-      ></UButton>
+      <div class="flex flex-row space-x-2">
+        <UButton
+          :disabled="tutorialStore.tutorial.currentStep === 0"
+          icon="i-heroicons-chevron-left"
+          variant="ghost"
+          @click="stepBack"
+        ></UButton>
+        <UProgress class="flex-grow my-auto" :value="tutorialStore.progress" />
+        <UButton
+          :disabled="
+            tutorialStore.tutorial.data === null
+              ? true
+              : tutorialStore.tutorial.currentStep ===
+                tutorialStore.tutorial.data.steps.length - 1
+          "
+          icon="i-heroicons-chevron-right"
+          variant="ghost"
+          @click="stepForward"
+        ></UButton>
+      </div>
     </UCard>
   </div>
 </template>
