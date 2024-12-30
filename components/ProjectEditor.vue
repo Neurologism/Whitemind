@@ -193,7 +193,6 @@ watch(
         "
         @edge-mouse-leave="(_infos) => (flowStore.highlightedEdge = null)"
         @edge-click="(infos) => flowStore.removeEdge(infos.edge.id)"
-        @dragover="console.log"
       >
         <Background
           :pattern-color="colorMode.value === 'dark' ? '#aaa' : '#222'"

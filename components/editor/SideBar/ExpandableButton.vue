@@ -6,7 +6,7 @@ const props = defineProps<{
   title: string;
   color: string;
   onMainClick: () => void;
-  onSubClick: (subTitle: string) => void;
+  onSubClick: (groupIndex: number) => void;
   isSelected: boolean;
   children: {
     icon: string;
@@ -61,7 +61,7 @@ function toggle() {
         <div
           v-for="(child, index) in children"
           :key="index"
-          @click="onSubClick(child.name)"
+          @click="onSubClick(index)"
         >
           <UTooltip :popper="{ placement: 'right', strategy: 'absolute' }">
             <template #text>

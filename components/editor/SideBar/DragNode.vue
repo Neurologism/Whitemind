@@ -27,7 +27,7 @@ function handleDragStart(event: DragEvent, nodeType: string) {
 <template>
   <div
     :key="nodeDefinition.type"
-    class="flex-none items-center m-1 ml-3 mr-3 cursor-grab border p-2 pl-4 rounded-md hover:scale-105 transition-transform w-80"
+    class="flex-none items-center mb-1 mt-2 ml-3 mr-3 cursor-grab border p-2 pl-4 rounded-md hover:scale-105 transition-transform w-80"
     :style="{
       borderColor: nodeGroupDefinition.color,
       backgroundColor: `rgba(${getRGBColor(nodeGroupDefinition.color)}, 0.05)`,
