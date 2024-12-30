@@ -33,8 +33,7 @@ function stepBack() {
             .text
         }}
       </slot>
-      <br /><br />
-      <div class="flex flex-row space-x-2">
+      <div class="flex flex-row space-x-2 mt-4">
         <UButton
           :disabled="tutorialStore.tutorial.currentStep === 0"
           icon="i-heroicons-chevron-left"
@@ -53,6 +52,24 @@ function stepBack() {
           variant="ghost"
           @click="stepForward"
         ></UButton>
+      </div>
+      <div class="mt-4">
+        <UButton
+          class="w-full"
+          :ui="{ rounded: 'rounded-full' }"
+          v-if="
+            tutorialStore.tutorial.data === null
+              ? true
+              : tutorialStore.tutorial.currentStep ===
+                tutorialStore.tutorial.data.steps.length - 1
+          "
+        >
+          <span class="ml-auto"> Next Tutorial</span>
+          <UIcon
+            name="mdi:chevron-triple-right"
+            class="text-2xl mr-auto mt-[1px]"
+          ></UIcon>
+        </UButton>
       </div>
     </UCard>
   </div>
