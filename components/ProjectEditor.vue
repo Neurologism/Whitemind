@@ -77,9 +77,9 @@ function handleDrop(event: DragEvent) {
 
   for (const addNode of tutorialStore.currentAddNodes) {
     if (
-      components.nodes.some((node) => node.id === addNode.id) ||
       addNode.identifier !== newNode?.identifier ||
-      addNode.group_identifier !== newNode?.group_identifier
+      addNode.group_identifier !== newNode?.group_identifier ||
+      components.nodes.some((node) => node.id === addNode.id)
     ) {
       continue;
     }
@@ -93,21 +93,44 @@ function handleDrop(event: DragEvent) {
       },
     };
     console.log('Adding tutorial node', newNode);
+    break;
   }
 
   // @ts-ignore
   addNodes([newNode]);
 }
 
-onConnect((params: any) => {
-  params.type = 'smoothstep';
-  params.animated = false;
-  params.animationSpeed = 0.5;
-  params.style = {
-    stroke: CustomNodes.getColorOfHandle(params.sourceHandle ?? ''),
+onConnect((newEdge: any) => {
+  newEdge.type = 'smoothstep';
+  newEdge.animated = false;
+  newEdge.animationSpeed = 0.5;
+  newEdge.style = {
+    stroke: CustomNodes.getColorOfHandle(newEdge.sourceHandle ?? ''),
     strokeWidth: 2,
   };
-  addEdges([params]);
+
+  if (!props.tutorialProject) {
+    addEdges([newEdge]);
+    return;
+  }
+
+  for (const addEdge of tutorialStore.currentAddEdges) {
+    if (
+      addEdge.source !== newEdge?.source ||
+      addEdge.target !== newEdge?.target
+    ) {
+      continue;
+    }
+
+    newEdge = {
+      ...newEdge,
+      ...addEdge,
+    };
+    console.log('Adding tutorial edge', newEdge);
+    break;
+  }
+
+  addEdges([newEdge]);
 });
 
 async function loadProject() {
