@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const showSpeechBubble = ref(false);
+const showSpeechBubble = ref(true);
 
 function toggleSpeechBubble() {
   showSpeechBubble.value = !showSpeechBubble.value;
