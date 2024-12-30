@@ -42,7 +42,7 @@ function setOpen() {
     :style="{
       width: isPermaOpen ? '28rem' : '',
     }"
-    class="parent-div border-r-2 h-100 border-slate-600 bg-opacity-90 dark:bg-opacity-90 bg-slate-200 dark:bg-slate-800 pt-4 pl-2 pr-2 pb-2 w-20 origin-left transition-transform flex flex-row flex-nowrap select-none"
+    class="parent-div border-r-2 h-100 border-slate-600 bg-opacity-90 dark:bg-opacity-90 bg-slate-200 dark:bg-slate-800 pt-4 pl-2 pb-2 w-20 origin-left transition-transform flex flex-row flex-nowrap select-none"
     :class="{
       'hover:w-[28rem]': !isPermaOpen,
       'hover:scale-x-105': !isPermaOpen,
@@ -90,7 +90,7 @@ function setOpen() {
     </div>
     <div
       ref="scrollRef"
-      class="ml-3 w-full mr-2 overflow-y-hidden hover:overflow-y-auto overflow-x-hidden"
+      class="ml-3 w-full overflow-y-hidden hover:overflow-y-auto overflow-x-hidden"
       :class="{ 'child-div': !isPermaOpen }"
     >
       <div class="z-10 ml-2 fixed w-[21rem]" v-if="isOpen">
