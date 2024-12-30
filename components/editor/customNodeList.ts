@@ -11,7 +11,7 @@ export class CustomNodes {
 
   static getCustomNodeConfig(type: string): NodeDefinition | undefined {
     return CustomNodes.nodesList
-      .flatMap((group) => group.nodes)
+      .flatMap((group) => group.groups.flatMap((node) => node.nodes))
       .find((node) => node.type === type);
   }
 
@@ -20,7 +20,9 @@ export class CustomNodes {
     if (!node) return null;
     return (
       CustomNodes.nodesList.find((group) =>
-        group.nodes.some((node: NodeDefinition) => node.type === type)
+        group.groups
+          .flatMap((node) => node.nodes)
+          .some((node: NodeDefinition) => node.type === type)
       ) ?? null
     );
   }

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { VueFlow, useVueFlow, Panel } from '@vue-flow/core';
-import type { Connection } from '@vue-flow/core';
 // import { MiniMap } from "@vue-flow/minimap";
 // import "@vue-flow/minimap/dist/style.css";
 import { CustomNodes } from '~/components/editor/customNodeList';
@@ -8,6 +7,7 @@ import { Background } from '@vue-flow/background';
 import { SyncStatus } from '~/components/editor/syncStatus';
 import CustomConnectionEdge from '~/components/editor/customEdge/CustomConnectionEdge.vue';
 import CustomEdge from '~/components/editor/customEdge/CustomEdge.vue';
+import Sidebar from '~/components/editor/SideBar/Sidebar.vue';
 
 const props = defineProps({
   projectId: {
@@ -34,6 +34,7 @@ const colorMode = useColorMode();
 
 const sessionStore = useSessionStore();
 const projectStore = useProjectStore();
+const tutorialStore = useTutorialStore();
 const flowStore = useVueFlowStore();
 
 sessionStore.showLoadingAnimation();
@@ -64,12 +65,41 @@ function handleDrop(event: DragEvent) {
     y: event.clientY - top,
   });
 
-  const newNode = CustomNodes.getDefaultData(nodeType.type, position);
+  let newNode = CustomNodes.getDefaultData(nodeType.type, position);
+
+  if (!props.tutorialProject) {
+    // @ts-ignore
+    addNodes([newNode]);
+    return;
+  }
+
+  const components = toObject();
+
+  for (const addNode of tutorialStore.currentAddNodes) {
+    if (
+      components.nodes.some((node) => node.id === addNode.id) ||
+      addNode.identifier !== newNode?.identifier ||
+      addNode.group_identifier !== newNode?.group_identifier
+    ) {
+      continue;
+    }
+
+    newNode = {
+      ...newNode,
+      ...addNode,
+      data: {
+        ...newNode?.data,
+        ...addNode.data,
+      },
+    };
+    console.log('Adding tutorial node', newNode);
+  }
+
   // @ts-ignore
   addNodes([newNode]);
 }
 
-onConnect((params: Connection) => {
+onConnect((params: any) => {
   params.type = 'smoothstep';
   params.animated = false;
   params.animationSpeed = 0.5;
@@ -86,6 +116,12 @@ async function loadProject() {
     props.projectId,
     sessionStore.fetch
   );
+
+  if (!project) {
+    navigateTo('/404');
+    return;
+  }
+
   let components;
   if (!project.components) {
     components = {
@@ -112,10 +148,10 @@ async function loadProject() {
 
 async function postProject() {
   syncStatus.value = SyncStatus.syncing;
-  const object = toObject();
+  const componentsObject = toObject();
   const success = await projectStore.updateProjectComponents(
     props.projectId,
-    object,
+    componentsObject,
     sessionStore.fetch
   );
   if (!success) {
@@ -126,7 +162,7 @@ async function postProject() {
     });
     syncStatus.value = SyncStatus.error;
   } else {
-    //toast.add({ title: 'Project synced', icon: 'mdi-check', color: 'green' });
+    // toast.add({ title: 'Project synced', icon: 'mdi-check', color: 'green' });
     syncStatus.value = SyncStatus.synced;
   }
 }
@@ -185,7 +221,7 @@ watch(
         @edge-mouse-enter="
           (infos) => (flowStore.highlightedEdge = infos.edge.id)
         "
-        @edge-mouse-leave="(infos) => (flowStore.highlightedEdge = null)"
+        @edge-mouse-leave="(_infos) => (flowStore.highlightedEdge = null)"
         @edge-click="(infos) => flowStore.removeEdge(infos.edge.id)"
       >
         <Background
@@ -218,7 +254,9 @@ watch(
           />
         </template>
         <template
-          v-for="node in CustomNodes.nodesList.flatMap((group) => group.nodes)"
+          v-for="node in CustomNodes.nodesList.flatMap((group) =>
+            group.groups.flatMap((subGroup) => subGroup.nodes)
+          )"
           :key="node.type"
           v-slot:[`node-${node.type}`]="props"
         >
@@ -227,7 +265,7 @@ watch(
       </VueFlow>
     </div>
   </div>
-  <div class="h-full absolute-overlay flex flex-col">
+  <div class="h-full absolute-overlay flex flex-col overflow-hidden">
     <div class="pointer-events-auto">
       <EditorProjectHeader
         :project-title="flowStore.remote_data.name"
@@ -265,11 +303,14 @@ watch(
         </div>
       </EditorProjectHeader>
     </div>
-    <div class="" v-if="syncStatus === SyncStatus.initializing">
+    <div
+      class="flex-1 overflow-auto"
+      v-if="syncStatus === SyncStatus.initializing"
+    >
       <UProgress animation="carousel" />
     </div>
-    <div v-else class="flex-1">
-      <EditorSidebar class="h-full pointer-events-auto" />
+    <div class="flex-1 overflow-auto" v-else>
+      <Sidebar class="h-full pointer-events-auto" />
     </div>
   </div>
 </template>

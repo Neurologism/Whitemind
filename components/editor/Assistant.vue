@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const showSpeechBubble = ref(false);
+const showSpeechBubble = ref(true);
 
 function toggleSpeechBubble() {
   showSpeechBubble.value = !showSpeechBubble.value;
@@ -18,12 +18,12 @@ function stepBack() {
 
 <template>
   <div
-    class="relative rounded-full w-16 h-16 border flex items-center justify-center"
+    class="relative rounded-full w-16 h-16 border border-slate-800 flex items-center justify-center"
   >
     <img
-      src="/assets/img/test.jpg"
-      alt="Assistant"
-      class="w-full h-full object-cover rounded-full"
+      :src="`/tutorialNarrators/${tutorialStore.currentNarrator}.png`"
+      alt="Narrator"
+      class="w-full h-full object-cover rounded-full cursor-pointer"
       @click="toggleSpeechBubble"
     />
     <UCard v-if="showSpeechBubble" class="speech-bubble text-white">
@@ -33,24 +33,44 @@ function stepBack() {
             .text
         }}
       </slot>
-      <br /><br />
-      <UButton
-        :disabled="tutorialStore.tutorial.currentStep === 0"
-        icon="i-heroicons-chevron-left"
-        variant="ghost"
-        @click="stepBack"
-      ></UButton>
-      <UButton
-        :disabled="
-          tutorialStore.tutorial.data === null
-            ? true
-            : tutorialStore.tutorial.currentStep ===
-              tutorialStore.tutorial.data.steps.length - 1
-        "
-        icon="i-heroicons-chevron-right"
-        variant="ghost"
-        @click="stepForward"
-      ></UButton>
+      <div class="flex flex-row space-x-2 mt-4">
+        <UButton
+          :disabled="tutorialStore.tutorial.currentStep === 0"
+          icon="i-heroicons-chevron-left"
+          variant="ghost"
+          @click="stepBack"
+        ></UButton>
+        <UProgress class="flex-grow my-auto" :value="tutorialStore.progress" />
+        <UButton
+          :disabled="
+            tutorialStore.tutorial.data === null
+              ? true
+              : tutorialStore.tutorial.currentStep ===
+                tutorialStore.tutorial.data.steps.length - 1
+          "
+          icon="i-heroicons-chevron-right"
+          variant="ghost"
+          @click="stepForward"
+        ></UButton>
+      </div>
+      <div class="mt-4">
+        <UButton
+          class="w-full"
+          :ui="{ rounded: 'rounded-full' }"
+          v-if="
+            tutorialStore.tutorial.data === null
+              ? true
+              : tutorialStore.tutorial.currentStep ===
+                tutorialStore.tutorial.data.steps.length - 1
+          "
+        >
+          <span class="ml-auto"> Next Tutorial</span>
+          <UIcon
+            name="mdi:chevron-triple-right"
+            class="text-2xl mr-auto mt-[1px]"
+          ></UIcon>
+        </UButton>
+      </div>
     </UCard>
   </div>
 </template>

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import ProjectEditor from '~/components/ProjectEditor.vue';
-
 definePageMeta({
   layout: 'project',
 });
@@ -47,6 +45,8 @@ async function loadTutorial() {
 
   toast.add({ title: 'Tutorial loaded', icon: 'mdi-check', color: 'green' });
 }
+
+tutorialStore.openInEditor = true;
 
 onMounted(() => {
   loadTutorial();

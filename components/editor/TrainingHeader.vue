@@ -5,6 +5,7 @@ const toast = useToast();
 
 const sessionStore = useSessionStore();
 const trainingStore = useTrainingStore();
+const tutorialStore = useTutorialStore();
 
 const props = defineProps<{
   projectId: string;
@@ -68,9 +69,11 @@ setInterval(updateTrainingStatus, 1000);
         icon="material-symbols:play-circle"
         size="lg"
         variant="solid"
-        color="primary"
-        class="transition-transform"
-        :disabled="syncStatus !== SyncStatus.synced"
+        :color="tutorialStore.isTrainingEnabled ? 'primary' : 'gray'"
+        class="transition-all duration-300"
+        :disabled="
+          syncStatus !== SyncStatus.synced || !tutorialStore.isTrainingEnabled
+        "
         >Start Training</UButton
       >
       <UButton

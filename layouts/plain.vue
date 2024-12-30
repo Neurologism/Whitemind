@@ -1,4 +1,7 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const sessionStore = useSessionStore();
+await sessionStore.syncLocalSessionData();
+</script>
 
 <template>
   <slot> </slot>

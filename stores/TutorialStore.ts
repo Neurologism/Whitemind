@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 
 export const useTutorialStore = defineStore('tutorialStore', {
   state: () => ({
+    openInEditor: false,
     tutorial: {
       fetchedTime: null as null | Date,
       data: null as {
@@ -31,7 +32,36 @@ export const useTutorialStore = defineStore('tutorialStore', {
       currentStep: 0 as number,
     },
   }),
-  getters: {},
+  getters: {
+    currentAddNodes(data) {
+      return data.tutorial.data === null
+        ? []
+        : data.tutorial.data.steps[data.tutorial.currentStep].addNodes;
+    },
+
+    currentNarrator(data): string {
+      return data.tutorial.data === null
+        ? ''
+        : data.tutorial.data.steps[data.tutorial.currentStep].narrator;
+    },
+
+    progress(data): number {
+      return data.tutorial.data === null
+        ? 0
+        : (data.tutorial.currentStep / (data.tutorial.data.steps.length - 1)) *
+            100;
+    },
+
+    isLoaded(data): boolean {
+      return data.tutorial.data !== null;
+    },
+
+    isTrainingEnabled(data): boolean {
+      return data.openInEditor && data.tutorial.data
+        ? data.tutorial.data.steps[data.tutorial.currentStep].trainingEnabled
+        : true;
+    },
+  },
   actions: {
     stepForward() {
       if (this.tutorial.data === null) {
