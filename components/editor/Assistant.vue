@@ -18,11 +18,11 @@ function stepBack() {
 
 <template>
   <div
-    class="relative rounded-full w-16 h-16 border flex items-center justify-center"
+    class="relative rounded-full w-16 h-16 border border-slate-800 flex items-center justify-center"
   >
     <img
-      src="/assets/img/test.jpg"
-      alt="Assistant"
+      :src="`/tutorialNarrators/${tutorialStore.currentNarrator}.png`"
+      alt="Narrator"
       class="w-full h-full object-cover rounded-full"
       @click="toggleSpeechBubble"
     />
