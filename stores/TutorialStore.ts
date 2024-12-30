@@ -31,7 +31,13 @@ export const useTutorialStore = defineStore('tutorialStore', {
       currentStep: 0 as number,
     },
   }),
-  getters: {},
+  getters: {
+    isTrainingEnabled(data): boolean {
+      return data.tutorial.data
+        ? data.tutorial.data.steps[data.tutorial.currentStep].trainingEnabled
+        : true;
+    },
+  },
   actions: {
     stepForward() {
       if (this.tutorial.data === null) {
