@@ -3,8 +3,8 @@ import { CustomNodes } from '~/components/editor/customNodeList';
 import DragNode from '~/components/editor/SideBar/DragNode.vue';
 import ExpandableButton from '~/components/editor/SideBar/ExpandableButton.vue';
 
-const selectedCategory = ref(0);
 const isPermaOpen = ref(false);
+const searchQuery = ref('');
 
 function toggleSidebar() {
   isPermaOpen.value = !isPermaOpen.value;
@@ -24,15 +24,6 @@ function toggleSidebar() {
   >
     <div class="h-full flex-none pt-4">
       <div class="h-full flex flex-col">
-        <div class="flex-none mb-4">
-          <UButton
-            class="hover:scale-105 transition-transform"
-            color="gray"
-            icon="mdi-magnify"
-            size="xl"
-            square
-          ></UButton>
-        </div>
         <div
           v-for="(category, index) in CustomNodes.nodesList"
           :key="index"
@@ -48,11 +39,7 @@ function toggleSidebar() {
               })
             "
             :is-selected="false"
-            :on-main-click="
-              () => {
-                selectedCategory = index;
-              }
-            "
+            :on-main-click="() => {}"
             :on-sub-click="(_title) => {}"
           />
         </div>
@@ -70,27 +57,37 @@ function toggleSidebar() {
       </div>
     </div>
     <div
-      class="overflow-y-hidden hover:overflow-y-auto overflow-x-hidden pt-4 ml-2`"
-      :class="{
-        'child-div': !isPermaOpen,
-      }"
+      class="ml-2 overflow-y-hidden hover:overflow-y-auto overflow-x-hidden"
+      :class="{ 'child-div': !isPermaOpen }"
     >
-      <div class="m-2">
-        <span
-          class="text-2xl text-slate-800 dark:text-slate-200 brightness-200 font-semibold"
-          ><UIcon
-            class="ml-2 mr-2"
-            :name="CustomNodes.nodesList[selectedCategory].icon"
-          />
-          {{ CustomNodes.nodesList[selectedCategory].name }}
-        </span>
-        <div class="flex flex-col">
+      <div class="z-10 mt-4 ml-5 fixed w-80">
+        <UInput
+          v-model:model-value="searchQuery"
+          size="lg"
+          placeholder="Search..."
+          icon="mdi-magnify"
+          :ui="{ icon: { trailing: { pointer: '' } } }"
+        >
+          <template #trailing>
+            <UButton
+              v-show="searchQuery !== ''"
+              color="gray"
+              variant="link"
+              icon="i-heroicons-x-mark-20-solid"
+              :padded="false"
+              @click="searchQuery = ''"
+            />
+          </template>
+        </UInput>
+      </div>
+      <div class="pt-16">
+        <div class="ml-2 flex flex-col">
           <DragNode
-            v-for="node in CustomNodes.nodesList[
-              selectedCategory
-            ].groups.flatMap((group) => group.nodes)"
+            v-for="node in CustomNodes.nodesList[0].groups.flatMap(
+              (group) => group.nodes
+            )"
             :node-definition="node"
-            :node-group-definition="CustomNodes.nodesList[selectedCategory]"
+            :node-group-definition="CustomNodes.nodesList[0]"
           />
         </div>
       </div>

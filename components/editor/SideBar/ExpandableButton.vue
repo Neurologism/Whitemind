@@ -28,33 +28,53 @@ const backgroundColor = computed(() => {
 
   return `rgba(${rgb}, ${alpha})`;
 });
+
+function toggle() {
+  if (isHovered.value === false) {
+    props.onMainClick();
+  }
+  isHovered.value = !isHovered.value;
+}
 </script>
 
 <template>
   <div
     class="flex flex-col justify-center items-center rounded-2xl transition-all"
     :style="{
-      backgroundColor: isHovered ? backgroundColor : '',
+      backgroundColor: isHovered ? backgroundColor : undefined,
     }"
-    @mouseover="isHovered = true"
-    @mouseleave="isHovered = false"
   >
-    <div
-      class="w-12 h-12 flex justify-center items-center rounded-2xl hover:rounded-lg transition-all cursor-pointer"
-      :style="{ backgroundColor: color }"
-      @click="onMainClick"
-    >
-      <UIcon :name="icon" size="32" />
-    </div>
+    <UTooltip :popper="{ placement: 'right' }">
+      <template #text>
+        <span class="font-mono font-semibold text-sm">{{ title }}</span>
+      </template>
+      <div
+        class="w-11 h-11 flex justify-center items-center rounded-2xl hover:rounded-lg hover:scale-105 transition-all cursor-pointer"
+        :style="{ backgroundColor: color }"
+        @click="toggle"
+      >
+        <UIcon :name="icon" size="32" />
+      </div>
+    </UTooltip>
     <transition name="expand">
       <div v-if="isHovered">
         <div
           v-for="(child, index) in children"
           :key="index"
-          class="w-12 h-12 border-2 border-slate-600 bg-slate-800 mt-1 flex justify-center items-center rounded-2xl hover:rounded-lg transition-all cursor-pointer"
           @click="onSubClick(child.name)"
         >
-          <UIcon :name="child.icon" size="32" />
+          <UTooltip :popper="{ placement: 'right', strategy: 'absolute' }">
+            <template #text>
+              <span class="font-mono font-semibold text-sm">{{
+                child.name
+              }}</span>
+            </template>
+            <div
+              class="w-11 h-11 border-2 border-slate-600 bg-slate-800 mt-1 flex justify-center items-center rounded-2xl hover:rounded-lg transition-all cursor-pointer"
+            >
+              <UIcon :name="child.icon" size="32" />
+            </div>
+          </UTooltip>
         </div>
       </div>
     </transition>
@@ -67,7 +87,7 @@ const backgroundColor = computed(() => {
 }
 
 .expand-leave-active {
-  transition: all 0.1s ease;
+  transition: all 0.3s ease;
 }
 
 .expand-enter-from {
@@ -77,6 +97,6 @@ const backgroundColor = computed(() => {
 
 .expand-leave-to {
   opacity: 0;
-  transform: translateY(-20px);
+  transform: translateY(-10px);
 }
 </style>
