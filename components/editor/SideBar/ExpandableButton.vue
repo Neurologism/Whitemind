@@ -7,14 +7,14 @@ const props = defineProps<{
   color: string;
   onMainClick: () => void;
   onSubClick: (groupIndex: number) => void;
-  isSelected: boolean;
   children: {
     icon: string;
     name: string;
   }[];
 }>();
 
-const isHovered = ref(false);
+const isOpen = ref(false);
+const isAnimating = ref(false);
 
 const backgroundColor = computed(() => {
   const tempElement = document.createElement('div');
@@ -30,10 +30,10 @@ const backgroundColor = computed(() => {
 });
 
 function toggle() {
-  if (isHovered.value === false) {
+  if (isOpen.value === false) {
     props.onMainClick();
   }
-  isHovered.value = !isHovered.value;
+  isOpen.value = !isOpen.value;
 }
 </script>
 
@@ -41,7 +41,7 @@ function toggle() {
   <div
     class="flex flex-col justify-center items-center rounded-2xl transition-all"
     :style="{
-      backgroundColor: isHovered ? backgroundColor : undefined,
+      backgroundColor: isOpen ? backgroundColor : undefined,
     }"
   >
     <UTooltip :popper="{ placement: 'right' }">
@@ -56,14 +56,23 @@ function toggle() {
         <UIcon :name="icon" size="32" />
       </div>
     </UTooltip>
-    <transition name="expand">
-      <div v-if="isHovered">
+    <transition
+      name="expand"
+      @before-enter="isAnimating = true"
+      @after-enter="isAnimating = false"
+      @before-leave="isAnimating = true"
+      @after-leave="isAnimating = false"
+    >
+      <div v-if="isOpen">
         <div
           v-for="(child, index) in children"
           :key="index"
           @click="onSubClick(index)"
         >
-          <UTooltip :popper="{ placement: 'right', strategy: 'absolute' }">
+          <UTooltip
+            :popper="{ placement: 'right', strategy: 'fixed' }"
+            :prevent="isAnimating"
+          >
             <template #text>
               <span class="font-mono font-semibold text-sm">{{
                 child.name

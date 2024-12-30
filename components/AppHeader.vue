@@ -20,7 +20,7 @@ const isDark = computed({
   <ClientOnly>
     <ProfileSlideover v-model="showProfileSlideover" />
     <div
-      class="backdrop-blur-md border-slate-800 flex items-center w-full z-50 fixed h-16"
+      class="backdrop-blur-md border-slate-800 flex items-center w-full z-10 fixed h-16"
       style="border-bottom-width: 0.5px"
     >
       <div

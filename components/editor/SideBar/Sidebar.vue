@@ -9,9 +9,13 @@ const scrollRef = ref<HTMLElement | null>(null);
 
 function toggleSidebar() {
   isPermaOpen.value = !isPermaOpen.value;
+  if (!isPermaOpen.value) {
+    searchQuery.value = ' ';
+    searchQuery.value = '';
+  }
 }
 
-const scrollTopOffset: number = 92; // 92 is the height of the search bar + padding + margin
+const scrollTopOffset: number = 80; // 80 is the ~ height of the search bar + padding + margin
 function scrollToElement(elementId: string) {
   if (scrollRef.value) {
     const element = document.getElementById(elementId);
@@ -23,45 +27,56 @@ function scrollToElement(elementId: string) {
     }
   }
 }
+
+// required to hide "absolute" searchbar
+const coreDiv = ref<HTMLElement | null>(null);
+const isOpen = ref(false);
+function setOpen() {
+  isOpen.value = (coreDiv.value?.clientWidth ?? 0) > 100;
+}
 </script>
 
 <template>
   <div
+    ref="coreDiv"
     :style="{
       width: isPermaOpen ? '28rem' : '',
     }"
-    class="parent-div border-r-2 h-100 border-slate-600 bg-opacity-90 dark:bg-opacity-90 bg-slate-200 dark:bg-slate-800 pt-8 pl-4 pr-2-pb-2 pb-8 w-20 origin-left transition-transform flex flex-row flex-nowrap select-none"
+    class="parent-div border-r-2 h-100 border-slate-600 bg-opacity-90 dark:bg-opacity-90 bg-slate-200 dark:bg-slate-800 pt-4 pl-2 pr-2 pb-2 w-20 origin-left transition-transform flex flex-row flex-nowrap select-none"
     :class="{
       'hover:w-[28rem]': !isPermaOpen,
       'hover:scale-x-105': !isPermaOpen,
     }"
+    @mouseenter="setOpen"
+    @mouseleave="setOpen"
   >
     <div class="h-full flex-none">
       <div class="h-full flex flex-col">
-        <div
-          v-for="(category, index) in CustomNodes.nodesList"
-          :key="index"
-          class="flex-none items-center mb-3"
-        >
-          <ExpandableButton
-            :title="category.name"
-            :icon="category.icon"
-            :color="category.color"
-            :children="
-              category.groups.map((val) => {
-                return { ...val, icon: val.icon ?? category.icon };
-              })
-            "
-            :is-selected="false"
-            :on-main-click="() => scrollToElement(`scroll-group-${index}`)"
-            :on-sub-click="
-              (subGroupIndex) =>
-                scrollToElement(`scroll-subgroup-${index}-${subGroupIndex}`)
-            "
-          />
+        <div class="flex-1 overflow-y-auto p-2 overflow-x-hidden">
+          <div
+            v-for="(category, index) in CustomNodes.nodesList"
+            :key="index"
+            class="flex-none items-center mb-3"
+          >
+            <ExpandableButton
+              :title="category.name"
+              :icon="category.icon"
+              :color="category.color"
+              :children="
+                category.groups.map((val) => {
+                  return { ...val, icon: val.icon ?? category.icon };
+                })
+              "
+              :is-selected="false"
+              :on-main-click="() => scrollToElement(`scroll-group-${index}`)"
+              :on-sub-click="
+                (subGroupIndex) =>
+                  scrollToElement(`scroll-subgroup-${index}-${subGroupIndex}`)
+              "
+            />
+          </div>
         </div>
-        <div class="flex-grow"></div>
-        <div class="flex-none flex-col-reverse pt-4">
+        <div class="flex-none pt-4 ml-2 mb-2">
           <UButton
             :icon="isPermaOpen ? 'mdi-pin' : 'mdi-pin-outline'"
             class="hover:scale-105 transition-transform"
@@ -78,7 +93,7 @@ function scrollToElement(elementId: string) {
       class="ml-3 w-full mr-2 overflow-y-hidden hover:overflow-y-auto overflow-x-hidden"
       :class="{ 'child-div': !isPermaOpen }"
     >
-      <div class="z-10 ml-2 fixed w-[21rem]">
+      <div class="z-10 ml-2 fixed w-[21rem]" v-if="isOpen">
         <UInput
           v-model:model-value="searchQuery"
           size="lg"
