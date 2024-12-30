@@ -145,7 +145,8 @@ const arrowRotation: ComputedRef<number> = computed(() => {
       backgroundImage: constraints?.allowedCategories
         ? CustomNodes.getHardGradientOfMultipleCategories(
             constraints!.allowedCategories,
-            true
+            arrowRotation === Rotations.left ||
+              arrowRotation === Rotations.right
           )
         : undefined,
       backgroundColor: shapeGroupData.color,
