@@ -34,6 +34,7 @@ const colorMode = useColorMode();
 
 const sessionStore = useSessionStore();
 const projectStore = useProjectStore();
+const tutorialStore = useTutorialStore();
 const flowStore = useVueFlowStore();
 
 sessionStore.showLoadingAnimation();
@@ -64,7 +65,36 @@ function handleDrop(event: DragEvent) {
     y: event.clientY - top,
   });
 
-  const newNode = CustomNodes.getDefaultData(nodeType.type, position);
+  let newNode = CustomNodes.getDefaultData(nodeType.type, position);
+
+  if (!props.tutorialProject) {
+    // @ts-ignore
+    addNodes([newNode]);
+    return;
+  }
+
+  const components = toObject();
+
+  for (const addNode of tutorialStore.currentAddNodes) {
+    if (
+      components.nodes.some((node) => node.id === addNode.id) ||
+      addNode.identifier !== newNode?.identifier ||
+      addNode.group_identifier !== newNode?.group_identifier
+    ) {
+      continue;
+    }
+
+    newNode = {
+      ...newNode,
+      ...addNode,
+      data: {
+        ...newNode?.data,
+        ...addNode.data,
+      },
+    };
+    console.log('Adding tutorial node', newNode);
+  }
+
   // @ts-ignore
   addNodes([newNode]);
 }
@@ -118,10 +148,10 @@ async function loadProject() {
 
 async function postProject() {
   syncStatus.value = SyncStatus.syncing;
-  const object = toObject();
+  const componentsObject = toObject();
   const success = await projectStore.updateProjectComponents(
     props.projectId,
-    object,
+    componentsObject,
     sessionStore.fetch
   );
   if (!success) {

@@ -33,6 +33,12 @@ export const useTutorialStore = defineStore('tutorialStore', {
     },
   }),
   getters: {
+    currentAddNodes(data) {
+      return data.tutorial.data === null
+        ? []
+        : data.tutorial.data.steps[data.tutorial.currentStep].addNodes;
+    },
+
     currentNarrator(data): string {
       return data.tutorial.data === null
         ? ''
