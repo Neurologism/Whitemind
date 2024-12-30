@@ -76,9 +76,8 @@
     23. INDEMNIFICATION<br />
     24. USER DATA<br />
     25. ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES<br />
-    26. CALIFORNIA USERS AND RESIDENTS<br />
-    27. MISCELLANEOUS<br />
-    28. CONTACT US<br />
+    26. MISCELLANEOUS<br />
+    27. CONTACT US<br />
     <br />
     <br />
     <br />
