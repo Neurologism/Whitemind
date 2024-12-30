@@ -57,6 +57,7 @@ function toggle() {
       </div>
     </UTooltip>
     <transition
+      name="expand"
       @before-enter="isAnimating = true"
       @after-enter="isAnimating = false"
       @before-leave="isAnimating = true"
@@ -90,19 +91,16 @@ function toggle() {
 </template>
 
 <style scoped>
-.expand-enter-active {
-  transition: all 0.3s ease;
+.expand-enter-active,
+.expand-leave-active {
+  transition: all 0.2s ease;
 }
 
 .expand-leave-active {
-  transition: all 0.3s ease;
+  transition-duration: 0.1s;
 }
 
-.expand-enter-from {
-  opacity: 0;
-  transform: translateY(-10px);
-}
-
+.expand-enter-from,
 .expand-leave-to {
   opacity: 0;
   transform: translateY(-10px);
