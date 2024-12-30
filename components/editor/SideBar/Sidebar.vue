@@ -1,24 +1,10 @@
 <script lang="ts" setup>
 import { CustomNodes } from '~/components/editor/customNodeList';
+import DragNode from '~/components/editor/SideBar/DragNode.vue';
+import ExpandableButton from '~/components/editor/SideBar/ExpandableButton.vue';
 
 const selectedCategory = ref(0);
 const isPermaOpen = ref(false);
-
-function handleDragStart(event: DragEvent, nodeType: string) {
-  console.log('setting data to: ', nodeType);
-  event.dataTransfer!.setData('node', nodeType);
-}
-
-function getRGBColor(colorName: string) {
-  const tempElement = document.createElement('div');
-  tempElement.style.color = colorName;
-  document.body.appendChild(tempElement);
-
-  const computedColor = getComputedStyle(tempElement).color;
-  document.body.removeChild(tempElement);
-
-  return computedColor.match(/\d+/g)!.map(Number).toString();
-}
 
 function toggleSidebar() {
   isPermaOpen.value = !isPermaOpen.value;
@@ -52,19 +38,23 @@ function toggleSidebar() {
           :key="index"
           class="flex-none items-center mb-3"
         >
-          <UTooltip :popper="{ placement: 'right' }" :text="category.name">
-            <UButton
-              :icon="category.icon"
-              :variant="selectedCategory === index ? 'soft' : 'outline'"
-              size="xl"
-              square
-              @click="selectedCategory = index"
-              :style="{
-                color: category.color,
-                borderColor: category.color,
-              }"
-            />
-          </UTooltip>
+          <ExpandableButton
+            :title="category.name"
+            :icon="category.icon"
+            :color="category.color"
+            :children="
+              category.groups.map((val) => {
+                return { ...val, icon: val.icon ?? category.icon };
+              })
+            "
+            :is-selected="false"
+            :on-main-click="
+              () => {
+                selectedCategory = index;
+              }
+            "
+            :on-sub-click="(_title) => {}"
+          />
         </div>
         <div class="flex-grow"></div>
         <div class="flex-none flex-col-reverse pt-4">
@@ -95,34 +85,13 @@ function toggleSidebar() {
           {{ CustomNodes.nodesList[selectedCategory].name }}
         </span>
         <div class="flex flex-col">
-          <div
-            v-for="node in CustomNodes.nodesList[selectedCategory].nodes"
-            :key="node.type"
-            class="flex-none items-center m-1 ml-3 mr-3 cursor-grab border p-2 pl-4 rounded-md hover:scale-105 transition-transform w-80"
-            :style="{
-              borderColor: CustomNodes.nodesList[selectedCategory].color,
-              backgroundColor: `rgba(${getRGBColor(CustomNodes.nodesList[selectedCategory].color)}, 0.05)`,
-            }"
-            draggable="true"
-            @dragstart="handleDragStart($event, node.type)"
-          >
-            <!-- @ts-ignore -->
-            <UIcon
-              :style="{
-                color: CustomNodes.nodesList[selectedCategory].color,
-              }"
-              :name="
-                (node as any).icon ??
-                CustomNodes.nodesList[selectedCategory].icon
-              "
-            ></UIcon>
-            <span class="text-slate-950 dark:text-slate-50 brightness-150">{{
-              node.name
-            }}</span>
-            <small class="text-gray-600 dark:text-gray-400 brightness-90"
-              >&nbsp;{{ node.description }}</small
-            >
-          </div>
+          <DragNode
+            v-for="node in CustomNodes.nodesList[
+              selectedCategory
+            ].groups.flatMap((group) => group.nodes)"
+            :node-definition="node"
+            :node-group-definition="CustomNodes.nodesList[selectedCategory]"
+          />
         </div>
       </div>
     </div>

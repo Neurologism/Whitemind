@@ -8,6 +8,7 @@ import { Background } from '@vue-flow/background';
 import { SyncStatus } from '~/components/editor/syncStatus';
 import CustomConnectionEdge from '~/components/editor/customEdge/CustomConnectionEdge.vue';
 import CustomEdge from '~/components/editor/customEdge/CustomEdge.vue';
+import Sidebar from '~/components/editor/SideBar/Sidebar.vue';
 
 const props = defineProps({
   projectId: {
@@ -193,6 +194,7 @@ watch(
         "
         @edge-mouse-leave="(_infos) => (flowStore.highlightedEdge = null)"
         @edge-click="(infos) => flowStore.removeEdge(infos.edge.id)"
+        @dragover="console.log"
       >
         <Background
           :pattern-color="colorMode.value === 'dark' ? '#aaa' : '#222'"
@@ -224,7 +226,9 @@ watch(
           />
         </template>
         <template
-          v-for="node in CustomNodes.nodesList.flatMap((group) => group.nodes)"
+          v-for="node in CustomNodes.nodesList.flatMap((group) =>
+            group.groups.flatMap((subGroup) => subGroup.nodes)
+          )"
           :key="node.type"
           v-slot:[`node-${node.type}`]="props"
         >
@@ -278,7 +282,7 @@ watch(
       <UProgress animation="carousel" />
     </div>
     <div class="flex-1 overflow-auto" v-else>
-      <EditorSidebar class="h-full pointer-events-auto" />
+      <Sidebar class="h-full pointer-events-auto" />
     </div>
   </div>
 </template>
