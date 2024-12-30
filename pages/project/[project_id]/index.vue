@@ -4,6 +4,9 @@ definePageMeta({
 });
 
 const route = useRoute();
+const tutorialStore = useTutorialStore();
+
+tutorialStore.openInEditor = false;
 </script>
 
 <template>

@@ -23,7 +23,7 @@ function stepBack() {
     <img
       :src="`/tutorialNarrators/${tutorialStore.currentNarrator}.png`"
       alt="Narrator"
-      class="w-full h-full object-cover rounded-full"
+      class="w-full h-full object-cover rounded-full cursor-pointer"
       @click="toggleSpeechBubble"
     />
     <UCard v-if="showSpeechBubble" class="speech-bubble text-white">

@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 
 export const useTutorialStore = defineStore('tutorialStore', {
   state: () => ({
+    openInEditor: false,
     tutorial: {
       fetchedTime: null as null | Date,
       data: null as {
@@ -50,7 +51,7 @@ export const useTutorialStore = defineStore('tutorialStore', {
     },
 
     isTrainingEnabled(data): boolean {
-      return data.tutorial.data
+      return data.openInEditor && data.tutorial.data
         ? data.tutorial.data.steps[data.tutorial.currentStep].trainingEnabled
         : true;
     },
