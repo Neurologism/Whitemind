@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { VueFlow, useVueFlow, Panel } from '@vue-flow/core';
-import type { Connection } from '@vue-flow/core';
 // import { MiniMap } from "@vue-flow/minimap";
 // import "@vue-flow/minimap/dist/style.css";
 import { CustomNodes } from '~/components/editor/customNodeList';
@@ -70,7 +69,7 @@ function handleDrop(event: DragEvent) {
   addNodes([newNode]);
 }
 
-onConnect((params: Connection) => {
+onConnect((params: any) => {
   params.type = 'smoothstep';
   params.animated = false;
   params.animationSpeed = 0.5;
@@ -133,7 +132,7 @@ async function postProject() {
     });
     syncStatus.value = SyncStatus.error;
   } else {
-    //toast.add({ title: 'Project synced', icon: 'mdi-check', color: 'green' });
+    // toast.add({ title: 'Project synced', icon: 'mdi-check', color: 'green' });
     syncStatus.value = SyncStatus.synced;
   }
 }
