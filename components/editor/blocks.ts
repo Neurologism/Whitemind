@@ -18,6 +18,16 @@ export const blocks: NodeGroupDefinition[] = [
             name: 'Input Layer',
             identifier: 'input',
             description: 'Layer that accepts input data.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
             data: {
               batch_size: {
                 type: 'number',

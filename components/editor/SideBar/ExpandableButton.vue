@@ -57,7 +57,6 @@ function toggle() {
       </div>
     </UTooltip>
     <transition
-      name="expand"
       @before-enter="isAnimating = true"
       @after-enter="isAnimating = false"
       @before-leave="isAnimating = true"

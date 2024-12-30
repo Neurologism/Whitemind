@@ -15,7 +15,7 @@ function toggleSidebar() {
   }
 }
 
-const scrollTopOffset: number = 80; // 80 is the ~ height of the search bar + padding + margin
+const scrollTopOffset: number = 92; // 92 is the ~ height of the search bar + padding + margin
 function scrollToElement(elementId: string) {
   if (scrollRef.value) {
     const element = document.getElementById(elementId);
@@ -135,6 +135,8 @@ function setOpen() {
               v-for="nodeDefinition in nodeSubGroup.nodes"
               :node-definition="nodeDefinition"
               :node-group-definition="nodeGroup"
+              :node-sub-group-definition="nodeSubGroup"
+              class="mb-2"
             />
           </div>
         </div>
