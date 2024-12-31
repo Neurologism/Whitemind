@@ -4,6 +4,7 @@ export const useTutorialStore = defineStore('tutorialStore', {
   state: () => ({
     openInEditor: false,
     syncInterval: null as NodeJS.Timeout | null,
+    visibleStep: 0 as number,
     tutorial: {
       fetchedTime: null as null | Date,
       data: null as {
@@ -49,7 +50,7 @@ export const useTutorialStore = defineStore('tutorialStore', {
     currentNarrator(data): string {
       return data.tutorial.data === null
         ? ''
-        : data.tutorial.data.steps[data.tutorial.currentStep].narrator;
+        : data.tutorial.data.steps[data.visibleStep].narrator;
     },
 
     progress(data): number {
@@ -86,21 +87,28 @@ export const useTutorialStore = defineStore('tutorialStore', {
     stepForward() {
       if (
         this.tutorial.data === null ||
-        this.tutorial.currentStep >= this.tutorial.data.steps.length - 1
+        this.visibleStep >= this.tutorial.data.steps.length - 1
       ) {
         return false;
       }
-      this.syncState();
-      this.tutorial.currentStep++;
+      this.visibleStep++;
+      console.log(this.visibleStep);
+      if (this.visibleStep > this.tutorial.currentStep) {
+        console.log(this.tutorial.currentStep);
+        this.tutorial.currentStep = this.visibleStep;
+        if (this.tutorial.currentStep === this.tutorial.data.steps.length - 1) {
+          this.tutorial.tutorialCompleted = true;
+        }
+        this.syncState();
+      }
       return true;
     },
 
     stepBack() {
-      if (this.tutorial.data === null || this.tutorial.currentStep <= 0) {
+      if (this.tutorial.data === null || this.visibleStep <= 0) {
         return false;
       }
-      this.syncState();
-      this.tutorial.currentStep--;
+      this.visibleStep--;
       return true;
     },
 
@@ -136,6 +144,7 @@ export const useTutorialStore = defineStore('tutorialStore', {
         this.tutorial.tutorialCompleted = fetchResponse.tutorialCompleted;
         this.tutorial.tutorialStarted = fetchResponse.tutorialStarted;
         this.tutorial.currentStep = fetchResponse.currentStep;
+        this.visibleStep = fetchResponse.currentStep;
         this.tutorial.projectId = fetchResponse.projectId;
         return true;
       } else {
@@ -161,16 +170,16 @@ export const useTutorialStore = defineStore('tutorialStore', {
         body: body,
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        this.tutorial.projectId = data.projectId;
-        console.log(this.tutorial.projectId);
-        return true;
-      } else {
+      if (!response.ok) {
         console.error('Failed to update tutorial.');
         return false;
       }
+
+      const data = await response.json();
+      console.log(data);
+      this.tutorial.projectId = data.projectId;
+      console.log(this.tutorial.projectId);
+      return true;
     },
   },
 });

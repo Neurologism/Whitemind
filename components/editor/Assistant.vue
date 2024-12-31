@@ -28,14 +28,11 @@ function stepBack() {
     />
     <UCard v-if="showSpeechBubble" class="speech-bubble text-white">
       <slot name="content">
-        {{
-          tutorialStore.tutorial.data?.steps[tutorialStore.tutorial.currentStep]
-            .text
-        }}
+        {{ tutorialStore.tutorial.data?.steps[tutorialStore.visibleStep].text }}
       </slot>
       <div class="flex flex-row space-x-2 mt-4">
         <UButton
-          :disabled="tutorialStore.tutorial.currentStep === 0"
+          :disabled="tutorialStore.visibleStep === 0"
           icon="i-heroicons-chevron-left"
           variant="ghost"
           @click="stepBack"
@@ -45,7 +42,7 @@ function stepBack() {
           :disabled="
             tutorialStore.tutorial.data === null
               ? true
-              : tutorialStore.tutorial.currentStep ===
+              : tutorialStore.visibleStep ===
                 tutorialStore.tutorial.data.steps.length - 1
           "
           icon="i-heroicons-chevron-right"
@@ -60,7 +57,7 @@ function stepBack() {
           v-if="
             tutorialStore.tutorial.data === null
               ? true
-              : tutorialStore.tutorial.currentStep ===
+              : tutorialStore.visibleStep ===
                 tutorialStore.tutorial.data.steps.length - 1
           "
         >
