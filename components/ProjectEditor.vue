@@ -37,6 +37,8 @@ const projectStore = useProjectStore();
 const tutorialStore = useTutorialStore();
 const flowStore = useVueFlowStore();
 
+const config = useRuntimeConfig();
+
 sessionStore.showLoadingAnimation();
 
 const syncStatus = ref<SyncStatus>(SyncStatus.initializing);
@@ -92,15 +94,23 @@ function handleDrop(event: DragEvent) {
         ...addNode.data,
       },
     };
+
+    // @ts-ignore
+    addNodes([newNode]);
     console.log('Adding tutorial node', newNode);
-    break;
+    return;
   }
 
-  // @ts-ignore
-  addNodes([newNode]);
+  if (config.public.tutorialAllowUnlistedNodeCreation) {
+    // @ts-ignore
+    addNodes([newNode]);
+  } else {
+    displayActionForbiddenToast();
+  }
 }
 
 onConnect((newEdge: any) => {
+  console.log(newEdge);
   newEdge.type = 'smoothstep';
   newEdge.animated = false;
   newEdge.animationSpeed = 0.5;
@@ -117,7 +127,9 @@ onConnect((newEdge: any) => {
   for (const addEdge of tutorialStore.currentAddEdges) {
     if (
       addEdge.source !== newEdge?.source ||
-      addEdge.target !== newEdge?.target
+      addEdge.target !== newEdge?.target ||
+      addEdge.sourceHandle !== newEdge?.sourceHandle ||
+      addEdge.targetHandle !== newEdge?.targetHandle
     ) {
       continue;
     }
@@ -126,12 +138,56 @@ onConnect((newEdge: any) => {
       ...newEdge,
       ...addEdge,
     };
+    addEdges([newEdge]);
     console.log('Adding tutorial edge', newEdge);
-    break;
+    return;
   }
 
-  addEdges([newEdge]);
+  if (config.public.tutorialAllowUnlistedEdgeCreation) {
+    addEdges([newEdge]);
+  } else {
+    displayActionForbiddenToast();
+  }
 });
+
+function displayActionForbiddenToast() {
+  if (config.public.tutorialDisplayForbiddenToast) {
+    toast.add({
+      title: 'Action forbidden',
+      description: 'This action is not allowed right now.',
+      icon: 'mdi-alert-circle',
+      color: 'red',
+    });
+  }
+}
+
+function onRemoveEdge(infos: any) {
+  if (!props.tutorialProject) {
+    flowStore.removeEdge(infos.edge.id);
+    return;
+  }
+
+  for (const removeEdge of tutorialStore.currentRemoveEdges) {
+    if (
+      removeEdge.source !== infos.edge.source ||
+      removeEdge.target !== infos.edge.target ||
+      removeEdge.sourceHandle !== infos.edge.sourceHandle ||
+      removeEdge.targetHandle !== infos.edge.targetHandle
+    ) {
+      continue;
+    }
+
+    flowStore.removeEdge(infos.edge.id);
+    console.log('Removing tutorial edge', infos.edge);
+    return;
+  }
+
+  if (config.public.tutorialAllowUnlistedEdgeDeletion) {
+    flowStore.removeEdge(infos.edge.id);
+  } else {
+    displayActionForbiddenToast();
+  }
+}
 
 async function loadProject() {
   await sessionStore.checkSession(true);
@@ -241,7 +297,7 @@ watch(
           (infos) => (flowStore.highlightedEdge = infos.edge.id)
         "
         @edge-mouse-leave="(_infos) => (flowStore.highlightedEdge = null)"
-        @edge-click="(infos) => flowStore.removeEdge(infos.edge.id)"
+        @edge-click="onRemoveEdge"
       >
         <Background
           :pattern-color="colorMode.value === 'dark' ? '#aaa' : '#222'"

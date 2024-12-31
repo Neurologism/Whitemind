@@ -23,6 +23,7 @@ export const useTutorialStore = defineStore('tutorialStore', {
           addEdges: any[];
           removeNodes: any[];
           removeEdges: any[];
+          modifyNodes: any[];
           highlightNodesTypes: any[];
           unlockNodes: any[];
           trainingEnabled: boolean;
@@ -41,10 +42,28 @@ export const useTutorialStore = defineStore('tutorialStore', {
         : data.tutorial.data.steps[data.tutorial.currentStep].addEdges;
     },
 
+    currentRemoveEdges(data) {
+      return data.tutorial.data === null
+        ? []
+        : data.tutorial.data.steps[data.tutorial.currentStep].removeEdges;
+    },
+
     currentAddNodes(data) {
       return data.tutorial.data === null
         ? []
         : data.tutorial.data.steps[data.tutorial.currentStep].addNodes;
+    },
+
+    currentRemoveNodes(data) {
+      return data.tutorial.data === null
+        ? []
+        : data.tutorial.data.steps[data.tutorial.currentStep].removeNodes;
+    },
+
+    currentmodifyNodes(data) {
+      return data.tutorial.data === null
+        ? []
+        : data.tutorial.data.steps[data.tutorial.currentStep].modifyNodes;
     },
 
     currentNarrator(data): string {
