@@ -33,6 +33,12 @@ export const useTutorialStore = defineStore('tutorialStore', {
     },
   }),
   getters: {
+    currentAddEdges(data) {
+      return data.tutorial.data === null
+        ? []
+        : data.tutorial.data.steps[data.tutorial.currentStep].addEdges;
+    },
+
     currentAddNodes(data) {
       return data.tutorial.data === null
         ? []
