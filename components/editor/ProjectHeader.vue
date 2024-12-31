@@ -3,6 +3,8 @@ const emit = defineEmits(['click-theme']);
 
 const isOpen = ref(false);
 
+const tutorialStore = useTutorialStore();
+
 const colorMode = useColorMode();
 const isDark = computed({
   get() {
@@ -22,22 +24,41 @@ const props = defineProps<{
   projectOwner: string;
 }>();
 
-const breadcrumbSettings = computed(() => [
-  {
-    label: 'WhiteMind',
-    icon: 'i-heroicons-home',
-    to: '/',
-  },
-  {
-    label: props.projectOwner,
-    icon: 'i-heroicons-user',
-    to: '/profile',
-  },
-  {
-    label: props.projectTitle,
-    icon: 'i-heroicons-folder',
-  },
-]);
+const breadcrumbSettings = computed(() => {
+  return tutorialStore.openInEditor
+    ? [
+        {
+          label: 'WhiteMind',
+          icon: 'i-heroicons-home',
+          to: '/',
+        },
+        {
+          label: 'Tutorials',
+          icon: 'i-heroicons-academic-cap',
+          to: '/tutorials',
+        },
+        {
+          label: props.projectTitle,
+          icon: 'i-heroicons-folder',
+        },
+      ]
+    : [
+        {
+          label: 'WhiteMind',
+          icon: 'i-heroicons-home',
+          to: '/',
+        },
+        {
+          label: props.projectOwner,
+          icon: 'i-heroicons-user',
+          to: '/profile',
+        },
+        {
+          label: props.projectTitle,
+          icon: 'i-heroicons-folder',
+        },
+      ];
+});
 </script>
 
 <template>
