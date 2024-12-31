@@ -845,7 +845,7 @@ export const blocks: NodeGroupDefinition[] = [
             identifier: 'Model',
             hideInput: true,
             data: {
-              inputs: {
+              input: {
                 type: 'id',
                 flowOrientation: FlowOrientation.OUTPUT,
                 required: true,
@@ -855,7 +855,7 @@ export const blocks: NodeGroupDefinition[] = [
                   min: 1,
                 },
               },
-              outputs: {
+              output: {
                 type: 'id',
                 flowOrientation: FlowOrientation.INPUT,
                 required: true,
