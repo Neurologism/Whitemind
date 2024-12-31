@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 export const useTutorialStore = defineStore('tutorialStore', {
   state: () => ({
     openInEditor: false,
+    syncInterval: null as NodeJS.Timeout | null,
     tutorial: {
       fetchedTime: null as null | Date,
       data: null as {
@@ -69,6 +70,19 @@ export const useTutorialStore = defineStore('tutorialStore', {
     },
   },
   actions: {
+    setSyncInterval(fetchFunction: Function) {
+      if (this.tutorial.data === null) {
+        return;
+      }
+
+      if (this.syncInterval) {
+        clearInterval(this.syncInterval);
+      }
+      this.syncInterval = setTimeout(() => {
+        this.tutorialSetState(fetchFunction, this.tutorial.data!._id);
+      }, 5000);
+    },
+
     stepForward() {
       if (this.tutorial.data === null) {
         return false;
