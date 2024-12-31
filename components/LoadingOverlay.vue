@@ -81,7 +81,7 @@ function fadeOut() {
     })
     .to(
       '.whitemindLogo',
-      { opacity: 0, scale: 2, duration: 0.5, ease: 'power4.out' },
+      { opacity: 0, duration: 0.5, ease: 'power4.out' },
       '<'
     );
 
