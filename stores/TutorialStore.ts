@@ -70,7 +70,7 @@ export const useTutorialStore = defineStore('tutorialStore', {
     },
   },
   actions: {
-    setSyncInterval(fetchFunction: Function) {
+    syncState() {
       if (this.tutorial.data === null) {
         return;
       }
@@ -79,28 +79,29 @@ export const useTutorialStore = defineStore('tutorialStore', {
         clearInterval(this.syncInterval);
       }
       this.syncInterval = setTimeout(() => {
-        this.tutorialSetState(fetchFunction, this.tutorial.data!._id);
-      }, 5000);
+        this.tutorialSetState();
+      }, 3000);
     },
 
     stepForward() {
-      if (this.tutorial.data === null) {
+      if (
+        this.tutorial.data === null ||
+        this.tutorial.currentStep >= this.tutorial.data.steps.length - 1
+      ) {
         return false;
       }
-      if (this.tutorial.currentStep < this.tutorial.data.steps.length - 1) {
-        this.tutorial.currentStep++;
-        return true;
-      }
+      this.syncState();
+      this.tutorial.currentStep++;
+      return true;
     },
 
     stepBack() {
-      if (this.tutorial.data === null) {
+      if (this.tutorial.data === null || this.tutorial.currentStep <= 0) {
         return false;
       }
-      if (this.tutorial.currentStep > 0) {
-        this.tutorial.currentStep--;
-        return true;
-      }
+      this.syncState();
+      this.tutorial.currentStep--;
+      return true;
     },
 
     async fetchTutorial(fetchFunction: Function, id: string) {
@@ -142,14 +143,16 @@ export const useTutorialStore = defineStore('tutorialStore', {
       }
     },
 
-    async tutorialSetState(fetchFunction: Function, id: string | null = null) {
+    async tutorialSetState(id: string | null = null) {
+      const sessionStore = useSessionStore();
+
       const body = JSON.stringify({
         tutorialId: id === null ? this.tutorial.data?._id : id,
         setStep: this.tutorial.currentStep,
         setCompleted: this.tutorial.tutorialCompleted,
       });
 
-      const response = await fetchFunction('/api/tutorial/set-state', {
+      const response = await sessionStore.fetch('/api/tutorial/set-state', {
         method: 'POST',
         cache: 'no-cache',
         headers: {

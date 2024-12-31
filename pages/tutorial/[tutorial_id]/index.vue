@@ -27,10 +27,7 @@ async function loadTutorial() {
   }
 
   if (tutorialStore.tutorial.tutorialStarted === false) {
-    const successSetState = await tutorialStore.tutorialSetState(
-      sessionStore.fetch,
-      tutorialId
-    );
+    const successSetState = await tutorialStore.tutorialSetState(tutorialId);
 
     if (!successSetState) {
       toast.add({
