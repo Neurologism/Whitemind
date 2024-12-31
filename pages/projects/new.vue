@@ -55,7 +55,7 @@ const createProject = async () => {
   let data = await response.json();
 
   if (data.project?._id) {
-    await projectStore.fetchProject(data.project._id, sessionStore.fetch);
+    await projectStore.fetchProject(data.project._id);
     await sessionStore.loginWithSessionToken(
       sessionStore.sessionData.Authorization
     );

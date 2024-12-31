@@ -9,7 +9,7 @@ const props = defineProps({
 
 onMounted(async () => {
   if (props.id == undefined) return;
-  data.value = await projectStore.getProject(props.id, sessionStore.fetch);
+  data.value = await projectStore.getProject(props.id);
 });
 </script>
 

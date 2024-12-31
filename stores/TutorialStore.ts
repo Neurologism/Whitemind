@@ -71,6 +71,12 @@ export const useTutorialStore = defineStore('tutorialStore', {
     },
   },
   actions: {
+    setStep(step: number) {
+      this.visibleStep = step;
+      this.tutorial.currentStep = step;
+      this.syncState();
+    },
+
     syncState() {
       if (this.tutorial.data === null) {
         return;
@@ -112,8 +118,9 @@ export const useTutorialStore = defineStore('tutorialStore', {
       return true;
     },
 
-    async fetchTutorial(fetchFunction: Function, id: string) {
-      const response: Response = await fetchFunction('/api/tutorial/get', {
+    async fetchTutorial(id: string) {
+      const sessionStore = useSessionStore();
+      const response: Response = await sessionStore.fetch('/api/tutorial/get', {
         method: 'POST',
         cache: 'no-cache',
         headers: {
@@ -134,8 +141,8 @@ export const useTutorialStore = defineStore('tutorialStore', {
       }
     },
 
-    async getTutorial(fetchFunction: Function, id: string) {
-      const fetchResponse = await this.fetchTutorial(fetchFunction, id);
+    async getTutorial(id: string) {
+      const fetchResponse = await this.fetchTutorial(id);
 
       if (fetchResponse) {
         this.tutorial.fetchedTime = new Date();

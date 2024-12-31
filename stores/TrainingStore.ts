@@ -35,9 +35,10 @@ export const useTrainingStore = defineStore('trainingStore', {
     },
   }),
   actions: {
-    async startTraining(fetchFunction: Function, projectId: string) {
+    async startTraining(projectId: string) {
+      const sessionStore = useSessionStore();
       this.$reset();
-      const response = await fetchFunction(
+      const response = await sessionStore.fetch(
         '/api/project/model/training-start',
         {
           method: 'POST',
@@ -65,14 +66,15 @@ export const useTrainingStore = defineStore('trainingStore', {
         message: (data['msg'] ?? null) as string | null,
       };
     },
-    async fetchTrainingStatus(fetchFunction: Function, modelId: string) {
+    async fetchTrainingStatus(modelId: string) {
+      const sessionStore = useSessionStore();
       if (!this.training.running) {
         return {
           success: false,
           message: 'Training not running',
         };
       }
-      const response = await fetchFunction(
+      const response = await sessionStore.fetch(
         '/api/project/model/training-status',
         {
           method: 'POST',
@@ -103,24 +105,28 @@ export const useTrainingStore = defineStore('trainingStore', {
         message: (data['msg'] ?? null) as string | null,
       };
     },
-    async stopTraining(fetchFunction: Function) {
+    async stopTraining() {
       if (!this.training.running) {
         return {
           success: false,
           message: 'Training not running',
         };
       }
-      const response = await fetchFunction('/api/project/model/training-stop', {
-        method: 'POST',
-        body: JSON.stringify({
-          model: {
-            _id: this.training.modelId,
+      const sessionStore = useSessionStore();
+      const response = await sessionStore.fetch(
+        '/api/project/model/training-stop',
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            model: {
+              _id: this.training.modelId,
+            },
+          }),
+          headers: {
+            'Content-Type': 'application/json',
           },
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+        }
+      );
       const data = await response.json();
       if (response.ok) {
         this.$reset();

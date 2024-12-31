@@ -14,10 +14,7 @@ const props = defineProps<{
 
 async function trainingStart() {
   if (trainingStore.training.running) return;
-  const result = await trainingStore.startTraining(
-    sessionStore.fetch,
-    props.projectId
-  );
+  const result = await trainingStore.startTraining(props.projectId);
   toast.add({
     icon: 'material-symbols:play-circle',
     title: result.success ? 'Training started' : 'Training failed',
@@ -27,7 +24,7 @@ async function trainingStart() {
 }
 
 async function trainingStop() {
-  const result = await trainingStore.stopTraining(sessionStore.fetch);
+  const result = await trainingStore.stopTraining();
   toast.add({
     icon: 'material-symbols:stop-circle',
     title: result.success ? 'Training stopped' : 'Training stop failed',
@@ -40,7 +37,6 @@ async function updateTrainingStatus() {
   if (!trainingStore.training.running) return;
   if (!trainingStore.training.modelId) return;
   const result = await trainingStore.fetchTrainingStatus(
-    sessionStore.fetch,
     trainingStore.training.modelId
   );
   if (!result.success) {

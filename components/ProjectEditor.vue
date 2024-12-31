@@ -135,10 +135,7 @@ onConnect((newEdge: any) => {
 
 async function loadProject() {
   await sessionStore.checkSession(true);
-  const project = await projectStore.fetchProject(
-    props.projectId,
-    sessionStore.fetch
-  );
+  const project = await projectStore.fetchProject(props.projectId);
 
   if (!project) {
     navigateTo('/404');
@@ -174,8 +171,7 @@ async function postProject() {
   const componentsObject = toObject();
   const success = await projectStore.updateProjectComponents(
     props.projectId,
-    componentsObject,
-    sessionStore.fetch
+    componentsObject
   );
   if (!success) {
     toast.add({

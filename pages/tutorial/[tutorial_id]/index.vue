@@ -13,10 +13,7 @@ const sessionStore = useSessionStore();
 const toast = useToast();
 
 async function loadTutorial() {
-  const successGetTutorial = await tutorialStore.getTutorial(
-    sessionStore.fetch,
-    tutorialId
-  );
+  const successGetTutorial = await tutorialStore.getTutorial(tutorialId);
 
   if (!successGetTutorial) {
     toast.add({

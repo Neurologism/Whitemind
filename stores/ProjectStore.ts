@@ -21,21 +21,22 @@ export const useProjectStore = defineStore('projectStore', {
   }),
   getters: {},
   actions: {
-    async getProject(id: string, fetchFunction: Function) {
+    async getProject(id: string) {
       let field = this.projects.find((project) => project.data._id === id);
       if (field === undefined || field === null) {
-        await this.fetchProject(id, fetchFunction);
+        await this.fetchProject(id);
         field = this.projects.find((project) => project.data._id === id);
       }
       if (!field) return null;
       if (field.fetchedTime < new Date(new Date().getTime() - 15000)) {
-        await this.fetchProject(id, fetchFunction);
+        await this.fetchProject(id);
         field = this.projects.find((project) => project.data._id === id);
       }
       return field?.data ?? null;
     },
-    async fetchProject(id: string, fetchFunction: Function) {
-      let response: Response = await fetchFunction('/api/project/get', {
+    async fetchProject(id: string) {
+      const sessionStore = useSessionStore();
+      let response: Response = await sessionStore.fetch('/api/project/get', {
         method: 'POST',
         cache: 'no-cache',
         headers: {
@@ -59,11 +60,7 @@ export const useProjectStore = defineStore('projectStore', {
         return null;
       }
     },
-    async updateProjectComponents(
-      id: string,
-      components: any,
-      fetchFunction: Function
-    ) {
+    async updateProjectComponents(id: string, components: any) {
       let project = this.projects.find((project) => project.data._id === id);
       if (!project) return null;
       project.data.components = components;
@@ -73,7 +70,10 @@ export const useProjectStore = defineStore('projectStore', {
           components: components,
         },
       });
-      const result = await fetchFunction('/api/project/update', {
+
+      const sessionStore = useSessionStore();
+
+      const result = await sessionStore.fetch('/api/project/update', {
         method: 'POST',
         cache: 'no-cache',
         headers: {
