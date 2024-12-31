@@ -20,21 +20,58 @@ function onNextTutorial() {
   sessionStore.showLoadingAnimation('Loading...');
   navigateTo(`/tutorial/${tutorialStore.tutorial.data?.nextTutorials[0]}`);
 }
+
+function onRestartTutorial() {
+  // TODO
+}
 </script>
 
 <template>
   <div
-    class="relative rounded-full w-16 h-16 border border-slate-800 flex items-center justify-center"
+    class="relative rounded-fullborder border-slate-800 flex items-center justify-center"
   >
-    <img
-      :src="`/tutorialNarrators/${tutorialStore.currentNarrator}.png`"
-      alt="Narrator"
-      class="w-full h-full object-cover rounded-full cursor-pointer"
-      @click="toggleSpeechBubble"
-    />
+    <div class="flex flex-row items-end space-x-4">
+      <UTooltip text="Restart Tutorial"
+        ><UButton
+          color="primary"
+          class="w-12 h-12"
+          :ui="{ rounded: 'rounded-full' }"
+          @click="onRestartTutorial"
+        >
+          <UIcon
+            name="mdi:restart"
+            class="text-3xl my-auto mx-auto"
+          ></UIcon> </UButton
+      ></UTooltip>
+      <UTooltip
+        text="Next Tutorial"
+        v-if="tutorialStore.tutorial.tutorialCompleted"
+        ><UButton
+          color="green"
+          class="w-12 h-12"
+          :ui="{ rounded: 'rounded-full' }"
+          @click="onNextTutorial"
+        >
+          <UIcon
+            name="mdi:chevron-triple-right"
+            class="text-3xl my-auto mx-auto"
+          ></UIcon> </UButton
+      ></UTooltip>
+
+      <img
+        :src="`/tutorialNarrators/${tutorialStore.currentNarrator}.png`"
+        alt="Narrator"
+        class="w-16 h-16 object-cover rounded-full cursor-pointer"
+        @click="toggleSpeechBubble"
+      />
+    </div>
     <UCard v-if="showSpeechBubble" class="speech-bubble text-white">
       <slot name="content">
-        {{ tutorialStore.tutorial.data?.steps[tutorialStore.visibleStep].text }}
+        <span class="font-mono text-sm leading-none">
+          {{
+            tutorialStore.tutorial.data?.steps[tutorialStore.visibleStep].text
+          }}
+        </span>
       </slot>
       <div class="flex flex-row space-x-2 mt-4">
         <UButton
@@ -56,8 +93,15 @@ function onNextTutorial() {
           @click="stepForward"
         ></UButton>
       </div>
+      <div class="w-full text-center mt-[-16px] text-gray-400">
+        <span class="text-xs">
+          {{ tutorialStore.visibleStep + 1 }} /
+          {{ tutorialStore.tutorial.data?.steps.length }}
+        </span>
+      </div>
       <div class="mt-4">
         <UButton
+          color="green"
           @click="onNextTutorial"
           class="w-full"
           :ui="{ rounded: 'rounded-full' }"
