@@ -168,12 +168,7 @@ function onRemoveEdge(infos: any) {
   }
 
   for (const removeEdge of tutorialStore.currentRemoveEdges) {
-    if (
-      removeEdge.source !== infos.edge.source ||
-      removeEdge.target !== infos.edge.target ||
-      removeEdge.sourceHandle !== infos.edge.sourceHandle ||
-      removeEdge.targetHandle !== infos.edge.targetHandle
-    ) {
+    if (removeEdge.id !== infos.edge.id) {
       continue;
     }
 

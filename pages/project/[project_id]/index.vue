@@ -10,7 +10,10 @@ tutorialStore.openInEditor = false;
 </script>
 
 <template>
-  <ProjectEditor :project-id="route.params.project_id as string" />
+  <ProjectEditor
+    :tutorial-project="false"
+    :project-id="route.params.project_id as string"
+  />
 </template>
 
 <style scoped></style>
