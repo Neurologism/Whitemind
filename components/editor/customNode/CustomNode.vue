@@ -12,6 +12,8 @@ import {
 import '@vue-flow/node-resizer/dist/style.css';
 import CustomHandle from '~/components/editor/customNode/CustomHandle.vue';
 
+defineEmits(['node-contextmenu']);
+
 const nodeToolbarOpen = ref(false);
 const { updateNodeData } = useVueFlow();
 const props = defineProps(['props', 'nodeId']);
@@ -96,6 +98,7 @@ function toggleNodeToolbar() {
     :text="shapeData.description"
     class="h-full w-full"
     @click="toggleNodeToolbar"
+    @contextmenu.prevent="$emit('node-contextmenu', props.nodeId)"
   >
     <div
       :class="{ 'blink-border': actionRequired }"

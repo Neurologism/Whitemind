@@ -26,6 +26,10 @@ export const useVueFlowStore = defineStore('vueFlowStore', {
       },
   },
   actions: {
+    getNode(nodeId: string) {
+      return this.nodes.find((node) => node.id === nodeId);
+    },
+
     removeEdge(edgeId: string) {
       console.log('Removing edge', edgeId);
       this.edges = this.edges.filter((edge) => edge.id !== edgeId);

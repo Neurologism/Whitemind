@@ -40,6 +40,9 @@ importers:
       '@vue/language-server':
         specifier: 2.0.28
         version: 2.0.28(typescript@5.7.2)
+      '@vueuse/core':
+        specifier: ^12.2.0
+        version: 12.2.0(typescript@5.7.2)
       animate.css:
         specifier: ^4.1.1
         version: 4.1.1
@@ -2049,6 +2052,12 @@ packages:
         integrity: sha512-uoAhT3cnDtG/UuhgKxO6fXPCtW2F8axmKGaHWeHdV3YhsbSILxi2ATURbSkAmdQwgzI6jOpJarfVfGXCl78v5g==,
       }
 
+  '@vueuse/core@12.2.0':
+    resolution:
+      {
+        integrity: sha512-jksyNu+5EGwggNkRWd6xX+8qBkYbmrwdFQMgCABsz+wq8bKF6w3soPFLB8vocFp3wFIzn0OYkSPM9JP+AFKwsg==,
+      }
+
   '@vueuse/integrations@12.1.0':
     resolution:
       {
@@ -2111,6 +2120,12 @@ packages:
         integrity: sha512-XxU3sYdOhqKLO+LbreHzMqklCjs/rdRQcZGtu/AHPTXb2No/GUBVFJr/JruUB1NPWG26F8mr+c55P4YG6nMzcQ==,
       }
 
+  '@vueuse/metadata@12.2.0':
+    resolution:
+      {
+        integrity: sha512-x6zynZtTh1l52m0y8d/EgzpshnMjg8cNZ2KWoncJ62Z5qPSGoc4FUunmMVrrRM/I/5542rTEY89CGftngZvrkQ==,
+      }
+
   '@vueuse/shared@10.11.1':
     resolution:
       {
@@ -2121,6 +2136,12 @@ packages:
     resolution:
       {
         integrity: sha512-tnuYb6Rp9dwMjsi/gukNeE+En3RFOfzrnVZX1vwbvq7+MbCkBNnXFvKgMGPlo1TQxgVd46D3NYwhBmM8Ioxd2A==,
+      }
+
+  '@vueuse/shared@12.2.0':
+    resolution:
+      {
+        integrity: sha512-SRr4AZwv/giS+EmyA1ZIzn3/iALjjnWAGaBNmoDTMEob9JwQaevAocuaMDnPAvU7Z35Y5g3CFRusCWgp1gVJ3Q==,
       }
 
   abbrev@2.0.0:
@@ -7816,7 +7837,7 @@ snapshots:
       '@tailwindcss/container-queries': 0.1.1(tailwindcss@3.4.17)
       '@tailwindcss/forms': 0.5.9(tailwindcss@3.4.17)
       '@tailwindcss/typography': 0.5.15(tailwindcss@3.4.17)
-      '@vueuse/core': 12.1.0(typescript@5.7.2)
+      '@vueuse/core': 12.2.0(typescript@5.7.2)
       '@vueuse/integrations': 12.1.0(axios@1.7.9)(change-case@5.4.4)(fuse.js@7.0.0)(typescript@5.7.2)
       '@vueuse/math': 12.1.0(typescript@5.7.2)
       defu: 6.1.4
@@ -8577,6 +8598,15 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
+  '@vueuse/core@12.2.0(typescript@5.7.2)':
+    dependencies:
+      '@types/web-bluetooth': 0.0.20
+      '@vueuse/metadata': 12.2.0
+      '@vueuse/shared': 12.2.0(typescript@5.7.2)
+      vue: 3.5.13(typescript@5.7.2)
+    transitivePeerDependencies:
+      - typescript
+
   '@vueuse/integrations@12.1.0(axios@1.7.9)(change-case@5.4.4)(fuse.js@7.0.0)(typescript@5.7.2)':
     dependencies:
       '@vueuse/core': 12.1.0(typescript@5.7.2)
@@ -8600,6 +8630,8 @@ snapshots:
 
   '@vueuse/metadata@12.1.0': {}
 
+  '@vueuse/metadata@12.2.0': {}
+
   '@vueuse/shared@10.11.1(vue@3.5.13(typescript@5.7.2))':
     dependencies:
       vue-demi: 0.14.10(vue@3.5.13(typescript@5.7.2))
@@ -8608,6 +8640,12 @@ snapshots:
       - vue
 
   '@vueuse/shared@12.1.0(typescript@5.7.2)':
+    dependencies:
+      vue: 3.5.13(typescript@5.7.2)
+    transitivePeerDependencies:
+      - typescript
+
+  '@vueuse/shared@12.2.0(typescript@5.7.2)':
     dependencies:
       vue: 3.5.13(typescript@5.7.2)
     transitivePeerDependencies:

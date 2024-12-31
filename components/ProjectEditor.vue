@@ -8,6 +8,7 @@ import { SyncStatus } from '~/components/editor/syncStatus';
 import CustomConnectionEdge from '~/components/editor/customEdge/CustomConnectionEdge.vue';
 import CustomEdge from '~/components/editor/customEdge/CustomEdge.vue';
 import Sidebar from '~/components/editor/SideBar/Sidebar.vue';
+import { useMouse } from '@vueuse/core';
 
 const props = defineProps({
   projectId: {
@@ -35,7 +36,7 @@ const colorMode = useColorMode();
 const sessionStore = useSessionStore();
 const projectStore = useProjectStore();
 const tutorialStore = useTutorialStore();
-const flowStore = useVueFlowStore();
+const vueFlowStore = useVueFlowStore();
 
 const config = useRuntimeConfig();
 
@@ -57,6 +58,7 @@ const {
   onEdgesChange,
   applyEdgeChanges,
   applyNodeChanges,
+  removeNodes,
 } = useVueFlow();
 
 function handleDrop(event: DragEvent) {
@@ -121,6 +123,46 @@ function handleDrop(event: DragEvent) {
   } else {
     displayActionForbiddenToast();
   }
+}
+
+const mouse = useMouse();
+const openContextMenu = ref(false);
+const contextMenu = ref({ getBoundingClientRect: () => ({}) });
+const contextMenuTargetNodeId = ref('');
+
+function onContextMenu(nodeId: string) {
+  contextMenuTargetNodeId.value = nodeId;
+
+  const top = unref(mouse.y);
+  const left = unref(mouse.x);
+
+  contextMenu.value.getBoundingClientRect = () => ({
+    width: 0,
+    height: 0,
+    top,
+    left,
+  });
+
+  openContextMenu.value = true;
+}
+
+function contextMenuDuplicate() {
+  openContextMenu.value = false;
+  if (!contextMenuTargetNodeId.value) return;
+  const node = vueFlowStore.getNode(contextMenuTargetNodeId.value);
+  if (node === undefined) return;
+  const newNode = CustomNodes.getDefaultData(node.type!, {
+    x: node.position.x + 100,
+    y: node.position.y + 100,
+  });
+  // @ts-ignore
+  addNodes([newNode]);
+}
+
+function contextMenuDelete() {
+  openContextMenu.value = false;
+  if (!contextMenuTargetNodeId.value) return;
+  removeNodes([contextMenuTargetNodeId.value]);
 }
 
 function onNodeRemove(change: any) {
@@ -217,7 +259,7 @@ function displayActionForbiddenToast() {
 
 function onRemoveEdge(infos: any) {
   if (!props.tutorialProject) {
-    flowStore.removeEdge(infos.edge.id);
+    vueFlowStore.removeEdge(infos.edge.id);
     return;
   }
 
@@ -226,13 +268,13 @@ function onRemoveEdge(infos: any) {
       continue;
     }
 
-    flowStore.removeEdge(infos.edge.id);
+    vueFlowStore.removeEdge(infos.edge.id);
     console.log('Removing tutorial edge', infos.edge);
     return;
   }
 
   if (config.public.tutorialAllowUnlistedEdgeDeletion) {
-    flowStore.removeEdge(infos.edge.id);
+    vueFlowStore.removeEdge(infos.edge.id);
   } else {
     displayActionForbiddenToast();
   }
@@ -265,7 +307,7 @@ async function loadProject() {
     });
     syncStatus.value = SyncStatus.error;
   } else {
-    flowStore.remote_data = project;
+    vueFlowStore.remote_data = project;
     sessionStore.loading = false;
     syncStatus.value = SyncStatus.synced;
   }
@@ -332,6 +374,26 @@ watch(
 </script>
 
 <template>
+  <UContextMenu v-model="openContextMenu" :virtual-element="contextMenu">
+    <div class="flex flex-col">
+      <UButton
+        @click="contextMenuDuplicate"
+        class="w-full"
+        variant="ghost"
+        color="gray"
+        size="lg"
+        >Duplicate</UButton
+      >
+      <UButton
+        @click="contextMenuDelete"
+        class="w-full"
+        variant="ghost"
+        color="gray"
+        size="lg"
+        >Delete</UButton
+      >
+    </div>
+  </UContextMenu>
   <div class="flex flex-row relative">
     <div
       class="dnd-flow flex-2 bg-slate-900"
@@ -340,13 +402,13 @@ watch(
     >
       <VueFlow
         :apply-default="false"
-        v-model:nodes="flowStore.nodes"
-        v-model:edges="flowStore.edges"
+        v-model:nodes="vueFlowStore.nodes"
+        v-model:edges="vueFlowStore.edges"
         class="border-3 border-amber-400"
         @edge-mouse-enter="
-          (infos) => (flowStore.highlightedEdge = infos.edge.id)
+          (infos) => (vueFlowStore.highlightedEdge = infos.edge.id)
         "
-        @edge-mouse-leave="(_infos) => (flowStore.highlightedEdge = null)"
+        @edge-mouse-leave="(_infos) => (vueFlowStore.highlightedEdge = null)"
         @edge-click="onRemoveEdge"
       >
         <Background
@@ -385,7 +447,11 @@ watch(
           :key="node.type"
           v-slot:[`node-${node.type}`]="props"
         >
-          <EditorCustomNode :props="props" :node-id="props.id" />
+          <EditorCustomNode
+            :props="props"
+            :node-id="props.id"
+            @node-contextmenu="onContextMenu"
+          />
         </template>
       </VueFlow>
     </div>
@@ -393,7 +459,7 @@ watch(
   <div class="h-full absolute-overlay flex flex-col overflow-hidden">
     <div class="pointer-events-auto">
       <EditorProjectHeader
-        :project-title="flowStore.remote_data.name"
+        :project-title="vueFlowStore.remote_data.name"
         :project-owner="projectOwner"
         class="w-full"
       >
