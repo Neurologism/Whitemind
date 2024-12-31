@@ -1,11 +1,12 @@
 <script setup lang="ts">
 const showSpeechBubble = ref(true);
 
+const tutorialStore = useTutorialStore();
+const sessionStore = useSessionStore();
+
 function toggleSpeechBubble() {
   showSpeechBubble.value = !showSpeechBubble.value;
 }
-
-const tutorialStore = useTutorialStore();
 
 function stepForward() {
   tutorialStore.stepForward();
@@ -13,6 +14,11 @@ function stepForward() {
 
 function stepBack() {
   tutorialStore.stepBack();
+}
+
+function onNextTutorial() {
+  sessionStore.showLoadingAnimation('Loading...');
+  navigateTo(`/tutorial/${tutorialStore.tutorial.data?.nextTutorials[0]}`);
 }
 </script>
 
@@ -52,6 +58,7 @@ function stepBack() {
       </div>
       <div class="mt-4">
         <UButton
+          @click="onNextTutorial"
           class="w-full"
           :ui="{ rounded: 'rounded-full' }"
           v-if="

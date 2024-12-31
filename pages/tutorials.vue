@@ -10,7 +10,7 @@ onMounted(() => {
 });
 
 async function openTutorial(name: string) {
-  sessionStore.showLoadingAnimation('LOADING...');
+  sessionStore.showLoadingAnimation('Loading...');
   const response = await sessionStore.fetch('/api/tutorial/get', {
     method: 'POST',
     cache: 'no-cache',
