@@ -1044,7 +1044,7 @@ export const blocks: NodeGroupDefinition[] = [
             description: 'Fit the model.',
             identifier: 'fit',
             data: {
-              x: {
+              data: {
                 type: 'id',
                 flowOrientation: FlowOrientation.INPUT,
                 constraints: {
