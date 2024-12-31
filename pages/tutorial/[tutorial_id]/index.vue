@@ -37,7 +37,7 @@ async function loadTutorial() {
 
   projectId.value = tutorialStore.tutorial.projectId as string;
 
-  toast.add({ title: 'Tutorial loaded', icon: 'mdi-check', color: 'green' });
+  // toast.add({ title: 'Tutorial loaded', icon: 'mdi-check', color: 'green' });
 }
 
 tutorialStore.openInEditor = true;

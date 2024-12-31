@@ -36,6 +36,37 @@ export const useTutorialStore = defineStore('tutorialStore', {
     },
   }),
   getters: {
+    isNextStepUnlocked(data): boolean {
+      const vueFlowStore = useVueFlowStore();
+      const currentStep = data.tutorial.data?.steps[data.tutorial.currentStep];
+      if (currentStep === undefined) {
+        return false;
+      }
+
+      for (const addNode of currentStep.addNodes) {
+        if (!vueFlowStore.nodeExists(addNode.id)) {
+          return false;
+        }
+      }
+      for (const removeNode of currentStep.removeNodes) {
+        if (vueFlowStore.nodeExists(removeNode.id)) {
+          return false;
+        }
+      }
+      for (const addEdge of currentStep.addEdges) {
+        if (!vueFlowStore.edgeExists(addEdge.id)) {
+          return false;
+        }
+      }
+      for (const removeEdge of currentStep.removeEdges) {
+        if (vueFlowStore.edgeExists(removeEdge.id)) {
+          return false;
+        }
+      }
+
+      return true;
+    },
+
     currentAddEdges(data) {
       return data.tutorial.data === null
         ? []

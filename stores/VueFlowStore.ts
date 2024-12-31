@@ -31,5 +31,13 @@ export const useVueFlowStore = defineStore('vueFlowStore', {
       this.edges = this.edges.filter((edge) => edge.id !== edgeId);
       this.highlightedEdge = null;
     },
+
+    nodeExists(nodeId: string): boolean {
+      return this.nodes.some((node) => node.id === nodeId);
+    },
+
+    edgeExists(edgeId: string): boolean {
+      return this.edges.some((edge) => edge.id === edgeId);
+    },
   },
 });

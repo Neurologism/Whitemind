@@ -57,7 +57,6 @@ const {
   onEdgesChange,
   applyEdgeChanges,
   applyNodeChanges,
-  removeNodes,
 } = useVueFlow();
 
 function handleDrop(event: DragEvent) {
@@ -65,7 +64,17 @@ function handleDrop(event: DragEvent) {
   const nodeType = CustomNodes.getCustomNodeConfig(nodeTypeString);
   if (!nodeType) return;
 
-  const { left, top } = vueFlowRef.value!.getBoundingClientRect();
+  if (vueFlowRef.value === null) {
+    toast.add({
+      title: 'Failed to drop node',
+      description: 'VueFlow reference not found',
+      icon: 'mdi-alert-circle',
+      color: 'red',
+    });
+    return;
+  }
+
+  const { left, top } = vueFlowRef.value.getBoundingClientRect();
 
   const position = project({
     x: event.clientX - left,
@@ -138,6 +147,7 @@ function onNodeRemove(change: any) {
 }
 
 onNodesChange((changes) => {
+  applyNodeChanges(changes);
   for (const change of changes) {
     switch (change.type) {
       case 'remove':

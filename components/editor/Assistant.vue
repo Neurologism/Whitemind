@@ -86,7 +86,10 @@ function onRestartTutorial() {
             tutorialStore.tutorial.data === null
               ? true
               : tutorialStore.visibleStep ===
-                tutorialStore.tutorial.data.steps.length - 1
+                  tutorialStore.tutorial.data.steps.length - 1 ||
+                (tutorialStore.visibleStep ===
+                  tutorialStore.tutorial.currentStep &&
+                  !tutorialStore.isNextStepUnlocked)
           "
           icon="i-heroicons-chevron-right"
           variant="ghost"
