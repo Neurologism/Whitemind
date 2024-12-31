@@ -14,10 +14,10 @@
         </div>
         <div class="flex sm:grid-cols-2 md:flex-row items-center mt-4 md:mt-0">
           <div class="grid text-gray-400">
-            <a href="/privacy">Privacy Policy</a>
+            <a href="/privacy-policy">Privacy Policy</a>
           </div>
           <div class="text-gray-400 ml-4">
-            <a href="/terms">Terms of Service</a>
+            <a href="/terms-and-conditions">Terms and Conditions</a>
           </div>
           <div class="text-gray-400 ml-4">
             <a href="/contact">Contact Us</a>
