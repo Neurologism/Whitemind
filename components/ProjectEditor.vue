@@ -53,6 +53,11 @@ const {
   fromObject,
   getNodes,
   getEdges,
+  onNodesChange,
+  onEdgesChange,
+  applyEdgeChanges,
+  applyNodeChanges,
+  removeNodes,
 } = useVueFlow();
 
 function handleDrop(event: DragEvent) {
@@ -108,6 +113,45 @@ function handleDrop(event: DragEvent) {
     displayActionForbiddenToast();
   }
 }
+
+function onNodeRemove(change: any) {
+  if (!props.tutorialProject) {
+    applyNodeChanges([change]);
+    return;
+  }
+
+  for (const removeNode of tutorialStore.currentRemoveNodes) {
+    if (removeNode.id !== change.id) {
+      continue;
+    }
+
+    applyNodeChanges([change]);
+    console.log('Removing tutorial node', change);
+    return;
+  }
+
+  if (config.public.tutorialAllowUnlistedNodeDeletion) {
+    applyNodeChanges([change]);
+  } else {
+    displayActionForbiddenToast();
+  }
+}
+
+onNodesChange((changes) => {
+  for (const change of changes) {
+    switch (change.type) {
+      case 'remove':
+        onNodeRemove(change);
+        break;
+      default:
+        applyNodeChanges([change]);
+    }
+  }
+});
+
+onEdgesChange((changes) => {
+  applyEdgeChanges(changes);
+});
 
 onConnect((newEdge: any) => {
   console.log(newEdge);
@@ -285,6 +329,7 @@ watch(
       @dragover.prevent
     >
       <VueFlow
+        :apply-default="false"
         v-model:nodes="flowStore.nodes"
         v-model:edges="flowStore.edges"
         class="border-3 border-amber-400"
