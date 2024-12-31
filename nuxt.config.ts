@@ -24,8 +24,8 @@ export default defineNuxtConfig({
     public: {
       backmindHost:
         process.env.BACKMIND_HOST || 'https://backmind.icinoxis.net',
-      tutorialAllowUnlistedNodeCreation: true,
-      tutorialAllowUnlistedEdgeCreation: true,
+      tutorialAllowUnlistedNodeCreation: false,
+      tutorialAllowUnlistedEdgeCreation: false,
       tutorialAllowUnlistedNodeDeletion: false,
       tutorialAllowUnlistedEdgeDeletion: false,
       tutorialAllowUnlistedNodeModification: false,
