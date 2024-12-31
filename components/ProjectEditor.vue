@@ -85,6 +85,10 @@ function handleDrop(event: DragEvent) {
 
   let newNode = CustomNodes.getDefaultData(nodeType.type, position);
 
+  addNewNode(newNode);
+}
+
+function addNewNode(newNode) {
   if (!props.tutorialProject) {
     // @ts-ignore
     addNodes([newNode]);
@@ -155,8 +159,7 @@ function contextMenuDuplicate() {
     x: node.position.x + 100,
     y: node.position.y + 100,
   });
-  // @ts-ignore
-  addNodes([newNode]);
+  addNewNode(newNode);
 }
 
 function contextMenuDelete() {
@@ -166,10 +169,12 @@ function contextMenuDelete() {
 }
 
 function onNodeRemove(change: any) {
+  console.log('Node removed', change);
   if (!props.tutorialProject) {
     applyNodeChanges([change]);
     return;
   }
+  console.log('Node removed', change);
 
   for (const removeNode of tutorialStore.currentRemoveNodes) {
     if (removeNode.id !== change.id) {
@@ -180,6 +185,7 @@ function onNodeRemove(change: any) {
     console.log('Removing tutorial node', change);
     return;
   }
+  console.log('Node removed', change);
 
   if (config.public.tutorialAllowUnlistedNodeDeletion) {
     applyNodeChanges([change]);
@@ -189,7 +195,6 @@ function onNodeRemove(change: any) {
 }
 
 onNodesChange((changes) => {
-  applyNodeChanges(changes);
   for (const change of changes) {
     switch (change.type) {
       case 'remove':
