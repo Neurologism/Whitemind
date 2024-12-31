@@ -96,6 +96,7 @@ const onRegister = async () => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
+      agreedToTermsOfServiceAndPrivacyPolicy: legalStuff.value,
       user: {
         brainetTag: username.value,
         email: email.value,
