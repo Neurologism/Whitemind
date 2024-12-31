@@ -224,10 +224,18 @@ const onRegister = async () => {
         </HintBox>
       </div>
       <div class="input-tile">
-        <UCheckbox
-          v-model="legalStuff"
-          label="I agree to the terms and conditions"
-        />
+        <UCheckbox v-model="legalStuff" required>
+          <template #label>
+            I have read and agree to Whitemind's
+            <ULink to="/terms-and-conditions" class="text-blue-500">
+              Terms and Conditions
+            </ULink>
+            and
+            <ULink to="/privacy-policy" class="text-blue-500"
+              >Privacy Policy
+            </ULink>
+          </template>
+        </UCheckbox>
       </div>
       <div v-if="usernameOrEmailTaken" class="input-tile">
         <UAlert
