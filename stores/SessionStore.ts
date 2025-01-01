@@ -7,6 +7,7 @@ export const useSessionStore = defineStore('sessionStore', {
     loadingText: 'Loading...',
     hasPfp: true,
     sessionData: ref({
+      pinEditorSidebar: false,
       sessionStart: Date(),
       Authorization: '',
       user: {
@@ -63,6 +64,10 @@ export const useSessionStore = defineStore('sessionStore', {
         .catch(() => (this.hasPfp = false));
     },
 
+    saveSessionData() {
+      localStorage.setItem('sessionData', JSON.stringify(this.sessionData));
+    },
+
     async signOut() {
       const toast = useToast();
 
@@ -79,7 +84,7 @@ export const useSessionStore = defineStore('sessionStore', {
         followingIds: null,
         projectIds: null,
       };
-      localStorage.setItem('sessionData', JSON.stringify(this.sessionData));
+      this.saveSessionData();
       navigateTo('/');
 
       toast.add({
@@ -115,6 +120,7 @@ export const useSessionStore = defineStore('sessionStore', {
         headers,
       });
     },
+
     async loginWithSessionToken(token: string) {
       if (token == '' || token == undefined) {
         console.error('No token provided to login with.');
@@ -128,7 +134,7 @@ export const useSessionStore = defineStore('sessionStore', {
         let data = await response.json();
         console.log(data);
         this.sessionData.user = data.user;
-        localStorage.setItem('sessionData', JSON.stringify(this.sessionData));
+        this.saveSessionData();
         this.checkForPfp();
         // navigateTo('/projects');
       } else {
@@ -139,6 +145,7 @@ export const useSessionStore = defineStore('sessionStore', {
         navigateTo('/login');
       }
     },
+
     /**
      * Checks if the session is still valid and navigates to the login page if it is not
      * @param redirectIfNotLoggedIn
@@ -179,9 +186,11 @@ export const useSessionStore = defineStore('sessionStore', {
         }
       }
     },
+
     async refreshUserData() {
       await this.loginWithSessionToken(this.sessionData.Authorization);
     },
+
     async syncLocalSessionData() {
       if (!import.meta.client) return;
       const localSession = JSON.parse(
@@ -209,7 +218,7 @@ export const useSessionStore = defineStore('sessionStore', {
           new Date(currentSession.sessionStart) >
             new Date(localSession.sessionStart))
       ) {
-        localStorage.setItem('sessionData', JSON.stringify(currentSession));
+        this.saveSessionData();
       }
 
       await this.checkSession(false);

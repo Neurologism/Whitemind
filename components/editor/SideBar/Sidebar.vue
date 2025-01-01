@@ -3,13 +3,14 @@ import { CustomNodes } from '~/components/editor/customNodeList';
 import DragNode from '~/components/editor/SideBar/DragNode.vue';
 import ExpandableButton from '~/components/editor/SideBar/ExpandableButton.vue';
 
-const isPermaOpen = ref(false);
 const searchQuery = ref('');
 const scrollRef = ref<HTMLElement | null>(null);
+const sessionStore = useSessionStore();
 
 function toggleSidebar() {
-  isPermaOpen.value = !isPermaOpen.value;
-  if (!isPermaOpen.value) {
+  sessionStore.sessionData.pinEditorSidebar =
+    !sessionStore.sessionData.pinEditorSidebar;
+  if (!sessionStore.sessionData.pinEditorSidebar) {
     searchQuery.value = ' ';
     searchQuery.value = '';
   }
@@ -40,12 +41,12 @@ function setOpen() {
   <div
     ref="coreDiv"
     :style="{
-      width: isPermaOpen ? '28rem' : '',
+      width: sessionStore.sessionData.pinEditorSidebar ? '28rem' : '',
     }"
     class="parent-div border-r-2 h-100 border-slate-600 bg-opacity-90 dark:bg-opacity-90 bg-slate-200 dark:bg-slate-800 pt-4 pl-2 pb-2 w-20 origin-left transition-transform flex flex-row flex-nowrap select-none"
     :class="{
-      'hover:w-[28rem]': !isPermaOpen,
-      'hover:scale-x-105': !isPermaOpen,
+      'hover:w-[28rem]': !sessionStore.sessionData.pinEditorSidebar,
+      'hover:scale-x-105': !sessionStore.sessionData.pinEditorSidebar,
     }"
     @mouseenter="setOpen"
     @mouseleave="setOpen"
@@ -78,7 +79,11 @@ function setOpen() {
         </div>
         <div class="flex-none pt-4 ml-2 mb-2">
           <UButton
-            :icon="isPermaOpen ? 'mdi-pin' : 'mdi-pin-outline'"
+            :icon="
+              sessionStore.sessionData.pinEditorSidebar
+                ? 'mdi-pin'
+                : 'mdi-pin-outline'
+            "
             class="hover:scale-105 transition-transform"
             color="gray"
             size="xl"
@@ -91,7 +96,7 @@ function setOpen() {
     <div
       ref="scrollRef"
       class="ml-3 w-full overflow-y-hidden hover:overflow-y-auto overflow-x-hidden"
-      :class="{ 'child-div': !isPermaOpen }"
+      :class="{ 'child-div': !sessionStore.sessionData.pinEditorSidebar }"
     >
       <div class="z-10 ml-2 fixed w-[21rem]" v-if="isOpen">
         <UInput
