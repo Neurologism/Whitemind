@@ -88,7 +88,7 @@ function handleDrop(event: DragEvent) {
   addNewNode(newNode);
 }
 
-function addNewNode(newNode) {
+function addNewNode(newNode: any) {
   if (!props.tutorialProject) {
     // @ts-ignore
     addNodes([newNode]);
@@ -375,6 +375,16 @@ watch(
     }
   },
   { deep: true }
+);
+
+watch(
+  () => tutorialStore.isNextStepUnlocked,
+  (newValue, oldValue) => {
+    if (newValue && !oldValue) {
+      tutorialStore.visibleStep = tutorialStore.tutorial.currentStep;
+      tutorialStore.stepForward();
+    }
+  }
 );
 </script>
 

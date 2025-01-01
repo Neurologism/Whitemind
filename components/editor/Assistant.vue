@@ -4,6 +4,15 @@ const showSpeechBubble = ref(true);
 const tutorialStore = useTutorialStore();
 const sessionStore = useSessionStore();
 
+const disableNextStepButton = computed(() => {
+  return tutorialStore.tutorial.data === null
+    ? true
+    : tutorialStore.visibleStep ===
+        tutorialStore.tutorial.data.steps.length - 1 ||
+        (tutorialStore.visibleStep === tutorialStore.tutorial.currentStep &&
+          !tutorialStore.isNextStepUnlocked);
+});
+
 function toggleSpeechBubble() {
   showSpeechBubble.value = !showSpeechBubble.value;
 }
@@ -82,16 +91,10 @@ function onRestartTutorial() {
         ></UButton>
         <UProgress class="flex-grow my-auto" :value="tutorialStore.progress" />
         <UButton
-          :disabled="
-            tutorialStore.tutorial.data === null
-              ? true
-              : tutorialStore.visibleStep ===
-                  tutorialStore.tutorial.data.steps.length - 1 ||
-                (tutorialStore.visibleStep ===
-                  tutorialStore.tutorial.currentStep &&
-                  !tutorialStore.isNextStepUnlocked)
+          :disabled="disableNextStepButton"
+          :icon="
+            disableNextStepButton ? 'mdi:lock' : 'i-heroicons-chevron-right'
           "
-          icon="i-heroicons-chevron-right"
           variant="ghost"
           @click="stepForward"
         ></UButton>
