@@ -5,12 +5,9 @@ definePageMeta({
 
 const route = useRoute();
 const tutorialId = route.params.tutorial_id as string;
-const projectId = ref('');
-
 const tutorialStore = useTutorialStore();
-const sessionStore = useSessionStore();
-
 const toast = useToast();
+const projectId = ref('');
 
 async function loadTutorial() {
   const successGetTutorial = await tutorialStore.getTutorial(tutorialId);
@@ -40,11 +37,18 @@ async function loadTutorial() {
   // toast.add({ title: 'Tutorial loaded', icon: 'mdi-check', color: 'green' });
 }
 
-tutorialStore.openInEditor = true;
-
 onMounted(() => {
   loadTutorial();
 });
+
+watch(
+  () => tutorialStore.tutorial.projectId,
+  () => {
+    projectId.value = tutorialStore.tutorial.projectId as string;
+  }
+);
+
+tutorialStore.openInEditor = true;
 </script>
 
 <template>

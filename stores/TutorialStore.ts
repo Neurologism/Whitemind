@@ -31,7 +31,7 @@ export const useTutorialStore = defineStore('tutorialStore', {
       } | null,
       tutorialCompleted: false as boolean,
       tutorialStarted: false as boolean,
-      projectId: null as string | null,
+      projectId: ref(''),
       currentStep: 0 as number,
     },
   }),
@@ -137,7 +137,7 @@ export const useTutorialStore = defineStore('tutorialStore', {
       }
       this.syncInterval = setTimeout(() => {
         this.tutorialSetState();
-      }, 3000);
+      }, 1000);
     },
 
     stepForward() {

@@ -401,6 +401,11 @@ watch(
     }
   }
 );
+
+onUnmounted(() => {
+  vueFlowStore.nodes = [];
+  vueFlowStore.edges = [];
+});
 </script>
 
 <template>
