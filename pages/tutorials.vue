@@ -46,6 +46,8 @@ tutorials.value.map(async (tutorial) => {
   const tutorialData = await tutorialStore.fetchTutorialByName(tutorial.name);
   if (tutorialData === null) {
     tutorial.active = false;
+    console.error('tutorial data is null');
+    return;
   }
   tutorial.active = tutorialData.isUnlocked as boolean;
 });
