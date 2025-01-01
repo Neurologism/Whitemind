@@ -91,7 +91,7 @@ export const useTutorialStore = defineStore('tutorialStore', {
         : data.tutorial.data.steps[data.tutorial.currentStep].removeNodes;
     },
 
-    currentmodifyNodes(data) {
+    currentModifyNodes(data) {
       return data.tutorial.data === null
         ? []
         : data.tutorial.data.steps[data.tutorial.currentStep].modifyNodes;

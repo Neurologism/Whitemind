@@ -380,6 +380,21 @@ watch(
 watch(
   () => tutorialStore.isNextStepUnlocked,
   (newValue, oldValue) => {
+    if (!tutorialStore.openInEditor) {
+      return;
+    }
+    const currentStepObject =
+      tutorialStore.tutorial.data?.steps[tutorialStore.tutorial.currentStep];
+    if (
+      currentStepObject === undefined ||
+      currentStepObject.addEdges.length +
+        currentStepObject.removeEdges.length +
+        currentStepObject.addNodes.length +
+        currentStepObject.removeNodes.length ===
+        0
+    ) {
+      return;
+    }
     if (newValue && !oldValue) {
       tutorialStore.visibleStep = tutorialStore.tutorial.currentStep;
       tutorialStore.stepForward();
