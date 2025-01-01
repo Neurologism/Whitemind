@@ -996,7 +996,7 @@ export const blocks: NodeGroupDefinition[] = [
             description: 'Evaluate the model.',
             identifier: 'evaluate',
             data: {
-              x: {
+              data: {
                 type: 'id',
                 flowOrientation: FlowOrientation.INPUT,
                 constraints: {
