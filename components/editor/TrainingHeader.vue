@@ -106,7 +106,7 @@ setInterval(updateTrainingStatus, 1000);
         >
           <b>Loss:</b>
           <div class="rounded-md bg-slate-900 p-1">
-            {{ (trainingStore.training.loss * 100).toFixed(2) }}%
+            {{ trainingStore.training.loss.toFixed(2) }}
           </div>
         </div>
         <div
