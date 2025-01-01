@@ -35,6 +35,7 @@ async function onRestartTutorial() {
   if (tutorialStore.tutorial.projectId === null) {
     return;
   }
+  tutorialStore.syncInterval = null;
   sessionStore.showLoadingAnimation('Restarting tutorial...');
   await projectStore.deleteProject(tutorialStore.tutorial.projectId);
   tutorialStore.tutorial.currentStep = 0;
