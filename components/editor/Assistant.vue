@@ -33,6 +33,8 @@ function onNextTutorial() {
 function onRestartTutorial() {
   // TODO
 }
+
+watch(showSpeechBubble, () => {});
 </script>
 
 <template>
@@ -74,7 +76,9 @@ function onRestartTutorial() {
         @click="toggleSpeechBubble"
       />
     </div>
-    <UCard v-if="showSpeechBubble" class="speech-bubble text-white">
+    <UCard
+      class="speech-bubble text-white min-w-[350px] max-w-[500px] absolute"
+    >
       <slot name="content">
         <span class="font-mono text-sm leading-none">
           {{
@@ -93,10 +97,21 @@ function onRestartTutorial() {
         <UButton
           :disabled="disableNextStepButton"
           :icon="
-            disableNextStepButton ? 'mdi:lock' : 'i-heroicons-chevron-right'
+            disableNextStepButton &&
+            tutorialStore.visibleStep + 1 !==
+              tutorialStore.tutorial.data?.steps.length
+              ? 'mdi:lock'
+              : 'i-heroicons-chevron-right'
           "
           variant="ghost"
           @click="stepForward"
+          :class="{
+            hidden:
+              tutorialStore.visibleStep ===
+              tutorialStore.tutorial.data?.steps.length
+                ? tutorialStore.tutorial.data?.steps.length - 1
+                : false,
+          }"
         ></UButton>
       </div>
       <div class="w-full text-center mt-[-16px] text-gray-400">
@@ -131,20 +146,17 @@ function onRestartTutorial() {
 
 <style scoped>
 .speech-bubble {
-  position: absolute;
   bottom: 100%;
   right: 0;
   transform: translateY(-16px);
   background-color: rgba(16, 22, 73, 0.9);
-  min-width: 300px;
-  max-width: 500px;
 }
 
 .speech-bubble::after {
   content: '';
   position: absolute;
   top: 100%;
-  right: 10px;
+  right: 20px;
   transform: translateY(0);
   border-width: 12px;
   border-style: solid;
