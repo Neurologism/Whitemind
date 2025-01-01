@@ -30,7 +30,7 @@ export default defineNuxtConfig({
       tutorialAllowUnlistedEdgeDeletion: false,
       tutorialAllowUnlistedNodeModification: false,
       tutorialDisplayForbiddenToast: true,
-      enableStartingLockedTutorials: false,
+      enableStartingLockedTutorials: true,
     },
   },
 });
