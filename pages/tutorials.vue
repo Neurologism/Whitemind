@@ -7,10 +7,22 @@ const sessionStore = useSessionStore();
 const tutorialStore = useTutorialStore();
 const toast = useToast();
 const margins = [2, 3, 4, 3, 2, 1, 0, 1];
+const config = useRuntimeConfig().public;
 
-async function openTutorial(name: string) {
+async function openTutorial(tutorial: any) {
+  if (!tutorial.active && !config.enableStartingLockedTutorials) {
+    toast.add({
+      title: 'Tutorial locked',
+      description:
+        'This tutorial is locked. You need to complete the previous tutorials first.',
+      icon: 'mdi-lock',
+      color: 'red',
+    });
+    return;
+  }
+
   sessionStore.showLoadingAnimation('Loading...');
-  const response = await tutorialStore.fetchTutorialByName(name);
+  const response = await tutorialStore.fetchTutorialByName(tutorial.name);
 
   if (response === null) {
     sessionStore.loading = false;
@@ -47,7 +59,7 @@ tutorials.value.map(async (tutorial) => {
         :icon="tutorial.icon"
         :style="{ 'margin-left': `${margins[index % 8] * 30}px` }"
         :active="tutorial.active"
-        @click="openTutorial(tutorial.name)"
+        @click="openTutorial(tutorial)"
       >
       </TutorialsField>
     </div>
