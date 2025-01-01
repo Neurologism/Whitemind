@@ -1,31 +1,18 @@
 <script setup lang="ts">
-import { tutorials } from '~/components/tutorials/tutorials';
+import { tutorials as listedTutorials } from '~/components/tutorials/tutorials';
+
+const tutorials = ref(listedTutorials);
 
 const sessionStore = useSessionStore();
+const tutorialStore = useTutorialStore();
 const toast = useToast();
 const margins = [2, 3, 4, 3, 2, 1, 0, 1];
 
-onMounted(() => {
-  sessionStore.loading = false;
-});
-
 async function openTutorial(name: string) {
   sessionStore.showLoadingAnimation('Loading...');
-  const response = await sessionStore.fetch('/api/tutorial/get', {
-    method: 'POST',
-    cache: 'no-cache',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      tutorialName: name,
-    }),
-  });
+  const response = await tutorialStore.fetchTutorialByName(name);
 
-  if (response.ok) {
-    const responseBody = await response.json();
-    navigateTo(`/tutorial/${responseBody.tutorial._id}`);
-  } else {
+  if (response === null) {
     sessionStore.loading = false;
     toast.add({
       title: 'Error opening tutorial',
@@ -33,8 +20,20 @@ async function openTutorial(name: string) {
       color: 'red',
     });
     console.error(response);
+    return;
   }
+
+  navigateTo(`/tutorial/${response.tutorial._id}`);
 }
+
+onMounted(() => {
+  sessionStore.loading = false;
+});
+
+tutorials.value.map(async (tutorial) => {
+  tutorial.active = (await tutorialStore.fetchTutorialByName(tutorial.name))
+    .isUnlocked as boolean;
+});
 </script>
 
 <template>

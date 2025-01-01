@@ -289,7 +289,7 @@ async function loadProject() {
   await sessionStore.checkSession(true);
   const project = await projectStore.fetchProject(props.projectId);
 
-  if (!project) {
+  if (!project && !props.tutorialProject) {
     navigateTo('/404');
     return;
   }

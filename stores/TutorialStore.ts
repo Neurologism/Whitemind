@@ -33,6 +33,7 @@ export const useTutorialStore = defineStore('tutorialStore', {
       tutorialStarted: false as boolean,
       projectId: ref(''),
       currentStep: 0 as number,
+      isUnlocked: false as boolean,
     },
   }),
   getters: {
@@ -186,7 +187,30 @@ export const useTutorialStore = defineStore('tutorialStore', {
         console.log(data);
         return data;
       } else {
-        console.error('Failed to fetch tutorial.');
+        console.error('Failed to fetch tutorial by id.');
+        return null;
+      }
+    },
+
+    async fetchTutorialByName(name: string) {
+      const sessionStore = useSessionStore();
+      const response = await sessionStore.fetch('/api/tutorial/get', {
+        method: 'POST',
+        cache: 'no-cache',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          tutorialName: name,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        return data;
+      } else {
+        console.error('Failed to fetch tutorial by name.');
         return null;
       }
     },
@@ -203,6 +227,7 @@ export const useTutorialStore = defineStore('tutorialStore', {
         this.tutorial.currentStep = fetchResponse.currentStep;
         this.visibleStep = fetchResponse.currentStep;
         this.tutorial.projectId = fetchResponse.projectId;
+        this.tutorial.isUnlocked = fetchResponse.isUnlocked;
         return true;
       } else {
         return false;
