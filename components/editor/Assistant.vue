@@ -127,7 +127,8 @@ watch(showSpeechBubble, () => {
               ? tutorialStore.visibleStep + 1 ===
                 tutorialStore.tutorial.data?.steps.length
                 ? 'i-heroicons-chevron-right'
-                : 'mdi:lock'
+                : // : 'mdi:lock'
+                  'i-heroicons-chevron-right'
               : 'i-heroicons-chevron-right'
           "
           variant="ghost"
