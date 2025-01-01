@@ -107,8 +107,7 @@ export const useTutorialStore = defineStore('tutorialStore', {
     progress(data): number {
       return data.tutorial.data === null
         ? 0
-        : (data.tutorial.currentStep / (data.tutorial.data.steps.length - 1)) *
-            100;
+        : (data.visibleStep / (data.tutorial.data.steps.length - 1)) * 100;
     },
 
     isLoaded(data): boolean {
