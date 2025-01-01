@@ -118,6 +118,15 @@ setInterval(updateTrainingStatus, 1000);
             {{ (trainingStore.training.accuracy * 100).toFixed(2) }}%
           </div>
         </div>
+        <div
+          class="flex flex-row items-center"
+          v-if="trainingStore.training.mean_absolute_error !== null"
+        >
+          <b>MAE:</b>
+          <div class="rounded-md bg-slate-900 p-1">
+            {{ trainingStore.training.mean_absolute_error.toFixed(2) }}
+          </div>
+        </div>
       </div>
     </div>
   </ClientOnly>

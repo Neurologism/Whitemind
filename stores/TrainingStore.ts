@@ -7,6 +7,7 @@ interface trainingState {
     modelId?: string;
     epoch: number | null;
     accuracy: number | null;
+    mean_absolute_error: number | null;
     loss: number | null;
     data: {
       status: 'queued' | 'training' | 'finished' | 'error' | 'stopped';
@@ -28,6 +29,7 @@ export const useTrainingStore = defineStore('trainingStore', {
       modelId: undefined,
       epoch: null,
       accuracy: null,
+      mean_absolute_error: null,
       loss: null,
       data: {
         status: 'queued',
@@ -106,9 +108,20 @@ export const useTrainingStore = defineStore('trainingStore', {
 
         for (const output of this.training.data.output.reverse()) {
           if (output?.performance) {
-            this.training.epoch = output.performance?.epoch;
-            this.training.accuracy = output.performance?.accuracy;
-            this.training.loss = output.performance?.loss;
+            console.log(output.performance);
+            if (output.performance.epoch !== undefined) {
+              this.training.epoch = output.performance?.epoch;
+            }
+            if (output.performance.accuracy !== undefined) {
+              this.training.accuracy = output.performance?.accuracy;
+            }
+            if (output.performance.mean_absolute_error !== undefined) {
+              this.training.mean_absolute_error =
+                output.performance?.mean_absolute_error;
+            }
+            if (output.performance.loss !== undefined) {
+              this.training.loss = output.performance?.loss;
+            }
             break;
           }
         }
