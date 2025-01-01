@@ -37,6 +37,7 @@ const sessionStore = useSessionStore();
 const projectStore = useProjectStore();
 const tutorialStore = useTutorialStore();
 const vueFlowStore = useVueFlowStore();
+const trainingStore = useTrainingStore();
 
 const config = useRuntimeConfig();
 
@@ -60,6 +61,10 @@ const {
   applyNodeChanges,
   removeNodes,
 } = useVueFlow();
+
+trainingStore.training.epoch = null;
+trainingStore.training.loss = null;
+trainingStore.training.accuracy = null;
 
 function handleDrop(event: DragEvent) {
   const nodeTypeString = event.dataTransfer?.getData('node') ?? '';
