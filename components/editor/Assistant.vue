@@ -82,7 +82,10 @@ watch(showSpeechBubble, () => {
       ></UTooltip>
       <UTooltip
         text="Next Tutorial"
-        v-if="tutorialStore.tutorial.tutorialCompleted"
+        v-if="
+          tutorialStore.tutorial.tutorialCompleted &&
+          tutorialStore.tutorial.data?.nextTutorials.length
+        "
         ><UButton
           color="green"
           class="w-12 h-12"
