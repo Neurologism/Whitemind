@@ -509,23 +509,23 @@ onUnmounted(() => {
           </div>
           <div class="flex">
             <UTooltip text="Write changes to server">
-              <UButton
-                :icon="syncStatus"
-                size="lg"
-                variant="solid"
-                :color="
-                  syncStatus === SyncStatus.unsaved
-                    ? 'orange'
-                    : syncStatus === SyncStatus.synced
-                      ? 'green'
-                      : syncStatus === SyncStatus.error
-                        ? 'red'
-                        : 'gray'
-                "
-                class="hover:scale-105 transition-transform"
+              <div
+                class="flex items-center hover:scale-105 transition-transform cursor-pointer rounded-md p-3"
+                :style="{
+                  backgroundColor:
+                    syncStatus === SyncStatus.unsaved
+                      ? 'orange'
+                      : syncStatus === SyncStatus.synced
+                        ? 'green'
+                        : syncStatus === SyncStatus.error
+                          ? 'red'
+                          : 'gray',
+                  color: 'white',
+                }"
                 @click="postProject"
-                square
-              />
+              >
+                <UIcon :name="syncStatus" />
+              </div>
             </UTooltip>
           </div>
         </div>
