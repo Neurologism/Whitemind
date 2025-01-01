@@ -7,7 +7,7 @@ export const useSessionStore = defineStore('sessionStore', {
     loadingText: 'Loading...',
     hasPfp: true,
     sessionData: ref({
-      pinEditorSidebar: false,
+      pinEditorSidebar: true,
       sessionStart: Date(),
       Authorization: '',
       user: {
