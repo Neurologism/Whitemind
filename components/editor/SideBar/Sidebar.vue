@@ -188,7 +188,6 @@ onMounted(() => {
               :node-sub-group-definition="nodeSubGroup"
               class="mb-2"
             />
-            <div class="h-[1000px] bg-red-600 w-full"></div>
           </div>
         </div>
       </div>
