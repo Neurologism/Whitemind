@@ -151,10 +151,11 @@ watch(showSpeechBubble, () => {
           class="w-full"
           :ui="{ rounded: 'rounded-full' }"
           v-if="
-            tutorialStore.tutorial.data === null
+            tutorialStore.tutorial.data?.nextTutorials.length &&
+            (tutorialStore.tutorial.data === null
               ? true
               : tutorialStore.visibleStep ===
-                tutorialStore.tutorial.data.steps.length - 1
+                tutorialStore.tutorial.data.steps.length - 1)
           "
         >
           <span class="ml-auto"> Next Tutorial</span>
