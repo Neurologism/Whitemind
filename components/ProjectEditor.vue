@@ -65,6 +65,7 @@ const {
 trainingStore.training.epoch = null;
 trainingStore.training.loss = null;
 trainingStore.training.accuracy = null;
+trainingStore.training.mean_absolute_error = null;
 
 function handleDrop(event: DragEvent) {
   const nodeTypeString = event.dataTransfer?.getData('node') ?? '';
