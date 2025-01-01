@@ -4,8 +4,13 @@ import DragNode from '~/components/editor/SideBar/DragNode.vue';
 import ExpandableButton from '~/components/editor/SideBar/ExpandableButton.vue';
 
 const searchQuery = ref('');
-const scrollRef = ref<HTMLElement | null>(null);
 const sessionStore = useSessionStore();
+const scrollRef = ref<HTMLElement | null>(null);
+const currentScrolledTo = ref<{
+  domId: string;
+  category: string;
+  subCategory: string;
+} | null>(null);
 
 function toggleSidebar() {
   sessionStore.sessionData.pinEditorSidebar =
@@ -35,6 +40,46 @@ const isOpen = ref(false);
 function setOpen() {
   isOpen.value = (coreDiv.value?.clientWidth ?? 0) > 100;
 }
+
+let idScrollHeight: Record<string, number> = {};
+
+function getIdScrollHeights() {
+  idScrollHeight = {};
+  const elements = document.querySelectorAll('[id^="scroll-subgroup-"]');
+  elements.forEach((element) => {
+    const id = element.id;
+    idScrollHeight[id] = element.clientHeight;
+  });
+}
+
+onMounted(() => {
+  setOpen();
+  getIdScrollHeights();
+  scrollRef.value!.onscroll = () => {
+    const scrollPosition = scrollRef.value!.scrollTop + scrollTopOffset * 1.7;
+    // get the object id, of the element that is between the two scroll positions
+    const elementId = Object.keys(idScrollHeight).find((id) => {
+      const element = document.getElementById(id);
+      if (element) {
+        const elementTop = element.offsetTop;
+        const elementBottom = elementTop + idScrollHeight[id];
+        return elementTop <= scrollPosition && scrollPosition <= elementBottom;
+      }
+      return false;
+    });
+    if (elementId) {
+      const [category, subCategory] = elementId.split('-').slice(2);
+      currentScrolledTo.value = {
+        domId: elementId,
+        category: CustomNodes.nodesList[Number(category)].name,
+        subCategory:
+          CustomNodes.nodesList[Number(category)].groups[Number(subCategory)]
+            .name,
+      };
+      console.log(JSON.stringify(currentScrolledTo.value));
+    }
+  };
+});
 </script>
 
 <template>
@@ -68,7 +113,7 @@ function setOpen() {
                   return { ...val, icon: val.icon ?? category.icon };
                 })
               "
-              :is-selected="false"
+              :active-element-id="currentScrolledTo"
               :on-main-click="() => scrollToElement(`scroll-group-${index}`)"
               :on-sub-click="
                 (subGroupIndex) =>
@@ -143,6 +188,7 @@ function setOpen() {
               :node-sub-group-definition="nodeSubGroup"
               class="mb-2"
             />
+            <div class="h-[1000px] bg-red-600 w-full"></div>
           </div>
         </div>
       </div>

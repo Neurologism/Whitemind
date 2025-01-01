@@ -7,6 +7,11 @@ const props = defineProps<{
   color: string;
   onMainClick: () => void;
   onSubClick: (groupIndex: number) => void;
+  activeElementId: {
+    domId: string;
+    category: string;
+    subCategory: string;
+  } | null;
   children: {
     icon: string;
     name: string;
@@ -15,6 +20,13 @@ const props = defineProps<{
 
 const isOpen = ref(false);
 const isAnimating = ref(false);
+
+const isScrolledTo = computed(() => {
+  if (props.activeElementId) {
+    return props.activeElementId.category === props.title;
+  }
+  return false;
+});
 
 const backgroundColor = computed(() => {
   const tempElement = document.createElement('div');
@@ -33,7 +45,9 @@ function toggle() {
   if (isOpen.value === false) {
     props.onMainClick();
   }
-  isOpen.value = !isOpen.value;
+  if (!isScrolledTo.value) {
+    isOpen.value = !isOpen.value;
+  }
 }
 </script>
 
@@ -41,7 +55,7 @@ function toggle() {
   <div
     class="flex flex-col justify-center items-center rounded-2xl transition-all"
     :style="{
-      backgroundColor: isOpen ? backgroundColor : undefined,
+      backgroundColor: isOpen || isScrolledTo ? backgroundColor : undefined,
     }"
   >
     <UTooltip :popper="{ placement: 'right' }">
@@ -63,7 +77,7 @@ function toggle() {
       @before-leave="isAnimating = true"
       @after-leave="isAnimating = false"
     >
-      <div v-if="isOpen">
+      <div v-if="isOpen || isScrolledTo">
         <div
           v-for="(child, index) in children"
           :key="index"
@@ -80,6 +94,10 @@ function toggle() {
             </template>
             <div
               class="w-11 h-11 border-2 border-slate-600 bg-slate-800 mt-1 flex justify-center items-center rounded-2xl hover:rounded-lg transition-all cursor-pointer"
+              :class="{
+                'scale-110 border-3':
+                  activeElementId?.subCategory === child.name && isScrolledTo,
+              }"
             >
               <UIcon :name="child.icon" size="32" />
             </div>
