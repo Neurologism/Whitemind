@@ -83,7 +83,7 @@ setInterval(updateTrainingStatus, 1000);
         >Stop Training</UButton
       >
       <div
-        :class="`text-center mx-auto items-center ${trainingStore.training.running ? 'font-mono' : ''}`"
+        :class="`text-center line-clamp-1 overflow-ellipsis mx-auto items-center ${trainingStore.training.running ? 'font-mono' : ''}`"
       >
         {{
           trainingStore.training.running
