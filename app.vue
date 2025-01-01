@@ -28,6 +28,6 @@ onUnmounted(() => {
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
-    <UNotifications :class="{ 'mr-80': moveNotifications }" />
+    <UNotifications :class="{ 'mr-96': moveNotifications }" />
   </div>
 </template>

@@ -3,6 +3,7 @@ const showSpeechBubble = ref(true);
 
 const tutorialStore = useTutorialStore();
 const sessionStore = useSessionStore();
+const projectStore = useProjectStore();
 
 const disableNextStepButton = computed(() => {
   return tutorialStore.tutorial.data === null
@@ -30,8 +31,16 @@ function onNextTutorial() {
   navigateTo(`/tutorial/${tutorialStore.tutorial.data?.nextTutorials[0]}`);
 }
 
-function onRestartTutorial() {
-  // TODO
+async function onRestartTutorial() {
+  if (tutorialStore.tutorial.projectId === null) {
+    return;
+  }
+  sessionStore.showLoadingAnimation('Restarting tutorial...');
+  await projectStore.deleteProject(tutorialStore.tutorial.projectId);
+  tutorialStore.tutorial.currentStep = 0;
+  tutorialStore.visibleStep = 0;
+  await tutorialStore.tutorialSetState();
+  sessionStore.loading = false;
 }
 
 watch(showSpeechBubble, () => {
