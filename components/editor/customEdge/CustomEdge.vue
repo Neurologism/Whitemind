@@ -89,7 +89,6 @@ export default {
   <EdgeLabelRenderer>
     <div
       :style="{
-        pointerEvents: 'all',
         position: 'absolute',
         backgroundColor: style!.stroke,
         transform: `translate(-50%, -50%) translate(${path[1]}px,${path[2]}px)`,
@@ -98,6 +97,7 @@ export default {
       :class="{
         hidden: !isHovered,
       }"
+      @click="flowStore.removeEdge(props.id)"
     >
       ×
     </div>
