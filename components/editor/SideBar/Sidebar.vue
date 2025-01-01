@@ -56,7 +56,10 @@ onMounted(() => {
   setOpen();
   getIdScrollHeights();
   scrollRef.value!.onscroll = () => {
-    const scrollPosition = scrollRef.value!.scrollTop + scrollTopOffset * 1.7;
+    const scrollDonePercentage =
+      scrollRef.value!.scrollTop /
+      (scrollRef.value!.scrollHeight - scrollRef.value!.clientHeight);
+    const scrollPosition = scrollRef.value!.scrollHeight * scrollDonePercentage;
     // get the object id, of the element that is between the two scroll positions
     const elementId = Object.keys(idScrollHeight).find((id) => {
       const element = document.getElementById(id);
