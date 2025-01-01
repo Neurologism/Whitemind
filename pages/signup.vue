@@ -110,7 +110,7 @@ const onRegister = async () => {
     let data = await response.json();
     console.log(data);
     await sessionStore.loginWithSessionToken(data.token);
-    navigateTo('/projects');
+    navigateTo('/tutorials');
   } else {
     sessionStore.loading = false;
     toast.add({
