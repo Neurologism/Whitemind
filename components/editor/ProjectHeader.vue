@@ -4,6 +4,7 @@ const emit = defineEmits(['click-theme']);
 const isOpen = ref(false);
 
 const tutorialStore = useTutorialStore();
+const sessionStore = useSessionStore();
 
 const colorMode = useColorMode();
 const isDark = computed({
@@ -89,7 +90,11 @@ const breadcrumbSettings = computed(() => {
           <!-- <ULink to="/profile">
           </ULink> -->
           <UButton variant="ghost" @click="isOpen = !isOpen">
-            <UAvatar size="md" :alt="projectOwner" />
+            <UAvatar
+              size="md"
+              :alt="projectOwner"
+              :src="sessionStore.hasPfp ? sessionStore.pfpUrl : '/user.svg'"
+            />
           </UButton>
           <ProfileSlideover v-model="isOpen" />
         </UTooltip>
