@@ -56,7 +56,7 @@ export class CustomNodes {
     const group = CustomNodes.nodesList.find(
       (group) => group.group_identifier === category
     );
-    return group?.color ?? '#000000';
+    return group?.color;
   }
 
   static getHardGradientOfMultipleCategories(
@@ -90,5 +90,41 @@ export class CustomNodes {
         CustomNodes.getNodeGroup(node.type ?? '')?.group_identifier;
       return CustomNodes.getColorOfCategory(handleCategoryType ?? '');
     }
+  }
+
+  static getConstraintOfHandle(sourceHandle: string) {
+    const flowStore = useVueFlowStore();
+
+    const split = sourceHandle.split('-');
+    const nodeId = split[split.length - 1];
+    if (split.length === 1) return null;
+    if (split.length === 2) {
+      const node = flowStore.nodeById(nodeId!)!;
+      const nodeDef = CustomNodes.getCustomNodeConfig(node.type ?? '');
+
+      if (split[0] === 'in') {
+        return nodeDef?.inputConstraints;
+      } else if (split[0] === 'out') {
+        return nodeDef?.outputConstraints;
+      } else return null;
+    }
+    if (split.length === 3) {
+      const node = flowStore.nodeById(nodeId!)!;
+      const nodeDef = CustomNodes.getCustomNodeConfig(node.type ?? '');
+      const handleTypeKey = split[split.length - 2];
+      // @ts-ignore "constraints" exists on type 'id'
+      return nodeDef?.data[handleTypeKey!]?.constraints;
+    }
+  }
+
+  static getEdgeColor(sourceHandle: string, targetHandle: string) {
+    const sourceConstraint = CustomNodes.getConstraintOfHandle(sourceHandle);
+    const targetConstraint = CustomNodes.getConstraintOfHandle(targetHandle);
+    const overlappingCategories = sourceConstraint?.allowedCategories?.filter(
+      (category: string) =>
+        targetConstraint?.allowedCategories?.includes(category)
+    );
+    if (!overlappingCategories) return null;
+    return CustomNodes.getColorOfCategory(overlappingCategories[0]); //todo: maybe other solution
   }
 }

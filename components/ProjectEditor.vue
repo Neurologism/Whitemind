@@ -216,7 +216,9 @@ onConnect((newEdge: any) => {
   newEdge.animated = false;
   newEdge.animationSpeed = 0.5;
   newEdge.style = {
-    stroke: CustomNodes.getColorOfHandle(newEdge.sourceHandle ?? ''),
+    stroke:
+      CustomNodes.getEdgeColor(newEdge.sourceHandle, newEdge.targetHandle) ??
+      '#666',
     strokeWidth: 2,
   };
 
