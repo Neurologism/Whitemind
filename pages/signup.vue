@@ -88,7 +88,7 @@ const getPasswordColor = (score: number) => {
 };
 
 const onRegister = async () => {
-  sessionStore.showLoadingAnimation('REGISTERING...');
+  sessionStore.showLoadingAnimation('Registering...');
   let response = await sessionStore.fetch('/api/auth/register', {
     method: 'POST',
     cache: 'no-cache',

@@ -13,13 +13,6 @@ const disableNextStepButton = computed(() => {
           !tutorialStore.isNextStepUnlocked);
 });
 
-const lockNextStep = computed(() => {
-  return (
-    disableNextStepButton &&
-    tutorialStore.visibleStep + 1 !== tutorialStore.tutorial.data?.steps.length
-  );
-});
-
 function toggleSpeechBubble() {
   showSpeechBubble.value = !showSpeechBubble.value;
 }
@@ -119,16 +112,16 @@ watch(showSpeechBubble, () => {
         <UProgress class="flex-grow my-auto" :value="tutorialStore.progress" />
         <UButton
           :disabled="disableNextStepButton"
-          :icon="lockNextStep ? 'mdi:lock' : 'i-heroicons-chevron-right'"
+          :icon="
+            disableNextStepButton
+              ? tutorialStore.visibleStep + 1 ===
+                tutorialStore.tutorial.data?.steps.length
+                ? 'i-heroicons-chevron-right'
+                : 'mdi:lock'
+              : 'i-heroicons-chevron-right'
+          "
           variant="ghost"
           @click="stepForward"
-          :class="{
-            hidden:
-              tutorialStore.visibleStep ===
-              tutorialStore.tutorial.data?.steps.length
-                ? tutorialStore.tutorial.data?.steps.length - 1
-                : false,
-          }"
         ></UButton>
       </div>
       <div class="w-full text-center mt-[-16px] text-gray-400">
