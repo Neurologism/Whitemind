@@ -13,8 +13,12 @@ const moveNotifications = computed((): boolean => {
 
 await sessionStore.syncLocalSessionData();
 
-window.addEventListener('beforeunload', () => {
-  sessionStore.saveSessionData();
+onMounted(() => {
+  window.addEventListener('beforeunload', sessionStore.saveSessionData);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('beforeunload', sessionStore.saveSessionData);
 });
 </script>
 
