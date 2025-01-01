@@ -9,8 +9,8 @@ const toast = useToast();
 const margins = [2, 3, 4, 3, 2, 1, 0, 1];
 const config = useRuntimeConfig().public;
 
-async function openTutorial(tutorial: any) {
-  if (!tutorial.active && !config.enableStartingLockedTutorials) {
+async function openTutorial(active: boolean, name: string) {
+  if (!active && !config.enableStartingLockedTutorials) {
     toast.add({
       title: 'Tutorial locked',
       description:
@@ -22,7 +22,7 @@ async function openTutorial(tutorial: any) {
   }
 
   sessionStore.showLoadingAnimation('Loading...');
-  const response = await tutorialStore.fetchTutorialByName(tutorial.name);
+  const response = await tutorialStore.fetchTutorialByName(name);
 
   if (response === null) {
     sessionStore.loading = false;
@@ -59,7 +59,7 @@ tutorials.value.map(async (tutorial) => {
         :icon="tutorial.icon"
         :style="{ 'margin-left': `${margins[index % 8] * 30}px` }"
         :active="tutorial.active"
-        @click="openTutorial(tutorial)"
+        @click="openTutorial(tutorial.active, tutorial.name)"
       >
       </TutorialsField>
     </div>
