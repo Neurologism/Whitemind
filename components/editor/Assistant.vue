@@ -34,7 +34,23 @@ function onRestartTutorial() {
   // TODO
 }
 
-watch(showSpeechBubble, () => {});
+watch(showSpeechBubble, () => {
+  if (showSpeechBubble.value) {
+    gsap.to('.speech-bubble', {
+      x: 0,
+      opacity: 1,
+      duration: 0.3,
+      ease: 'power2.out',
+    });
+  } else {
+    gsap.to('.speech-bubble', {
+      x: 500,
+      opacity: 0,
+      duration: 0.3,
+      ease: 'power2.out',
+    });
+  }
+});
 </script>
 
 <template>
