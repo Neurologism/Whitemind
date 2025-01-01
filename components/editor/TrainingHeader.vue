@@ -55,10 +55,7 @@ setInterval(updateTrainingStatus, 1000);
 
 <template>
   <ClientOnly>
-    <div
-      class="rounded-lg flex flex-row items-center"
-      style="background: rgba(10, 255, 255, 0.1)"
-    >
+    <div class="rounded-lg flex flex-row items-center" style="">
       <UButton
         @click="trainingStart"
         v-if="!trainingStore.training.running"
@@ -83,15 +80,44 @@ setInterval(updateTrainingStatus, 1000);
         >Stop Training</UButton
       >
       <div
-        :class="`text-center line-clamp-1 overflow-ellipsis mx-auto items-center ${trainingStore.training.running ? 'font-mono' : ''}`"
+        class="text-center line-clamp-1 overflow-ellipsis mx-auto items-center font-mono flex flex-row cursor-default space-x-4"
       >
-        {{
-          trainingStore.training.running
-            ? (trainingStore.training.data.output[
-                trainingStore.training.data.output.length - 1
-              ] ?? 'initializing...')
-            : 'No training is happening at the moment.'
-        }}
+        <div
+          class="flex flex-row items-center"
+          v-if="trainingStore.training.running"
+        >
+          <b>Status:</b>
+          <div class="rounded-md bg-slate-900 p-1">
+            {{ trainingStore.training.data.status }}
+          </div>
+        </div>
+        <div
+          class="flex flex-row items-center"
+          v-if="trainingStore.training.epoch !== null"
+        >
+          <b>Epoch:</b>
+          <div class="rounded-md bg-slate-900 p-1">
+            {{ trainingStore.training.epoch + 1 }}
+          </div>
+        </div>
+        <div
+          class="flex flex-row items-center"
+          v-if="trainingStore.training.loss !== null"
+        >
+          <b>Loss:</b>
+          <div class="rounded-md bg-slate-900 p-1">
+            {{ (trainingStore.training.loss * 100).toFixed(2) }}%
+          </div>
+        </div>
+        <div
+          class="flex flex-row items-center"
+          v-if="trainingStore.training.accuracy !== null"
+        >
+          <b>Accuracy:</b>
+          <div class="rounded-md bg-slate-900 p-1">
+            {{ (trainingStore.training.accuracy * 100).toFixed(2) }}%
+          </div>
+        </div>
       </div>
     </div>
   </ClientOnly>

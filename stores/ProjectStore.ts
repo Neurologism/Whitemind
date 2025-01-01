@@ -108,7 +108,6 @@ export const useProjectStore = defineStore('projectStore', {
       if (result.ok) {
         return true;
       } else {
-        console.error('Failed to update project.');
         return false;
       }
     },

@@ -5,9 +5,12 @@ interface trainingState {
     running: boolean;
     projectId?: string;
     modelId?: string;
+    epoch: number | null;
+    accuracy: number | null;
+    loss: number | null;
     data: {
       status: 'queued' | 'training' | 'finished' | 'error' | 'stopped';
-      output: object[];
+      output: any[];
       queued_at?: number;
       started_at?: number;
       finished_at?: number;
@@ -23,8 +26,11 @@ export const useTrainingStore = defineStore('trainingStore', {
       running: false,
       projectId: undefined,
       modelId: undefined,
+      epoch: null,
+      accuracy: null,
+      loss: null,
       data: {
-        status: 'stopped',
+        status: 'queued',
         output: [],
         queued_at: undefined,
         started_at: undefined,
@@ -88,21 +94,30 @@ export const useTrainingStore = defineStore('trainingStore', {
           },
         }
       );
-      const data = await response.json();
+      const responseJson = await response.json();
       if (response.ok) {
-        this.training.data = data.model;
+        this.training.data = responseJson.model;
         if (
-          data.model.status === 'stopped' ||
-          data.model.status === 'finished'
+          responseJson.model.status === 'stopped' ||
+          responseJson.model.status === 'finished'
         ) {
           this.training.running = false;
+        }
+
+        for (const output of this.training.data.output.reverse()) {
+          if (output?.performance) {
+            this.training.epoch = output.performance?.epoch;
+            this.training.accuracy = output.performance?.accuracy;
+            this.training.loss = output.performance?.loss;
+            break;
+          }
         }
       } else {
         this.$reset();
       }
       return {
         success: response.ok,
-        message: (data['msg'] ?? null) as string | null,
+        message: (responseJson['msg'] ?? null) as string | null,
       };
     },
     async stopTraining() {
