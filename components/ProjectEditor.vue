@@ -39,6 +39,7 @@ const tutorialStore = useTutorialStore();
 const vueFlowStore = useVueFlowStore();
 const trainingStore = useTrainingStore();
 
+const route = useRoute();
 const config = useRuntimeConfig();
 
 sessionStore.showLoadingAnimation();
@@ -494,6 +495,7 @@ onUnmounted(() => {
             :props="props"
             :node-id="props.id"
             @node-contextmenu="onContextMenu"
+            :key="route.fullPath"
           />
         </template>
       </VueFlow>
