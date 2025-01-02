@@ -92,6 +92,15 @@ setInterval(updateTrainingStatus, 1000);
           </div>
         </div>
         <div
+          v-if="
+            trainingStore.training.running &&
+            trainingStore.training.data.status === 'training' &&
+            trainingStore.training.epoch === null
+          "
+        >
+          Results will appear shortly...
+        </div>
+        <div
           class="flex flex-row items-center"
           v-if="trainingStore.training.epoch !== null"
         >

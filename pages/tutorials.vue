@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { tutorials as listedTutorials } from '~/components/tutorials/tutorials';
+import { tutorialSections as tutorialSections_ } from '~/components/tutorials/tutorials';
 
-const tutorials = ref(listedTutorials);
+const tutorialSections = ref(tutorialSections_);
 
 const sessionStore = useSessionStore();
 const tutorialStore = useTutorialStore();
@@ -42,30 +42,40 @@ onMounted(() => {
   sessionStore.loading = false;
 });
 
-tutorials.value.map(async (tutorial) => {
-  const tutorialData = await tutorialStore.fetchTutorialByName(tutorial.name);
-  if (tutorialData === null) {
-    console.error('tutorial data is null');
-    return;
-  }
-  tutorial.active = tutorialData.isUnlocked as boolean;
-});
+tutorialSections.value
+  .flatMap((section) => section.tutorials)
+  .map(async (tutorial) => {
+    const tutorialData = await tutorialStore.fetchTutorialByName(tutorial.name);
+    if (tutorialData === null) {
+      console.error('tutorial data is null');
+      return;
+    }
+    tutorial.active = tutorialData.isUnlocked as boolean;
+  });
 </script>
 
 <template>
-  <div class="mx-auto w-[200px]">
+  <h2 class="text-7xl text-center font-bold mt-4">Tutorials</h2>
+
+  <div class="mx-auto w-[400px] overflow-auto">
     <div
-      v-for="(tutorial, index) in tutorials"
-      :key="tutorial.name"
-      class="mt-4"
+      v-for="(section, sectionIndex) in tutorialSections"
+      :key="sectionIndex"
     >
-      <TutorialsField
-        :icon="tutorial.icon"
-        :style="{ 'margin-left': `${margins[index % 8] * 30}px` }"
-        :active="tutorial.active"
-        @click="openTutorial(tutorial)"
+      <UDivider :label="section.label" class="my-8" />
+      <div
+        v-for="(tutorial, index) in section.tutorials"
+        :key="tutorial.name"
+        class="mt-4"
       >
-      </TutorialsField>
+        <TutorialsField
+          :icon="tutorial.icon"
+          :style="{ 'margin-left': `${margins[index % 8] * 50}px` }"
+          :active="tutorial.active"
+          @click="openTutorial(tutorial)"
+        >
+        </TutorialsField>
+      </div>
     </div>
   </div>
 </template>

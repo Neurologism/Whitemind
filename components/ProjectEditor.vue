@@ -39,6 +39,7 @@ const tutorialStore = useTutorialStore();
 const vueFlowStore = useVueFlowStore();
 const trainingStore = useTrainingStore();
 
+const route = useRoute();
 const config = useRuntimeConfig();
 
 sessionStore.showLoadingAnimation();
@@ -294,6 +295,7 @@ function onRemoveEdge(infos: any) {
 }
 
 async function loadProject() {
+  vueFlowStore.$reset();
   await sessionStore.checkSession(true);
   const project = await projectStore.fetchProject(props.projectId);
 
@@ -411,8 +413,7 @@ watch(
 );
 
 onUnmounted(() => {
-  vueFlowStore.nodes = [];
-  vueFlowStore.edges = [];
+  vueFlowStore.$reset();
 });
 </script>
 
@@ -456,7 +457,7 @@ onUnmounted(() => {
       >
         <Background
           :pattern-color="colorMode.value === 'dark' ? '#aaa' : '#222'"
-          :gap="16"
+          :gap="48"
           :size="2"
         />
         <Panel position="bottom-right">
@@ -494,6 +495,7 @@ onUnmounted(() => {
             :props="props"
             :node-id="props.id"
             @node-contextmenu="onContextMenu"
+            :key="route.fullPath"
           />
         </template>
       </VueFlow>
