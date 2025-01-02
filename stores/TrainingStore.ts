@@ -106,21 +106,22 @@ export const useTrainingStore = defineStore('trainingStore', {
           this.training.running = false;
         }
 
-        for (const output of this.training.data.output.reverse()) {
+        for (let i = this.training.data.output.length - 1; i >= 0; i--) {
+          const output = this.training.data.output[i];
           if (output?.performance) {
             console.log(output.performance);
             if (output.performance.epoch !== undefined) {
-              this.training.epoch = output.performance?.epoch;
+              this.training.epoch = output.performance.epoch;
             }
             if (output.performance.accuracy !== undefined) {
-              this.training.accuracy = output.performance?.accuracy;
+              this.training.accuracy = output.performance.accuracy;
             }
             if (output.performance.mean_absolute_error !== undefined) {
               this.training.mean_absolute_error =
-                output.performance?.mean_absolute_error;
+                output.performance.mean_absolute_error;
             }
             if (output.performance.loss !== undefined) {
-              this.training.loss = output.performance?.loss;
+              this.training.loss = output.performance.loss;
             }
             break;
           }
