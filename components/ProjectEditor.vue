@@ -457,7 +457,7 @@ onUnmounted(() => {
       >
         <Background
           :pattern-color="colorMode.value === 'dark' ? '#aaa' : '#222'"
-          :gap="16"
+          :gap="48"
           :size="2"
         />
         <Panel position="bottom-right">
