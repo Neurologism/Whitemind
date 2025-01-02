@@ -94,7 +94,8 @@ setInterval(updateTrainingStatus, 1000);
         <div
           v-if="
             trainingStore.training.running &&
-            trainingStore.training.data.status === 'training'
+            trainingStore.training.data.status === 'training' &&
+            trainingStore.training.epoch === null
           "
         >
           Results will appear shortly...
