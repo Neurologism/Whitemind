@@ -294,6 +294,7 @@ function onRemoveEdge(infos: any) {
 }
 
 async function loadProject() {
+  vueFlowStore.$reset();
   await sessionStore.checkSession(true);
   const project = await projectStore.fetchProject(props.projectId);
 
@@ -411,8 +412,7 @@ watch(
 );
 
 onUnmounted(() => {
-  vueFlowStore.nodes = [];
-  vueFlowStore.edges = [];
+  vueFlowStore.$reset();
 });
 </script>
 
