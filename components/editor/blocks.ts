@@ -11,7 +11,7 @@ export const blocks: NodeGroupDefinition[] = [
     group_identifier: 'layer',
     groups: [
       {
-        name: 'G1',
+        name: 'CORE LAYERS',
         nodes: [
           {
             type: 'input_layer',
@@ -65,6 +65,16 @@ export const blocks: NodeGroupDefinition[] = [
             name: 'Dense Layer',
             identifier: 'dense',
             description: 'Just your regular densely-connected NN layer.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
             data: {
               units: {
                 type: 'number',
@@ -140,6 +150,16 @@ export const blocks: NodeGroupDefinition[] = [
             identifier: 'normalization',
             description:
               'Scales inputs into a distribution centered around 0 with standard deviation 1.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
             data: {
               axis: {
                 type: 'number',
@@ -156,6 +176,16 @@ export const blocks: NodeGroupDefinition[] = [
             name: 'Flatten Layer',
             identifier: 'flatten',
             description: 'Flattens the input into a 1D array.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
             data: {
               data_format: {
                 type: 'select',
@@ -189,6 +219,16 @@ export const blocks: NodeGroupDefinition[] = [
             name: 'Dropout Layer',
             identifier: 'dropout',
             description: 'Applies Dropout to the input.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
             data: {
               rate: {
                 type: 'number',
@@ -209,6 +249,16 @@ export const blocks: NodeGroupDefinition[] = [
             name: 'Batch Normalization Layer',
             identifier: 'batch_normalization',
             description: 'Normalize and scale inputs or activations.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
             data: {
               axis: {
                 type: 'number',
@@ -257,6 +307,16 @@ export const blocks: NodeGroupDefinition[] = [
             identifier: 'embedding',
             description:
               'Turns positive integers (indexes) into dense vectors of fixed size.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
             data: {
               input_dim: {
                 type: 'number',
@@ -736,8 +796,8 @@ export const blocks: NodeGroupDefinition[] = [
           // },
         ],
       },
-      { name: 'G2', nodes: [] },
-      { name: 'G3', nodes: [] },
+      // { name: 'G2', nodes: [] },
+      // { name: 'G3', nodes: [] },
     ],
   },
   {
@@ -805,6 +865,11 @@ export const blocks: NodeGroupDefinition[] = [
             identifier: 'split',
             hideInput: false,
             hideOutput: true,
+            inputConstraints: {
+              allowedCategories: ['dataset'],
+              max: 1,
+              min: 1,
+            },
             data: {
               ratio: {
                 type: 'number',
@@ -844,6 +909,11 @@ export const blocks: NodeGroupDefinition[] = [
             description: 'Create and compile a new model.',
             identifier: 'Model',
             hideInput: true,
+            outputConstraints: {
+              allowedCategories: ['model'],
+              max: 1,
+              min: 1,
+            },
             data: {
               input: {
                 type: 'id',
@@ -951,6 +1021,16 @@ export const blocks: NodeGroupDefinition[] = [
             name: 'fit',
             description: 'Fit the model.',
             identifier: 'fit',
+            inputConstraints: {
+              allowedCategories: ['model'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['model'],
+              max: 1,
+              min: 1,
+            },
             data: {
               data: {
                 type: 'id',
@@ -995,6 +1075,16 @@ export const blocks: NodeGroupDefinition[] = [
             name: 'evaluate',
             description: 'Evaluate the model.',
             identifier: 'evaluate',
+            inputConstraints: {
+              allowedCategories: ['model'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['model'],
+              max: 1,
+              min: 1,
+            },
             data: {
               data: {
                 type: 'id',
