@@ -6,8 +6,8 @@
     <br />
     <br />
     <br />
-    This Privacy Notice for WhiteMind UG(haftungsbeschraenkt) ('we', 'us', or
-    'our'), describes how and why we might access, collect, store, use,<br />
+    This Privacy Notice for WhiteMind ('we', 'us', or 'our'), describes how and
+    why we might access, collect, store, use,<br />
     and/or share ('process') your personal information when you use our services
     ('Services'), including when you:<br />
     <br />
@@ -510,7 +510,7 @@
     <br />
     <br />
     When we have no ongoing legitimate business need to process your personal
-    information, we will either delete oranonymise such information, or,<br />
+    information, we will either delete or anonymise such information, or,<br />
     if this is not possible (for example, because your personal information has
     been stored in backup archives), then we will securely store your<br />
     personal information and isolate it from any further processing until
@@ -975,7 +975,7 @@
     info@whitemind.net or contact us by post at:<br />
     <br />
     <br />
-    WhiteMind UG(haftungsbeschraenkt)<br />
+    WhiteMind<br />
     Spitzsteinstrasse 9<br />
     Brannenburg, Bavaria 83098<br />
     Germany<br />

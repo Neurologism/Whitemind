@@ -8,8 +8,8 @@
     <br />
     AGREEMENT TO OUR LEGAL TERMS<br />
     <br />
-    We are WhiteMind UG(haftungsbeschraenkt) ('Company', 'we', 'us', or 'our'),
-    a company registered in Germany at Spitzsteinstrasse 9, Brannenburg,<br />
+    We are WhiteMind ('Company', 'we', 'us', or 'our'), a company registered in
+    Germany at Spitzsteinstrasse 9, Brannenburg,<br />
     Bavaria 83098.<br />
     <br />
     We operate the website https://www.whitemind.icinoxis.net (the 'Site'), as
@@ -25,8 +25,8 @@
     <br />
     These Legal Terms constitute a legally binding agreement made between you,
     whether personally or on behalf of an entity ( 'you'), and WhiteMind<br />
-    UG(haftungsbeschraenkt), concerning your access to and use of the Services.
-    You agree that by accessing the Services, you have read, understood, and<br />
+    , concerning your access to and use of the Services. You agree that by
+    accessing the Services, you have read, understood, and<br />
     agreed to be bound by all of these Legal Terms. IF YOU DO NOT AGREE WITH ALL
     OF THESE LEGAL TERMS, THEN YOU ARE EXPRESSLY<br />
     PROHIBITED FROM USING THE SERVICES AND YOU MUST DISCONTINUE USE
@@ -796,8 +796,7 @@
     residence is in the EU, and you are a consumer, you additionally possess the
     protection<br />
     provided to you by obligatory provisions of the law in your country to
-    residence. WhiteMind UG(haftungsbeschraenkt) and yourself both agree to
-    submit to<br />
+    residence. WhiteMind and yourself both agree to submit to<br />
     the non-exclusive jurisdiction of the courts of Bavaria, which means that
     you may make a claim to defend your consumer protection rights in regards to
     these<br />
@@ -1031,7 +1030,7 @@
     information regarding use of the Services, please contact us at:<br />
     <br />
     <br />
-    WhiteMind UG(haftungsbeschraenkt)<br />
+    WhiteMind<br />
     Spitzsteinstrasse 9<br />
     Brannenburg, Bavaria 83098<br />
     Germany<br />
