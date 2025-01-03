@@ -16,8 +16,8 @@ const model = defineModel() as Ref<string>;
       class="w-[32rem] mb-2"
       :placeholder="props.placeholder"
       :disabled="props.disabled"
-      autoresize
       v-model="model"
+      autoresize
     ></UTextarea>
     <p class="text-sm text-gray-400">
       <slot></slot>

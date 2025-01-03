@@ -80,7 +80,7 @@ export const useSessionStore = defineStore('sessionStore', {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ user: user }),
+        body: JSON.stringify({ user }),
       });
       return result.ok;
     },
