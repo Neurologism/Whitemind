@@ -65,7 +65,7 @@ async function updateUser() {
   <SettingsInput label="Location" placeholder="The Nether"></SettingsInput>
   <div>
     <UButton color="gray" icon="material-symbols:save" @click="updateUser"
-      >Save username</UButton
+      >Save profile</UButton
     >
   </div>
 </template>
