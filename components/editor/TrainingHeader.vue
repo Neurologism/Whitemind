@@ -59,7 +59,7 @@ setInterval(updateTrainingStatus, 1000);
       <UButton
         @click="trainingStart"
         v-if="!trainingStore.training.running"
-        icon="material-symbols:play-circle"
+        icon="solar:dumbbell-large-bold"
         size="lg"
         variant="solid"
         :color="tutorialStore.isTrainingEnabled ? 'primary' : 'gray'"
