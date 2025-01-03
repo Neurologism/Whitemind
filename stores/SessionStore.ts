@@ -50,6 +50,13 @@ export const useSessionStore = defineStore('sessionStore', {
     isProd: () => import.meta.env.PROD,
   },
   actions: {
+    async deleteAccount() {
+      await this.fetch('/api/user/delete', {
+        method: 'POST',
+        cache: 'no-cache',
+      });
+    },
+
     showLoadingAnimation(text = '') {
       if (text) {
         this.loadingText = text;
@@ -129,7 +136,9 @@ export const useSessionStore = defineStore('sessionStore', {
       }
 
       this.sessionData.Authorization = token;
-      let response = await this.fetch('/api/user/get', { method: 'POST' });
+      let response = await this.fetch('/api/user/get', {
+        method: 'POST',
+      });
       if (response.ok) {
         let data = await response.json();
         console.log(data);
