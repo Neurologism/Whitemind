@@ -5,7 +5,7 @@ const props = defineProps({
   disabled: { type: Boolean, default: false },
 });
 
-const model = defineModel();
+const model = defineModel() as Ref<string>;
 </script>
 <template>
   <div>
