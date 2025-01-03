@@ -109,7 +109,7 @@ watch(isOpen, (newValue) => {
           class="w-full"
           @click="
             () => {
-              navigateTo('/profile/settings');
+              navigateTo('/settings');
               isOpen = false;
             }
           "

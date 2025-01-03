@@ -194,7 +194,7 @@ loadUser();
           <UIcon
             name="fluent:settings-28-regular"
             class="w-8 h-8 hover:cursor-pointer"
-            @click="navigateTo('/profile/settings')"
+            @click="navigateTo('/settings')"
           />
         </div>
         <div
