@@ -22,9 +22,14 @@
           <div class="text-gray-400 ml-4">
             <a href="/contact">Contact Us</a>
           </div>
-          <div class="text-gray-400 ml-4 items-center">
+          <div class="text-gray-400 ml-4 mt-2 items-center">
             <a href="https://github.com/neurologism" target="_blank">
               <UIcon name="i-mdi-github" class="w-5 h-5" />
+            </a>
+          </div>
+          <div class="text-gray-400 ml-4 mt-2 items-center">
+            <a href="https://discord.gg/RhnprTzd8q" target="_blank">
+              <UIcon name="ic:baseline-discord" class="w-5 h-5" />
             </a>
           </div>
         </div>
