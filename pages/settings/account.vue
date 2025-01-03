@@ -4,12 +4,48 @@ definePageMeta({
 });
 
 const sessionStore = useSessionStore();
-const username = ref(sessionStore.sessionData.user.brainetTag);
+const username = ref(sessionStore.sessionData.user.brainetTag ?? '');
 const showDeleteAccountModal = ref(false);
 const deleteValidationInput = ref('');
 const toast = useToast();
+const isUsernameInUse = ref(null as boolean | null);
+const timerCheckUsername = ref<NodeJS.Timeout | null>(null);
 
-async function saveUsername() {}
+async function saveUsername() {
+  const result = await sessionStore.modifyAccountData({
+    brainetTag: username.value,
+  });
+
+  if (result) {
+    sessionStore.sessionData.user.brainetTag = username.value;
+    toast.add({
+      color: 'green',
+      icon: 'material-symbols:done',
+      title: 'Username saved',
+      description: 'Your username has been successfully saved.',
+    });
+  } else {
+    toast.add({
+      color: 'red',
+      icon: 'material-symbols:error',
+      title: 'Failed to save username',
+      description: 'An error occurred while saving your username.',
+    });
+  }
+}
+
+async function checkUsername() {
+  isUsernameInUse.value = await sessionStore.isUserTaken(username.value);
+}
+
+watch(username, () => {
+  isUsernameInUse.value = null;
+  if (username.value === sessionStore.sessionData.user.brainetTag) {
+    return;
+  }
+  if (timerCheckUsername.value) clearTimeout(timerCheckUsername.value);
+  timerCheckUsername.value = setTimeout(checkUsername, 500);
+});
 
 async function deleteAccount() {
   await sessionStore.deleteAccount();
@@ -57,11 +93,23 @@ async function deleteAccount() {
     change the name that will be displayed for other users, change the
     displayname instead.
   </SettingsInput>
+  <div v-if="username !== sessionStore.sessionData.user.brainetTag">
+    <p class="text-red-600" v-if="isUsernameInUse">
+      This username is already in use.
+    </p>
+    <p class="text-green-600" v-else-if="isUsernameInUse === false">
+      This username is available.
+    </p>
+    <p class="text-gray-600" v-else-if="isUsernameInUse === null">
+      This username is ...
+    </p>
+  </div>
+
   <div>
     <UButton
       color="gray"
       icon="material-symbols:save"
-      :disabled="sessionStore.sessionData.user.brainetTag === username"
+      :disabled="isUsernameInUse !== false"
       @click="saveUsername"
       >Save username</UButton
     >

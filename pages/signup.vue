@@ -27,20 +27,11 @@ function onUsernameOrEmailChange() {
       usernameOrEmailTaken.value = false;
       return;
     }
-    let result = await sessionStore.fetch('/api/user/is-taken', {
-      method: 'POST',
-      cache: 'no-cache',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        user: {
-          brainetTag: username.value,
-          email: email.value,
-        },
-      }),
-    });
-    usernameOrEmailTaken.value = !result.ok;
+
+    usernameOrEmailTaken.value = await sessionStore.isUserTaken(
+      username.value,
+      email.value
+    );
   }, 300);
 }
 

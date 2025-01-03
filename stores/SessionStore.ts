@@ -50,6 +50,41 @@ export const useSessionStore = defineStore('sessionStore', {
     isProd: () => import.meta.env.PROD,
   },
   actions: {
+    async isUserTaken(brainetTag: string = '', email: string = '') {
+      let user = {} as any;
+      if (brainetTag) {
+        user.brainetTag = brainetTag;
+      }
+      if (email) {
+        user.email = email;
+      }
+
+      const result = await this.fetch('/api/user/is-taken', {
+        method: 'POST',
+        cache: 'no-cache',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user,
+        }),
+      });
+
+      return !result.ok;
+    },
+
+    async modifyAccountData(user: any) {
+      const result = await this.fetch('/api/user/update', {
+        method: 'POST',
+        cache: 'no-cache',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user: user }),
+      });
+      return result.ok;
+    },
+
     async deleteAccount() {
       await this.fetch('/api/user/delete', {
         method: 'POST',
