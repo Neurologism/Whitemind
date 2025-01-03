@@ -3,7 +3,10 @@
 <template>
   <AppHeader />
   <div class="h-16"></div>
-  <div class="w-2/3 mx-auto flex flex-row mt-8">
+  <div
+    class="w-2/3 mx-auto flex flex-row mt-8 mb-32"
+    style="min-height: calc(100vh - 16rem - 34px)"
+  >
     <div class="flex flex-col w-40 mr-10">
       <UButton
         color="gray"
@@ -38,4 +41,5 @@
       <slot />
     </div>
   </div>
+  <AppFooter></AppFooter>
 </template>
