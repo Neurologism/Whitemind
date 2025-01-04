@@ -1,19 +1,13 @@
 <script setup lang="ts">
+import path from 'path';
+
 definePageMeta({
   layout: 'project',
 });
 
 const route = useRoute();
-const tutorialStore = useTutorialStore();
 
-tutorialStore.openInEditor = false;
+navigateTo(path.join(route.fullPath, 'editor'));
 </script>
 
-<template>
-  <ProjectEditor
-    :tutorial-project="false"
-    :project-id="route.params.project_id as string"
-  />
-</template>
-
-<style scoped></style>
+<template></template>
