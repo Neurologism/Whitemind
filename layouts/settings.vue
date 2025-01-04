@@ -31,13 +31,13 @@ onMounted(() => {
         icon="i-heroicons-cog-6-tooth"
         >Account</UButton
       >
-      <UButton
+      <!-- <UButton
         color="gray"
         variant="ghost"
         to="/settings/emails"
         icon="mdi:email-outline"
         >Mail & Phone</UButton
-      >
+      > -->
       <UButton
         color="gray"
         variant="ghost"
