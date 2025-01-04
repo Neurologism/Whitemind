@@ -60,9 +60,9 @@ async function updateUser() {
   >
     Tell the world about your interests.
   </SettingsTextarea>
-  <SettingsInput label="Pronouns" placeholder="he/him"></SettingsInput>
+  <!-- <SettingsInput label="Pronouns" placeholder="he/him"></SettingsInput>
   <SettingsInput label="Company" placeholder="Eggs Inc."></SettingsInput>
-  <SettingsInput label="Location" placeholder="The Nether"></SettingsInput>
+  <SettingsInput label="Location" placeholder="The Nether"></SettingsInput> -->
   <div>
     <UButton color="gray" icon="material-symbols:save" @click="updateUser"
       >Save profile</UButton
