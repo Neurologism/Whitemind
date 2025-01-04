@@ -50,6 +50,46 @@ export const useSessionStore = defineStore('sessionStore', {
     isProd: () => import.meta.env.PROD,
   },
   actions: {
+    async updateSecondaryEmail(secondaryEmail: string) {
+      if (!this.sessionData.user.emails) {
+        return false;
+      }
+      const result = await this.fetch('/api/user/update-secondary-email', {
+        method: 'POST',
+        cache: 'no-cache',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user: { email: secondaryEmail },
+        }),
+      });
+      if (result.ok) {
+        for (const email of this.sessionData.user.emails) {
+          if (email.emailType === 'secondary') {
+            email.address = secondaryEmail;
+            email.verified = false;
+            return true;
+          }
+        }
+        this.sessionData.user.emails?.push({
+          emailType: 'secondary',
+          address: secondaryEmail,
+          verified: false,
+        });
+        return true;
+      } else {
+        console.error('Failed to update secondary email.');
+        return false;
+      }
+    },
+
+    getEmailByType(type: 'primary' | 'secondary') {
+      return this.sessionData.user.emails?.find(
+        (email) => email.emailType === type
+      );
+    },
+
     scorePassword(pass: string): number {
       let score = 0;
       if (!pass) return score;
