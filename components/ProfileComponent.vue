@@ -106,12 +106,13 @@ loadUser();
             color="gray"
             size="sm"
             icon="mdi:pencil"
+            @click="navigateTo('/settings/public')"
             >Edit profile</UButton
           >
           <UIcon
             name="fluent:settings-28-regular"
             class="w-8 h-8 hover:cursor-pointer"
-            @click="navigateTo('/settings')"
+            @click="navigateTo('/settings/account')"
           />
         </div>
         <div
