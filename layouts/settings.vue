@@ -1,4 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const sessionStore = useSessionStore();
+if (!sessionStore.isAuthorized) {
+  navigateTo('/login');
+}
+</script>
 
 <template>
   <AppHeader />

@@ -4,6 +4,9 @@ definePageMeta({
 });
 
 const sessionStore = useSessionStore();
+if (sessionStore.isAuthorized) {
+  navigateTo('/profile');
+}
 
 const username = ref('');
 const usernameOrEmailTaken = ref(false);

@@ -4,6 +4,10 @@ import { tutorialSections as tutorialSections_ } from '~/components/tutorials/tu
 const tutorialSections = ref(tutorialSections_);
 
 const sessionStore = useSessionStore();
+if (!sessionStore.isAuthorized) {
+  navigateTo('/login');
+}
+
 const tutorialStore = useTutorialStore();
 const toast = useToast();
 const margins = [2, 3, 4, 3, 2, 1, 0, 1];
