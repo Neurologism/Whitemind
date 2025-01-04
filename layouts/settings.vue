@@ -1,8 +1,12 @@
 <script setup lang="ts">
 const sessionStore = useSessionStore();
-if (!sessionStore.isAuthorized) {
-  navigateTo('/login');
-}
+
+onMounted(() => {
+  sessionStore.syncLocalSessionData();
+  if (sessionStore.isAuthorized !== true) {
+    navigateTo('/login');
+  }
+});
 </script>
 
 <template>
