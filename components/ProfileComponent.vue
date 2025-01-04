@@ -119,9 +119,12 @@ loadUser();
           class="w-full mt-6 flex"
           v-if="!userLoading && !isSelf && sessionStore.isAuthorized"
         >
-          <UButton class="justify-center mr-2 flex-grow" color="blue" size="sm"
+          <!-- <UButton class="justify-center mr-2 flex-grow" color="blue" size="sm"
             >Follow</UButton
           >
+          <UButton class="justify-center mr-2 flex-grow" color="blue" size="sm"
+            >Unollow</UButton
+          > -->
         </div>
       </div>
     </div>
