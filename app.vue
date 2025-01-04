@@ -29,5 +29,6 @@ onUnmounted(() => {
       <NuxtPage />
     </NuxtLayout>
     <UNotifications :class="{ 'mr-96': moveNotifications }" />
+    <VerifyEmailModal />
   </div>
 </template>
