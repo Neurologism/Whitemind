@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const sessionStore = useSessionStore();
 const showModal = ref(false);
+const config = useRuntimeConfig().public;
 
 function checkVerifiedState() {
   if (
@@ -13,17 +14,19 @@ function checkVerifiedState() {
   showModal.value = true;
 }
 
-watch(
-  () => sessionStore.sessionData.user.emails,
-  () => {
-    checkVerifiedState();
-  },
-  { deep: true }
-);
+if (config.showVerifyEmailModal) {
+  watch(
+    () => sessionStore.sessionData.user.emails,
+    () => {
+      checkVerifiedState();
+    },
+    { deep: true }
+  );
 
-onMounted(() => {
-  checkVerifiedState();
-});
+  onMounted(() => {
+    checkVerifiedState();
+  });
+}
 </script>
 
 <template>

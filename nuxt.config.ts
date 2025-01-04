@@ -31,6 +31,7 @@ export default defineNuxtConfig({
       tutorialAllowUnlistedNodeModification: false,
       tutorialDisplayForbiddenToast: true,
       enableStartingLockedTutorials: false,
+      showVerifyEmailModal: false,
     },
   },
 });
