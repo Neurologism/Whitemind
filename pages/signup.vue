@@ -47,37 +47,6 @@ const validateEmail = (email: string) => {
   );
 };
 
-const scorePassword = (pass: string): number => {
-  let score = 0;
-  if (!pass) return score;
-
-  // Award points for length
-  const lengthScore = Math.min(1, pass.length / 20);
-  score += lengthScore;
-
-  // Award points for containing numbers
-  const numberScore = /\d/.test(pass) ? 0.1 : 0;
-  score += numberScore;
-
-  // Award points for containing special characters
-  const specialCharScore = /[!@#$%^&*(),.?":{}|<>]/.test(pass) ? 0.1 : 0;
-  score += specialCharScore;
-
-  // Award points for containing both lowercase and uppercase letters
-  const lowerUpperScore = /[a-z]/.test(pass) && /[A-Z]/.test(pass) ? 0.2 : 0;
-  score += lowerUpperScore;
-
-  // Normalize score to be between 0 and 1
-  return Math.min(1, score);
-};
-
-const getPasswordColor = (score: number) => {
-  if (score < 0.3) return 'red';
-  if (score < 0.5) return 'orange';
-  if (score < 0.7) return 'yellow';
-  return 'green';
-};
-
 const onRegister = async () => {
   sessionStore.showLoadingAnimation('Registering...');
   let response = await sessionStore.fetch('/api/auth/register', {
@@ -179,12 +148,16 @@ const onRegister = async () => {
           />
           <template #hint>
             <UProgress
-              :value="scorePassword(password) * 100"
-              :color="getPasswordColor(scorePassword(password))"
+              :value="sessionStore.scorePassword(password) * 100"
+              :color="
+                sessionStore.getPasswordColor(
+                  sessionStore.scorePassword(password)
+                )
+              "
             />
             <div class="pt-2">
               <UAlert
-                v-if="scorePassword(password) < 0.5"
+                v-if="sessionStore.scorePassword(password) < 0.5"
                 icon="mdi-info"
                 color="red"
                 variant="outline"
@@ -246,7 +219,7 @@ const onRegister = async () => {
             !validateEmail(email) ||
             password != password2 ||
             !legalStuff ||
-            scorePassword(password) < 0.5
+            sessionStore.scorePassword(password) < 0.5
           "
           color="primary"
           @click="onRegister"

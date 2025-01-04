@@ -12,7 +12,7 @@ const sessionStore = useSessionStore();
       <p class="text-md text-gray-200 text-center mb-8">
         <slot name="text"></slot>
       </p>
-      <div class="flex flex-row space-x-2">
+      <div class="flex flex-row space-x-2 w-full">
         <slot name="bottom"> </slot>
       </div>
     </div>

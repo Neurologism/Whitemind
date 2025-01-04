@@ -50,6 +50,38 @@ export const useSessionStore = defineStore('sessionStore', {
     isProd: () => import.meta.env.PROD,
   },
   actions: {
+    scorePassword(pass: string): number {
+      let score = 0;
+      if (!pass) return score;
+
+      // Award points for length
+      const lengthScore = Math.min(1, pass.length / 20);
+      score += lengthScore;
+
+      // Award points for containing numbers
+      const numberScore = /\d/.test(pass) ? 0.1 : 0;
+      score += numberScore;
+
+      // Award points for containing special characters
+      const specialCharScore = /[!@#$%^&*(),.?":{}|<>]/.test(pass) ? 0.1 : 0;
+      score += specialCharScore;
+
+      // Award points for containing both lowercase and uppercase letters
+      const lowerUpperScore =
+        /[a-z]/.test(pass) && /[A-Z]/.test(pass) ? 0.2 : 0;
+      score += lowerUpperScore;
+
+      // Normalize score to be between 0 and 1
+      return Math.min(1, score);
+    },
+
+    getPasswordColor(score: number) {
+      if (score < 0.3) return 'red';
+      if (score < 0.5) return 'orange';
+      if (score < 0.7) return 'yellow';
+      return 'green';
+    },
+
     async isUserTaken(brainetTag: string = '', email: string = '') {
       let user = {} as any;
       if (brainetTag) {
