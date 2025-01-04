@@ -7,7 +7,9 @@ definePageMeta({
 
 const route = useRoute();
 
-navigateTo(path.join(route.fullPath, 'editor'));
+navigateTo(
+  route.fullPath + (route.fullPath.endsWith('/') ? '' : '/') + 'editor'
+);
 </script>
 
 <template></template>
