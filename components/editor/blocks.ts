@@ -305,6 +305,33 @@ export const blocks: NodeGroupDefinition[] = [
               },
             },
           },
+          {
+            type: 'export',
+            name: 'export',
+            description: 'Export the model.',
+            identifier: 'export',
+            inputConstraints: {
+              allowedCategories: ['model'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['model'],
+              max: 1,
+              min: 1,
+            },
+            data: {
+              format: {
+                type: 'select',
+                options: ['onnx'],
+                value: 'onnx',
+              },
+              name: {
+                type: 'string',
+                value: 'model',
+              },
+            },
+          },
         ],
       },
     ],
