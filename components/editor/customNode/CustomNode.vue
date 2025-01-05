@@ -105,11 +105,16 @@ function toggleNodeToolbar() {
       :style="{ border: `2px solid ${shapeGroupData.color}` }"
       class="text-zinc-50 rounded-sm bg-gray-800 w-full flex flex-col"
     >
-      <div class="flex justify-between items-center p-2">
+      <div
+        class="flex justify-between items-center font-mono p-0.5 bg-slate-700 cursor-all-scroll"
+      >
         <UIcon :name="shapeGroupData.icon" />
         <span>{{ shapeData.name }}</span>
       </div>
-      <div v-if="shapeGroupData.group_identifier !== 'visualizer'">
+      <div
+        v-if="shapeGroupData.group_identifier !== 'visualizer'"
+        class="nodrag cursor-default pt-2 border-t-2 border-slate-900"
+      >
         <div v-for="(shapeDefinition, key) in shapeData.data">
           <div
             v-if="shapeDefinition.type === 'id'"
@@ -120,19 +125,34 @@ function toggleNodeToolbar() {
                   )
                 : undefined,
             }"
-            class="mb-2 ml-3 p-0.5 pr-0 rounded-l-sm bg-gray-300"
+            class="mb-2 p-0.5 bg-gray-300"
+            :class="{
+              'ml-3 rounded-l-sm pr-0':
+                shapeData.data[key].flowOrientation === 'output',
+              'mr-3 rounded-r-sm pl-0':
+                shapeData.data[key].flowOrientation === 'input',
+            }"
           >
             <div
-              class="grid grid-cols-1 items-center justify-between bg-slate-700 font-mono text-sm rounded-l-sm relative p-1"
+              class="grid grid-cols-1 items-center justify-between bg-slate-700 font-mono text-sm relative"
+              :class="{
+                'rounded-r-sm': shapeData.data[key].flowOrientation === 'input',
+                'rounded-l-sm':
+                  shapeData.data[key].flowOrientation === 'output',
+              }"
             >
-              <span class="pr-2 font-semibold font-mono brightness-200">{{
+              <span class="pr-2 pl-2 font-semibold font-mono brightness-200">{{
                 key
               }}</span>
               <CustomHandle
                 :constraints="shapeDefinition.constraints"
                 :handle-id="`val-${key}-${props.nodeId}`"
                 :is-input="shapeData.data[key].flowOrientation! === 'input'"
-                :position="Position.Right"
+                :position="
+                  shapeData.data[key].flowOrientation! === 'input'
+                    ? Position.Left
+                    : Position.Right
+                "
                 :shape-data="shapeData"
                 :shape-group-data="shapeGroupData"
               />
