@@ -85,6 +85,12 @@ onMounted(() => {
     }
   };
 });
+
+defineShortcuts({
+  p: () => {
+    toggleSidebar();
+  },
+});
 </script>
 
 <template>
@@ -128,18 +134,24 @@ onMounted(() => {
           </div>
         </div>
         <div class="flex-none pt-4 ml-2 mb-2">
-          <UButton
-            :icon="
-              sessionStore.sessionData.pinEditorSidebar
-                ? 'mdi-pin'
-                : 'mdi-pin-outline'
-            "
-            class="hover:scale-105 transition-transform"
-            color="gray"
-            size="xl"
-            square
-            @click="toggleSidebar"
-          ></UButton>
+          <UTooltip
+            :popper="{ placement: 'right' }"
+            text="Toggle sidebar pin"
+            :shortcuts="['p']"
+          >
+            <UButton
+              :icon="
+                sessionStore.sessionData.pinEditorSidebar
+                  ? 'mdi-pin'
+                  : 'mdi-pin-outline'
+              "
+              class="hover:scale-105 transition-transform"
+              color="gray"
+              size="xl"
+              square
+              @click="toggleSidebar"
+            ></UButton>
+          </UTooltip>
         </div>
       </div>
     </div>

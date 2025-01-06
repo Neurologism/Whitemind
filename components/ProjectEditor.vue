@@ -415,6 +415,12 @@ watch(
 onUnmounted(() => {
   vueFlowStore.$reset();
 });
+
+defineShortcuts({
+  s: () => {
+    postProject();
+  },
+});
 </script>
 
 <template>
@@ -516,7 +522,7 @@ onUnmounted(() => {
             />
           </div>
           <div class="flex">
-            <UTooltip text="Write changes to server">
+            <UTooltip text="Write changes to server" :shortcuts="['s']">
               <div
                 class="flex items-center hover:scale-105 transition-transform cursor-pointer rounded-md p-3"
                 :style="{

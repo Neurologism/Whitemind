@@ -140,7 +140,6 @@ export class CustomNodes {
   }
 
   static search(q: string): NodeGroupDefinition[] {
-    q = q.toLowerCase();
     if (q === '') return CustomNodes.nodesList;
     let clone = structuredClone(CustomNodes.nodesList);
     const result = CustomNodes.fuse.search(q);
