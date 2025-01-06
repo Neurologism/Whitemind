@@ -122,6 +122,7 @@ export const blocks: NodeGroupDefinition[] = [
               input: {
                 type: 'id',
                 flowOrientation: FlowOrientation.OUTPUT,
+                invertPosition: true,
                 required: true,
                 constraints: {
                   allowedCategories: ['layer'],
@@ -132,6 +133,7 @@ export const blocks: NodeGroupDefinition[] = [
               output: {
                 type: 'id',
                 flowOrientation: FlowOrientation.INPUT,
+                invertPosition: true,
                 required: true,
                 constraints: {
                   allowedCategories: ['layer'],
@@ -1253,6 +1255,7 @@ export type NodeDefinition = {
     | {
         type: 'id';
         flowOrientation: FlowOrientation;
+        invertPosition?: boolean;
         constraints?: NodeConnectionConstraint;
         required?: boolean;
         rules?: any[];

@@ -26,14 +26,16 @@ const chartComponentsByIdentifier: Record<string, any> = {
 
 // @ts-ignore - the value is set here initialy
 nodesData.value.data.isExpanded ??= true;
-const showVisConfigs = ref(false);
+// @ts-ignore - the value is set here initialy
+nodesData.value.data.showVisConfigs ??= false;
 
 function clickIcons() {
   if (shapeGroupData.group_identifier !== 'visualizer') {
     nodesData.value!.data.isExpanded = !nodesData.value!.data.isExpanded;
   }
   if (shapeGroupData.group_identifier === 'visualizer') {
-    showVisConfigs.value = !showVisConfigs.value;
+    nodesData.value!.data.showVisConfigs =
+      !nodesData.value!.data.showVisConfigs;
   }
 }
 </script>
@@ -108,7 +110,11 @@ function clickIcons() {
         <UIcon :name="shapeGroupData.icon" />
         <UIcon
           v-if="shapeGroupData.group_identifier === 'visualizer'"
-          :name="showVisConfigs ? 'mdi-settings' : 'mdi-settings-outline'"
+          :name="
+            nodesData!.data.showVisConfigs
+              ? 'mdi-settings'
+              : 'mdi-settings-outline'
+          "
         />
       </div>
       <span class="font-semibold">{{ shapeData.name }}</span>
@@ -116,7 +122,8 @@ function clickIcons() {
     <div class="w-full h-full nodrag cursor-default">
       <div
         v-if="
-          shapeGroupData.group_identifier === 'visualizer' && showVisConfigs
+          shapeGroupData.group_identifier === 'visualizer' &&
+          nodesData!.data.showVisConfigs
         "
         class="p-2 flex-1 h-full w-full"
       >
@@ -133,12 +140,15 @@ function clickIcons() {
             :style="{}"
             class="mt-0.5 mb-0.5 p-0.5"
             :class="{
-              'ml-3 rounded-l-sm pr-0':
-                shapeData.data[key].flowOrientation === 'output',
-              'mr-3 rounded-r-sm pl-0':
-                shapeData.data[key].flowOrientation === 'input',
-              'justify-end flex':
-                shapeData.data[key].flowOrientation === 'output',
+              'ml-3 rounded-l-sm pr-0': shapeData.data[key].invertPosition
+                ? !(shapeData.data[key].flowOrientation === 'output')
+                : shapeData.data[key].flowOrientation === 'output',
+              'mr-3 rounded-r-sm pl-0': shapeData.data[key].invertPosition
+                ? !(shapeData.data[key].flowOrientation === 'input')
+                : shapeData.data[key].flowOrientation === 'input',
+              'justify-end flex': shapeData.data[key].invertPosition
+                ? !(shapeData.data[key].flowOrientation === 'output')
+                : shapeData.data[key].flowOrientation === 'output',
             }"
           >
             <div class="font-mono text-sm relative">
@@ -151,7 +161,11 @@ function clickIcons() {
                 :handle-id="`val-${key}-${props.nodeId}`"
                 :is-input="shapeData.data[key].flowOrientation! === 'input'"
                 :position="
-                  shapeData.data[key].flowOrientation! === 'input'
+                  (
+                    shapeData.data[key].invertPosition
+                      ? !(shapeData.data[key].flowOrientation === 'input')
+                      : shapeData.data[key].flowOrientation === 'input'
+                  )
                     ? Position.Left
                     : Position.Right
                 "
@@ -162,12 +176,12 @@ function clickIcons() {
           </div>
         </div>
         <div
-          v-if="nodesData!.data.isExpanded && !showVisConfigs"
+          v-if="nodesData!.data.isExpanded && !nodesData!.data.showVisConfigs"
           class="mr-1 ml-1 mb-1 bg-slate-700"
           style="height: 1px"
         />
         <div
-          v-if="nodesData!.data.isExpanded && !showVisConfigs"
+          v-if="nodesData!.data.isExpanded && !nodesData!.data.showVisConfigs"
           v-for="(shapeDefinition, key) in shapeData.data"
           :key="key"
           class="grid grid-cols-1 items-center justify-between"
