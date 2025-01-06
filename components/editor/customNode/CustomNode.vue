@@ -119,7 +119,7 @@ function clickIcons() {
       </div>
       <span class="font-semibold">{{ shapeData.name }}</span>
     </div>
-    <div class="w-full h-full nodrag cursor-default">
+    <div class="w-full h-full nodrag nowheel cursor-default">
       <div
         v-if="
           shapeGroupData.group_identifier === 'visualizer' &&
