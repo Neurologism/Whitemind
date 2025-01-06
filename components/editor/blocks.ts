@@ -11,7 +11,7 @@ export const blocks: NodeGroupDefinition[] = [
     group_identifier: 'dataset',
     groups: [
       {
-        name: 'G1',
+        name: 'UNCATEGORIZED',
         nodes: [
           {
             type: 'mnist',
@@ -105,7 +105,7 @@ export const blocks: NodeGroupDefinition[] = [
     group_identifier: 'model',
     groups: [
       {
-        name: 'G1',
+        name: 'UNCATEGORIZED',
         nodes: [
           {
             type: 'Model',
@@ -345,7 +345,7 @@ export const blocks: NodeGroupDefinition[] = [
     group_identifier: 'visualizer',
     groups: [
       {
-        name: 'G1',
+        name: 'UNCATEGORIZED',
         nodes: [
           {
             type: 'line-chart',

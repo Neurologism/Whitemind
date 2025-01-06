@@ -41,8 +41,12 @@ const backgroundColor = computed(() => {
   return `rgba(${rgb}, ${alpha})`;
 });
 
+const visibleChildren = computed(() => {
+  return props.children.filter((child) => child.name !== 'UNCATEGORIZED');
+});
+
 function toggle() {
-  if (isOpen.value === false) {
+  if (isOpen.value === false || visibleChildren.value.length === 0) {
     props.onMainClick();
   }
   if (!isScrolledTo.value) {
@@ -79,7 +83,7 @@ function toggle() {
     >
       <div v-if="isOpen || isScrolledTo">
         <div
-          v-for="(child, index) in children"
+          v-for="(child, index) in visibleChildren"
           :key="index"
           @click="onSubClick(index)"
         >

@@ -179,7 +179,10 @@ onMounted(() => {
             v-for="(nodeSubGroup, subIndex) in nodeGroup.groups"
             :id="`scroll-subgroup-${listIndex}-${subIndex}`"
           >
-            <div class="pr-6 pl-6 font-mono font-semibold text-base">
+            <div
+              :hidden="nodeSubGroup.name === 'UNCATEGORIZED'"
+              class="pr-6 pl-6 font-mono font-semibold text-base"
+            >
               <UIcon :name="nodeSubGroup.icon ?? nodeGroup.icon" />
               {{ nodeSubGroup.name }}
             </div>
