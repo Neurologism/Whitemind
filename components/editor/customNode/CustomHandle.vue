@@ -61,7 +61,7 @@ function checkConnection(
     elements.targetNode.type
   )!;
 
-  if (sourceNodeDefinition.identifier === targetNodeDefinition.identifier) {
+  if (connection.target === connection.source) {
     return false;
   }
 
