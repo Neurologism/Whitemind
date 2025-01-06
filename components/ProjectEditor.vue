@@ -519,6 +519,7 @@ defineShortcuts({
             <EditorTrainingHeader
               :project-id="props.projectId"
               :sync-status="syncStatus"
+              :sync-project="postProject"
             />
           </div>
           <div class="flex">

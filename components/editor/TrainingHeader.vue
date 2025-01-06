@@ -10,10 +10,14 @@ const tutorialStore = useTutorialStore();
 const props = defineProps<{
   projectId: string;
   syncStatus: SyncStatus;
+  syncProject: () => Promise<void>;
 }>();
 
 async function trainingStart() {
   if (trainingStore.training.running) return;
+  if (props.syncStatus !== SyncStatus.synced) {
+    await props.syncProject();
+  }
   const result = await trainingStore.startTraining(props.projectId);
   toast.add({
     icon: 'material-symbols:play-circle',
@@ -64,9 +68,7 @@ setInterval(updateTrainingStatus, 1000);
         variant="solid"
         :color="tutorialStore.isTrainingEnabled ? 'primary' : 'gray'"
         class="transition-all duration-300"
-        :disabled="
-          syncStatus !== SyncStatus.synced || !tutorialStore.isTrainingEnabled
-        "
+        :disabled="!tutorialStore.isTrainingEnabled"
         >Start Training</UButton
       >
       <UButton
