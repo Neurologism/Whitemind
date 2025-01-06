@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
-import { Position, useNodesData, useVueFlow } from '@vue-flow/core';
-import { NodeToolbar } from '@vue-flow/node-toolbar';
+import { ref } from 'vue';
+import { Position, useNodesData } from '@vue-flow/core';
 import { CustomNodes } from '~/components/editor/customNodeList';
 import NodeValueEditor from '~/components/editor/customNode/typeEditors/NodeValueEditor.vue';
 import LineChart from '~/components/editor/charts/LineChart.vue';
@@ -14,32 +13,10 @@ import CustomHandle from '~/components/editor/customNode/CustomHandle.vue';
 
 defineEmits(['node-contextmenu']);
 
-const nodeToolbarOpen = ref(false);
-const { updateNodeData } = useVueFlow();
 const props = defineProps(['props', 'nodeId']);
 const nodesData = useNodesData(props.nodeId);
-const data = ref(nodesData.value!.data);
-watch(data, (newData) => {
-  updateNodeData(props.nodeId, newData);
-});
-
 const shapeData = CustomNodes.getCustomNodeConfig(nodesData.value!.type)!;
 const shapeGroupData = CustomNodes.getNodeGroup(nodesData.value!.type)!;
-
-function dataUpdated(key: string, value: any) {
-  data.value[key] = value;
-}
-
-const actionRequired = computed(() => {
-  for (const [key, shapeDefinition] of Object.entries(shapeData.data)) {
-    if (shapeDefinition.type === 'id') continue;
-    const required = !shapeDefinition.value !== undefined;
-    if (required && data.value[key] === undefined) {
-      return true;
-    }
-  }
-  return false;
-});
 
 const isResizing = ref(false);
 
@@ -47,9 +24,12 @@ const chartComponentsByIdentifier: Record<string, any> = {
   'line-chart': LineChart,
 };
 
-function toggleNodeToolbar() {
-  if (Object.keys(shapeData.data).length === 0) return;
-  nodeToolbarOpen.value = !nodeToolbarOpen.value;
+// @ts-ignore - the value is set here initialy
+nodesData.value.data.isExpanded ??= true;
+function toggleExpanded() {
+  if (shapeGroupData.group_identifier !== 'visualizer') {
+    nodesData.value!.data.isExpanded = !nodesData.value!.data.isExpanded;
+  }
 }
 </script>
 
@@ -66,7 +46,7 @@ function toggleNodeToolbar() {
       borderRadius: '2px',
     }"
     :variant="ResizeControlVariant.Handle"
-    class="z-10 rounded-sm hover:scale-105"
+    class="z-30 rounded-sm hover:scale-105 cursor-crosshair"
     color="white"
     position="bottom-right"
     @resize-start="isResizing = true"
@@ -74,46 +54,37 @@ function toggleNodeToolbar() {
   >
     <UIcon class="resize-arrow" name="gridicons:resize" />
   </NodeResizeControl>
-  <NodeToolbar :is-visible="nodeToolbarOpen" :position="Position.Right">
-    <div
-      :class="`sized-params bg-customPrimary-950 border-2 border-blue-200 rounded animate__animated animate__fadeIn`"
-    >
-      <div
-        v-for="(shapeDefinition, key) in shapeData.data"
-        :key="key"
-        class="grid grid-cols-1 items-center justify-between"
-      >
-        <NodeValueEditor
-          v-if="shapeDefinition.type !== 'id'"
-          :data="data"
-          :param-name="key"
-          :shape-definition="shapeDefinition"
-          :update-data="dataUpdated"
-        />
-      </div>
-    </div>
-  </NodeToolbar>
-  <UTooltip
-    :open-delay="750"
-    :text="shapeData.description"
-    class="h-full w-full"
-    @click="toggleNodeToolbar"
-    @contextmenu.prevent="$emit('node-contextmenu', props.nodeId)"
+  <div
+    :style="{ border: `2px solid ${shapeGroupData.color}` }"
+    class="h-full w-full text-zinc-50 rounded-sm bg-gray-800 flex flex-col"
   >
     <div
-      :class="{ 'blink-border': actionRequired }"
-      :style="{ border: `2px solid ${shapeGroupData.color}` }"
-      class="text-zinc-50 rounded-sm bg-gray-800 w-full flex flex-col"
+      class="flex justify-between items-center font-mono p-0.5 bg-slate-700 cursor-all-scroll"
     >
       <div
-        class="flex justify-between items-center font-mono p-0.5 bg-slate-700 cursor-all-scroll"
+        class="flex justify-between items-center p-1"
+        :class="{
+          'cursor-pointer': shapeGroupData.group_identifier !== 'visualizer',
+        }"
+        @click="toggleExpanded"
       >
+        <UIcon
+          v-if="shapeGroupData.group_identifier !== 'visualizer'"
+          name="material-symbols:expand-more"
+          :style="{
+            transform: nodesData!.data.isExpanded
+              ? 'rotate(0deg)'
+              : 'rotate(270deg)',
+          }"
+        />
         <UIcon :name="shapeGroupData.icon" />
-        <span>{{ shapeData.name }}</span>
       </div>
+      <span>{{ shapeData.name }}</span>
+    </div>
+    <div class="w-full nodrag cursor-default">
       <div
         v-if="shapeGroupData.group_identifier !== 'visualizer'"
-        class="nodrag cursor-default pt-2 border-t-2 border-slate-900"
+        class="mt-0.5 mb-1"
       >
         <div v-for="(shapeDefinition, key) in shapeData.data">
           <div
@@ -125,7 +96,7 @@ function toggleNodeToolbar() {
                   )
                 : undefined,
             }"
-            class="mb-2 p-0.5 bg-gray-300"
+            class="mb-1 p-0.5 bg-gray-300"
             :class="{
               'ml-3 rounded-l-sm pr-0':
                 shapeData.data[key].flowOrientation === 'output',
@@ -159,17 +130,29 @@ function toggleNodeToolbar() {
             </div>
           </div>
         </div>
+        <div
+          v-if="nodesData!.data.isExpanded"
+          v-for="(shapeDefinition, key) in shapeData.data"
+          :key="key"
+          class="grid grid-cols-1 items-center justify-between"
+        >
+          <NodeValueEditor
+            v-if="shapeDefinition.type !== 'id'"
+            :node-id="props.nodeId"
+            :param-name="key"
+            :shape-definition="shapeDefinition"
+          />
+        </div>
       </div>
       <div v-else class="p-2 flex-1 w-full">
         <component
           :is="chartComponentsByIdentifier[shapeData.identifier]!"
-          v-if="!isResizing"
           :nodeid="props.nodeId"
         ></component>
-        <div v-else class="h-full w-full bg-slate-700 rounded-sm" />
+        <!--<div class="h-max w-full bg-slate-500 flex content-end justify-end rounded-sm">hello</div>-->
       </div>
     </div>
-  </UTooltip>
+  </div>
   <CustomHandle
     v-if="shapeData.hideInput !== true"
     :constraints="shapeData.inputConstraints"
@@ -191,31 +174,11 @@ function toggleNodeToolbar() {
 </template>
 
 <style scoped>
-.blink-border {
-  animation: blink 1s infinite;
-}
-
-@keyframes blink {
-  0% {
-    border-color: red;
-  }
-  50% {
-    border-color: transparent;
-  }
-  100% {
-    border-color: red;
-  }
-}
-
 .resize-arrow {
   position: absolute;
   left: -0.5px;
   top: -0.5px;
   font-size: 1rem;
   color: black;
-}
-
-.sized-params {
-  min-width: 100px;
 }
 </style>

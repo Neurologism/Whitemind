@@ -1,38 +1,21 @@
-<!-- JS intended -->
-<script setup>
+<script lang="ts" setup>
 import NodeStringEditor from '~/components/editor/customNode/typeEditors/editors/NodeStringEditor.vue';
 
-import { onMounted, onBeforeUnmount } from 'vue';
 import NodeBoolEditor from '~/components/editor/customNode/typeEditors/editors/NodeBoolEditor.vue';
 import NodeSelectEditor from '~/components/editor/customNode/typeEditors/editors/NodeSelectEditor.vue';
 import NodeNumberEditor from '~/components/editor/customNode/typeEditors/editors/NodeNumberEditor.vue';
 import NodeTupleEditor from '~/components/editor/customNode/typeEditors/editors/NodeTupleEditor.vue';
 import NodeMultiselectEditor from '~/components/editor/customNode/typeEditors/editors/NodeMultiselectEditor.vue';
+import type { NodeDefinition } from '~/components/editor/blocks';
+import { useNodesData } from '@vue-flow/core';
 
-const props = defineProps({
-  paramName: String,
-  shapeDefinition: Object,
-  data: Object,
-  updateData: Function,
-});
+const props = defineProps<{
+  paramName: string;
+  shapeDefinition: NodeDefinition;
+  nodeId: string;
+}>();
 
-const submenuRef = ref(null);
-
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside);
-});
-
-onBeforeUnmount(() => {
-  document.removeEventListener('click', handleClickOutside);
-});
-
-function handleClickOutside(event) {
-  if (submenuRef.value && !submenuRef.value.contains(event.target)) {
-    submenuOpen.value = false;
-  }
-}
-
-const submenuOpen = ref(false);
+const nodesData = useNodesData(props.nodeId)!;
 
 const editors = {
   string: NodeStringEditor,
@@ -43,115 +26,105 @@ const editors = {
   multiselect: NodeMultiselectEditor,
 };
 
-const valueDisplay = computed(() => {
-  if (props.data[props.paramName] === undefined) return '';
-  if (props.data[props.paramName] === null) return 'null';
-  const string = `${props.data[props.paramName]}`;
-  const exedes = string.length > 20;
-  if (!exedes) return string;
-  return string.substring(0, 20) + '...';
-});
-
-const actionRequired = computed({
-  get: () => {
-    const required = !props.shapeDefinition.value !== undefined;
-    return required && props.data[props.paramName] === undefined;
-  },
-});
-
-function deepEqual(a, b) {
+function deepEqual(a: any, b: any) {
   return JSON.stringify(a) === JSON.stringify(b);
 }
+
+function strMaxLen(_str: any, maxLen: number) {
+  if (_str === null) {
+    return 'null';
+  } else if (_str === undefined) {
+    return '';
+  }
+  let str = _str.toString();
+  if (str.length > maxLen) {
+    return str.slice(0, maxLen) + '…';
+  }
+  return str;
+}
+
+const actionRequired = computed(() => {
+  if (props.shapeDefinition.type === 'id') return false;
+  const required = !props.shapeDefinition.value !== undefined;
+  return required && nodesData.value?.data[props.paramName] === undefined;
+});
+
+const isExpanded = ref(false);
 </script>
 
 <template>
-  <div ref="submenuRef" style="pointer-events: bounding-box">
+  <div class="pr-1 pl-1 grid grid-cols-1 text-sky-100">
     <div
-      :style="{ backgroundColor: actionRequired ? 'red' : null }"
-      class="hover:bg-customPrimary-700 hover:border-2 hover:rounded transition-transform border-blue-200 p-1 cursor-pointer text-sky-100"
-      @click="submenuOpen = !submenuOpen"
+      class="flex flex-row flex-nowrap cursor-pointer"
+      @click="isExpanded = !isExpanded"
     >
-      <div class="flex">
-        <div class="flex-1">
-          <div class="grid grid-cols-1">
-            {{ paramName }}
-            <small class="text-sky-100">{{ valueDisplay }}</small>
-          </div>
-        </div>
-        <div class="mt-1">
-          <UIcon name="mdi-arrow-right" />
-        </div>
+      <div class="flex justify-between items-center pl-1 pr-1">
+        <UIcon
+          class="flex-none"
+          name="material-symbols:expand-more"
+          :style="{
+            transform: isExpanded ? 'rotate(0deg)' : 'rotate(270deg)',
+          }"
+        />
+      </div>
+      <div class="flex-1 flex items-center justify-start">
+        <span
+          class="flex-none text-sm font-mono font-bold"
+          :class="{
+            'blink-underline': actionRequired,
+          }"
+          >{{ paramName }}</span
+        >
+      </div>
+      <div class="flex-none m-1"></div>
+      <div class="flex-1 text-end ml-1 flex items-center justify-end">
+        <span class="text-sky-100 text-sm font-mono">{{
+          isExpanded
+            ? shapeDefinition.type
+            : strMaxLen(nodesData!.data[paramName], 10)
+        }}</span>
+        <UIcon
+          name="mdi-alert-circle-outline"
+          class="text-red-700"
+          v-if="actionRequired"
+        />
       </div>
     </div>
-    <div
-      v-if="submenuOpen"
-      class="nested-menu bg-customPrimary-950 border-2 border-blue-400 rounded p-1 grid grid-cols-1 text-sky-100"
-    >
-      <div class="flex flex-row">
-        <div class="flex-1">
-          <span class="font-mono font-bold">{{ shapeDefinition.type }}</span>
-        </div>
-        <div class="flex-1 text-end ml-1">
-          <span class="text-sky-100 font-mono">{{
-            shapeDefinition.value !== null ? 'required' : 'optional'
-          }}</span>
-        </div>
-      </div>
-      <div
-        v-if="
-          !(
-            editors[shapeDefinition.type] === undefined ||
-            editors[shapeDefinition.type] === null
-          )
-        "
-        class="p-1"
-      >
+    <div v-if="isExpanded" class="flex flex-row flex-nowrap">
+      <div class="flex-1">
         <component
           :is="editors[shapeDefinition.type]"
+          :nodeId="nodeId"
           :paramName="paramName"
           :shapeDefinition="shapeDefinition"
-          :data="data"
-          :updateData="updateData"
         />
       </div>
-      <div v-else>No editor for type: {{ shapeDefinition.type }}</div>
-      <UTooltip
-        :text="`Set value to '${shapeDefinition.value}'`"
-        v-if="
-          !deepEqual(shapeDefinition.value, data[paramName]) &&
-          shapeDefinition.value !== undefined
-        "
-        class="m-1"
+      <div
+        v-if="!deepEqual(shapeDefinition.value, nodesData!.data[paramName])"
+        @click="nodesData!.data[paramName] = shapeDefinition.value"
+        class="flex-none p-1 ml-1 flex items-center justify-center cursor-pointer"
       >
-        <UButton
-          icon="mdi-backup-restore"
-          size="sm"
-          color="primary"
-          variant="outline"
-          label="Set default"
-          :trailing="false"
-          @click="updateData(paramName, shapeDefinition.value)"
-          block
-        />
-      </UTooltip>
-      <HintBox>
-        <span class="m-1 font-mono cursor-pointer">Show definition</span>
-        <template #hint>
-          <pre class="font-mono text-sm">{{
-            JSON.stringify(shapeDefinition, null, 1)
-          }}</pre>
-        </template>
-      </HintBox>
+        <UIcon name="mdi-reload" />
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.nested-menu {
-  position: absolute;
-  min-width: 400px;
-  left: 105%;
-  top: 0;
-  z-index: 1000;
+@keyframes blink {
+  0% {
+    text-decoration-color: red;
+  }
+  50% {
+    text-decoration-color: rgba(255, 0, 0, 0.5);
+  }
+  100% {
+    text-decoration-color: red;
+  }
+}
+
+.blink-underline {
+  text-decoration: underline;
+  animation: blink 5s infinite;
 }
 </style>

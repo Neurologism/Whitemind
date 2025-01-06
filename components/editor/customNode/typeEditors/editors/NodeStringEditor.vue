@@ -1,17 +1,19 @@
-<script setup>
-const props = defineProps({
-  paramName: String,
-  shapeDefinition: Object,
-  data: Object,
-  updateData: Function,
-});
+<script lang="ts" setup>
+import { useNodesData } from '@vue-flow/core';
 
-const text = ref(props.data[props.paramName]);
-watch(text, (newText) => {
-  props.updateData(props.paramName, newText);
-});
+const props = defineProps<{
+  nodeId: string;
+  paramName: string;
+  shapeDefinition: Record<string, any>;
+}>();
+
+const nodesData = useNodesData(props.nodeId)!;
 </script>
 
 <template>
-  <UInput class="text-sky-100" v-model="text"></UInput>
+  <UInput
+    class="text-sky-100"
+    size="2xs"
+    v-model="nodesData.data[paramName]"
+  ></UInput>
 </template>

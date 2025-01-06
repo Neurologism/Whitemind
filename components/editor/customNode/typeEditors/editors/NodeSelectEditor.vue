@@ -1,17 +1,14 @@
-<script setup>
-const props = defineProps({
-  paramName: String,
-  shapeDefinition: Object,
-  data: Object,
-  updateData: Function,
-});
+<script lang="ts" setup>
+import { useNodesData } from '@vue-flow/core';
 
-const value = ref(props.data[props.paramName]);
-watch(value, (value) => {
-  props.updateData(props.paramName, value);
-});
+const props = defineProps<{
+  nodeId: string;
+  paramName: string;
+  shapeDefinition: Record<string, any>;
+}>();
 
-let options = [];
+const nodesData = useNodesData(props.nodeId)!;
+let options = [null];
 for (let i = 0; i < props.shapeDefinition.options.length; i++) {
   options.push(props.shapeDefinition.options[i]);
 }
@@ -20,7 +17,8 @@ for (let i = 0; i < props.shapeDefinition.options.length; i++) {
 <template>
   <USelect
     variant="outline"
-    v-model="value"
+    size="2xs"
+    v-model="nodesData.data[paramName]"
     :options="shapeDefinition.options"
   />
 </template>

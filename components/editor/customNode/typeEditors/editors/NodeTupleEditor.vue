@@ -1,16 +1,18 @@
-<script setup>
-const props = defineProps({
-  paramName: String,
-  shapeDefinition: Object,
-  data: Object,
-  updateData: Function,
-});
+<script lang="ts" setup>
+import { useNodesData } from '@vue-flow/core';
 
-const value = ref(JSON.stringify(props.data[props.paramName]));
+const props = defineProps<{
+  nodeId: string;
+  paramName: string;
+  shapeDefinition: Record<string, any>;
+}>();
+
+const nodesData = useNodesData(props.nodeId)!;
+const value = ref(JSON.stringify(nodesData.data[props.paramName]));
 watch(value, (newVal) => {
   try {
     newVal = JSON.parse(newVal);
-    props.updateData(props.paramName, newVal);
+    if (Array.isArray(newVal)) nodesData.data[props.paramName] = newVal;
   } catch (e) {
     console.info('Did not update data because of invalid JSON');
   }
@@ -18,5 +20,5 @@ watch(value, (newVal) => {
 </script>
 
 <template>
-  <UInput v-model="value"></UInput>
+  <UInput size="2sm" v-model="value"></UInput>
 </template>
