@@ -79,7 +79,6 @@ onMounted(() => {
           CustomNodes.nodesList[Number(category)].groups[Number(subCategory)]
             .name,
       };
-      console.log(JSON.stringify(currentScrolledTo.value));
     }
   };
 });
