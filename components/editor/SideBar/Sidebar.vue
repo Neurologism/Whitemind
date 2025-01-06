@@ -23,14 +23,17 @@ function toggleSidebar() {
 
 const scrollTopOffset: number = 92; // 92 is the ~ height of the search bar + padding + margin
 function scrollToElement(elementId: string) {
+  searchQuery.value = '';
   if (scrollRef.value) {
-    const element = document.getElementById(elementId);
-    if (element) {
-      scrollRef.value.scrollTo({
-        top: element.offsetTop - scrollTopOffset,
-        behavior: 'smooth',
-      });
-    }
+    setTimeout(() => {
+      const element = document.getElementById(elementId);
+      if (element) {
+        scrollRef.value!.scrollTo({
+          top: element.offsetTop - scrollTopOffset,
+          behavior: 'smooth',
+        });
+      }
+    }, 100);
   }
 }
 
@@ -167,7 +170,7 @@ onMounted(() => {
         </UInput>
       </div>
       <div class="flex flex-col flex-1 ml-1 mt-3 pt-16">
-        <div v-for="(nodeGroup, listIndex) in CustomNodes.nodesList">
+        <div v-for="(nodeGroup, listIndex) in CustomNodes.search(searchQuery)">
           <div
             class="pr-3 pl-3 font-mono font-semibold text-lg"
             :id="`scroll-group-${listIndex}`"

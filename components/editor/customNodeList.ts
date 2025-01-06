@@ -5,9 +5,20 @@ import type {
 } from '~/components/editor/blocks';
 import type { XYPosition } from '@vue-flow/core';
 import { useVueFlowStore } from '~/stores/VueFlowStore';
+import Fuse from 'fuse.js';
 
 export class CustomNodes {
   static nodesList: NodeGroupDefinition[] = blocks;
+
+  static get allNodes() {
+    return CustomNodes.nodesList.flatMap((group) =>
+      group.groups.flatMap((node) => node.nodes)
+    );
+  }
+
+  static fuse = new Fuse(CustomNodes.allNodes, {
+    keys: ['name', 'description', 'type', 'group_identifier'],
+  });
 
   static getCustomNodeConfig(type: string): NodeDefinition | undefined {
     return CustomNodes.nodesList
@@ -126,5 +137,29 @@ export class CustomNodes {
     );
     if (!overlappingCategories) return null;
     return CustomNodes.getColorOfCategory(overlappingCategories[0]); //todo: maybe other solution
+  }
+
+  static search(q: string): NodeGroupDefinition[] {
+    q = q.toLowerCase();
+    if (q === '') return CustomNodes.nodesList;
+    let clone = structuredClone(CustomNodes.nodesList);
+    const result = CustomNodes.fuse.search(q);
+    for (const group of clone) {
+      for (const subGroup of group.groups) {
+        subGroup.nodes = subGroup.nodes.filter((node) =>
+          result.some((res) => res.item.type === node.type)
+        );
+      }
+    }
+
+    // Remove empty groups and subgroups
+    clone = clone.filter((group) => group.groups.length > 0);
+    clone.forEach((subGroup) => {
+      subGroup.groups = subGroup.groups.filter(
+        (subGroup) => subGroup.nodes.length > 0
+      );
+    });
+
+    return clone;
   }
 }

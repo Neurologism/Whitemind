@@ -52,6 +52,9 @@ importers:
       echarts:
         specifier: ^5.5.1
         version: 5.5.1
+      fuse.js:
+        specifier: ^7.0.0
+        version: 7.0.0
       gsap:
         specifier: ^3.12.5
         version: 3.12.5
