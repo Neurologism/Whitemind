@@ -139,6 +139,7 @@ const arrowRotation: ComputedRef<number> = computed(() => {
   <Handle
     :id="handleId"
     :position="position"
+    :type="props.isInput ? 'target' : 'source'"
     :is-valid-connection="checkConnection"
     class="z-10 rounded-sm h-3 w-3 hover:w-4 hover:h-4 origin-center text-center border-solid flex items-center justify-center"
     :style="{
