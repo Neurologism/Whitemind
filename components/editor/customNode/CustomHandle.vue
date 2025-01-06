@@ -2,10 +2,11 @@
 import type { PropType } from 'vue';
 import type { Connection, GraphEdge, GraphNode } from '@vue-flow/core';
 import { Handle, Position } from '@vue-flow/core';
-import type {
-  NodeConnectionConstraint,
-  NodeDefinition,
-  NodeGroupDefinition,
+import {
+  FlowOrientation,
+  type NodeConnectionConstraint,
+  type NodeDefinition,
+  type NodeGroupDefinition,
 } from '~/components/editor/blocks';
 import { CustomNodes } from '~/components/editor/customNodeList';
 
@@ -60,19 +61,37 @@ function checkConnection(
     elements.targetNode.type
   )!;
   let sourceConstraints: NodeConnectionConstraint | undefined;
+  let sourceDirection: FlowOrientation | undefined;
   let targetConstraints: NodeConnectionConstraint | undefined;
+  let targetDirection: FlowOrientation | undefined;
   if (connection.sourceHandle!.startsWith('out')) {
     sourceConstraints = sourceNodeDefinition.outputConstraints;
+    sourceDirection = FlowOrientation.OUTPUT;
+  } else if (connection.sourceHandle!.startsWith('in')) {
+    sourceConstraints = sourceNodeDefinition.inputConstraints;
+    sourceDirection = FlowOrientation.INPUT;
   } else if (connection.sourceHandle!.startsWith('val')) {
     let key = connection.sourceHandle!.split('-')[1];
     sourceConstraints = sourceNodeDefinition.data[key].constraints;
+    sourceDirection = sourceNodeDefinition.data[key].flowOrientation;
   }
   if (connection.targetHandle!.startsWith('in')) {
     targetConstraints = targetNodeDefinition.inputConstraints;
+    targetDirection = FlowOrientation.INPUT;
+  } else if (connection.targetHandle!.startsWith('out')) {
+    targetConstraints = targetNodeDefinition.outputConstraints;
+    targetDirection = FlowOrientation.OUTPUT;
   } else if (connection.targetHandle!.startsWith('val')) {
     let key = connection.targetHandle!.split('-')[1];
     targetConstraints = targetNodeDefinition.data[key].constraints;
+    targetDirection = targetNodeDefinition.data[key].flowOrientation;
   }
+  if (sourceDirection !== undefined && targetDirection !== undefined) {
+    if (sourceDirection === targetDirection) {
+      return false;
+    }
+  }
+
   // Check if the connection is allowed by the constraints
   if (
     sourceConstraints?.allowedCategories &&

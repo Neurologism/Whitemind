@@ -1,4 +1,4 @@
-enum FlowOrientation {
+export enum FlowOrientation {
   INPUT = 'input',
   OUTPUT = 'output',
 }
