@@ -160,7 +160,7 @@ const arrowRotation: ComputedRef<number> = computed(() => {
     :position="position"
     :type="props.isInput ? 'target' : 'source'"
     :is-valid-connection="checkConnection"
-    class="z-10 rounded-sm h-3 w-3 hover:w-4 hover:h-4 origin-center text-center border-solid flex items-center justify-center"
+    class="z-10 rounded-sm h-4 w-4 hover:w-5 hover:h-5 origin-center text-center flex items-center justify-center border border-slate-800"
     :style="{
       backgroundImage: constraints?.allowedCategories
         ? CustomNodes.getHardGradientOfMultipleCategories(

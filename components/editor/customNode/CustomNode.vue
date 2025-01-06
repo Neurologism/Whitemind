@@ -55,13 +55,38 @@ function toggleExpanded() {
     <UIcon class="resize-arrow" name="gridicons:resize" />
   </NodeResizeControl>
   <div
-    :style="{ border: `2px solid ${shapeGroupData.color}` }"
-    class="h-full w-full text-zinc-50 rounded-sm bg-gray-800 flex flex-col"
+    class="h-full w-full text-zinc-50 rounded bg-gray-800 flex flex-col border-r-2 border-2 border-slate-800"
     @contextmenu.prevent="$emit('node-contextmenu', props.nodeId)"
   >
     <div
-      class="flex justify-between items-center font-mono p-0.5 bg-slate-700 cursor-all-scroll"
+      class="flex justify-between items-center font-mono pt-0.5 pb-0.5 cursor-all-scroll rounded-t relative"
+      :class="{
+        'pl-1.5': shapeData.hideInput !== true,
+        'pr-3': shapeData.hideOutput !== true,
+        'pr-1': shapeData.hideOutput === true,
+      }"
+      :style="{
+        backgroundColor: shapeGroupData.color,
+      }"
     >
+      <CustomHandle
+        v-if="shapeData.hideInput !== true"
+        :constraints="shapeData.inputConstraints"
+        :handle-id="`in-${props.nodeId}`"
+        :is-input="true"
+        :position="Position.Left"
+        :shape-data="shapeData"
+        :shape-group-data="shapeGroupData"
+      />
+      <CustomHandle
+        v-if="shapeData.hideOutput !== true"
+        :constraints="shapeData.outputConstraints"
+        :handle-id="`out-${props.nodeId}`"
+        :is-input="false"
+        :position="Position.Right"
+        :shape-data="shapeData"
+        :shape-group-data="shapeGroupData"
+      />
       <div
         class="flex justify-between items-center p-1"
         :class="{
@@ -80,42 +105,32 @@ function toggleExpanded() {
         />
         <UIcon :name="shapeGroupData.icon" />
       </div>
-      <span>{{ shapeData.name }}</span>
+      <span class="font-semibold">{{ shapeData.name }}</span>
     </div>
     <div class="w-full nodrag cursor-default">
       <div
         v-if="shapeGroupData.group_identifier !== 'visualizer'"
-        class="mt-0.5 mb-1"
+        :class="`${nodesData!.data.isExpanded ? 'mt-0.5 mb-1' : null}`"
       >
         <div v-for="(shapeDefinition, key) in shapeData.data">
           <div
             v-if="shapeDefinition.type === 'id'"
-            :style="{
-              backgroundImage: shapeDefinition.constraints?.allowedCategories
-                ? CustomNodes.getHardGradientOfMultipleCategories(
-                    shapeDefinition.constraints!.allowedCategories
-                  )
-                : undefined,
-            }"
-            class="mb-1 p-0.5 bg-gray-300"
+            :style="{}"
+            class="mt-0.5 mb-0.5 p-0.5"
             :class="{
               'ml-3 rounded-l-sm pr-0':
                 shapeData.data[key].flowOrientation === 'output',
               'mr-3 rounded-r-sm pl-0':
                 shapeData.data[key].flowOrientation === 'input',
+              'justify-end flex':
+                shapeData.data[key].flowOrientation === 'output',
             }"
           >
-            <div
-              class="grid grid-cols-1 items-center justify-between bg-slate-700 font-mono text-sm relative"
-              :class="{
-                'rounded-r-sm': shapeData.data[key].flowOrientation === 'input',
-                'rounded-l-sm':
-                  shapeData.data[key].flowOrientation === 'output',
-              }"
-            >
-              <span class="pr-2 pl-2 font-semibold font-mono brightness-200">{{
-                key
-              }}</span>
+            <div class="font-mono text-sm relative">
+              <span
+                class="bg-slate-800 pr-2.5 pl-2.5 p-0.5 rounded font-mono"
+                >{{ key }}</span
+              >
               <CustomHandle
                 :constraints="shapeDefinition.constraints"
                 :handle-id="`val-${key}-${props.nodeId}`"
@@ -131,6 +146,11 @@ function toggleExpanded() {
             </div>
           </div>
         </div>
+        <div
+          v-if="nodesData!.data.isExpanded"
+          class="mr-1 ml-1 mb-1 bg-slate-700"
+          style="height: 1px"
+        />
         <div
           v-if="nodesData!.data.isExpanded"
           v-for="(shapeDefinition, key) in shapeData.data"
@@ -154,24 +174,6 @@ function toggleExpanded() {
       </div>
     </div>
   </div>
-  <CustomHandle
-    v-if="shapeData.hideInput !== true"
-    :constraints="shapeData.inputConstraints"
-    :handle-id="`in-${props.nodeId}`"
-    :is-input="true"
-    :position="Position.Top"
-    :shape-data="shapeData"
-    :shape-group-data="shapeGroupData"
-  />
-  <CustomHandle
-    v-if="shapeData.hideOutput !== true"
-    :constraints="shapeData.outputConstraints"
-    :handle-id="`out-${props.nodeId}`"
-    :is-input="false"
-    :position="Position.Bottom"
-    :shape-data="shapeData"
-    :shape-group-data="shapeGroupData"
-  />
 </template>
 
 <style scoped>

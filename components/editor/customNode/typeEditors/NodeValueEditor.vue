@@ -50,6 +50,12 @@ const actionRequired = computed(() => {
 });
 
 const isExpanded = ref(false);
+
+if (editors[props.shapeDefinition.type] === undefined) {
+  console.warn(
+    `No editor found for type "${props.shapeDefinition.type}" in NodeValueEditor`
+  );
+}
 </script>
 
 <template>
@@ -69,7 +75,7 @@ const isExpanded = ref(false);
       </div>
       <div class="flex-1 flex items-center justify-start">
         <span
-          class="flex-none text-sm font-mono font-bold"
+          class="flex-none text-sm font-mono"
           :class="{
             'blink-underline': actionRequired,
           }"
@@ -78,7 +84,7 @@ const isExpanded = ref(false);
       </div>
       <div class="flex-none m-1"></div>
       <div class="flex-1 text-end ml-1 flex items-center justify-end">
-        <span class="text-sky-100 text-sm font-mono">{{
+        <span class="text-sky-100 text-xs font-mono font-thin">{{
           isExpanded
             ? shapeDefinition.type
             : strMaxLen(nodesData!.data[paramName], 10)
