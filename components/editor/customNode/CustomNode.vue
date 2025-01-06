@@ -26,9 +26,14 @@ const chartComponentsByIdentifier: Record<string, any> = {
 
 // @ts-ignore - the value is set here initialy
 nodesData.value.data.isExpanded ??= true;
-function toggleExpanded() {
+const showVisConfigs = ref(false);
+
+function clickIcons() {
   if (shapeGroupData.group_identifier !== 'visualizer') {
     nodesData.value!.data.isExpanded = !nodesData.value!.data.isExpanded;
+  }
+  if (shapeGroupData.group_identifier === 'visualizer') {
+    showVisConfigs.value = !showVisConfigs.value;
   }
 }
 </script>
@@ -88,11 +93,8 @@ function toggleExpanded() {
         :shape-group-data="shapeGroupData"
       />
       <div
-        class="flex justify-between items-center p-1"
-        :class="{
-          'cursor-pointer': shapeGroupData.group_identifier !== 'visualizer',
-        }"
-        @click="toggleExpanded"
+        class="flex justify-between items-center p-1 cursor-pointer"
+        @click="clickIcons"
       >
         <UIcon
           v-if="shapeGroupData.group_identifier !== 'visualizer'"
@@ -104,14 +106,27 @@ function toggleExpanded() {
           }"
         />
         <UIcon :name="shapeGroupData.icon" />
+        <UIcon
+          v-if="shapeGroupData.group_identifier === 'visualizer'"
+          :name="showVisConfigs ? 'mdi-settings' : 'mdi-settings-outline'"
+        />
       </div>
       <span class="font-semibold">{{ shapeData.name }}</span>
     </div>
-    <div class="w-full nodrag cursor-default">
+    <div class="w-full h-full nodrag cursor-default">
       <div
-        v-if="shapeGroupData.group_identifier !== 'visualizer'"
-        :class="`${nodesData!.data.isExpanded ? 'mt-0.5 mb-1' : null}`"
+        v-if="
+          shapeGroupData.group_identifier === 'visualizer' && showVisConfigs
+        "
+        class="p-2 flex-1 h-full w-full"
       >
+        <component
+          :is="chartComponentsByIdentifier[shapeData.identifier]!"
+          :nodeid="props.nodeId"
+        ></component>
+        <!--<div class="h-max w-full bg-slate-500 flex content-end justify-end rounded-sm">hello</div>-->
+      </div>
+      <div :class="`${nodesData!.data.isExpanded ? 'mt-0.5 mb-1' : null}`">
         <div v-for="(shapeDefinition, key) in shapeData.data">
           <div
             v-if="shapeDefinition.type === 'id'"
@@ -147,12 +162,12 @@ function toggleExpanded() {
           </div>
         </div>
         <div
-          v-if="nodesData!.data.isExpanded"
+          v-if="nodesData!.data.isExpanded && !showVisConfigs"
           class="mr-1 ml-1 mb-1 bg-slate-700"
           style="height: 1px"
         />
         <div
-          v-if="nodesData!.data.isExpanded"
+          v-if="nodesData!.data.isExpanded && !showVisConfigs"
           v-for="(shapeDefinition, key) in shapeData.data"
           :key="key"
           class="grid grid-cols-1 items-center justify-between"
@@ -164,13 +179,6 @@ function toggleExpanded() {
             :shape-definition="shapeDefinition"
           />
         </div>
-      </div>
-      <div v-else class="p-2 flex-1 w-full">
-        <component
-          :is="chartComponentsByIdentifier[shapeData.identifier]!"
-          :nodeid="props.nodeId"
-        ></component>
-        <!--<div class="h-max w-full bg-slate-500 flex content-end justify-end rounded-sm">hello</div>-->
       </div>
     </div>
   </div>
