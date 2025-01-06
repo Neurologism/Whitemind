@@ -57,6 +57,7 @@ function toggleExpanded() {
   <div
     :style="{ border: `2px solid ${shapeGroupData.color}` }"
     class="h-full w-full text-zinc-50 rounded-sm bg-gray-800 flex flex-col"
+    @contextmenu.prevent="($event) => $emit('node-contextmenu', $event)"
   >
     <div
       class="flex justify-between items-center font-mono p-0.5 bg-slate-700 cursor-all-scroll"

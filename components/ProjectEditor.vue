@@ -494,7 +494,7 @@ onUnmounted(() => {
           <EditorCustomNode
             :props="props"
             :node-id="props.id"
-            @node-contextmenu="onContextMenu"
+            @nodeContextmenu="onContextMenu"
             :key="route.fullPath"
           />
         </template>
