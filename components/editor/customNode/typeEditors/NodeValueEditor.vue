@@ -8,6 +8,7 @@ import NodeTupleEditor from '~/components/editor/customNode/typeEditors/editors/
 import NodeMultiselectEditor from '~/components/editor/customNode/typeEditors/editors/NodeMultiselectEditor.vue';
 import type { NodeDefinition } from '~/components/editor/blocks';
 import { useNodesData } from '@vue-flow/core';
+import NodeRangeEditor from '~/components/editor/customNode/typeEditors/editors/NodeRangeEditor.vue';
 
 const props = defineProps<{
   paramName: string;
@@ -24,6 +25,7 @@ const editors = {
   number: NodeNumberEditor,
   tuple: NodeTupleEditor,
   multiselect: NodeMultiselectEditor,
+  range: NodeRangeEditor,
 };
 
 function deepEqual(a: any, b: any) {
@@ -74,20 +76,32 @@ if (editors[props.shapeDefinition.type] === undefined) {
         />
       </div>
       <div class="flex-1 flex items-center justify-start">
-        <span
-          class="flex-none text-sm font-mono"
-          :class="{
-            'blink-underline': actionRequired,
-          }"
-          >{{ paramName }}</span
+        <UTooltip
+          :popper="{ adaptive: true, resize: true, placement: 'top' }"
+          :prevent="!isExpanded"
         >
+          <span
+            class="flex-none text-sm font-mono"
+            :class="{ 'blink-underline': actionRequired }"
+            >{{ paramName }}</span
+          >
+          <template #text>
+            <span class="text-sky-100 text-xs font-mono font-thin">
+              <span class="font-semibold">type: </span
+              >{{ shapeDefinition.type }}</span
+            >
+            <br />
+            <span class="text-sky-100 text-xs font-mono font-thin">
+              <span class="font-semibold">default: </span
+              >{{ shapeDefinition.value }}</span
+            >
+          </template>
+        </UTooltip>
       </div>
       <div class="flex-none m-1"></div>
       <div class="flex-1 text-end ml-1 flex items-center justify-end">
         <span class="text-sky-100 text-xs font-mono font-thin">{{
-          isExpanded
-            ? shapeDefinition.type
-            : strMaxLen(nodesData!.data[paramName], 10)
+          strMaxLen(nodesData!.data[paramName], 10)
         }}</span>
         <UIcon
           name="mdi-alert-circle-outline"
@@ -108,7 +122,7 @@ if (editors[props.shapeDefinition.type] === undefined) {
       <div
         v-if="!deepEqual(shapeDefinition.value, nodesData!.data[paramName])"
         @click="nodesData!.data[paramName] = shapeDefinition.value"
-        class="flex-none p-1 ml-1 flex items-center justify-center cursor-pointer"
+        class="flex-none p-1 ml-1 z-10 flex items-center justify-center cursor-pointer"
       >
         <UIcon name="mdi-reload" />
       </div>

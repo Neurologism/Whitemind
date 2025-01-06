@@ -64,6 +64,9 @@ function clickIcons() {
   <div
     class="h-full w-full text-zinc-50 rounded bg-gray-800 flex flex-col border-r-2 border-2 border-slate-800"
     @contextmenu.prevent="$emit('node-contextmenu', props.nodeId)"
+    :style="{
+      width: `${shapeGroupData.default_width}px`,
+    }"
   >
     <div
       class="flex justify-between items-center font-mono pt-0.5 pb-0.5 cursor-all-scroll rounded-t relative"

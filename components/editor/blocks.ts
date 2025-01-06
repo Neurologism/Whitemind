@@ -9,6 +9,7 @@ export const blocks: NodeGroupDefinition[] = [
     icon: 'mdi-database',
     color: '#ff5722',
     group_identifier: 'dataset',
+    default_width: 240,
     groups: [
       {
         name: 'UNCATEGORIZED',
@@ -76,7 +77,10 @@ export const blocks: NodeGroupDefinition[] = [
             },
             data: {
               ratio: {
-                type: 'number',
+                type: 'range',
+                min: 0,
+                max: 1,
+                step: 0.01,
               },
               split1: {
                 type: 'id',
@@ -1224,6 +1228,7 @@ export type NodeGroupDefinition = {
   icon: string;
   color: string;
   group_identifier: string;
+  default_width?: number;
   groups: NodeSubGroupDefinition[];
 };
 
@@ -1286,6 +1291,13 @@ export type NodeDefinition = {
     | {
         type: 'string';
         value?: string | null;
+      }
+    | {
+        type: 'range';
+        min: number;
+        max: number;
+        step: number;
+        value?: number | null;
       }
   >;
 };
