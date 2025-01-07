@@ -73,9 +73,6 @@ importers:
       vue-echarts:
         specifier: ^7.0.3
         version: 7.0.3(@vue/runtime-core@3.5.13)(echarts@5.5.1)(vue@3.5.13(typescript@5.7.2))
-      vue-multiselect:
-        specifier: ^3.1.0
-        version: 3.1.0
       vue-router:
         specifier: latest
         version: 4.5.0(vue@3.5.13(typescript@5.7.2))
@@ -6886,13 +6883,6 @@ packages:
       '@vue/runtime-core':
         optional: true
 
-  vue-multiselect@3.1.0:
-    resolution:
-      {
-        integrity: sha512-+i/fjTqFBpaay9NP+lU7obBeNaw2DdFDFs4mqhsM0aEtKRdvIf7CfREAx2o2B4XDmPrBt1r7x1YCM3BOMLaUgQ==,
-      }
-    engines: { node: '>= 14.18.1', npm: '>= 6.14.15' }
-
   vue-router@4.5.0:
     resolution:
       {
@@ -11714,8 +11704,6 @@ snapshots:
       '@vue/runtime-core': 3.5.13
     transitivePeerDependencies:
       - '@vue/composition-api'
-
-  vue-multiselect@3.1.0: {}
 
   vue-router@4.5.0(vue@3.5.13(typescript@5.7.2)):
     dependencies:

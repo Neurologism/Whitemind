@@ -107,7 +107,7 @@ export const blocks: NodeGroupDefinition[] = [
     icon: 'mdi-cube',
     color: 'teal',
     group_identifier: 'model',
-    default_width: 300,
+    default_width: 350,
     groups: [
       {
         name: 'UNCATEGORIZED',

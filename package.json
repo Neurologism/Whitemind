@@ -37,7 +37,6 @@
     "prettier": "^3.4.2",
     "vue": "latest",
     "vue-echarts": "^7.0.3",
-    "vue-multiselect": "^3.1.0",
     "vue-router": "latest",
     "zod": "^3.24.1"
   },
