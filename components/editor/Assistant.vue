@@ -109,11 +109,12 @@ watch(showSpeechBubble, () => {
       class="speech-bubble text-white min-w-[350px] max-w-[500px] absolute"
     >
       <slot name="content">
-        <span class="font-mono text-sm leading-none">
-          {{
-            tutorialStore.tutorial.data?.steps[tutorialStore.visibleStep].text
-          }}
-        </span>
+        <HilightText
+          :text="
+            tutorialStore.tutorial.data?.steps[tutorialStore.visibleStep]
+              .text ?? ''
+          "
+        ></HilightText>
       </slot>
       <div class="flex flex-row space-x-2 mt-4">
         <UButton
