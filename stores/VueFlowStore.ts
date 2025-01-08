@@ -6,27 +6,24 @@ export const useVueFlowStore = defineStore('vueFlowStore', {
   state: () => ({
     nodes: ref<Node[]>([]),
     edges: ref<Edge[]>([]),
-    highlightedEdge: ref<string | null>(null),
-    remote_data: {
-      _id: 'string',
-      name: 'string',
-      description: 'string',
-      owner_id: 'string',
-      contributors: ['string'],
-      visibility: 'private or public',
-      created_on: 0,
-      last_edited: 0,
+    viewport: { x: 0, y: 0, zoom: 1 } as {
+      x: number;
+      y: number;
+      zoom: number;
     },
+    highlightedEdge: ref<string | null>(null),
   }),
   getters: {
-    nodeById:
-      (state) =>
-      (id: string): Node | undefined => {
-        return state.nodes.find((node: Node) => node.id === id);
-      },
+    components(state) {
+      return {
+        nodes: state.nodes,
+        edges: state.edges,
+        viewport: state.viewport,
+      };
+    },
   },
   actions: {
-    getNode(nodeId: string) {
+    getNode(nodeId: string): Node | undefined {
       return this.nodes.find((node) => node.id === nodeId);
     },
 
