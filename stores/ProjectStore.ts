@@ -1,27 +1,34 @@
 import { defineStore } from 'pinia';
+import { SyncStatus } from '~/components/editor/syncStatus';
+
+interface Project {
+  fetchedTime: Date;
+  data: {
+    _id: string;
+    components: any;
+    contributors: string[];
+    dateCreatedAt: Date;
+    dateLastEdited: Date;
+    description: string;
+    models: string[];
+    name: string;
+    ownerId: string;
+    visibility: 'private' | 'public';
+  };
+}
 
 export const useProjectStore = defineStore('projectStore', {
   state: () => ({
-    projects: [
-      {
-        fetchedTime: new Date(),
-        data: {
-          _id: 'string',
-          name: 'string',
-          description: 'string',
-          owner_id: 'string',
-          contributors: ['string'],
-          visibility: 'private or public',
-          created_on: 0,
-          last_edited: 0,
-          components: null,
-        },
-      },
-    ],
+    syncStatus: ref(SyncStatus.initializing as SyncStatus),
+    project: null as Project | null,
+    projects: [] as Project[],
   }),
   getters: {},
   actions: {
-    async deleteProject(projectId: string) {
+    async deleteProject(projectId: string = ''): Promise<Response | null> {
+      if (!projectId) projectId = this.project?.data._id ?? '';
+      if (!projectId) return null;
+
       const sessionStore = useSessionStore();
       const response = await sessionStore.fetch('/api/project/delete', {
         method: 'POST',
@@ -35,29 +42,27 @@ export const useProjectStore = defineStore('projectStore', {
           },
         }),
       });
-      if (response.ok) {
-        return true;
-      } else {
+
+      if (!response.ok) {
         console.error('Failed to delete project.');
-        return false;
       }
+      return response;
     },
 
-    async getProject(id: string) {
-      let field = this.projects.find((project) => project.data._id === id);
-      if (field === undefined || field === null) {
-        await this.fetchProject(id);
-        field = this.projects.find((project) => project.data._id === id);
+    async getProject(projectId: string): Promise<Project | null> {
+      let project = this.projects.find(
+        (project) => project.data._id === projectId
+      );
+      if (
+        project &&
+        project.fetchedTime >= new Date(new Date().getTime() - 15000)
+      ) {
+        return project;
       }
-      if (!field) return null;
-      if (field.fetchedTime < new Date(new Date().getTime() - 15000)) {
-        await this.fetchProject(id);
-        field = this.projects.find((project) => project.data._id === id);
-      }
-      return field?.data ?? null;
+      return await this.fetchProject(projectId);
     },
 
-    async fetchProject(id: string) {
+    async fetchProject(projectId: string): Promise<Project | null> {
       const sessionStore = useSessionStore();
       let response: Response = await sessionStore.fetch('/api/project/get', {
         method: 'POST',
@@ -67,49 +72,86 @@ export const useProjectStore = defineStore('projectStore', {
         },
         body: JSON.stringify({
           project: {
-            _id: id,
+            _id: projectId,
           },
         }),
       });
-      if (response.ok) {
-        let data = await response.json();
-        this.projects.push({
-          fetchedTime: new Date(),
-          data: data.project,
-        });
-        return data.project;
-      } else {
+
+      if (!response.ok) {
         console.error('Failed to fetch project.');
         return null;
       }
+
+      let data = await response.json();
+      const project = {
+        fetchedTime: new Date(),
+        data: data.project,
+      } as Project;
+      this.projects.push(project);
+      return project;
     },
 
-    async updateProjectComponents(id: string, components: any) {
-      let project = this.projects.find((project) => project.data._id === id);
-      if (!project) return null;
-      project.data.components = components;
-      const body = JSON.stringify({
-        project: {
-          _id: id,
-          components: components,
-        },
-      });
+    async updateProject(
+      projectId: string = '',
+      projectData: Object = {}
+    ): Promise<boolean> {
+      let project;
+      if (!projectId || projectId === this.project?.data._id) {
+        if (!this.project) return false;
+        project = this.project;
+        projectId = project?.data._id;
+      } else {
+        project = this.projects.find(
+          (project) => project.data._id === projectId
+        );
+      }
+      if (!project) return false;
 
+      project.data = { ...project.data, ...projectData } as Project['data'];
       const sessionStore = useSessionStore();
-
       const result = await sessionStore.fetch('/api/project/update', {
         method: 'POST',
         cache: 'no-cache',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: body,
+        body: JSON.stringify({
+          project: {
+            _id: projectId,
+            name: project.data.name,
+            description: project.data.description,
+            visibility: project.data.visibility,
+            components: project.data.components,
+            // ownerId: project.data.ownerId, this line can be uncommented when backmind issue #82 branch is merged
+          },
+        }),
       });
-      if (result.ok) {
-        return true;
+      return result.ok;
+    },
+
+    async syncProject(): Promise<boolean> {
+      console.log('success');
+      if (!this.project) return false;
+      const toast = useToast();
+      this.syncStatus = SyncStatus.syncing;
+
+      const vueFlowStore = useVueFlowStore();
+      this.project.data.components = vueFlowStore.components;
+
+      const success = await this.updateProject();
+      console.log(success);
+
+      if (!success) {
+        toast.add({
+          title: 'Failed to sync project',
+          icon: 'mdi-alert-circle',
+          color: 'red',
+        });
+        this.syncStatus = SyncStatus.error;
       } else {
-        return false;
+        this.syncStatus = SyncStatus.synced;
       }
+      return success;
     },
   },
 });
