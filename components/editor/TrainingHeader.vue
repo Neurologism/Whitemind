@@ -3,14 +3,13 @@ import { SyncStatus } from '~/components/editor/syncStatus';
 
 const toast = useToast();
 
-const sessionStore = useSessionStore();
 const trainingStore = useTrainingStore();
 const tutorialStore = useTutorialStore();
 
 const props = defineProps<{
   projectId: string;
   syncStatus: SyncStatus;
-  syncProject: () => Promise<void>;
+  syncProject: Function;
 }>();
 
 async function trainingStart() {

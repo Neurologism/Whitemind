@@ -87,12 +87,12 @@ export class CustomNodes {
     const nodeId = split[split.length - 1];
     if (split.length === 1) return '#000000';
     if (split.length === 2) {
-      const node = flowStore.nodeById(nodeId!)!;
+      const node = flowStore.getNode(nodeId!)!;
       const group = CustomNodes.getNodeGroup(node.type ?? '');
       return group?.color ?? '#000000';
     }
     if (split.length === 3) {
-      const node = flowStore.nodeById(nodeId!)!;
+      const node = flowStore.getNode(nodeId!)!;
       const nodeDef = CustomNodes.getCustomNodeConfig(node.type ?? '');
       const handleTypeKey = split[split.length - 2];
       const handleCategoryType =
@@ -110,7 +110,7 @@ export class CustomNodes {
     const nodeId = split[split.length - 1];
     if (split.length === 1) return null;
     if (split.length === 2) {
-      const node = flowStore.nodeById(nodeId!)!;
+      const node = flowStore.getNode(nodeId!)!;
       const nodeDef = CustomNodes.getCustomNodeConfig(node.type ?? '');
 
       if (split[0] === 'in') {
@@ -120,7 +120,7 @@ export class CustomNodes {
       } else return null;
     }
     if (split.length === 3) {
-      const node = flowStore.nodeById(nodeId!)!;
+      const node = flowStore.getNode(nodeId!)!;
       const nodeDef = CustomNodes.getCustomNodeConfig(node.type ?? '');
       const handleTypeKey = split[split.length - 2];
       // @ts-ignore "constraints" exists on type 'id'

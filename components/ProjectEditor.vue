@@ -44,8 +44,6 @@ const config = useRuntimeConfig();
 
 sessionStore.showLoadingAnimation();
 
-const syncStatus = ref<SyncStatus>(SyncStatus.initializing);
-
 const {
   onConnect,
   addEdges,
@@ -61,6 +59,7 @@ const {
   applyEdgeChanges,
   applyNodeChanges,
   removeNodes,
+  viewportRef,
 } = useVueFlow();
 
 trainingStore.training.epoch = null;
@@ -299,19 +298,16 @@ async function loadProject() {
   await sessionStore.checkSession(true);
   const project = await projectStore.fetchProject(props.projectId);
 
-  if (!project && !props.tutorialProject) {
-    navigateTo('/404');
-    return;
-  }
+  if (!project) return;
 
   let components;
-  if (!project.components) {
+  if (!project.data.components) {
     components = {
       nodes: [],
       edges: [],
     };
   } else {
-    components = project.components;
+    components = project.data.components;
   }
   const loadResult = await fromObject(components);
   if (!loadResult) {
@@ -320,47 +316,22 @@ async function loadProject() {
       icon: 'mdi-alert-circle',
       color: 'red',
     });
-    syncStatus.value = SyncStatus.error;
+    projectStore.syncStatus = SyncStatus.error;
   } else {
-    vueFlowStore.remote_data = project;
+    projectStore.project = project;
     sessionStore.loading = false;
-    syncStatus.value = SyncStatus.synced;
+    projectStore.syncStatus = SyncStatus.synced;
   }
 }
 
-async function postProject() {
-  syncStatus.value = SyncStatus.syncing;
-  const componentsObject = toObject();
-  const success = await projectStore.updateProjectComponents(
-    props.projectId,
-    componentsObject
-  );
-  if (!success) {
-    toast.add({
-      title: 'Failed to sync project',
-      icon: 'mdi-alert-circle',
-      color: 'red',
-    });
-    syncStatus.value = SyncStatus.error;
-  } else {
-    // toast.add({ title: 'Project synced', icon: 'mdi-check', color: 'green' });
-    syncStatus.value = SyncStatus.synced;
-  }
-}
 let syncInterval: NodeJS.Timeout | null = null;
 function setSyncInterval() {
-  syncStatus.value = SyncStatus.unsaved;
+  projectStore.syncStatus = SyncStatus.unsaved;
   if (syncInterval) {
     clearInterval(syncInterval);
   }
-  syncInterval = setTimeout(() => {
-    postProject();
-  }, 5000);
+  syncInterval = setTimeout(projectStore.syncProject, 5000);
 }
-
-const projectOwner = computed(
-  () => sessionStore.sessionData.user.displayname ?? 'Loading...'
-);
 
 if (props.projectId !== '') {
   loadProject();
@@ -412,14 +383,8 @@ watch(
   }
 );
 
-onUnmounted(() => {
-  vueFlowStore.$reset();
-});
-
 defineShortcuts({
-  s: () => {
-    postProject();
-  },
+  s: projectStore.syncProject,
 });
 </script>
 
@@ -444,111 +409,74 @@ defineShortcuts({
       >
     </div>
   </UContextMenu>
-  <div class="flex flex-row relative">
-    <div
-      class="dnd-flow flex-2 bg-slate-900"
-      @drop="handleDrop"
-      @dragover.prevent
+  <div
+    class="flex-2 bg-slate-900 w-screen"
+    style="height: calc(100vh - 4rem)"
+    @drop="handleDrop"
+    @dragover.prevent
+  >
+    <VueFlow
+      :apply-default="false"
+      v-model:nodes="vueFlowStore.nodes"
+      v-model:edges="vueFlowStore.edges"
+      @viewport-change-end="vueFlowStore.viewport = toObject().viewport"
+      class="border-3 border-amber-400"
+      @edge-mouse-enter="
+        (infos) => (vueFlowStore.highlightedEdge = infos.edge.id)
+      "
+      @edge-mouse-leave="(_infos) => (vueFlowStore.highlightedEdge = null)"
+      @edge-click="onRemoveEdge"
     >
-      <VueFlow
-        :apply-default="false"
-        v-model:nodes="vueFlowStore.nodes"
-        v-model:edges="vueFlowStore.edges"
-        class="border-3 border-amber-400"
-        @edge-mouse-enter="
-          (infos) => (vueFlowStore.highlightedEdge = infos.edge.id)
-        "
-        @edge-mouse-leave="(_infos) => (vueFlowStore.highlightedEdge = null)"
-        @edge-click="onRemoveEdge"
-      >
-        <Background
-          :pattern-color="colorMode.value === 'dark' ? '#aaa' : '#222'"
-          :gap="48"
-          :size="2"
+      <Background
+        :pattern-color="colorMode.value === 'dark' ? '#aaa' : '#222'"
+        :gap="48"
+        :size="2"
+      />
+      <Panel position="bottom-right">
+        <div>
+          <slot name="bottomright"></slot>
+        </div>
+      </Panel>
+      <!--        <MiniMap zoomable node-color="black" mask-color="rgba(56,56,56,0.5)" />-->
+      <template #connection-line="props">
+        <CustomConnectionEdge v-bind="props" />
+      </template>
+      <!-- this warning is an webstorm/lang server error, code works -->
+      <template #edge-smoothstep="props">
+        <CustomEdge
+          :id="props.id"
+          :marker-end="props.markerEnd"
+          :sourcePosition="props.sourcePosition"
+          :targetPosition="props.targetPosition"
+          :style="props.style"
+          :sourceX="props.sourceX"
+          :sourceY="props.sourceY"
+          :targetX="props.targetX"
+          :targetY="props.targetY"
+          :data="props.data"
         />
-        <Panel position="bottom-right">
-          <div>
-            <slot name="bottomright"></slot>
-          </div>
-        </Panel>
-        <!--        <MiniMap zoomable node-color="black" mask-color="rgba(56,56,56,0.5)" />-->
-        <template #connection-line="props">
-          <CustomConnectionEdge v-bind="props" />
-        </template>
-        <!-- this warning is an webstorm/lang server error, code works -->
-        <template #edge-smoothstep="props">
-          <CustomEdge
-            :id="props.id"
-            :marker-end="props.markerEnd"
-            :sourcePosition="props.sourcePosition"
-            :targetPosition="props.targetPosition"
-            :style="props.style"
-            :sourceX="props.sourceX"
-            :sourceY="props.sourceY"
-            :targetX="props.targetX"
-            :targetY="props.targetY"
-            :data="props.data"
-          />
-        </template>
-        <template
-          v-for="node in CustomNodes.nodesList.flatMap((group) =>
-            group.groups.flatMap((subGroup) => subGroup.nodes)
-          )"
-          :key="node.type"
-          v-slot:[`node-${node.type}`]="props"
-        >
-          <EditorCustomNode
-            :props="props"
-            :node-id="props.id"
-            @nodeContextmenu="onContextMenu"
-            :key="route.fullPath"
-          />
-        </template>
-      </VueFlow>
-    </div>
+      </template>
+      <template
+        v-for="node in CustomNodes.nodesList.flatMap((group) =>
+          group.groups.flatMap((subGroup) => subGroup.nodes)
+        )"
+        :key="node.type"
+        v-slot:[`node-${node.type}`]="props"
+      >
+        <EditorCustomNode
+          :props="props"
+          :node-id="props.id"
+          @nodeContextmenu="onContextMenu"
+          :key="route.fullPath"
+        />
+      </template>
+    </VueFlow>
   </div>
   <div class="h-full absolute-overlay flex flex-col overflow-hidden">
-    <div class="pointer-events-auto">
-      <EditorProjectHeader
-        :project-title="vueFlowStore.remote_data.name"
-        :project-owner="projectOwner"
-        class="w-full"
-      >
-        <div class="flex flex-row">
-          <div class="flex-1 lg:mr-10">
-            <EditorTrainingHeader
-              :project-id="props.projectId"
-              :sync-status="syncStatus"
-              :sync-project="postProject"
-            />
-          </div>
-          <div class="flex">
-            <UTooltip text="Write changes to server" :shortcuts="['s']">
-              <div
-                class="flex items-center hover:scale-105 transition-transform cursor-pointer rounded-md p-3"
-                :style="{
-                  backgroundColor:
-                    syncStatus === SyncStatus.unsaved
-                      ? 'orange'
-                      : syncStatus === SyncStatus.synced
-                        ? 'green'
-                        : syncStatus === SyncStatus.error
-                          ? 'red'
-                          : 'gray',
-                  color: 'white',
-                }"
-                @click="postProject"
-              >
-                <UIcon :name="syncStatus" />
-              </div>
-            </UTooltip>
-          </div>
-        </div>
-      </EditorProjectHeader>
-    </div>
+    <div class="h-16"></div>
     <div
       class="flex-1 overflow-auto"
-      v-if="syncStatus === SyncStatus.initializing"
+      v-if="projectStore.syncStatus === SyncStatus.initializing"
     >
       <UProgress animation="carousel" />
     </div>
@@ -567,10 +495,5 @@ defineShortcuts({
   left: 0;
   width: 100vw;
   pointer-events: none;
-}
-
-.dnd-flow {
-  height: 100vh;
-  width: 100vw;
 }
 </style>
