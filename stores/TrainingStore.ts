@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-interface trainingState {
+interface TrainingState {
   training: {
     running: boolean;
     projectId?: string;
@@ -22,7 +22,7 @@ interface trainingState {
 }
 
 export const useTrainingStore = defineStore('trainingStore', {
-  state: (): trainingState => ({
+  state: (): TrainingState => ({
     training: {
       running: false,
       projectId: undefined,

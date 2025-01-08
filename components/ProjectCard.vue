@@ -2,14 +2,14 @@
 const sessionStore = useSessionStore();
 const projectStore = useProjectStore();
 
-const data: Ref<(typeof projectStore.projects)[0]['data'] | null> = ref(null);
+const data: Ref<Project['data'] | undefined> = ref(undefined);
 const props = defineProps({
   id: String,
 });
 
 onMounted(async () => {
   if (props.id == undefined) return;
-  data.value = await projectStore.getProject(props.id);
+  data.value = (await projectStore.getProject(props.id))?.data;
 });
 </script>
 
@@ -34,7 +34,7 @@ onMounted(async () => {
 
     <template #footer>
       <span class="text-sm text-gray-500"
-        >Edited {{ new Date(data?.last_edited ?? 0).toDateString() }}</span
+        >Edited {{ new Date(data.dateLastEdited ?? 0).toDateString() }}</span
       >
     </template>
   </UCard>

@@ -1,22 +1,6 @@
 import { defineStore } from 'pinia';
 import { SyncStatus } from '~/components/editor/syncStatus';
 
-interface Project {
-  fetchedTime: Date;
-  data: {
-    _id: string;
-    components: any;
-    contributors: string[];
-    dateCreatedAt: Date;
-    dateLastEdited: Date;
-    description: string;
-    models: string[];
-    name: string;
-    ownerId: string;
-    visibility: 'private' | 'public';
-  };
-}
-
 export const useProjectStore = defineStore('projectStore', {
   state: () => ({
     syncStatus: ref(SyncStatus.initializing as SyncStatus),
