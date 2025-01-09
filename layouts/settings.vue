@@ -3,7 +3,7 @@ const sessionStore = useSessionStore();
 
 onMounted(() => {
   sessionStore.syncLocalSessionData();
-  if (sessionStore.isAuthorized !== true) {
+  if (!sessionStore.isAuthorized) {
     navigateTo('/login');
   }
 });
@@ -13,10 +13,10 @@ onMounted(() => {
   <AppHeader />
   <div class="h-16"></div>
   <div
-    class="w-2/3 mx-auto flex flex-row mt-8 mb-32"
+    class="w-full lg:w-2/3 mx-auto flex flex-row mt-8 mb-32"
     style="min-height: calc(100vh - 16rem - 34px)"
   >
-    <div class="flex flex-col w-40 mr-10">
+    <div class="flex flex-col w-40 mr-10 pt-14">
       <UButton
         color="gray"
         variant="ghost"
