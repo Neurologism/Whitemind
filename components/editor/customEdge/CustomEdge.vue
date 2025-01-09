@@ -4,6 +4,7 @@ import {
   EdgeLabelRenderer,
   getSmoothStepPath,
   Position,
+  getBezierPath,
 } from '@vue-flow/core';
 
 const flowStore = useVueFlowStore();
@@ -60,16 +61,27 @@ const offset = Math.abs(
     15
 );
 
+const useBreezePath = true;
+
 const path = computed(() =>
-  getSmoothStepPath({
-    sourceX: props.sourceX,
-    sourceY: props.sourceY,
-    targetX: props.targetX,
-    targetY: props.targetY,
-    sourcePosition: props.sourcePosition,
-    targetPosition: props.targetPosition,
-    offset,
-  })
+  useBreezePath
+    ? getBezierPath({
+        sourceX: props.sourceX,
+        sourceY: props.sourceY,
+        targetX: props.targetX,
+        targetY: props.targetY,
+        sourcePosition: props.sourcePosition,
+        targetPosition: props.targetPosition,
+      })
+    : getSmoothStepPath({
+        sourceX: props.sourceX,
+        sourceY: props.sourceY,
+        targetX: props.targetX,
+        targetY: props.targetY,
+        sourcePosition: props.sourcePosition,
+        targetPosition: props.targetPosition,
+        offset,
+      })
 );
 
 const isHovered = computed(() => flowStore.highlightedEdge === props.id);
