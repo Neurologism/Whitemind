@@ -14,19 +14,19 @@ if (!sessionStore.isAuthorized) {
   });
 }
 
-let projectName = ref('');
-let projectDescription = ref('');
-let projectVisible = ref(true);
+const projectName = ref('');
+const projectDescription = ref('');
+const projectVisible = ref(true);
 
 let isProcessingCreation = ref(false);
 
 const tabValues = [
   {
-    label: 'Public',
+    label: 'Private',
     value: false,
   },
   {
-    label: 'Private',
+    label: 'Public',
     value: true,
   },
 ];
@@ -105,7 +105,7 @@ const createProject = async () => {
       <div class="input-tile">
         <UTabs
           :items="tabValues"
-          @change="(index) => (projectVisible = index == 0)"
+          @change="(index) => (projectVisible = index === 0)"
         />
       </div>
       <div class="input-tile">

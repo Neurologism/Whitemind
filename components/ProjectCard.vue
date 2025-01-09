@@ -14,36 +14,47 @@ onMounted(async () => {
 </script>
 
 <template>
-  <UCard
-    v-if="data"
-    class="transform transition-transform duration-300 cursor-pointer"
+  <div
+    class="h-40 select-none transform hover:scale-105 transition-transform duration-300 cursor-pointer p-4 rounded-md border-2 border-customPrimary-950 hover:border-primary bg-zinc-200 hover:bg-customPrimary-100 text-black font-mono"
     @click="
       sessionStore.showLoadingAnimation('Loading...');
       navigateTo(`/project/${props.id}`);
     "
   >
-    <template #header>
-      <h4 class="text-primary">{{ data?.name ?? '' }}</h4>
-    </template>
-
-    <p
-      class="text-sm text-gray-500 whitespace-pre-line overflow-ellipsis line-clamp-2"
-    >
-      {{ data?.description }}
-    </p>
-
-    <template #footer>
-      <span class="text-sm text-gray-500"
-        >Edited {{ new Date(data.dateLastEdited ?? 0).toDateString() }}</span
-      >
-    </template>
-  </UCard>
-  <UCard
-    v-else
-    class="transform transition-transform duration-300 cursor-pointer"
-  >
-    <template #header>
-      <h4 class="text-primary">Loading...</h4>
-    </template>
-  </UCard>
+    <div class="flex flex-col flex-nowrap h-full" v-if="data">
+      <div class="flex-none flex flex-row flex-nowrap items-center">
+        <span
+          class="flex-1 font-semibold overflow-ellipsis line-clamp-1 text-primary"
+          >{{ data?.name ?? '' }}</span
+        >
+        <UIcon
+          class="flex-none"
+          :name="data?.visibility === 'private' ? 'mdi-lock' : 'mdi-lock-open'"
+        />
+      </div>
+      <UDivider class="flex-none" />
+      <span class="flex-1 text-sm text-gray-600 line-clamp-4 overflow-ellipsis">
+        {{ data?.description }}
+      </span>
+      <UDivider class="flex-none" />
+      <span class="text-sm text-gray-600 flex items-center">
+        <UIcon name="mdi-calendar" class="mr-1" />
+        Edited {{ new Date(data?.dateLastEdited ?? 0).toDateString() }}
+      </span>
+    </div>
+    <div class="flex flex-col flex-nowrap h-full" v-else>
+      <div class="flex-none">
+        <USkeleton class="flex-none w-2/5 h-4 m-1 mr-4" />
+        <UDivider class="flex-none" />
+      </div>
+      <div class="flex-grow">
+        <USkeleton class="w-4/5 h-4 m-1 mr-4" />
+        <USkeleton class="w-3/5 h-4 m-1 mr-4" />
+      </div>
+      <div class="flex-none">
+        <UDivider class="flex-none" />
+        <USkeleton class="flex-none w-4/5 h-4 ml-1 mt-1 mr-4" />
+      </div>
+    </div>
+  </div>
 </template>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { current } from 'tailwindcss/colors';
 import BrainCircuit20Filled from '~/components/icon/BrainCircuit20Filled.vue';
 
 definePageMeta({
@@ -51,8 +50,8 @@ function onMouseMove(event: MouseEvent) {
   });
 
   gsap.to('.icon3-0', {
-    x: -x * 1.0,
-    y: -y * 1.0,
+    x: -x,
+    y: -y,
     duration: 2,
     ease: 'power3.out',
   });
@@ -306,16 +305,14 @@ function initGsap() {
         <p class="text2 text-xl lg:text-2xl mt-4 text-slate-200">
           Turn your concepts into smart, AI-powered solutions effortlessly.
         </p>
-        <div>
-          <UButton
-            :to="sessionStore.isAuthorized ? '/profile' : '/signup'"
-            class="text3 px-4 py-2 md:px-6 md:py-3 text-lg font-semibold dark:text-white bg-blue-600 hover:bg-blue-700 mt-8"
-            icon="i-heroicons-rocket-launch-solid"
-            :color="'none' as any"
-          >
-            Sign up for WhiteMind
-          </UButton>
-        </div>
+        <UButton
+          :to="sessionStore.isAuthorized ? '/profile' : '/signup'"
+          class="text3 px-4 py-2 md:px-6 md:py-3 text-lg font-semibold dark:text-white bg-blue-600 hover:bg-blue-700 mt-8 transition-transform"
+          icon="i-heroicons-rocket-launch-solid"
+          :color="'none' as any"
+        >
+          {{ sessionStore.isAuthorized ? 'Profile' : 'Sign up for WhiteMind' }}
+        </UButton>
         <UIcon
           name="mage:robot-uwu-fill"
           class="icon3 icon3-0 mt-14 xl:hidden text mx-auto"
