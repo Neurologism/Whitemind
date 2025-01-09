@@ -97,14 +97,19 @@ function checkConnection(
     }
   }
 
+  console.log(sourceConstraints, targetConstraints);
+
   // Check if the connection is allowed by the constraints
   if (
     sourceConstraints?.allowedCategories &&
     targetConstraints?.allowedCategories
   ) {
-    return sourceConstraints.allowedCategories.some((category) =>
+    let result = sourceConstraints.allowedCategories.some((category) =>
       targetConstraints.allowedCategories!.includes(category)
     );
+    if (!result) {
+      return false;
+    }
   }
   if (sourceConstraints?.min || sourceConstraints?.max) {
     let newSourceConnectionCount =
