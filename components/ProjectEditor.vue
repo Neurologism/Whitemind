@@ -330,7 +330,7 @@ function setSyncInterval() {
   if (syncInterval) {
     clearInterval(syncInterval);
   }
-  syncInterval = setTimeout(projectStore.syncProject, 5000);
+  syncInterval = setTimeout(() => projectStore.syncProject(vueFlowStore), 8000);
 }
 
 if (props.projectId !== '') {
@@ -384,7 +384,7 @@ watch(
 );
 
 defineShortcuts({
-  s: projectStore.syncProject,
+  s: () => projectStore.syncProject(vueFlowStore),
 });
 </script>
 

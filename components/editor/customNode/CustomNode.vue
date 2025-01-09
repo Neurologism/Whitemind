@@ -162,6 +162,7 @@ function clickIcons() {
               <CustomHandle
                 :constraints="shapeDefinition.constraints"
                 :handle-id="`val-${key}-${props.nodeId}`"
+                :key="`${key}-${props.nodeId}`"
                 :is-input="shapeData.data[key].flowOrientation! === 'input'"
                 :position="
                   (
@@ -186,10 +187,10 @@ function clickIcons() {
         <div
           v-if="nodesData!.data.isExpanded && !nodesData!.data.showVisConfigs"
           v-for="(shapeDefinition, key) in shapeData.data"
-          :key="key"
           class="grid grid-cols-1 items-center justify-between"
         >
           <NodeValueEditor
+            :key="key"
             v-if="shapeDefinition.type !== 'id'"
             :node-id="props.nodeId"
             :param-name="key"

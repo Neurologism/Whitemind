@@ -3,10 +3,11 @@ import { SyncStatus } from '~/components/editor/syncStatus';
 
 const sessionStore = useSessionStore();
 const projectStore = useProjectStore();
+const vueFlowStore = useVueFlowStore();
 
 onMounted(() => {
   sessionStore.syncLocalSessionData();
-  if (sessionStore.isAuthorized !== true) {
+  if (!sessionStore.isAuthorized) {
     navigateTo('/login');
   }
 });
@@ -41,7 +42,7 @@ onMounted(() => {
                       : 'gray',
               color: 'white',
             }"
-            @click="projectStore.syncProject"
+            @click="() => projectStore.syncProject(vueFlowStore)"
           >
             <UIcon :name="projectStore.syncStatus" />
           </div>
