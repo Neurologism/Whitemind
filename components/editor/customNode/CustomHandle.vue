@@ -97,8 +97,6 @@ function checkConnection(
     }
   }
 
-  console.log(sourceConstraints, targetConstraints);
-
   // Check if the connection is allowed by the constraints
   if (
     sourceConstraints?.allowedCategories &&
