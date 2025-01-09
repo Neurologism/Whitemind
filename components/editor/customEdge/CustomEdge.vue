@@ -61,7 +61,7 @@ const offset = Math.abs(
     15
 );
 
-const useBreezePath = true;
+const useBreezePath = false;
 
 const path = computed(() =>
   useBreezePath

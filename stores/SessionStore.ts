@@ -229,10 +229,15 @@ export const useSessionStore = defineStore('sessionStore', {
         Authorization: `Bearer ${this.sessionData.Authorization}`,
       };
 
-      return fetch(url, {
+      const result = await fetch(url, {
         ...options,
         headers,
       });
+      if (result.status == 401) {
+        this.$reset();
+        navigateTo('/login');
+      }
+      return result;
     },
 
     async loginWithSessionToken(token: string) {

@@ -387,6 +387,7 @@ export const blocks: NodeGroupDefinition[] = [
     icon: 'mdi-layers',
     color: 'green',
     group_identifier: 'layer',
+    default_width: 280,
     groups: [
       {
         name: 'CORE LAYERS',

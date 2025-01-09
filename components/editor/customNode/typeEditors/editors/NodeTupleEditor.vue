@@ -8,11 +8,11 @@ const props = defineProps<{
 }>();
 
 const nodesData = useNodesData(props.nodeId)!;
-const value = ref(JSON.stringify(nodesData.data[props.paramName]));
+const value = ref(JSON.stringify(nodesData.value!.data[props.paramName]));
 watch(value, (newVal) => {
   try {
-    newVal = JSON.parse(newVal);
-    if (Array.isArray(newVal)) nodesData.data[props.paramName] = newVal;
+    let parsed: (string | number)[] = JSON.parse(newVal);
+    if (Array.isArray(newVal)) nodesData.value![props.paramName] = parsed;
   } catch (e) {
     console.info('Did not update data because of invalid JSON');
   }
@@ -20,5 +20,5 @@ watch(value, (newVal) => {
 </script>
 
 <template>
-  <UInput size="2sm" v-model="value"></UInput>
+  <UInput v-model="value" size="2xs"></UInput>
 </template>

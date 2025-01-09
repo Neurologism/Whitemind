@@ -48,7 +48,7 @@ onBeforeUnmount(() => {
     }"
   >
     <span class="text-sky-100 flex-1 line-clamp-1 text-ellipsis">{{
-      nodesData?.data[paramName]
+      nodesData?.data[paramName] ?? '‐--'
     }}</span>
     <div class="flex-initial flex items-center justify-center">
       <UIcon

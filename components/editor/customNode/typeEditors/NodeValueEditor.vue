@@ -51,8 +51,6 @@ const actionRequired = computed(() => {
   return required && nodesData.value?.data[props.paramName] === undefined;
 });
 
-const isExpanded = ref(false);
-
 if (editors[props.shapeDefinition.type] === undefined) {
   console.warn(
     `No editor found for type "${props.shapeDefinition.type}" in NodeValueEditor`
@@ -65,27 +63,12 @@ if (editors[props.shapeDefinition.type] === undefined) {
     v-if="!(shapeDefinition.inline ?? false)"
     class="pr-1 pl-1 grid grid-cols-1 text-sky-100"
   >
-    <div
-      class="flex flex-row flex-nowrap cursor-pointer"
-      @click="isExpanded = !isExpanded"
-    >
-      <div class="flex justify-between items-center pl-1 pr-1">
-        <UIcon
-          class="flex-none"
-          name="material-symbols:expand-more"
-          :style="{
-            transform: isExpanded ? 'rotate(0deg)' : 'rotate(270deg)',
-          }"
-        />
-      </div>
-      <div class="flex-1 flex items-center justify-start">
-        <UTooltip
-          :popper="{ adaptive: true, resize: true, placement: 'top' }"
-          :prevent="!isExpanded"
-        >
+    <div class="flex flex-row flex-nowrap">
+      <div class="flex-none flex items-center justify-start">
+        <UTooltip :popper="{ adaptive: true, resize: true, placement: 'top' }">
           <span
-            class="flex-none text-sm font-mono"
             :class="{ 'blink-underline': actionRequired }"
+            class="flex-none text-sm font-mono"
             >{{ paramName }}</span
           >
           <template #text>
@@ -95,28 +78,17 @@ if (editors[props.shapeDefinition.type] === undefined) {
             >
             <br />
             <span class="text-sky-100 text-xs font-mono font-thin">
-              <span class="font-semibold">default: </span
-              >{{ shapeDefinition.value }}</span
-            >
+              <span class="font-semibold">default: </span>
+              {{ shapeDefinition.value }}
+            </span>
           </template>
         </UTooltip>
       </div>
       <div class="flex-none m-1"></div>
-      <div class="flex-1 text-end ml-1 flex items-center justify-end">
-        <span class="text-sky-100 text-xs font-mono font-thin">{{
-          strMaxLen(nodesData!.data[paramName], 10)
-        }}</span>
-        <UIcon
-          name="mdi-alert-circle-outline"
-          class="text-red-700"
-          v-if="actionRequired"
-        />
-      </div>
-    </div>
-    <div v-if="isExpanded" class="flex flex-row flex-nowrap">
-      <div class="flex-1">
+      <div class="flex-1 ml-2">
         <component
           :is="editors[shapeDefinition.type]"
+          :key="`${paramName}-${nodeId}`"
           :nodeId="nodeId"
           :paramName="paramName"
           :shapeDefinition="shapeDefinition"
@@ -124,8 +96,8 @@ if (editors[props.shapeDefinition.type] === undefined) {
       </div>
       <div
         v-if="!deepEqual(shapeDefinition.value, nodesData!.data[paramName])"
-        @click="nodesData!.data[paramName] = shapeDefinition.value"
         class="flex-none p-1 ml-1 z-10 flex items-center justify-center cursor-pointer"
+        @click="nodesData!.data[paramName] = shapeDefinition.value"
       >
         <UIcon name="mdi-reload" />
       </div>
@@ -136,6 +108,7 @@ if (editors[props.shapeDefinition.type] === undefined) {
       <div class="flex-1 ml-1 mr-1 mt-0.5 mb-0.5">
         <component
           :is="editors[shapeDefinition.type]"
+          :key="`${paramName}-${nodeId}`"
           :nodeId="nodeId"
           :paramName="paramName"
           :shapeDefinition="shapeDefinition"
@@ -143,8 +116,8 @@ if (editors[props.shapeDefinition.type] === undefined) {
       </div>
       <div
         v-if="!deepEqual(shapeDefinition.value, nodesData!.data[paramName])"
-        @click="nodesData!.data[paramName] = shapeDefinition.value"
         class="flex-none p-1 ml-1 z-10 flex items-center justify-center cursor-pointer"
+        @click="nodesData!.data[paramName] = shapeDefinition.value"
       >
         <UIcon name="mdi-reload" />
       </div>

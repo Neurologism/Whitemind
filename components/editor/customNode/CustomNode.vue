@@ -187,7 +187,7 @@ function clickIcons() {
         <div
           v-if="nodesData!.data.isExpanded && !nodesData!.data.showVisConfigs"
           v-for="(shapeDefinition, key) in shapeData.data"
-          class="grid grid-cols-1 items-center justify-between"
+          class="grid grid-cols-1 mb-0.5 mt-1 items-center justify-between"
         >
           <NodeValueEditor
             :key="key"
