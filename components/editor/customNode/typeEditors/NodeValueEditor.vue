@@ -61,7 +61,10 @@ if (editors[props.shapeDefinition.type] === undefined) {
 </script>
 
 <template>
-  <div class="pr-1 pl-1 grid grid-cols-1 text-sky-100">
+  <div
+    v-if="!(shapeDefinition.inline ?? false)"
+    class="pr-1 pl-1 grid grid-cols-1 text-sky-100"
+  >
     <div
       class="flex flex-row flex-nowrap cursor-pointer"
       @click="isExpanded = !isExpanded"
@@ -112,6 +115,25 @@ if (editors[props.shapeDefinition.type] === undefined) {
     </div>
     <div v-if="isExpanded" class="flex flex-row flex-nowrap">
       <div class="flex-1">
+        <component
+          :is="editors[shapeDefinition.type]"
+          :nodeId="nodeId"
+          :paramName="paramName"
+          :shapeDefinition="shapeDefinition"
+        />
+      </div>
+      <div
+        v-if="!deepEqual(shapeDefinition.value, nodesData!.data[paramName])"
+        @click="nodesData!.data[paramName] = shapeDefinition.value"
+        class="flex-none p-1 ml-1 z-10 flex items-center justify-center cursor-pointer"
+      >
+        <UIcon name="mdi-reload" />
+      </div>
+    </div>
+  </div>
+  <div v-else>
+    <div class="flex flex-row flex-nowrap">
+      <div class="flex-1 ml-1 mr-1 mt-0.5 mb-0.5">
         <component
           :is="editors[shapeDefinition.type]"
           :nodeId="nodeId"

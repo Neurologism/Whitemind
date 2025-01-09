@@ -13,17 +13,27 @@ const rangeRef = ref<HTMLInputElement | null>(null);
 const activeColor = '#111827';
 const inactiveColor = '#dddddd4d';
 
-const inputCB = (e: InputEvent) => {
-  console.log(typeof e);
+const inputCB = () => {
   const ratio =
     ((nodesData.value?.data[props.paramName] ?? 0 - props.shapeDefinition.min) /
       (props.shapeDefinition.max - props.shapeDefinition.min)) *
     100;
   rangeRef.value!.style.backgroundImage = `linear-gradient(90deg, ${activeColor} ${ratio}%, ${inactiveColor} ${ratio}%)`;
 };
+
+watch(
+  () => nodesData.value?.data[props.paramName],
+  () => {
+    inputCB();
+  }
+);
+
+onMounted(() => {
+  inputCB();
+});
 </script>
 <template>
-  <div class="m-1 w-full">
+  <div class="w-full">
     <div
       class="flex flex-row flex-nowrap h-6 absolute pointer-events-none pl-1.5 pr-1.5 pt-0.5 font-mono text-sm align-bottom"
       :style="{

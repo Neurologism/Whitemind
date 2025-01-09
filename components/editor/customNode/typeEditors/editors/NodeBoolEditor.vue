@@ -12,7 +12,7 @@ const nodesData = useNodesData(props.nodeId)!;
 
 <template>
   <UCheckbox
-    class="ml-1"
+    class="font-mono"
     v-model="nodesData.data[paramName]"
     :label="paramName"
   />

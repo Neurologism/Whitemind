@@ -81,6 +81,8 @@ export const blocks: NodeGroupDefinition[] = [
                 min: 0,
                 max: 1,
                 step: 0.01,
+                value: 0.75,
+                inline: true,
               },
               split1: {
                 type: 'id',
@@ -429,10 +431,12 @@ export const blocks: NodeGroupDefinition[] = [
               sparse: {
                 type: 'boolean',
                 value: false,
+                inline: true,
               },
               optional: {
                 type: 'boolean',
                 value: false,
+                inline: true,
               },
             },
           },
@@ -482,6 +486,7 @@ export const blocks: NodeGroupDefinition[] = [
               use_bias: {
                 type: 'boolean',
                 value: true,
+                inline: true,
               },
               lora_rank: {
                 type: 'number',
@@ -515,6 +520,7 @@ export const blocks: NodeGroupDefinition[] = [
               mask_zero: {
                 type: 'boolean',
                 value: false,
+                inline: true,
               },
               lora_rank: {
                 type: 'number',
@@ -1059,6 +1065,7 @@ export const blocks: NodeGroupDefinition[] = [
               invert: {
                 type: 'boolean',
                 value: false,
+                inline: true,
               },
             },
           },
@@ -1098,10 +1105,12 @@ export const blocks: NodeGroupDefinition[] = [
               center: {
                 type: 'boolean',
                 value: true,
+                inline: true,
               },
               scale: {
                 type: 'boolean',
                 value: true,
+                inline: true,
               },
             },
           },
@@ -1278,6 +1287,7 @@ export type NodeDefinition = {
     | {
         type: 'boolean';
         value?: boolean | null;
+        inline: boolean | undefined;
       }
     | {
         type: 'tuple';
@@ -1299,6 +1309,7 @@ export type NodeDefinition = {
         max: number;
         step: number;
         value?: number | null;
+        inline: boolean | undefined;
       }
   >;
 };
