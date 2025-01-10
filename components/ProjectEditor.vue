@@ -42,8 +42,6 @@ const trainingStore = useTrainingStore();
 const route = useRoute();
 const config = useRuntimeConfig();
 
-sessionStore.showLoadingAnimation();
-
 const {
   onConnect,
   addEdges,

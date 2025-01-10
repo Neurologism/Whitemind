@@ -11,6 +11,8 @@ onMounted(() => {
     navigateTo('/login');
   }
 });
+
+sessionStore.showLoadingAnimation();
 </script>
 
 <template>
