@@ -166,7 +166,9 @@ const showIngRatio = computed(() => {
           >
         </div>
         <div v-if="(user?.projectIds?.length ?? 0) !== 0" class="w-full">
-          <span class="font-semibold text-lg">{{ showIngRatio }} Projects</span>
+          <span class="font-semibold text-lg mb-4 inline-block text-left w-full"
+            >{{ showIngRatio }} Projects</span
+          >
           <div
             class="h-max grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4"
           >
