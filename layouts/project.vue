@@ -6,6 +6,7 @@ const projectStore = useProjectStore();
 const vueFlowStore = useVueFlowStore();
 
 onMounted(() => {
+  sessionStore.loading = false;
   sessionStore.syncLocalSessionData();
   if (!sessionStore.isAuthorized) {
     navigateTo('/login');
