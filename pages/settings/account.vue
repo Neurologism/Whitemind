@@ -1,8 +1,4 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: 'settings',
-});
-
 const sessionStore = useSessionStore();
 const username = ref(sessionStore.sessionData.user.brainetTag ?? '');
 const showDeleteAccountModal = ref(false);
@@ -87,44 +83,46 @@ async function deleteAccount() {
       >
     </template>
   </Modal>
-  <SettingsHeader>Account</SettingsHeader>
-  <SettingsInput label="Username" placeholder="kurumi123" v-model="username">
-    Beware, changing your username can result in side effects. If you want to
-    change the name that will be displayed for other users, change the
-    displayname instead.
-  </SettingsInput>
-  <div v-if="username !== sessionStore.sessionData.user.brainetTag">
-    <p class="text-red-600" v-if="isUsernameInUse">
-      This username is already in use.
-    </p>
-    <p class="text-green-600" v-else-if="isUsernameInUse === false">
-      This username is available.
-    </p>
-    <p class="text-gray-600" v-else-if="isUsernameInUse === null">
-      This username is ...
-    </p>
-  </div>
+  <Settings :in-project="false">
+    <SettingsHeader>Account</SettingsHeader>
+    <SettingsInput label="Username" placeholder="kurumi123" v-model="username">
+      Beware, changing your username can result in side effects. If you want to
+      change the name that will be displayed for other users, change the
+      displayname instead.
+    </SettingsInput>
+    <div v-if="username !== sessionStore.sessionData.user.brainetTag">
+      <p class="text-red-600" v-if="isUsernameInUse">
+        This username is already in use.
+      </p>
+      <p class="text-green-600" v-else-if="isUsernameInUse === false">
+        This username is available.
+      </p>
+      <p class="text-gray-600" v-else-if="isUsernameInUse === null">
+        This username is ...
+      </p>
+    </div>
 
-  <div>
-    <UButton
-      color="gray"
-      icon="material-symbols:save"
-      :disabled="isUsernameInUse !== false"
-      @click="saveUsername"
-      >Save username</UButton
-    >
-  </div>
-  <SettingsHeader :weight="2" class="mt-8">Delete account</SettingsHeader>
-  <SettingsText
-    >This will permanently erase all data associated to your account and cannot
-    be undone.
-  </SettingsText>
-  <div>
-    <UButton
-      color="red"
-      icon="i-heroicons-trash-solid"
-      @click="showDeleteAccountModal = true"
-      >Delete your account</UButton
-    >
-  </div>
+    <div>
+      <UButton
+        color="gray"
+        icon="material-symbols:save"
+        :disabled="isUsernameInUse !== false"
+        @click="saveUsername"
+        >Save username</UButton
+      >
+    </div>
+    <SettingsHeader :weight="2" class="mt-8">Delete account</SettingsHeader>
+    <SettingsText
+      >This will permanently erase all data associated to your account and
+      cannot be undone.
+    </SettingsText>
+    <div>
+      <UButton
+        color="red"
+        icon="i-heroicons-trash-solid"
+        @click="showDeleteAccountModal = true"
+        >Delete your account</UButton
+      >
+    </div>
+  </Settings>
 </template>
