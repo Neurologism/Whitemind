@@ -54,9 +54,7 @@ const showIngRatio = computed(() => {
 
 <template>
   <div class="w-full p-4 md:p-0">
-    <div
-      class="w-full md:w-2/3 mx-auto flex md:flex-row flex-col flex-nowrap mt-6"
-    >
+    <div class="container mx-auto flex md:flex-row flex-col flex-nowrap mt-6">
       <div class="flex-none flex flex-col items-center">
         <ProfilePicture
           :loading="userLoading"
@@ -170,7 +168,7 @@ const showIngRatio = computed(() => {
         <div v-if="(user?.projectIds?.length ?? 0) !== 0" class="w-full">
           <span class="font-semibold text-lg">{{ showIngRatio }} Projects</span>
           <div
-            class="h-max grid md:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4"
+            class="h-max grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4"
           >
             <ProjectCard
               :id="projectId"

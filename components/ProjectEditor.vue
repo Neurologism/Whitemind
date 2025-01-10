@@ -386,9 +386,33 @@ watch(
 defineShortcuts({
   s: () => projectStore.syncProject(vueFlowStore),
 });
+
+const smallScreenNoteDismissed = ref(false);
 </script>
 
 <template>
+  <div
+    class="sm:hidden absolute top-0 left-0 h-screen w-screen bg-white bg-opacity-85 z-50 select-none flex"
+    v-if="!smallScreenNoteDismissed"
+  >
+    <div
+      class="flex flex-col mx-auto px-4 font-bold font-mono text-black justify-center items-center"
+    >
+      <span class="text-3xl font-bold font-mono">Small Screen</span>
+      <span class="mt-8">
+        We do not recommend using the editor on small screens. Please use a
+        device with a larger screen for the best experience.
+      </span>
+      <div class="mt-4">
+        <UButton
+          @click="smallScreenNoteDismissed = true"
+          type="primary"
+          size="lg"
+          >I understand</UButton
+        >
+      </div>
+    </div>
+  </div>
   <UContextMenu v-model="openContextMenu" :virtual-element="contextMenu">
     <div class="flex flex-col">
       <UButton
