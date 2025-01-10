@@ -50,6 +50,11 @@ const settingsItems = props.inProject
         click: () => navigateTo('/settings/authentication'),
         icon: 'mdi:key-outline',
       },
+      {
+        label: 'Local',
+        click: () => navigateTo('/settings/local'),
+        icon: 'mdi:computer',
+      },
     ];
 </script>
 
