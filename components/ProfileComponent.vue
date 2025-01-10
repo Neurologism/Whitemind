@@ -110,7 +110,7 @@ const showIngRatio = computed(() => {
           >
         </div>
         <div
-          class="w-full flex flex-col flex-nowrap"
+          class="w-full flex flex-col flex-nowrap mt-6"
           v-if="!userLoading && isSelf"
         >
           <UButton
@@ -143,7 +143,7 @@ const showIngRatio = computed(() => {
           > -->
         </div>
       </div>
-      <UDivider class="flex-none ml-4 mr-4" orientation="vertical" />
+      <UDivider class="flex-none ml-8 mr-8" orientation="vertical" />
       <div class="mt-4 md:mt-0 flex-1 flex flex-col flex-nowrap h-max">
         <div v-if="isSelf" class="flex flex-row flex-nowrap mb-2">
           <UButton
