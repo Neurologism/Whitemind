@@ -179,7 +179,7 @@ const showIngRatio = computed(() => {
         </div>
         <div class="text-center w-full mt-2" v-else>
           <span class="font-semibold text-xl text-center"
-            >Es wurden keine Projekte gefunden!</span
+            >No public projects found for this user.</span
           >
         </div>
       </div>
