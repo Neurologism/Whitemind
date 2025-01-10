@@ -254,16 +254,6 @@ export const blocks: NodeGroupDefinition[] = [
                   min: 1,
                 },
               },
-              epochs: {
-                type: 'int',
-                value: 10,
-                min: 1,
-                step: 1,
-              },
-              early_stopping: {
-                type: 'float',
-                value: null,
-              },
               validation_data: {
                 type: 'id',
                 flowOrientation: FlowOrientation.INPUT,
@@ -278,6 +268,16 @@ export const blocks: NodeGroupDefinition[] = [
                 constraints: {
                   allowedCategories: ['visualizer'],
                 },
+              },
+              epochs: {
+                type: 'int',
+                value: 10,
+                min: 1,
+                step: 1,
+              },
+              early_stopping: {
+                type: 'float',
+                value: null,
               },
               name: {
                 type: 'string',
