@@ -3,12 +3,13 @@ import NodeStringEditor from '~/components/editor/customNode/typeEditors/editors
 
 import NodeBoolEditor from '~/components/editor/customNode/typeEditors/editors/NodeBoolEditor.vue';
 import NodeSelectEditor from '~/components/editor/customNode/typeEditors/editors/NodeSelectEditor.vue';
-import NodeNumberEditor from '~/components/editor/customNode/typeEditors/editors/NodeNumberEditor.vue';
 import NodeTupleEditor from '~/components/editor/customNode/typeEditors/editors/NodeTupleEditor.vue';
 import NodeMultiselectEditor from '~/components/editor/customNode/typeEditors/editors/NodeMultiselectEditor.vue';
 import type { NodeDefinition } from '~/components/editor/blocks';
 import { useNodesData } from '@vue-flow/core';
 import NodeRangeEditor from '~/components/editor/customNode/typeEditors/editors/NodeRangeEditor.vue';
+import NodeIntEditor from '~/components/editor/customNode/typeEditors/editors/NodeIntEditor.vue';
+import NodeFloatEditor from '~/components/editor/customNode/typeEditors/editors/NodeFloatEditor.vue';
 
 const props = defineProps<{
   paramName: string;
@@ -22,7 +23,8 @@ const editors = {
   string: NodeStringEditor,
   boolean: NodeBoolEditor,
   select: NodeSelectEditor,
-  number: NodeNumberEditor,
+  float: NodeFloatEditor,
+  int: NodeIntEditor,
   tuple: NodeTupleEditor,
   multiselect: NodeMultiselectEditor,
   range: NodeRangeEditor,
@@ -30,19 +32,6 @@ const editors = {
 
 function deepEqual(a: any, b: any) {
   return JSON.stringify(a) === JSON.stringify(b);
-}
-
-function strMaxLen(_str: any, maxLen: number) {
-  if (_str === null) {
-    return 'null';
-  } else if (_str === undefined) {
-    return '';
-  }
-  let str = _str.toString();
-  if (str.length > maxLen) {
-    return str.slice(0, maxLen) + '…';
-  }
-  return str;
 }
 
 const actionRequired = computed(() => {
@@ -95,7 +84,12 @@ if (editors[props.shapeDefinition.type] === undefined) {
         />
       </div>
       <div
-        v-if="!deepEqual(shapeDefinition.value, nodesData!.data[paramName])"
+        v-if="
+          !deepEqual(
+            shapeDefinition.value,
+            nodesData?.data[paramName] ?? undefined
+          )
+        "
         class="flex-none p-1 ml-1 z-10 flex items-center justify-center cursor-pointer"
         @click="nodesData!.data[paramName] = shapeDefinition.value"
       >
@@ -115,7 +109,12 @@ if (editors[props.shapeDefinition.type] === undefined) {
         />
       </div>
       <div
-        v-if="!deepEqual(shapeDefinition.value, nodesData!.data[paramName])"
+        v-if="
+          !deepEqual(
+            shapeDefinition.value,
+            nodesData?.data[paramName] ?? undefined
+          )
+        "
         class="flex-none p-1 ml-1 z-10 flex items-center justify-center cursor-pointer"
         @click="nodesData!.data[paramName] = shapeDefinition.value"
       >

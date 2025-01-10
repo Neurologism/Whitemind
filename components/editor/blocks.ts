@@ -23,7 +23,7 @@ export const blocks: NodeGroupDefinition[] = [
             hideOutput: true,
             data: {
               batch_size: {
-                type: 'number',
+                type: 'float',
                 value: 32,
               },
               train: {
@@ -51,7 +51,7 @@ export const blocks: NodeGroupDefinition[] = [
             hideOutput: true,
             data: {
               batch_size: {
-                type: 'number',
+                type: 'float',
                 value: 32,
               },
               train: {
@@ -255,11 +255,13 @@ export const blocks: NodeGroupDefinition[] = [
                 },
               },
               epochs: {
-                type: 'number',
-                value: 1,
+                type: 'int',
+                value: 10,
+                min: 1,
+                step: 1,
               },
               early_stopping: {
-                type: 'number',
+                type: 'float',
                 value: null,
               },
               validation_data: {
@@ -409,7 +411,7 @@ export const blocks: NodeGroupDefinition[] = [
             },
             data: {
               batch_size: {
-                type: 'number',
+                type: 'float',
                 value: null,
               },
               dtype: {
@@ -458,7 +460,7 @@ export const blocks: NodeGroupDefinition[] = [
             },
             data: {
               units: {
-                type: 'number',
+                type: 'float',
               },
               activation: {
                 type: 'select',
@@ -490,7 +492,7 @@ export const blocks: NodeGroupDefinition[] = [
                 inline: true,
               },
               lora_rank: {
-                type: 'number',
+                type: 'float',
                 value: null,
               },
             },
@@ -513,10 +515,10 @@ export const blocks: NodeGroupDefinition[] = [
             },
             data: {
               input_dim: {
-                type: 'number',
+                type: 'float',
               },
               output_dim: {
-                type: 'number',
+                type: 'float',
               },
               mask_zero: {
                 type: 'boolean',
@@ -524,7 +526,7 @@ export const blocks: NodeGroupDefinition[] = [
                 inline: true,
               },
               lora_rank: {
-                type: 'number',
+                type: 'float',
                 value: null,
               },
             },
@@ -1060,7 +1062,7 @@ export const blocks: NodeGroupDefinition[] = [
             },
             data: {
               axis: {
-                type: 'number',
+                type: 'float',
                 value: -1,
               },
               invert: {
@@ -1092,15 +1094,15 @@ export const blocks: NodeGroupDefinition[] = [
             },
             data: {
               axis: {
-                type: 'number',
+                type: 'float',
                 value: -1,
               },
               momentum: {
-                type: 'number',
+                type: 'float',
                 value: 0.99,
               },
               epsilon: {
-                type: 'number',
+                type: 'float',
                 value: 0.001,
               },
               center: {
@@ -1137,7 +1139,7 @@ export const blocks: NodeGroupDefinition[] = [
             },
             data: {
               rate: {
-                type: 'number',
+                type: 'float',
               },
               noise_shape: {
                 type: 'tuple',
@@ -1145,7 +1147,7 @@ export const blocks: NodeGroupDefinition[] = [
                 value: null,
               },
               seed: {
-                type: 'number',
+                type: 'float',
                 value: null,
               },
             },
@@ -1282,8 +1284,18 @@ export type NodeDefinition = {
         value?: string | null;
       }
     | {
-        type: 'number';
+        type: 'float';
         value?: number | null;
+        min?: number;
+        max?: number;
+        step?: number;
+      }
+    | {
+        type: 'int';
+        value?: number | null;
+        min?: number;
+        max?: number;
+        step?: number;
       }
     | {
         type: 'boolean';
