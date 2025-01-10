@@ -76,7 +76,7 @@ function initGsap() {
       .timeline()
       .from('.text1', {
         duration: 1,
-        y: 100,
+        y: 50,
         opacity: 0,
         ease: 'power3.out',
       })
@@ -84,12 +84,21 @@ function initGsap() {
         '.text2',
         {
           duration: 1,
-          y: 100,
+          y: 50,
           opacity: 0,
           ease: 'power3.out',
         },
         '-=0.5'
       )
+      // .from(
+      //   '.text3',
+      //   {
+      //     duration: 1,
+      //     opacity: 0,
+      //     ease: 'power3.out',
+      //   },
+      //   '-=0.5'
+      // )
       .from(
         '.icon2',
         {
@@ -110,12 +119,7 @@ function initGsap() {
           ease: 'elastic.out',
         },
         '-=0.5'
-      )
-      .from('.text3', {
-        duration: 3,
-        opacity: 0,
-        ease: 'power3.out',
-      });
+      );
   });
 
   matchMedia.add('(max-width: 1279px)', () => {
@@ -137,6 +141,15 @@ function initGsap() {
         },
         '-=0.5'
       )
+      // .from(
+      //   '.text3',
+      //   {
+      //     duration: 1,
+      //     opacity: 0,
+      //     ease: 'power3.out',
+      //   },
+      //   '-=0.5'
+      // )
       .from(
         '.icon3',
         {
@@ -146,12 +159,7 @@ function initGsap() {
           ease: 'elastic.out',
         },
         '-=0.5'
-      )
-      .from('.text3', {
-        duration: 3,
-        opacity: 0,
-        ease: 'power3.out',
-      });
+      );
   });
 
   matchMedia.add('(min-width: 1280px)', () => {
