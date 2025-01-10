@@ -6,6 +6,8 @@ definePageMeta({
 
 <template>
   <div class="w-screen bg-slate-900" style="min-height: calc(100vh - 4rem)">
-    <Settings :in-project="true"> </Settings>
+    <Settings :in-project="true">
+      <SettingsHeader>Appearance</SettingsHeader>
+    </Settings>
   </div>
 </template>
