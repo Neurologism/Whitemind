@@ -489,7 +489,7 @@ const smallScreenNoteDismissed = ref(false);
           :props="props"
           :node-id="props.id"
           @nodeContextmenu="onContextMenu"
-          :key="route.fullPath"
+          :key="route.fullPath.split('/')[2]"
         />
       </template>
     </VueFlow>
