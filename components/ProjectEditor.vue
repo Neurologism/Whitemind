@@ -444,7 +444,7 @@ const smallScreenNoteDismissed = ref(false);
       v-model:nodes="vueFlowStore.nodes"
       v-model:edges="vueFlowStore.edges"
       @viewport-change-end="vueFlowStore.viewport = toObject().viewport"
-      class="border-3 border-amber-400"
+      class="border-3 border-amber-400 text-gray-500"
       @edge-mouse-enter="
         (infos) => (vueFlowStore.highlightedEdge = infos.edge.id)
       "
@@ -452,7 +452,7 @@ const smallScreenNoteDismissed = ref(false);
       @edge-click="onRemoveEdge"
     >
       <Background
-        :pattern-color="colorMode.value === 'dark' ? '#aaa' : '#222'"
+        :pattern-color="colorMode.value === 'dark' ? '#64748b' : '#222'"
         :gap="48"
         :size="2"
       />
