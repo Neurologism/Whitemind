@@ -4,4 +4,4 @@ definePageMeta({
 });
 </script>
 
-<template></template>
+<template>asdfasdf</template>

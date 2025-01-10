@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { navigateToSubroute } from '~/utility/navigateToSubroute';
+
 const props = defineProps({
   inProject: { type: Boolean, required: true },
 });
 
 const sessionStore = useSessionStore();
+const route = useRoute();
 
 onMounted(() => {
   sessionStore.loading = false;
@@ -16,9 +19,14 @@ onMounted(() => {
 const settingsItems = props.inProject
   ? [
       {
+        label: 'General',
+        click: () => navigateToSubroute(route.fullPath, 4, 'general'),
+        icon: 'i-heroicons-cog-6-tooth',
+      },
+      {
         label: 'Appearance',
-        click: () => navigateTo('/settings/public'),
-        icon: 'mdi:user-outline',
+        click: () => navigateToSubroute(route.fullPath, 4, 'appearance'),
+        icon: 'mdi:brush-variant',
       },
     ]
   : [
@@ -28,7 +36,7 @@ const settingsItems = props.inProject
         icon: 'mdi:user-outline',
       },
       {
-        label: 'Public Profile',
+        label: 'Account',
         click: () => navigateTo('/settings/account'),
         icon: 'i-heroicons-cog-6-tooth',
       },
@@ -47,7 +55,7 @@ const settingsItems = props.inProject
 
 <template>
   <div
-    class="w-full lg:w-2/3 mx-auto flex flex-row mt-8 mb-32"
+    class="w-full lg:w-2/3 mx-auto flex flex-row mb-32 pt-16"
     style="min-height: calc(100vh - 16rem - 34px)"
   >
     <SettingsVerticalBar :items="settingsItems"></SettingsVerticalBar>

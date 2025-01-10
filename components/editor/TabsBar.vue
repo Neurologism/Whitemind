@@ -1,21 +1,6 @@
 <script setup lang="ts">
 import { navigateToSubroute } from '~/utility/navigateToSubroute';
 const route = useRoute();
-
-const tabs = [
-  {
-    label: 'Editor',
-    icon: 'carbon:model-builder',
-  },
-  {
-    label: 'Models',
-    icon: 'mdi:cube-outline',
-  },
-  {
-    label: 'Settings',
-    icon: 'mdi:settings-outline',
-  },
-];
 </script>
 
 <template>
