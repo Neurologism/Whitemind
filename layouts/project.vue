@@ -1,13 +1,14 @@
 <script setup lang="ts">
-const showLoginModal = ref(false);
+const sessionStore = useSessionStore();
+
+onMounted(() => {
+  sessionStore.syncLocalSessionData();
+  if (sessionStore.isAuthorized !== true) {
+    navigateTo('/login');
+  }
+});
 </script>
 
 <template>
-  <div class="flex flex-col min-h-screen">
-    <ProjectHeader />
-    <div class="flex-grow">
-    <slot class=""/>
-    </div>
-    <AppFooter/>
-  </div>
+  <slot />
 </template>

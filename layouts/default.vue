@@ -1,13 +1,11 @@
-<script setup lang="ts">
-const showLoginModal = ref(false);
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <div class="flex flex-col h-screen">
-    <AppHeader @click-profile="showLoginModal = true" />
-    <div class="flex-grow">
-      <slot />
-    </div>
-    <AppFooter/>
+  <AppHeader />
+  <div class="h-16"></div>
+  <div class="flex flex-col" style="min-height: calc(100vh - 4rem)">
+    <slot> </slot>
+    <div class="flex-grow"></div>
+    <AppFooter />
   </div>
 </template>

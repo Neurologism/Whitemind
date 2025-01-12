@@ -60,9 +60,9 @@ cd pinkmind
 pnpm install
 ```
 
-### Running for Developement
+### Running for Development
 
-Use the following pnpm scripts for developement.
+Use the following pnpm scripts for development.
 
 ```bash
 pnpm run pretty # formats the code
@@ -71,7 +71,7 @@ pnpm run dev # to start a local dev server
 
 ### Running for Deployment
 
-Use the following npm scripts for developement.
+Use the following npm scripts for development.
 
 ```bash
 pnpm run build # build the application for production
