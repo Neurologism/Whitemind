@@ -50,7 +50,10 @@ const smoothEdgesTabs = [
   <Settings :in-project="false">
     <SettingsHeader>Local Settings</SettingsHeader>
     <SettingsHeader :weight="2" class="mt-8">Edge display</SettingsHeader>
-    <SettingsText> </SettingsText>
+    <SettingsText>
+      Hard edge display is recommended on low end devices as smooth can
+      occasionaly cause lags.
+    </SettingsText>
     <UTabs :items="smoothEdgesTabs" v-model="smoothEdges" class="w-[32rem]">
       <template #item="{ item }">
         <div class="flex flex-row">
