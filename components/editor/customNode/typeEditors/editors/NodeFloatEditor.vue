@@ -70,6 +70,8 @@ checkNumber();
       </div>
       <div class="flex-1 mx-1">
         <input
+          type="number"
+          inputmode="numeric"
           class="w-full bg-transparent border-0 outline-none"
           v-model="nodesData!.data[paramName]"
           @input="checkNumber"
@@ -85,3 +87,15 @@ checkNumber();
     </div>
   </div>
 </template>
+<style scoped>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+</style>
