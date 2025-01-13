@@ -42,8 +42,6 @@ const trainingStore = useTrainingStore();
 const route = useRoute();
 const config = useRuntimeConfig();
 
-sessionStore.showLoadingAnimation();
-
 const {
   onConnect,
   addEdges,
@@ -444,7 +442,7 @@ const smallScreenNoteDismissed = ref(false);
       v-model:nodes="vueFlowStore.nodes"
       v-model:edges="vueFlowStore.edges"
       @viewport-change-end="vueFlowStore.viewport = toObject().viewport"
-      class="border-3 border-amber-400"
+      class="border-3 border-amber-400 text-slate-500"
       @edge-mouse-enter="
         (infos) => (vueFlowStore.highlightedEdge = infos.edge.id)
       "
@@ -452,7 +450,7 @@ const smallScreenNoteDismissed = ref(false);
       @edge-click="onRemoveEdge"
     >
       <Background
-        :pattern-color="colorMode.value === 'dark' ? '#aaa' : '#222'"
+        :pattern-color="colorMode.value === 'dark' ? '#475569' : '#222'"
         :gap="48"
         :size="2"
       />
@@ -491,7 +489,7 @@ const smallScreenNoteDismissed = ref(false);
           :props="props"
           :node-id="props.id"
           @nodeContextmenu="onContextMenu"
-          :key="route.fullPath"
+          :key="route.fullPath.split('/')[2]"
         />
       </template>
     </VueFlow>

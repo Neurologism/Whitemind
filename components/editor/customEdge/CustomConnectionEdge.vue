@@ -1,14 +1,42 @@
 <script setup lang="ts">
 import { CustomNodes } from '~/components/editor/customNodeList.js';
-import { type ConnectionLineProps, SmoothStepEdge } from '@vue-flow/core';
+import {
+  type ConnectionLineProps,
+  SmoothStepEdge,
+  getBezierPath,
+  getSmoothStepPath,
+} from '@vue-flow/core';
 
 const props = defineProps<ConnectionLineProps>();
 
 const color = CustomNodes.getColorOfHandle(props.sourceHandle!.id!);
+
+const sessionStore = useSessionStore();
+
+const path = computed(() =>
+  sessionStore.sessionData.smoothEdges
+    ? getBezierPath({
+        sourceX: props.sourceX,
+        sourceY: props.sourceY,
+        targetX: props.targetX,
+        targetY: props.targetY,
+        sourcePosition: props.sourcePosition,
+        targetPosition: props.targetPosition,
+      })
+    : getSmoothStepPath({
+        sourceX: props.sourceX,
+        sourceY: props.sourceY,
+        targetX: props.targetX,
+        targetY: props.targetY,
+        sourcePosition: props.sourcePosition,
+        targetPosition: props.targetPosition,
+      })
+);
 </script>
 
 <template>
   <SmoothStepEdge
+    :path="path[0]"
     :sourceX="props.sourceX"
     :sourceY="props.sourceY"
     :targetX="props.targetX"

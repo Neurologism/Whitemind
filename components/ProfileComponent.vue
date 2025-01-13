@@ -110,7 +110,7 @@ const showIngRatio = computed(() => {
           >
         </div>
         <div
-          class="w-full flex flex-col flex-nowrap"
+          class="w-full flex flex-col flex-nowrap mt-6"
           v-if="!userLoading && isSelf"
         >
           <UButton
@@ -143,7 +143,7 @@ const showIngRatio = computed(() => {
           > -->
         </div>
       </div>
-      <UDivider class="flex-none ml-4 mr-4" orientation="vertical" />
+      <UDivider class="flex-none ml-8 mr-8" orientation="vertical" />
       <div class="mt-4 md:mt-0 flex-1 flex flex-col flex-nowrap h-max">
         <div v-if="isSelf" class="flex flex-row flex-nowrap mb-2">
           <UButton
@@ -166,7 +166,9 @@ const showIngRatio = computed(() => {
           >
         </div>
         <div v-if="(user?.projectIds?.length ?? 0) !== 0" class="w-full">
-          <span class="font-semibold text-lg">{{ showIngRatio }} Projects</span>
+          <div class="font-semibold text-lg mb-4 text-left w-full">
+            {{ showIngRatio }} Projects
+          </div>
           <div
             class="h-max grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4"
           >
@@ -179,7 +181,7 @@ const showIngRatio = computed(() => {
         </div>
         <div class="text-center w-full mt-2" v-else>
           <span class="font-semibold text-xl text-center"
-            >Es wurden keine Projekte gefunden!</span
+            >No public projects found for this user.</span
           >
         </div>
       </div>

@@ -8,6 +8,7 @@ import {
 } from '@vue-flow/core';
 
 const flowStore = useVueFlowStore();
+const sessionStore = useSessionStore();
 
 const props = defineProps({
   id: {
@@ -61,10 +62,8 @@ const offset = Math.abs(
     15
 );
 
-const useBreezePath = false;
-
 const path = computed(() =>
-  useBreezePath
+  sessionStore.sessionData.smoothEdges
     ? getBezierPath({
         sourceX: props.sourceX,
         sourceY: props.sourceY,

@@ -319,7 +319,11 @@ function initGsap() {
           icon="i-heroicons-rocket-launch-solid"
           :color="'none' as any"
         >
-          {{ sessionStore.isAuthorized ? 'Profile' : 'Sign up for WhiteMind' }}
+          {{
+            sessionStore.isAuthorized
+              ? 'Go to Profile'
+              : 'Sign up for WhiteMind'
+          }}
         </UButton>
         <UIcon
           name="mage:robot-uwu-fill"

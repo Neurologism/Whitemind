@@ -114,7 +114,6 @@ export const useProjectStore = defineStore('projectStore', {
     },
 
     async syncProject(flowStore: any): Promise<boolean> {
-      console.log('success');
       if (!this.project) return false;
       const toast = useToast();
       this.syncStatus = SyncStatus.syncing;
@@ -122,7 +121,6 @@ export const useProjectStore = defineStore('projectStore', {
       this.project.data.components = flowStore.components;
 
       const success = await this.updateProject();
-      console.log(success);
 
       if (!success) {
         toast.add({

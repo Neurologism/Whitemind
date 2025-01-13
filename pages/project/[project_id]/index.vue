@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import path from 'path';
+import { navigateToSubroute } from '~/utility/navigateToSubroute';
 
 definePageMeta({
   layout: 'project',
@@ -7,9 +7,7 @@ definePageMeta({
 
 const route = useRoute();
 
-navigateTo(
-  route.fullPath + (route.fullPath.endsWith('/') ? '' : '/') + 'editor'
-);
+navigateToSubroute(route.fullPath, 3, 'editor');
 </script>
 
 <template></template>

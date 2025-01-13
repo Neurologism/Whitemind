@@ -107,5 +107,6 @@ const breadcrumbSettings = computed(() => {
         </UTooltip>
       </div>
     </div>
+    <EditorTabsBar></EditorTabsBar>
   </ClientOnly>
 </template>
