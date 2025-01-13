@@ -47,7 +47,7 @@ function limit<T>(arr: T[], limit: number): T[] {
 
 const showIngRatio = computed(() => {
   const totalProjects = user.value?.projectIds?.length ?? 0;
-  const displayedProjects = limit(user.value?.projectIds ?? [], 8).length;
+  const displayedProjects = Math.min(user.value?.projectIds?.length ?? 0, 12);
   return `${displayedProjects}/${totalProjects}`;
 });
 </script>
@@ -174,7 +174,7 @@ const showIngRatio = computed(() => {
           >
             <ProjectCard
               :id="projectId"
-              v-for="projectId in limit(user?.projectIds ?? [], 8)"
+              v-for="projectId in limit(user?.projectIds ?? [], 12)"
               :key="projectId"
             />
           </div>
