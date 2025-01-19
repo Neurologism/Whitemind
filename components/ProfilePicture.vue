@@ -37,10 +37,13 @@ async function handleFileChange(event: Event) {
       const formData = new FormData();
       formData.append('pfp', file);
 
-      const response = await sessionStore.fetch('/api/user/upload-pfp', {
-        method: 'POST',
-        body: formData,
-      });
+      const response = await sessionStore.fetch(
+        `/users/${sessionStore.sessionData.user._id}/upload-pfp`,
+        {
+          method: 'PUT',
+          body: formData,
+        }
+      );
 
       const data = await response.json();
 
