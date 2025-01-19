@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { SyncStatus } from '~/components/editor/syncStatus';
+import { useVueFlow } from '@vue-flow/core';
 
 export const useProjectStore = defineStore('projectStore', {
   state: () => ({
@@ -9,6 +10,39 @@ export const useProjectStore = defineStore('projectStore', {
   }),
   getters: {},
   actions: {
+    async loadProject(projectId: string = ''): Promise<boolean> {
+      if (!projectId) {
+        if (!this.project) {
+          return false;
+        }
+        projectId = this.project?.data._id ?? '';
+      }
+
+      const sessionStore = useSessionStore();
+      const toast = useToast();
+      await sessionStore.checkSession(true);
+      this.project = await this.getProject(projectId);
+
+      if (!this.project) {
+        toast.add({
+          title: 'Failed to load project',
+          icon: 'mdi-alert-circle',
+          color: 'red',
+        });
+        this.syncStatus = SyncStatus.error;
+        return false;
+      }
+
+      if (!this.project.data.components) {
+        this.project.data.components = {
+          nodes: [],
+          edges: [],
+        };
+      }
+
+      return true;
+    },
+
     async deleteProject(projectId: string = ''): Promise<Response | null> {
       if (!projectId) projectId = this.project?.data._id ?? '';
       if (!projectId) return null;
