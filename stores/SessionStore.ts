@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
+import type { User } from '~/interfaces/user.interface';
 
 export const useSessionStore = defineStore('sessionStore', {
   state: () => ({
@@ -44,7 +45,7 @@ export const useSessionStore = defineStore('sessionStore', {
 
     pfpUrl: (state) => {
       const backmindHost = useRuntimeConfig().public.backmindHost as string;
-      return backmindHost + `/api/user/get-pfp/` + state.sessionData.user._id;
+      return backmindHost + `/users/${state.sessionData.user._id}/get-pfp/`;
     },
 
     // @ts-ignore somehow this is not recognized as a getter
@@ -246,6 +247,18 @@ export const useSessionStore = defineStore('sessionStore', {
         navigateTo('/login');
       }
       return result;
+    },
+
+    async getUserByBrainetTag(brainetTag: string): Promise<User | null> {
+      const response = await this.fetch(`/users/by-name/${brainetTag}`, {
+        method: 'GET',
+        cache: 'no-cache',
+      });
+      if (response.ok) {
+        return (await response.json()) as User;
+      } else {
+        return null;
+      }
     },
 
     async loginWithSessionToken(token: string) {
