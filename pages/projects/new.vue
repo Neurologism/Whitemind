@@ -33,7 +33,7 @@ const tabValues = [
 
 const createProject = async () => {
   isProcessingCreation.value = true;
-  let response = await sessionStore.fetch('/api/project/create', {
+  let response = await sessionStore.fetch('/projects', {
     method: 'POST',
     cache: 'no-cache',
     headers: {

@@ -12,23 +12,23 @@ const onSearchChange = () => {
   if (searchTimeout) {
     clearTimeout(searchTimeout);
   }
-  searchTimeout = setTimeout(async () => {
-    let response = await sessionStore.fetch('/api/project/search', {
-      method: 'POST',
-      cache: 'no-cache',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query: {
-          q: searchQuery.value,
-        },
-      }),
-    });
-    if (!response.ok) return;
-    let data = await response.json();
-    projects.value = data.projects;
-  }, 300);
+  // searchTimeout = setTimeout(async () => {
+  //   let response = await sessionStore.fetch('/projects/search', {
+  //     method: 'POST',
+  //     cache: 'no-cache',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       query: {
+  //         q: searchQuery.value,
+  //       },
+  //     }),
+  //   });
+  //   if (!response.ok) return;
+  //   let data = await response.json();
+  //   projects.value = data.projects;
+  // }, 300);
 };
 
 const reloadAndReset = async () => {

@@ -52,7 +52,7 @@ const validateEmail = (email: string) => {
 
 const onRegister = async () => {
   sessionStore.showLoadingAnimation('Registering...');
-  let response = await sessionStore.fetch('/api/auth/register', {
+  let response = await sessionStore.fetch('/auth/register', {
     method: 'POST',
     cache: 'no-cache',
     headers: {

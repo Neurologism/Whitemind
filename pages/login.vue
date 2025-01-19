@@ -27,7 +27,7 @@ const validateEmail = (email: string): boolean => {
 
 const onLogin = async () => {
   sessionStore.showLoadingAnimation('Logging in...');
-  let response = await sessionStore.fetch('/api/auth/login', {
+  let response = await sessionStore.fetch('/auth/login', {
     method: 'POST',
     cache: 'no-cache',
     headers: {
