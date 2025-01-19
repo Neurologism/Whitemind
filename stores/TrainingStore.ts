@@ -46,20 +46,17 @@ export const useTrainingStore = defineStore('trainingStore', {
     async startTraining(projectId: string) {
       const sessionStore = useSessionStore();
       this.$reset();
-      const response = await sessionStore.fetch(
-        '/api/project/model/training-start',
-        {
-          method: 'POST',
-          body: JSON.stringify({
-            project: {
-              _id: projectId,
-            },
-          }),
-          headers: {
-            'Content-Type': 'application/json',
+      const response = await sessionStore.fetch('/tasks', {
+        method: 'POST',
+        body: JSON.stringify({
+          project: {
+            _id: projectId,
           },
-        }
-      );
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
       const data = await response.json();
 
@@ -82,20 +79,9 @@ export const useTrainingStore = defineStore('trainingStore', {
           message: 'Training not running',
         };
       }
-      const response = await sessionStore.fetch(
-        '/api/project/model/training-status',
-        {
-          method: 'POST',
-          body: JSON.stringify({
-            model: {
-              _id: modelId,
-            },
-          }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      const response = await sessionStore.fetch(`/tasks/${modelId}`, {
+        method: 'GET',
+      });
       const responseJson = await response.json();
       if (response.ok) {
         this.training.data = responseJson.model;
@@ -143,18 +129,8 @@ export const useTrainingStore = defineStore('trainingStore', {
       }
       const sessionStore = useSessionStore();
       const response = await sessionStore.fetch(
-        '/api/project/model/training-stop',
-        {
-          method: 'POST',
-          body: JSON.stringify({
-            model: {
-              _id: this.training.modelId,
-            },
-          }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
+        `/tasks/${this.training.modelId}`,
+        { method: 'PATCH' }
       );
       const data = await response.json();
       if (response.ok) {

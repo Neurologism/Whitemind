@@ -168,18 +168,15 @@ export const useTutorialStore = defineStore('tutorialStore', {
       return true;
     },
 
-    async fetchTutorial(id: string) {
+    async fetchTutorial(tutorialId: string) {
       const sessionStore = useSessionStore();
-      const response: Response = await sessionStore.fetch('/api/tutorial/get', {
-        method: 'POST',
-        cache: 'no-cache',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          tutorialId: id,
-        }),
-      });
+      const response: Response = await sessionStore.fetch(
+        `/tutorials/${tutorialId}`,
+        {
+          method: 'GET',
+          cache: 'no-cache',
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -193,15 +190,9 @@ export const useTutorialStore = defineStore('tutorialStore', {
 
     async fetchTutorialByName(name: string) {
       const sessionStore = useSessionStore();
-      const response = await sessionStore.fetch('/api/tutorial/get', {
-        method: 'POST',
+      const response = await sessionStore.fetch(`/tutorials/by-name/${name}`, {
+        method: 'GET',
         cache: 'no-cache',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          tutorialName: name,
-        }),
       });
 
       if (response.ok) {
@@ -233,23 +224,25 @@ export const useTutorialStore = defineStore('tutorialStore', {
       }
     },
 
-    async tutorialSetState(id: string | null = null) {
+    async tutorialSetState(tutorialId: string | null = null) {
       const sessionStore = useSessionStore();
 
       const body = JSON.stringify({
-        tutorialId: id === null ? this.tutorial.data?._id : id,
         setStep: this.tutorial.currentStep,
         setCompleted: this.tutorial.tutorialCompleted,
       });
 
-      const response = await sessionStore.fetch('/api/tutorial/set-state', {
-        method: 'POST',
-        cache: 'no-cache',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: body,
-      });
+      const response = await sessionStore.fetch(
+        `/tutorials/${tutorialId === null ? this.tutorial.data?._id : tutorialId}`,
+        {
+          method: 'PATCH',
+          cache: 'no-cache',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: body,
+        }
+      );
 
       if (!response.ok) {
         console.error('Failed to update tutorial.');

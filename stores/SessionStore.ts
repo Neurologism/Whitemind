@@ -55,16 +55,19 @@ export const useSessionStore = defineStore('sessionStore', {
       if (!this.sessionData.user.emails) {
         return false;
       }
-      const result = await this.fetch('/api/user/update-secondary-email', {
-        method: 'POST',
-        cache: 'no-cache',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          user: { email: secondaryEmail },
-        }),
-      });
+      const result = await this.fetch(
+        `/users/${this.sessionData.user._id}/emails`,
+        {
+          method: 'PATCH',
+          cache: 'no-cache',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            user: { email: secondaryEmail, emailType: 'secondary' },
+          }),
+        }
+      );
       if (result.ok) {
         for (const email of this.sessionData.user.emails) {
           if (email.emailType === 'secondary') {
@@ -132,23 +135,27 @@ export const useSessionStore = defineStore('sessionStore', {
         user.email = email;
       }
 
-      const result = await this.fetch('/api/user/is-taken', {
-        method: 'POST',
-        cache: 'no-cache',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          user,
-        }),
-      });
+      const queryParams = new URLSearchParams();
+      if (brainetTag) queryParams.append('brainetTag', brainetTag);
+      if (email) queryParams.append('email', email);
+
+      const result = await this.fetch(
+        `/users/is-taken?${queryParams.toString()}`,
+        {
+          method: 'GET',
+          cache: 'no-cache',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
 
       return !result.ok;
     },
 
     async modifyAccountData(user: any) {
-      const result = await this.fetch('/api/user/update', {
-        method: 'POST',
+      const result = await this.fetch(`/users/${this.sessionData.user._id}`, {
+        method: 'PATCH',
         cache: 'no-cache',
         headers: {
           'Content-Type': 'application/json',
@@ -159,8 +166,8 @@ export const useSessionStore = defineStore('sessionStore', {
     },
 
     async deleteAccount() {
-      await this.fetch('/api/user/delete', {
-        method: 'POST',
+      await this.fetch(`/users/${this.sessionData.user._id}`, {
+        method: 'DELETE',
         cache: 'no-cache',
       });
     },
@@ -249,8 +256,8 @@ export const useSessionStore = defineStore('sessionStore', {
       }
 
       this.sessionData.Authorization = token;
-      let response = await this.fetch('/api/user/get', {
-        method: 'POST',
+      let response = await this.fetch(`/users/${this.sessionData.user._id}`, {
+        method: 'GET',
       });
       if (response.ok) {
         let data = await response.json();
@@ -280,16 +287,12 @@ export const useSessionStore = defineStore('sessionStore', {
         return;
       }
 
-      let result = await this.fetch('/api/auth/check', {
+      let result = await this.fetch(`/users/${this.sessionData.user._id}`, {
         method: 'GET',
         cache: 'no-cache',
       });
 
-      if (result.status === 404) {
-        console.warn('Session check not implemented on server jet.');
-        return;
-      }
-      if (result.status == 401 || (await result.json()).loggedIn == false) {
+      if (!result.ok) {
         this.sessionData.Authorization = '';
         this.sessionData.user = {
           _id: null,

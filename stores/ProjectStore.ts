@@ -48,17 +48,12 @@ export const useProjectStore = defineStore('projectStore', {
       if (!projectId) return null;
 
       const sessionStore = useSessionStore();
-      const response = await sessionStore.fetch('/api/project/delete', {
-        method: 'POST',
+      const response = await sessionStore.fetch(`/projects/${projectId}`, {
+        method: 'DELETE',
         cache: 'no-cache',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          project: {
-            _id: projectId,
-          },
-        }),
       });
 
       if (!response.ok) {
@@ -82,18 +77,16 @@ export const useProjectStore = defineStore('projectStore', {
 
     async fetchProject(projectId: string): Promise<Project | null> {
       const sessionStore = useSessionStore();
-      let response: Response = await sessionStore.fetch('/api/project/get', {
-        method: 'POST',
-        cache: 'no-cache',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          project: {
-            _id: projectId,
+      let response: Response = await sessionStore.fetch(
+        `/projects${projectId}`,
+        {
+          method: 'GET',
+          cache: 'no-cache',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        }),
-      });
+        }
+      );
 
       if (!response.ok) {
         console.error('Failed to fetch project.');
@@ -127,8 +120,8 @@ export const useProjectStore = defineStore('projectStore', {
 
       project.data = { ...project.data, ...projectData } as Project['data'];
       const sessionStore = useSessionStore();
-      const result = await sessionStore.fetch('/api/project/update', {
-        method: 'POST',
+      const result = await sessionStore.fetch(`/projects/${projectId}`, {
+        method: 'PATCH',
         cache: 'no-cache',
         headers: {
           'Content-Type': 'application/json',
