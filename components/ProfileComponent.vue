@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import type { User } from '~/types/user';
+import type { User } from '~/interfaces/user.interface';
 
 const props = defineProps<{
   brainetTag: string;
 }>();
 
 const sessionStore = useSessionStore();
-const userStore = useUserStore();
 const backmindHost = useRuntimeConfig().public.backmindHost as string;
 const user = ref<User | undefined>(undefined);
 const userLoading = ref(true);
@@ -25,12 +24,15 @@ async function loadUser() {
     return;
   }
 
-  user.value = await userStore.getUserByBrainetTag(props.brainetTag);
+  const result = await sessionStore.getUserByBrainetTag(props.brainetTag);
+  if (result) {
+    user.value = result;
+  }
 }
 
 watch(user, async () => {
   if (user.value) {
-    pfpUrl.value = backmindHost + '/api/user/get-pfp/' + user.value._id;
+    pfpUrl.value = backmindHost + `/users/${user.value._id}/get-pfp/`;
     userLoading.value = false;
   }
 });
