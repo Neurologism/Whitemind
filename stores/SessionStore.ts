@@ -180,15 +180,15 @@ export const useSessionStore = defineStore('sessionStore', {
       this.loading = true;
     },
 
+    saveSessionData() {
+      localStorage.setItem('sessionData', JSON.stringify(this.sessionData));
+    },
+
     async checkForPfp() {
       await axios
         .get(this.pfpUrl)
         .then((response) => (this.hasPfp = response.status === 200))
         .catch(() => (this.hasPfp = false));
-    },
-
-    saveSessionData() {
-      localStorage.setItem('sessionData', JSON.stringify(this.sessionData));
     },
 
     async signOut() {
@@ -255,7 +255,7 @@ export const useSessionStore = defineStore('sessionStore', {
         cache: 'no-cache',
       });
       if (response.ok) {
-        return (await response.json()) as User;
+        return (await response.json()).user as User;
       } else {
         return null;
       }

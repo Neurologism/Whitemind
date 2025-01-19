@@ -78,7 +78,7 @@ export const useProjectStore = defineStore('projectStore', {
     async fetchProject(projectId: string): Promise<Project | null> {
       const sessionStore = useSessionStore();
       let response: Response = await sessionStore.fetch(
-        `/projects${projectId}`,
+        `/projects/${projectId}`,
         {
           method: 'GET',
           cache: 'no-cache',
