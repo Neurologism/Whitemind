@@ -57,7 +57,7 @@ const createProject = async () => {
   if (data.project?._id) {
     await projectStore.fetchProject(data.project._id);
     await sessionStore.loginWithSessionToken(
-      sessionStore.sessionData.Authorization
+      sessionStore.sessionData.authorizationToken
     );
     navigateTo(`/project/${data.project._id}`);
   }

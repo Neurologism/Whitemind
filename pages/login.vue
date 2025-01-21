@@ -48,15 +48,14 @@ const onLogin = async () => {
             },
     }),
   });
-  let data = await response.json();
   if (response.ok) {
-    await sessionStore.loginWithSessionToken(data.token);
+    const data = await response.json();
+    await sessionStore.loginWithSessionToken(data.access_token);
     navigateTo('/profile');
   } else {
     sessionStore.loading = false;
     toast.add({
       title: 'Login failed',
-      description: data.msg,
       color: 'red',
       icon: 'mdi-alert-circle',
     });

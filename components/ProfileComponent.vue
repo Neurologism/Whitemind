@@ -32,7 +32,7 @@ async function loadUser() {
 
 watch(user, async () => {
   if (user.value) {
-    pfpUrl.value = backmindHost + `/users/${user.value._id}/get-pfp/`;
+    pfpUrl.value = backmindHost + `/users/${user.value._id}/get-pfp`;
     userLoading.value = false;
   }
 });

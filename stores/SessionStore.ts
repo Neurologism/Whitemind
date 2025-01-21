@@ -11,7 +11,7 @@ export const useSessionStore = defineStore('sessionStore', {
       smoothEdges: false,
       pinEditorSidebar: true,
       sessionStart: Date(),
-      Authorization: '',
+      authorizationToken: '',
       user: {
         _id: '' as string | null,
         brainetTag: '' as string | null,
@@ -40,12 +40,12 @@ export const useSessionStore = defineStore('sessionStore', {
   }),
   getters: {
     isAuthorized: (state) => {
-      return state.sessionData.Authorization !== '';
+      return state.sessionData.authorizationToken !== '';
     },
 
     pfpUrl: (state) => {
       const backmindHost = useRuntimeConfig().public.backmindHost as string;
-      return backmindHost + `/users/${state.sessionData.user._id}/get-pfp/`;
+      return backmindHost + `/users/${state.sessionData.user._id}/get-pfp`;
     },
 
     // @ts-ignore somehow this is not recognized as a getter
@@ -194,7 +194,7 @@ export const useSessionStore = defineStore('sessionStore', {
     async signOut() {
       const toast = useToast();
 
-      this.sessionData.Authorization = '';
+      this.sessionData.authorizationToken = '';
       this.sessionData.user = {
         _id: null,
         brainetTag: null,
@@ -235,7 +235,7 @@ export const useSessionStore = defineStore('sessionStore', {
 
       const headers = {
         ...options.headers,
-        Authorization: `Bearer ${this.sessionData.Authorization}`,
+        Authorization: `Bearer ${this.sessionData.authorizationToken}`,
       };
 
       const result = await fetch(url, {
@@ -268,19 +268,18 @@ export const useSessionStore = defineStore('sessionStore', {
         return;
       }
 
-      this.sessionData.Authorization = token;
-      let response = await this.fetch(`/users/${this.sessionData.user._id}`, {
+      this.sessionData.authorizationToken = token;
+      const response = await this.fetch(`/users`, {
         method: 'GET',
       });
       if (response.ok) {
-        let data = await response.json();
+        const data = await response.json();
         console.log(data);
         this.sessionData.user = data.user;
         this.saveSessionData();
         this.checkForPfp();
-        // navigateTo('/projects');
       } else {
-        this.sessionData.Authorization = '';
+        this.sessionData.authorizationToken = '';
         console.error(
           'Failed to log in with session token. Rerouting user to login page.'
         );
@@ -306,7 +305,7 @@ export const useSessionStore = defineStore('sessionStore', {
       });
 
       if (!result.ok) {
-        this.sessionData.Authorization = '';
+        this.sessionData.authorizationToken = '';
         this.sessionData.user = {
           _id: null,
           brainetTag: null,
@@ -326,33 +325,33 @@ export const useSessionStore = defineStore('sessionStore', {
     },
 
     async refreshUserData() {
-      await this.loginWithSessionToken(this.sessionData.Authorization);
+      await this.loginWithSessionToken(this.sessionData.authorizationToken);
     },
 
     async syncLocalSessionData() {
       if (!import.meta.client) return;
+
       const localSession = JSON.parse(
         localStorage.getItem('sessionData') || '{}'
       );
       const currentSession = this.sessionData;
 
-      if (!localSession.Authorization && !currentSession.Authorization) {
-        console.warn(
-          'No session found in both local storage and current session data.'
-        );
+      if (
+        !localSession.authorizationToken &&
+        !currentSession.authorizationToken
+      )
         return;
-      }
 
       if (
-        localSession.Authorization &&
-        (!currentSession.Authorization ||
+        localSession.authorizationToken &&
+        (!currentSession.authorizationToken ||
           new Date(localSession.sessionStart) >
             new Date(currentSession.sessionStart))
       ) {
         this.sessionData = localSession;
       } else if (
-        currentSession.Authorization &&
-        (!localSession.Authorization ||
+        currentSession.authorizationToken &&
+        (!localSession.authorizationToken ||
           new Date(currentSession.sessionStart) >
             new Date(localSession.sessionStart))
       ) {
