@@ -19,22 +19,44 @@ const tasks = ref([
     dateFinished: null,
     projectId: '675367e40a29e18025fd1d92',
     ownerId: '675364cf0a29e18025fd1d0b',
-    name: 'Model 1',
+    name: 'Model 7',
   },
   {
     _id: '6754b7da527860ba96ed1e3e',
-    status: 'queued',
+    status: 'training',
     dateLastUpdated: '2024-12-07T21:26:03.706Z',
     dateQueued: '2024-12-07T21:02:18.303Z',
     dateStarted: '2024-12-07T21:02:19.501Z',
     dateFinished: null,
     projectId: '675367e40a29e18025fd1d92',
     ownerId: '675364cf0a29e18025fd1d0b',
-    name: 'Model 2',
+    name: 'Model 6',
   },
   {
     _id: '6754b7da527860ba96ed1e3e',
-    status: 'queued',
+    status: 'finished',
+    dateLastUpdated: '2024-12-07T21:26:03.706Z',
+    dateQueued: '2024-12-07T21:02:18.303Z',
+    dateStarted: '2024-12-07T21:02:19.501Z',
+    dateFinished: null,
+    projectId: '675367e40a29e18025fd1d92',
+    ownerId: '675364cf0a29e18025fd1d0b',
+    name: 'Model 5',
+  },
+  {
+    _id: '6754b7da527860ba96ed1e3e',
+    status: 'finished',
+    dateLastUpdated: '2024-12-07T21:26:03.706Z',
+    dateQueued: '2024-12-07T21:02:18.303Z',
+    dateStarted: '2024-12-07T21:02:19.501Z',
+    dateFinished: null,
+    projectId: '675367e40a29e18025fd1d92',
+    ownerId: '675364cf0a29e18025fd1d0b',
+    name: 'Model 4',
+  },
+  {
+    _id: '6754b7da527860ba96ed1e3e',
+    status: 'finished',
     dateLastUpdated: '2024-12-07T21:26:03.706Z',
     dateQueued: '2024-12-07T21:02:18.303Z',
     dateStarted: '2024-12-07T21:02:19.501Z',
@@ -45,115 +67,37 @@ const tasks = ref([
   },
   {
     _id: '6754b7da527860ba96ed1e3e',
-    status: 'queued',
+    status: 'finished',
     dateLastUpdated: '2024-12-07T21:26:03.706Z',
     dateQueued: '2024-12-07T21:02:18.303Z',
     dateStarted: '2024-12-07T21:02:19.501Z',
     dateFinished: null,
     projectId: '675367e40a29e18025fd1d92',
     ownerId: '675364cf0a29e18025fd1d0b',
-    name: 'Model 4',
+    name: 'Model 2',
   },
   {
     _id: '6754b7da527860ba96ed1e3e',
-    status: 'queued',
+    status: 'finished',
     dateLastUpdated: '2024-12-07T21:26:03.706Z',
     dateQueued: '2024-12-07T21:02:18.303Z',
     dateStarted: '2024-12-07T21:02:19.501Z',
     dateFinished: null,
     projectId: '675367e40a29e18025fd1d92',
     ownerId: '675364cf0a29e18025fd1d0b',
-    name: 'Model 4',
-  },
-  {
-    _id: '6754b7da527860ba96ed1e3e',
-    status: 'queued',
-    dateLastUpdated: '2024-12-07T21:26:03.706Z',
-    dateQueued: '2024-12-07T21:02:18.303Z',
-    dateStarted: '2024-12-07T21:02:19.501Z',
-    dateFinished: null,
-    projectId: '675367e40a29e18025fd1d92',
-    ownerId: '675364cf0a29e18025fd1d0b',
-    name: 'Model 4',
-  },
-  {
-    _id: '6754b7da527860ba96ed1e3e',
-    status: 'queued',
-    dateLastUpdated: '2024-12-07T21:26:03.706Z',
-    dateQueued: '2024-12-07T21:02:18.303Z',
-    dateStarted: '2024-12-07T21:02:19.501Z',
-    dateFinished: null,
-    projectId: '675367e40a29e18025fd1d92',
-    ownerId: '675364cf0a29e18025fd1d0b',
-    name: 'Model 4',
-  },
-  {
-    _id: '6754b7da527860ba96ed1e3e',
-    status: 'queued',
-    dateLastUpdated: '2024-12-07T21:26:03.706Z',
-    dateQueued: '2024-12-07T21:02:18.303Z',
-    dateStarted: '2024-12-07T21:02:19.501Z',
-    dateFinished: null,
-    projectId: '675367e40a29e18025fd1d92',
-    ownerId: '675364cf0a29e18025fd1d0b',
-    name: 'Model 4',
-  },
-  {
-    _id: '6754b7da527860ba96ed1e3e',
-    status: 'queued',
-    dateLastUpdated: '2024-12-07T21:26:03.706Z',
-    dateQueued: '2024-12-07T21:02:18.303Z',
-    dateStarted: '2024-12-07T21:02:19.501Z',
-    dateFinished: null,
-    projectId: '675367e40a29e18025fd1d92',
-    ownerId: '675364cf0a29e18025fd1d0b',
-    name: 'Model 4',
-  },
-  {
-    _id: '6754b7da527860ba96ed1e3e',
-    status: 'queued',
-    dateLastUpdated: '2024-12-07T21:26:03.706Z',
-    dateQueued: '2024-12-07T21:02:18.303Z',
-    dateStarted: '2024-12-07T21:02:19.501Z',
-    dateFinished: null,
-    projectId: '675367e40a29e18025fd1d92',
-    ownerId: '675364cf0a29e18025fd1d0b',
-    name: 'Model 4',
-  },
-  {
-    _id: '6754b7da527860ba96ed1e3e',
-    status: 'queued',
-    dateLastUpdated: '2024-12-07T21:26:03.706Z',
-    dateQueued: '2024-12-07T21:02:18.303Z',
-    dateStarted: '2024-12-07T21:02:19.501Z',
-    dateFinished: null,
-    projectId: '675367e40a29e18025fd1d92',
-    ownerId: '675364cf0a29e18025fd1d0b',
-    name: 'Model 4',
-  },
-  {
-    _id: '6754b7da527860ba96ed1e3e',
-    status: 'queued',
-    dateLastUpdated: '2024-12-07T21:26:03.706Z',
-    dateQueued: '2024-12-07T21:02:18.303Z',
-    dateStarted: '2024-12-07T21:02:19.501Z',
-    dateFinished: null,
-    projectId: '675367e40a29e18025fd1d92',
-    ownerId: '675364cf0a29e18025fd1d0b',
-    name: 'Model 4',
-  },
-  {
-    _id: '6754b7da527860ba96ed1e3e',
-    status: 'queued',
-    dateLastUpdated: '2024-12-07T21:26:03.706Z',
-    dateQueued: '2024-12-07T21:02:18.303Z',
-    dateStarted: '2024-12-07T21:02:19.501Z',
-    dateFinished: null,
-    projectId: '675367e40a29e18025fd1d92',
-    ownerId: '675364cf0a29e18025fd1d0b',
-    name: 'Model 4',
+    name: 'Model 1',
   },
 ]);
+
+onMounted(() => {
+  gsap.to('.dumbbell', {
+    y: -10,
+    duration: 0.5,
+    yoyo: true,
+    repeat: -1,
+    ease: 'power1.inOut',
+  });
+});
 </script>
 
 <template>
@@ -170,7 +114,7 @@ const tasks = ref([
         </span>
       </div>
       <div
-        class="w-full border bg-slate-900 rounded-lg hover:scale-[102%] transition-all duration-200 hover:border-logoBlueBright cursor-pointer flex flex-row"
+        class="w-full border bg-slate-900 rounded-lg hover:scale-[102%] transition-all duration-200 hover:border-logoBlueBright cursor-pointer flex flex-row items-center"
         :class="{
           'border-logoBlueDark': task === selectedTask,
           'border-slate-700': task !== selectedTask,
@@ -188,10 +132,23 @@ const tasks = ref([
             {{ new Date(task.dateStarted).toDateString() }}
           </span>
         </div>
+        <UIcon
+          name="solar:dumbbell-large-bold-duotone"
+          class="mr-4 dumbbell mt-[5px]"
+          style="font-size: 4rem; transform: rotate(45deg)"
+          v-if="task.status === 'training'"
+        ></UIcon>
+        <UIcon
+          name="eos-icons:hourglass"
+          class="mr-4"
+          style="font-size: 4rem"
+          v-if="task.status === 'queued'"
+        ></UIcon>
       </div>
     </div>
     <div class="w-full h-full bg-slate-900 p-8 pt-16">
       <h1 class="text-4xl font-bold">{{ selectedTask.name }}</h1>
+      <hr class="border-slate-600" />
     </div>
   </div>
 </template>
