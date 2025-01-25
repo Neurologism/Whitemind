@@ -3,8 +3,47 @@ definePageMeta({
   layout: 'project',
 });
 
-const selectedTaskIndex = ref<number | null>(null);
+const statusIcons = {
+  queued: 'f7:hourglass',
+  training: 'solar:dumbbell-large-bold-duotone',
+  error: 'mdi:bug',
+} as { [key: string]: string };
 
+const statusCardStats = computed(() => {
+  if (selectedTask.value.status === 'queued') {
+    return [
+      {
+        title: 'Position',
+        value: 1,
+      },
+      {
+        title: 'Remaining Time',
+        value: '4m',
+      },
+    ];
+  } else if (selectedTask.value.status === 'training') {
+    return [
+      {
+        title: 'Current Epoch',
+        value: 20,
+      },
+      {
+        title: 'Total Epochs',
+        value: 70,
+      },
+      {
+        title: 'Remaining Time',
+        value: '40s',
+      },
+      {
+        title: 'Credits Used',
+        value: '0.42',
+      },
+    ];
+  }
+});
+
+const selectedTaskIndex = ref<number | null>(null);
 const selectedTask = computed(() => {
   return tasks.value[selectedTaskIndex.value ?? 0];
 });
@@ -56,7 +95,7 @@ const tasks = ref([
   },
   {
     _id: '6754b7da527860ba96ed1e3e',
-    status: 'finished',
+    status: 'error',
     dateLastUpdated: '2024-12-07T21:26:03.706Z',
     dateQueued: '2024-12-07T21:02:18.303Z',
     dateStarted: '2024-12-07T21:02:19.501Z',
@@ -133,22 +172,47 @@ onMounted(() => {
           </span>
         </div>
         <UIcon
-          name="solar:dumbbell-large-bold-duotone"
-          class="mr-4 dumbbell mt-[5px]"
-          style="font-size: 3rem; transform: rotate(45deg)"
-          v-if="task.status === 'training'"
-        ></UIcon>
-        <UIcon
-          name="eos-icons:hourglass"
+          :name="statusIcons[task.status] ?? ''"
           class="mr-4"
           style="font-size: 3rem"
-          v-if="task.status === 'queued'"
         ></UIcon>
       </div>
     </div>
     <div class="w-full h-full bg-slate-900 p-8 pt-16">
-      <h1 class="text-4xl font-bold">{{ selectedTask.name }}</h1>
-      <hr class="border-slate-600" />
+      <h1 class="text-4xl font-bold mb-6">{{ selectedTask.name }}</h1>
+      <div
+        class="bg-gray-900 border border-slate-600 w-full rounded-lg flex flex-col"
+      >
+        <div class="w-full p-4 flex flex-row items-center">
+          <UIcon
+            :name="statusIcons[selectedTask.status] ?? ''"
+            style="font-size: 4rem"
+            class="mr-4"
+          ></UIcon>
+          <h2 class="text-4xl mr-12 mb-2">{{ selectedTask.status }}</h2>
+          <UProgress
+            class="w-full"
+            animation="carousel"
+            v-if="selectedTask.status === 'queued'"
+          ></UProgress>
+          <UProgress
+            color="primary"
+            :indicator="false"
+            :value="35"
+            v-else-if="selectedTask.status === 'training'"
+          />
+        </div>
+        <hr class="border-slate-600" />
+        <div class="w-full p-4 flex flex-row items-center space-x-8">
+          <div
+            class="flex flex-col items-center"
+            v-for="statItem in statusCardStats"
+          >
+            <h3 class="text-lg">{{ statItem.title }}</h3>
+            <span class="font-bold text-2xl">{{ statItem.value }}</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
