@@ -135,13 +135,13 @@ onMounted(() => {
         <UIcon
           name="solar:dumbbell-large-bold-duotone"
           class="mr-4 dumbbell mt-[5px]"
-          style="font-size: 4rem; transform: rotate(45deg)"
+          style="font-size: 3rem; transform: rotate(45deg)"
           v-if="task.status === 'training'"
         ></UIcon>
         <UIcon
           name="eos-icons:hourglass"
           class="mr-4"
-          style="font-size: 4rem"
+          style="font-size: 3rem"
           v-if="task.status === 'queued'"
         ></UIcon>
       </div>
