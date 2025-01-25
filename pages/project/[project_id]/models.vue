@@ -13,7 +13,7 @@ const tasks = ref([
   {
     _id: '6754b7da527860ba96ed1e3e',
     status: 'queued',
-    datelastUpdated: '2024-12-07T21:26:03.706Z',
+    dateLastUpdated: '2024-12-07T21:26:03.706Z',
     dateQueued: '2024-12-07T21:02:18.303Z',
     dateStarted: '2024-12-07T21:02:19.501Z',
     dateFinished: null,
@@ -24,7 +24,18 @@ const tasks = ref([
   {
     _id: '6754b7da527860ba96ed1e3e',
     status: 'queued',
-    datelastUpdated: '2024-12-07T21:26:03.706Z',
+    dateLastUpdated: '2024-12-07T21:26:03.706Z',
+    dateQueued: '2024-12-07T21:02:18.303Z',
+    dateStarted: '2024-12-07T21:02:19.501Z',
+    dateFinished: null,
+    projectId: '675367e40a29e18025fd1d92',
+    ownerId: '675364cf0a29e18025fd1d0b',
+    name: 'Model 2',
+  },
+  {
+    _id: '6754b7da527860ba96ed1e3e',
+    status: 'queued',
+    dateLastUpdated: '2024-12-07T21:26:03.706Z',
     dateQueued: '2024-12-07T21:02:18.303Z',
     dateStarted: '2024-12-07T21:02:19.501Z',
     dateFinished: null,
@@ -35,7 +46,7 @@ const tasks = ref([
   {
     _id: '6754b7da527860ba96ed1e3e',
     status: 'queued',
-    datelastUpdated: '2024-12-07T21:26:03.706Z',
+    dateLastUpdated: '2024-12-07T21:26:03.706Z',
     dateQueued: '2024-12-07T21:02:18.303Z',
     dateStarted: '2024-12-07T21:02:19.501Z',
     dateFinished: null,
@@ -46,24 +57,101 @@ const tasks = ref([
   {
     _id: '6754b7da527860ba96ed1e3e',
     status: 'queued',
-    datelastUpdated: '2024-12-07T21:26:03.706Z',
+    dateLastUpdated: '2024-12-07T21:26:03.706Z',
     dateQueued: '2024-12-07T21:02:18.303Z',
     dateStarted: '2024-12-07T21:02:19.501Z',
     dateFinished: null,
     projectId: '675367e40a29e18025fd1d92',
     ownerId: '675364cf0a29e18025fd1d0b',
-    name: 'Model 5',
+    name: 'Model 4',
   },
   {
     _id: '6754b7da527860ba96ed1e3e',
     status: 'queued',
-    datelastUpdated: '2024-12-07T21:26:03.706Z',
+    dateLastUpdated: '2024-12-07T21:26:03.706Z',
     dateQueued: '2024-12-07T21:02:18.303Z',
     dateStarted: '2024-12-07T21:02:19.501Z',
     dateFinished: null,
     projectId: '675367e40a29e18025fd1d92',
     ownerId: '675364cf0a29e18025fd1d0b',
-    name: 'Model 6',
+    name: 'Model 4',
+  },
+  {
+    _id: '6754b7da527860ba96ed1e3e',
+    status: 'queued',
+    dateLastUpdated: '2024-12-07T21:26:03.706Z',
+    dateQueued: '2024-12-07T21:02:18.303Z',
+    dateStarted: '2024-12-07T21:02:19.501Z',
+    dateFinished: null,
+    projectId: '675367e40a29e18025fd1d92',
+    ownerId: '675364cf0a29e18025fd1d0b',
+    name: 'Model 4',
+  },
+  {
+    _id: '6754b7da527860ba96ed1e3e',
+    status: 'queued',
+    dateLastUpdated: '2024-12-07T21:26:03.706Z',
+    dateQueued: '2024-12-07T21:02:18.303Z',
+    dateStarted: '2024-12-07T21:02:19.501Z',
+    dateFinished: null,
+    projectId: '675367e40a29e18025fd1d92',
+    ownerId: '675364cf0a29e18025fd1d0b',
+    name: 'Model 4',
+  },
+  {
+    _id: '6754b7da527860ba96ed1e3e',
+    status: 'queued',
+    dateLastUpdated: '2024-12-07T21:26:03.706Z',
+    dateQueued: '2024-12-07T21:02:18.303Z',
+    dateStarted: '2024-12-07T21:02:19.501Z',
+    dateFinished: null,
+    projectId: '675367e40a29e18025fd1d92',
+    ownerId: '675364cf0a29e18025fd1d0b',
+    name: 'Model 4',
+  },
+  {
+    _id: '6754b7da527860ba96ed1e3e',
+    status: 'queued',
+    dateLastUpdated: '2024-12-07T21:26:03.706Z',
+    dateQueued: '2024-12-07T21:02:18.303Z',
+    dateStarted: '2024-12-07T21:02:19.501Z',
+    dateFinished: null,
+    projectId: '675367e40a29e18025fd1d92',
+    ownerId: '675364cf0a29e18025fd1d0b',
+    name: 'Model 4',
+  },
+  {
+    _id: '6754b7da527860ba96ed1e3e',
+    status: 'queued',
+    dateLastUpdated: '2024-12-07T21:26:03.706Z',
+    dateQueued: '2024-12-07T21:02:18.303Z',
+    dateStarted: '2024-12-07T21:02:19.501Z',
+    dateFinished: null,
+    projectId: '675367e40a29e18025fd1d92',
+    ownerId: '675364cf0a29e18025fd1d0b',
+    name: 'Model 4',
+  },
+  {
+    _id: '6754b7da527860ba96ed1e3e',
+    status: 'queued',
+    dateLastUpdated: '2024-12-07T21:26:03.706Z',
+    dateQueued: '2024-12-07T21:02:18.303Z',
+    dateStarted: '2024-12-07T21:02:19.501Z',
+    dateFinished: null,
+    projectId: '675367e40a29e18025fd1d92',
+    ownerId: '675364cf0a29e18025fd1d0b',
+    name: 'Model 4',
+  },
+  {
+    _id: '6754b7da527860ba96ed1e3e',
+    status: 'queued',
+    dateLastUpdated: '2024-12-07T21:26:03.706Z',
+    dateQueued: '2024-12-07T21:02:18.303Z',
+    dateStarted: '2024-12-07T21:02:19.501Z',
+    dateFinished: null,
+    projectId: '675367e40a29e18025fd1d92',
+    ownerId: '675364cf0a29e18025fd1d0b',
+    name: 'Model 4',
   },
 ]);
 </script>
@@ -71,7 +159,7 @@ const tasks = ref([
 <template>
   <div style="height: calc(100vh - 4rem)" class="w-screen flex flex-row">
     <div
-      class="w-[32rem] bg-slate-800 h-full overflow-y-scroll flex flex-col p-2 space-y-1"
+      class="w-[32rem] border-r-2 border-slate-600 bg-slate-800 h-full overflow-y-scroll flex flex-col p-2 space-y-1"
     >
       <div
         class="w-full border-customBlue-700 text-customBlue-700 border-2 p-3 bg-transparent rounded-lg cursor-pointer flex flex-row pointer-events-auto z-10"
@@ -91,6 +179,8 @@ const tasks = ref([
         </span>
       </div>
     </div>
-    <div class="w-full h-full bg-slate-900"></div>
+    <div class="w-full h-full bg-slate-900 p-8 pt-16">
+      <h1 class="text-4xl font-bold">{{ selectedTask.name }}</h1>
+    </div>
   </div>
 </template>
