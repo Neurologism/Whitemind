@@ -159,7 +159,7 @@ const tasks = ref([
 <template>
   <div style="height: calc(100vh - 4rem)" class="w-screen flex flex-row">
     <div
-      class="w-[32rem] border-r-2 border-slate-600 bg-slate-800 h-full overflow-y-scroll flex flex-col p-2 space-y-1"
+      class="w-[32rem] border-r-2 border-slate-600 bg-slate-800 h-full overflow-y-scroll flex flex-col p-3 space-y-1"
     >
       <div
         class="w-full border-customBlue-700 text-customBlue-700 border-2 p-3 bg-transparent rounded-lg cursor-pointer flex flex-row pointer-events-auto z-10"
@@ -170,13 +170,24 @@ const tasks = ref([
         </span>
       </div>
       <div
-        class="w-full border-slate-700 border p-3 bg-slate-900 rounded-lg hover:scale-[102%] transition-all duration-200 hover:border-logoBlueBright cursor-pointer"
+        class="w-full border bg-slate-900 rounded-lg hover:scale-[102%] transition-all duration-200 hover:border-logoBlueBright cursor-pointer flex flex-row"
+        :class="{
+          'border-logoBlueDark': task === selectedTask,
+          'border-slate-700': task !== selectedTask,
+        }"
         v-for="task in tasks"
+        @click="selectedTaskIndex = tasks.indexOf(task)"
       >
-        <h3 class="text-lg font-bold">{{ task.name }}</h3>
-        <span class="text-gray-500 text-sm">
-          {{ new Date(task.dateStarted).toDateString() }}
-        </span>
+        <div
+          class="bg-logoBlueDark w-[6px] h-full rounded-l-lg"
+          v-if="task === selectedTask"
+        ></div>
+        <div class="w-full h-full p-3">
+          <h3 class="text-lg font-bold">{{ task.name }}</h3>
+          <span class="text-gray-500 text-sm">
+            {{ new Date(task.dateStarted).toDateString() }}
+          </span>
+        </div>
       </div>
     </div>
     <div class="w-full h-full bg-slate-900 p-8 pt-16">
