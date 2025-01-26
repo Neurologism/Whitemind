@@ -6,7 +6,7 @@ const route = useRoute();
 <template>
   <div class="w-screen flex flex-row absolute">
     <div
-      class="bg-slate-800 flex flex-row mx-auto pointer-events-auto z-10 border-b-2 border-x-2 border-slate-600 rounded-b-full px-6 select-none"
+      class="bg-slate-800 flex flex-row mx-auto pointer-events-auto z-20 border-b-2 border-x-2 border-slate-600 rounded-b-full px-6 select-none"
     >
       <div
         @click="navigateToSubroute(route.fullPath, 3, 'editor')"
