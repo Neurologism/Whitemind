@@ -5,7 +5,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --inspect",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@iconify-json/carbon": "^1.2.5",
+    "@iconify-json/gridicons": "^1.2.2",
     "@iconify-json/solar": "^1.2.2",
     "@nuxt/icon": "^1.10.3",
     "@nuxt/image": "1.8.1",
