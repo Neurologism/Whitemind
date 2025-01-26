@@ -151,7 +151,9 @@ export const useSessionStore = defineStore('sessionStore', {
         }
       );
 
-      return !result.ok;
+      if (result.ok) {
+        return (await result.json()).isTaken;
+      }
     },
 
     async modifyAccountData(user: any) {
