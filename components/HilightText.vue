@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { CustomNodes } from '~/components/editor/customNodeList';
-import type { NodeDefinition } from '~/components/editor/blocks';
+import type { NodeDefinition } from '~/blocks/blocks';
 
 const props = defineProps<{
   text: string;

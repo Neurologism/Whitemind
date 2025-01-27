@@ -7,7 +7,7 @@ import {
   type NodeConnectionConstraint,
   type NodeDefinition,
   type NodeGroupDefinition,
-} from '~/components/editor/blocks';
+} from '~/blocks/blocks';
 import { CustomNodes } from '~/components/editor/customNodeList';
 
 const flowStore = useVueFlowStore();

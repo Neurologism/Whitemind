@@ -1,8 +1,5 @@
-import { blocks } from '~/components/editor/blocks';
-import type {
-  NodeGroupDefinition,
-  NodeDefinition,
-} from '~/components/editor/blocks';
+import { blocks } from '~/blocks/blocks';
+import type { NodeGroupDefinition, NodeDefinition } from '~/blocks/blocks';
 import type { XYPosition } from '@vue-flow/core';
 import { useVueFlowStore } from '~/stores/VueFlowStore';
 import Fuse from 'fuse.js';
