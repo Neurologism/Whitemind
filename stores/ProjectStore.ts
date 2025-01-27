@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { SyncStatus } from '~/components/editor/syncStatus';
+import { SyncStatus } from '~/types/syncStatus';
 import { useVueFlow } from '@vue-flow/core';
 
 export const useProjectStore = defineStore('projectStore', {

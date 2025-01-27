@@ -4,7 +4,7 @@ import { VueFlow, useVueFlow, Panel } from '@vue-flow/core';
 // import "@vue-flow/minimap/dist/style.css";
 import { CustomNodes } from '~/components/editor/customNodeList';
 import { Background } from '@vue-flow/background';
-import { SyncStatus } from '~/components/editor/syncStatus';
+import { SyncStatus } from '~/types/syncStatus';
 import CustomConnectionEdge from '~/components/editor/customEdge/CustomConnectionEdge.vue';
 import CustomEdge from '~/components/editor/customEdge/CustomEdge.vue';
 import Sidebar from '~/components/editor/SideBar/Sidebar.vue';
