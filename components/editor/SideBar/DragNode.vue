@@ -4,7 +4,7 @@ import type {
   NodeGroupDefinition,
   NodeSubGroupDefinition,
 } from '~/data/blocks';
-import { CustomNodes } from '~/components/editor/customNodeList';
+import { CustomNodes } from '~/utility/customNodeList';
 
 defineProps<{
   nodeDefinition: NodeDefinition;

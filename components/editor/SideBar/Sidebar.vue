@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { CustomNodes } from '~/components/editor/customNodeList';
+import { CustomNodes } from '~/utility/customNodeList';
 import DragNode from '~/components/editor/SideBar/DragNode.vue';
 import ExpandableButton from '~/components/editor/SideBar/ExpandableButton.vue';
 

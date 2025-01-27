@@ -2,7 +2,7 @@
 import { VueFlow, useVueFlow, Panel } from '@vue-flow/core';
 // import { MiniMap } from "@vue-flow/minimap";
 // import "@vue-flow/minimap/dist/style.css";
-import { CustomNodes } from '~/components/editor/customNodeList';
+import { CustomNodes } from '~/utility/customNodeList';
 import { Background } from '@vue-flow/background';
 import { SyncStatus } from '~/types/syncStatus.enum';
 import CustomConnectionEdge from '~/components/editor/customEdge/CustomConnectionEdge.vue';

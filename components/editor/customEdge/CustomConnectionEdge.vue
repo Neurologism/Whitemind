@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CustomNodes } from '~/components/editor/customNodeList.js';
+import { CustomNodes } from '~/utility/customNodeList.js';
 import {
   type ConnectionLineProps,
   SmoothStepEdge,

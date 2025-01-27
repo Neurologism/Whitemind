@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { Position, useNodesData } from '@vue-flow/core';
-import { CustomNodes } from '~/components/editor/customNodeList';
+import { CustomNodes } from '~/utility/customNodeList';
 import NodeValueEditor from '~/components/editor/customNode/typeEditors/NodeValueEditor.vue';
 import LineChart from '~/components/editor/charts/LineChart.vue';
 import {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { CustomNodes } from '~/components/editor/customNodeList';
+import { CustomNodes } from '~/utility/customNodeList';
 import type { NodeDefinition } from '~/data/blocks';
 
 const props = defineProps<{
