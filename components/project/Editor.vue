@@ -5,9 +5,9 @@ import { VueFlow, useVueFlow, Panel } from '@vue-flow/core';
 import { CustomNodes } from '~/utility/customNodeList';
 import { Background } from '@vue-flow/background';
 import { SyncStatus } from '~/types/syncStatus.enum';
-import CustomConnectionEdge from '~/components/editor/customEdge/CustomConnectionEdge.vue';
-import CustomEdge from '~/components/editor/customEdge/CustomEdge.vue';
-import Sidebar from '~/components/editor/SideBar/Sidebar.vue';
+import CustomConnectionEdge from '~/components/project/customEdge/CustomConnectionEdge.vue';
+import CustomEdge from '~/components/project/customEdge/CustomEdge.vue';
+import Sidebar from '~/components/project/SideBar/Sidebar.vue';
 import { useMouse } from '@vueuse/core';
 
 const props = defineProps({
