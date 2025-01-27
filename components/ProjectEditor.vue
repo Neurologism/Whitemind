@@ -42,6 +42,16 @@ const trainingStore = useTrainingStore();
 const route = useRoute();
 const config = useRuntimeConfig();
 
+const mouse = useMouse();
+const openContextMenu = ref(false);
+const contextMenu = ref({ getBoundingClientRect: () => ({}) });
+const contextMenuTargetNodeId = ref('');
+
+trainingStore.training.epoch = null;
+trainingStore.training.loss = null;
+trainingStore.training.accuracy = null;
+trainingStore.training.mean_absolute_error = null;
+
 const {
   onConnect,
   addEdges,
@@ -59,11 +69,6 @@ const {
   removeNodes,
   viewportRef,
 } = useVueFlow();
-
-trainingStore.training.epoch = null;
-trainingStore.training.loss = null;
-trainingStore.training.accuracy = null;
-trainingStore.training.mean_absolute_error = null;
 
 function handleDrop(event: DragEvent) {
   const nodeTypeString = event.dataTransfer?.getData('node') ?? '';
@@ -132,11 +137,6 @@ function addNewNode(newNode: any) {
     displayActionForbiddenToast();
   }
 }
-
-const mouse = useMouse();
-const openContextMenu = ref(false);
-const contextMenu = ref({ getBoundingClientRect: () => ({}) });
-const contextMenuTargetNodeId = ref('');
 
 function onContextMenu(nodeId: string) {
   contextMenuTargetNodeId.value = nodeId;
@@ -328,7 +328,7 @@ function setSyncInterval() {
   if (syncInterval) {
     clearInterval(syncInterval);
   }
-  syncInterval = setTimeout(() => projectStore.syncProject(vueFlowStore), 8000);
+  syncInterval = setTimeout(() => projectStore.syncProject(), 8000);
 }
 
 if (props.projectId !== '') {
@@ -380,10 +380,6 @@ watch(
     }
   }
 );
-
-defineShortcuts({
-  s: () => projectStore.syncProject(vueFlowStore),
-});
 
 const smallScreenNoteDismissed = ref(false);
 </script>

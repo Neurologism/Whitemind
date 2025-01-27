@@ -5,18 +5,17 @@ const toast = useToast();
 
 const trainingStore = useTrainingStore();
 const tutorialStore = useTutorialStore();
-const vueFlowStore = useVueFlowStore();
+const projectStore = useProjectStore();
 
 const props = defineProps<{
   projectId: string;
   syncStatus: SyncStatus;
-  syncProject: Function;
 }>();
 
 async function trainingStart() {
   if (trainingStore.training.running) return;
   if (props.syncStatus !== SyncStatus.synced) {
-    await props.syncProject(vueFlowStore);
+    await projectStore.syncProject();
   }
   const result = await trainingStore.startTraining(props.projectId);
   toast.add({

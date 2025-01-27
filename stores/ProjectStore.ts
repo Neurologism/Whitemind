@@ -140,12 +140,13 @@ export const useProjectStore = defineStore('projectStore', {
       return result.ok;
     },
 
-    async syncProject(flowStore: any): Promise<boolean> {
+    async syncProject(): Promise<boolean> {
       if (!this.project) return false;
       const toast = useToast();
       this.syncStatus = SyncStatus.syncing;
 
-      this.project.data.components = flowStore.components;
+      const vueFlowStore = useVueFlowStore();
+      this.project.data.components = vueFlowStore.components;
 
       const success = await this.updateProject();
 

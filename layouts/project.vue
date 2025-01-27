@@ -13,6 +13,10 @@ onMounted(() => {
   }
 });
 
+defineShortcuts({
+  s: () => projectStore.syncProject(),
+});
+
 sessionStore.showLoadingAnimation();
 </script>
 
@@ -27,7 +31,6 @@ sessionStore.showLoadingAnimation();
         <EditorTrainingHeader
           :project-id="projectStore.project?.data._id ?? ''"
           :sync-status="projectStore.syncStatus"
-          :sync-project="projectStore.syncProject"
         />
       </div>
       <div class="flex">
@@ -45,7 +48,7 @@ sessionStore.showLoadingAnimation();
                       : 'gray',
               color: 'white',
             }"
-            @click="() => projectStore.syncProject(vueFlowStore)"
+            @click="() => projectStore.syncProject()"
           >
             <UIcon :name="projectStore.syncStatus" />
           </div>
