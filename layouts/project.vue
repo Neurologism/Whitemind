@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SyncStatus } from '~/types/syncStatus';
+import { SyncStatus } from '~/types/syncStatus.enum';
 
 const sessionStore = useSessionStore();
 const projectStore = useProjectStore();
