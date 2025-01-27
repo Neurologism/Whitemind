@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { User } from '~/interfaces/user.interface';
+import type { User } from '~/types/user.interface';
 
 const props = defineProps<{
   brainetTag: string;

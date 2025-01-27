@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
-import type { User } from '~/interfaces/user.interface';
+import type { User } from '~/types/user.interface';
 
 export const useSessionStore = defineStore('sessionStore', {
   state: () => ({
