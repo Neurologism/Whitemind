@@ -3,7 +3,7 @@ import type {
   NodeDefinition,
   NodeGroupDefinition,
   NodeSubGroupDefinition,
-} from '~/blocks/blocks';
+} from '~/data/blocks';
 import { CustomNodes } from '~/components/editor/customNodeList';
 
 defineProps<{
