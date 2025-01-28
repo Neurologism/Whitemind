@@ -2,14 +2,14 @@
 import { ref } from 'vue';
 import { Position, useNodesData } from '@vue-flow/core';
 import { CustomNodes } from '~/utility/customNodeList';
-import NodeValueEditor from '~/components/editor/customNode/typeEditors/NodeValueEditor.vue';
-import LineChart from '~/components/editor/charts/LineChart.vue';
+import NodeValueEditor from '~/components/project/customNode/typeEditors/NodeValueEditor.vue';
+import LineChart from '~/components/project/charts/LineChart.vue';
 import {
   NodeResizeControl,
   ResizeControlVariant,
 } from '@vue-flow/node-resizer';
 import '@vue-flow/node-resizer/dist/style.css';
-import CustomHandle from '~/components/editor/customNode/CustomHandle.vue';
+import CustomHandle from '~/components/project/customNode/CustomHandle.vue';
 
 defineEmits(['node-contextmenu']);
 

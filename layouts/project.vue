@@ -21,14 +21,14 @@ sessionStore.showLoadingAnimation();
 </script>
 
 <template>
-  <EditorProjectHeader
+  <ProjectHeader
     :project-title="projectStore.project?.data.name ?? ''"
     :project-owner="sessionStore.sessionData.user.displayname ?? ''"
     class="w-full pointer-events-auto"
   >
     <div class="flex flex-row">
       <div class="flex-1 lg:mr-10">
-        <EditorTrainingHeader
+        <ProjectTrainingHeader
           :project-id="projectStore.project?.data._id ?? ''"
           :sync-status="projectStore.syncStatus"
         />
@@ -55,6 +55,6 @@ sessionStore.showLoadingAnimation();
         </UTooltip>
       </div>
     </div>
-  </EditorProjectHeader>
+  </ProjectHeader>
   <slot />
 </template>

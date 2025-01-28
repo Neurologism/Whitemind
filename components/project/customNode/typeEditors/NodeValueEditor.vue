@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import NodeStringEditor from '~/components/editor/customNode/typeEditors/editors/NodeStringEditor.vue';
+import NodeStringEditor from '~/components/project/customNode/typeEditors/editors/NodeStringEditor.vue';
 
-import NodeBoolEditor from '~/components/editor/customNode/typeEditors/editors/NodeBoolEditor.vue';
-import NodeSelectEditor from '~/components/editor/customNode/typeEditors/editors/NodeSelectEditor.vue';
-import NodeTupleEditor from '~/components/editor/customNode/typeEditors/editors/NodeTupleEditor.vue';
-import NodeMultiselectEditor from '~/components/editor/customNode/typeEditors/editors/NodeMultiselectEditor.vue';
+import NodeBoolEditor from '~/components/project/customNode/typeEditors/editors/NodeBoolEditor.vue';
+import NodeSelectEditor from '~/components/project/customNode/typeEditors/editors/NodeSelectEditor.vue';
+import NodeTupleEditor from '~/components/project/customNode/typeEditors/editors/NodeTupleEditor.vue';
+import NodeMultiselectEditor from '~/components/project/customNode/typeEditors/editors/NodeMultiselectEditor.vue';
 import type { NodeDefinition } from '~/data/blocks';
 import { useNodesData } from '@vue-flow/core';
-import NodeRangeEditor from '~/components/editor/customNode/typeEditors/editors/NodeRangeEditor.vue';
-import NodeIntEditor from '~/components/editor/customNode/typeEditors/editors/NodeIntEditor.vue';
-import NodeFloatEditor from '~/components/editor/customNode/typeEditors/editors/NodeFloatEditor.vue';
+import NodeRangeEditor from '~/components/project/customNode/typeEditors/editors/NodeRangeEditor.vue';
+import NodeIntEditor from '~/components/project/customNode/typeEditors/editors/NodeIntEditor.vue';
+import NodeFloatEditor from '~/components/project/customNode/typeEditors/editors/NodeFloatEditor.vue';
 
 const props = defineProps<{
   paramName: string;

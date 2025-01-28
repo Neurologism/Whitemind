@@ -109,12 +109,12 @@ watch(showSpeechBubble, () => {
       class="speech-bubble text-white min-w-[350px] max-w-[500px] absolute"
     >
       <slot name="content">
-        <HilightText
+        <ProjectHighlightText
           :text="
             tutorialStore.tutorial.data?.steps[tutorialStore.visibleStep]
               .text ?? ''
           "
-        ></HilightText>
+        ></ProjectHighlightText>
       </slot>
       <div class="flex flex-row space-x-2 mt-4">
         <UButton
