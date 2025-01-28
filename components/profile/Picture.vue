@@ -90,7 +90,7 @@ onMounted(() => {
     class="hidden"
     style="width: 0; height: 0"
   />
-  <LoadingSkeleton :active="loading" :class="`w-52 h-52`" rounded="full">
+  <GenericLoadingSkeleton :active="loading" :class="`w-52 h-52`" rounded="full">
     <div
       :class="`w-52 h-52 rounded-full overflow-hidden relative hover:cursor-pointer`"
       @click="triggerFileInput"
@@ -114,5 +114,5 @@ onMounted(() => {
       :src="hasPfp ? props.pfpUrl : '/user.svg'"
       :class="`w-52 h-52 rounded-full`"
     />
-  </LoadingSkeleton>
+  </GenericLoadingSkeleton>
 </template>

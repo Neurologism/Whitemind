@@ -64,13 +64,17 @@ const showIngRatio = computed(() => {
           :is-self="isSelf"
         ></ProfilePicture>
         <div class="mt-6">
-          <LoadingSkeleton :active="userLoading" :inline="true" rounded="full">
+          <GenericLoadingSkeleton
+            :active="userLoading"
+            :inline="true"
+            rounded="full"
+          >
             <h2 class="text-3xl font-bold inline">
               {{ userLoading ? 'username' : user?.displayname }}
             </h2>
-          </LoadingSkeleton>
+          </GenericLoadingSkeleton>
 
-          <LoadingSkeleton
+          <GenericLoadingSkeleton
             :active="userLoading"
             class="mt-1"
             :inline="true"
@@ -79,10 +83,10 @@ const showIngRatio = computed(() => {
             <span class="text-lg text-slate-400">
               {{ userLoading ? 'username' : user?.brainetTag }}
             </span>
-          </LoadingSkeleton>
+          </GenericLoadingSkeleton>
 
           <div class="flex flex-row flex-nowrap mt-4">
-            <LoadingSkeleton
+            <GenericLoadingSkeleton
               :active="userLoading"
               :inline="true"
               rounded="full"
@@ -90,11 +94,11 @@ const showIngRatio = computed(() => {
               <span class="hover:cursor-pointer">
                 <span class="font-bold">{{ user?.followerIds?.length }}</span>
                 followers
-              </span></LoadingSkeleton
+              </span></GenericLoadingSkeleton
             >
 
             <div class="flex-grow"></div>
-            <LoadingSkeleton
+            <GenericLoadingSkeleton
               :active="userLoading"
               :inline="true"
               rounded="full"
@@ -102,13 +106,13 @@ const showIngRatio = computed(() => {
               <span class="hover:cursor-pointer">
                 <span class="font-bold">{{ user?.followingIds?.length }}</span>
                 following
-              </span></LoadingSkeleton
+              </span></GenericLoadingSkeleton
             >
           </div>
-          <LoadingSkeleton :active="userLoading" class="mt-6">
+          <GenericLoadingSkeleton :active="userLoading" class="mt-6">
             <p class="text-md text-slate-100 line-clamp-5 break-words w-52">
               {{ userLoading ? 's'.repeat(200) : user?.aboutYou }}
-            </p></LoadingSkeleton
+            </p></GenericLoadingSkeleton
           >
         </div>
         <div

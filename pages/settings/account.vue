@@ -56,7 +56,7 @@ async function deleteAccount() {
 }
 </script>
 <template>
-  <Modal v-model="showDeleteAccountModal">
+  <GenericModal v-model="showDeleteAccountModal">
     <template #title>Delete account</template>
     <template #text>
       Please type
@@ -82,8 +82,8 @@ async function deleteAccount() {
         >Delete your account</UButton
       >
     </template>
-  </Modal>
-  <Settings :in-project="false">
+  </GenericModal>
+  <SettingsBase :in-project="false">
     <SettingsHeader>Account</SettingsHeader>
     <SettingsInput label="Username" placeholder="kurumi123" v-model="username">
       Beware, changing your username can result in side effects. If you want to
@@ -124,5 +124,5 @@ async function deleteAccount() {
         >Delete your account</UButton
       >
     </div>
-  </Settings>
+  </SettingsBase>
 </template>

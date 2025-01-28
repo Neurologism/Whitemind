@@ -12,6 +12,6 @@ navigateToSubroute(route.fullPath, 5, 'general');
 
 <template>
   <div class="w-screen bg-slate-900" style="min-height: calc(100vh - 4rem)">
-    <Settings :in-project="true"> </Settings>
+    <SettingsBase :in-project="true"> </SettingsBase>
   </div>
 </template>

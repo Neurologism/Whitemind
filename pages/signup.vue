@@ -100,7 +100,7 @@ const onRegister = async () => {
     </h1>
     <UCard class="md:w-3/5 lg:w-2/5 xl:w-4/12 2xl:w-3/12 mx-auto">
       <div class="input-tile">
-        <HintBox>
+        <GenericHintBox>
           <UInput
             v-model="username"
             label="Username"
@@ -118,10 +118,10 @@ const onRegister = async () => {
               message="Please choose a unique username"
             />
           </template>
-        </HintBox>
+        </GenericHintBox>
       </div>
       <div class="input-tile">
-        <HintBox>
+        <GenericHintBox>
           <UInput
             v-model="email"
             label="Email"
@@ -139,10 +139,10 @@ const onRegister = async () => {
               message="Please enter a valid email adress!"
             />
           </template>
-        </HintBox>
+        </GenericHintBox>
       </div>
       <div class="input-tile">
-        <HintBox>
+        <GenericHintBox>
           <UInput
             v-model="password"
             label="Password"
@@ -169,10 +169,10 @@ const onRegister = async () => {
               />
             </div>
           </template>
-        </HintBox>
+        </GenericHintBox>
       </div>
       <div class="input-tile">
-        <HintBox>
+        <GenericHintBox>
           <UInput
             v-model="password2"
             label="Confirm Password"
@@ -189,7 +189,7 @@ const onRegister = async () => {
               title="The passwords do not match!"
             />
           </template>
-        </HintBox>
+        </GenericHintBox>
       </div>
       <div class="input-tile">
         <UCheckbox v-model="legalStuff" required>

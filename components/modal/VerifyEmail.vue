@@ -30,7 +30,7 @@ if (config.showVerifyEmailModal) {
 </script>
 
 <template>
-  <Modal v-model="showModal">
+  <GenericModal v-model="showModal">
     <template #title>Verify your email </template>
     <template #text>
       We have sent a verification email to
@@ -63,5 +63,5 @@ if (config.showVerifyEmailModal) {
       >
       <div class="flex-grow"></div>
     </template>
-  </Modal>
+  </GenericModal>
 </template>

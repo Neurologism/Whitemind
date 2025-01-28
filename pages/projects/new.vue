@@ -77,7 +77,7 @@ const createProject = async () => {
         <UDivider />
       </div>
       <div class="input-tile">
-        <HintBox>
+        <GenericHintBox>
           <UInput
             v-model="projectName"
             label="Project Name"
@@ -91,7 +91,7 @@ const createProject = async () => {
               description="ensure the project name is unique"
             />
           </template>
-        </HintBox>
+        </GenericHintBox>
       </div>
       <div class="input-tile">
         <UTextarea

@@ -12,7 +12,7 @@ const projectVisibility = ref(
 
 <template>
   <div class="w-screen bg-slate-900" style="min-height: calc(100vh - 4rem)">
-    <Settings :in-project="true">
+    <SettingsBase :in-project="true">
       <SettingsHeader>General</SettingsHeader>
       <SettingsInput label="Project Name" placeholder="Kurumi">
         Two projects of one user cannot share the same name.
@@ -24,6 +24,6 @@ const projectVisibility = ref(
         label="Visibility"
         v-model="projectVisibility"
       ></SettingsSelect>
-    </Settings>
+    </SettingsBase>
   </div>
 </template>
