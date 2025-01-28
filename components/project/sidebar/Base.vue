@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 import { CustomNodes } from '~/utility/customNodeList';
-import DragNode from '~/components/editor/SideBar/DragNode.vue';
-import ExpandableButton from '~/components/editor/SideBar/ExpandableButton.vue';
 
 const searchQuery = ref('');
 const sessionStore = useSessionStore();
@@ -115,7 +113,7 @@ defineShortcuts({
             :key="index"
             class="flex-none items-center mb-3"
           >
-            <ExpandableButton
+            <ProjectSidebarExpandableButton
               :title="category.name"
               :icon="category.icon"
               :color="category.color"
@@ -201,7 +199,7 @@ defineShortcuts({
               <UIcon :name="nodeSubGroup.icon ?? nodeGroup.icon" />
               {{ nodeSubGroup.name }}
             </div>
-            <DragNode
+            <ProjectSidebarDragNode
               v-for="nodeDefinition in nodeSubGroup.nodes"
               :node-definition="nodeDefinition"
               :node-group-definition="nodeGroup"

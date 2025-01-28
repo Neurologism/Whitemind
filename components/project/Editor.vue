@@ -7,7 +7,6 @@ import { Background } from '@vue-flow/background';
 import { SyncStatus } from '~/types/syncStatus.enum';
 import CustomConnectionEdge from '~/components/project/customEdge/CustomConnectionEdge.vue';
 import CustomEdge from '~/components/project/customEdge/CustomEdge.vue';
-import Sidebar from '~/components/project/SideBar/Sidebar.vue';
 import { useMouse } from '@vueuse/core';
 
 const props = defineProps({
@@ -499,7 +498,7 @@ const smallScreenNoteDismissed = ref(false);
       <UProgress animation="carousel" />
     </div>
     <div class="flex-1 overflow-auto" v-else>
-      <Sidebar class="h-full pointer-events-auto" />
+      <ProjectSidebarBase class="h-full pointer-events-auto" />
     </div>
   </div>
 </template>
