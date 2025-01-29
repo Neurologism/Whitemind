@@ -7,17 +7,14 @@ const trainingStore = useTrainingStore();
 const tutorialStore = useTutorialStore();
 const projectStore = useProjectStore();
 
-const props = defineProps<{
-  projectId: string;
-  syncStatus: SyncStatus;
-}>();
-
 async function trainingStart() {
-  if (trainingStore.training.running) return;
-  if (props.syncStatus !== SyncStatus.synced) {
+  if (trainingStore.training.running || projectStore.project === null) return;
+  if (projectStore.syncStatus !== projectStore.syncStatus) {
     await projectStore.syncProject();
   }
-  const result = await trainingStore.startTraining(props.projectId);
+  const result = await trainingStore.startTraining(
+    projectStore.project?.data._id
+  );
   toast.add({
     icon: 'material-symbols:play-circle',
     title: result.success ? 'Training started' : 'Training failed',
