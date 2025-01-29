@@ -5,6 +5,7 @@ const isOpen = ref(false);
 
 const tutorialStore = useTutorialStore();
 const sessionStore = useSessionStore();
+const projectStore = useProjectStore();
 
 const colorMode = useColorMode();
 const isDark = computed({
@@ -21,7 +22,6 @@ const toggleColorMode = () => {
 };
 
 const props = defineProps<{
-  projectTitle: string;
   projectOwner: string;
 }>();
 
@@ -39,7 +39,7 @@ const breadcrumbSettings = computed(() => {
           to: '/tutorials',
         },
         {
-          label: props.projectTitle,
+          label: projectStore.project?.data.name ?? '',
           icon: 'i-heroicons-folder',
         },
       ]
@@ -55,7 +55,7 @@ const breadcrumbSettings = computed(() => {
           to: '/profile',
         },
         {
-          label: props.projectTitle,
+          label: projectStore.project?.data.name ?? '',
           icon: 'i-heroicons-folder',
         },
       ];
