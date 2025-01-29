@@ -23,8 +23,8 @@ use([
   LegendComponent, // Register LegendComponent
 ]);
 
-const { nodeid } = defineProps({
-  nodeid: {
+const props = defineProps({
+  nodeId: {
     type: String,
     required: true,
   },
@@ -63,20 +63,20 @@ const option: Ref<EChartsOption> = ref({
 });
 
 // Helper function to convert numbers to Unicode superscript
-function toSuperscript(num) {
+function toSuperscript(num: number | string) {
   const superscripts = {
-    0: '⁰',
-    1: '¹',
-    2: '²',
-    3: '³',
-    4: '⁴',
-    5: '⁵',
-    6: '⁶',
-    7: '⁷',
-    8: '⁸',
-    9: '⁹',
+    '0': '⁰',
+    '1': '¹',
+    '2': '²',
+    '3': '³',
+    '4': '⁴',
+    '5': '⁵',
+    '6': '⁶',
+    '7': '⁷',
+    '8': '⁸',
+    '9': '⁹',
     '-': '⁻',
-  };
+  } as Record<string, string>;
 
   return [
     ' ',
@@ -88,14 +88,13 @@ function toSuperscript(num) {
 }
 
 watchEffect(() => {
-  const data = trainingStore.getVisualizerData(nodeid);
+  const data = trainingStore.getVisualizerData(props.nodeId);
   if (data.length && data.length > 0) {
-    const data_y = data.map((d: any) => d[nodeid].y) as number[];
-    const data_validation = data.map((d: any) => d[nodeid]?.val_y ?? null) as (
-      | number
-      | null
-    )[];
-    const data_x = data.map((d: any) => d[nodeid].x) as number[];
+    const data_y = data.map((d: any) => d[props.nodeId].y) as number[];
+    const data_validation = data.map(
+      (d: any) => d[props.nodeId]?.val_y ?? null
+    ) as (number | null)[];
+    const data_x = data.map((d: any) => d[props.nodeId].x) as number[];
 
     const series = [
       {
@@ -121,7 +120,7 @@ watchEffect(() => {
       xAxis: {
         type: 'category',
         // @ts-ignore - x_label is not defined in the type
-        name: data[0][nodeid].x_label,
+        name: data[0][props.nodeId].x_label,
         data: data_x,
       },
       yAxis: {
@@ -134,7 +133,7 @@ watchEffect(() => {
           },
         },
         // @ts-ignore - y_label is not defined in the type
-        name: data[0][nodeid].y_label,
+        name: data[0][props.nodeId].y_label,
       },
       series: series as any,
       legend: {

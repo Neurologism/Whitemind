@@ -13,7 +13,12 @@ import CustomHandle from '~/components/project/customNode/CustomHandle.vue';
 
 defineEmits(['node-contextmenu']);
 
-const props = defineProps(['props', 'nodeId']);
+const props = defineProps({
+  nodeId: {
+    type: String,
+    required: true,
+  },
+});
 const nodesData = useNodesData(props.nodeId);
 const shapeData = CustomNodes.getCustomNodeConfig(nodesData.value!.type)!;
 const shapeGroupData = CustomNodes.getNodeGroup(nodesData.value!.type)!;
@@ -132,7 +137,7 @@ function clickIcons() {
       >
         <component
           :is="chartComponentsByIdentifier[shapeData.identifier]!"
-          :nodeid="props.nodeId"
+          :nodeId="props.nodeId"
         ></component>
         <!--<div class="h-max w-full bg-slate-500 flex content-end justify-end rounded-sm">hello</div>-->
       </div>
@@ -140,7 +145,6 @@ function clickIcons() {
         <div v-for="(shapeDefinition, key) in shapeData.data">
           <div
             v-if="shapeDefinition.type === 'id'"
-            :style="{}"
             class="mt-0.5 mb-0.5 p-0.5"
             :class="{
               'ml-3 rounded-l-sm pr-0': shapeData.data[key].invertPosition
