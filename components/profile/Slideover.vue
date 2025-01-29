@@ -1,26 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-
-const props = defineProps({
-  modelValue: Boolean,
-});
-
-const emit = defineEmits(['update:modelValue']);
-
-const isOpen = ref(false);
-
+const isOpen = defineModel() as Ref<boolean>;
 const sessionStore = useSessionStore();
-
-watch(
-  () => props.modelValue,
-  (newValue) => {
-    isOpen.value = newValue;
-  }
-);
-
-watch(isOpen, (newValue) => {
-  emit('update:modelValue', newValue);
-});
 </script>
 
 <template>
