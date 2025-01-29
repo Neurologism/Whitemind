@@ -465,7 +465,6 @@ const smallScreenNoteDismissed = ref(false);
           :marker-end="props.markerEnd"
           :sourcePosition="props.sourcePosition"
           :targetPosition="props.targetPosition"
-          :style="props.style"
           :sourceX="props.sourceX"
           :sourceY="props.sourceY"
           :targetX="props.targetX"
