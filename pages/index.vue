@@ -294,9 +294,9 @@ function initGsap() {
 
 <template>
   <AppHeader />
-  <div class="h-16 bg-black"></div>
+  <div class="h-16 bg-bg-1"></div>
   <div
-    class="mainpanel flex flex-col w-full overflow-hidden bg-black"
+    class="mainpanel flex flex-col w-full overflow-hidden bg-bg-1"
     @mousemove="onMouseMove"
   >
     <!-- style="background-image: linear-gradient(to bottom, #340062ff, #003ff0ff)" -->

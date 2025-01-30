@@ -114,7 +114,7 @@ watch(
 </script>
 <template>
   <div
-    class="frame z-[100] bg-black absolute w-screen h-screen justify-center flex"
+    class="frame z-[100] bg-bg-1 absolute w-screen h-screen justify-center flex"
     :class="{
       'pointer-events-none': !sessionStore.loading,
     }"
@@ -131,7 +131,7 @@ watch(
         <h3 class="text-2xl font-mono mt-4">
           {{ sessionStore.loadingText.slice(0, textProgress) }}
         </h3>
-        <div class="typingCursor h-2 w-4 bg-white mt-8 ml-1 opacity-0"></div>
+        <div class="typingCursor h-2 w-4 bg-text-1 mt-8 ml-1 opacity-0"></div>
       </div>
     </div>
   </div>

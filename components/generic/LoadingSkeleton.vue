@@ -49,7 +49,7 @@ function initGsap() {
     <div
       class="skeleton"
       :class="{
-        'bg-slate-800': props.active,
+        'bg-bg-3': props.active,
         'inline-block': props.inline,
         block: !props.inline,
         'bg-transparent': !props.active,

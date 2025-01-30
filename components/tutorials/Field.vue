@@ -31,7 +31,7 @@ const clicked = ref(false);
         'mt-[10px]': clicked,
         'duration-0': clicked,
         'bg-button-blue': active,
-        'bg-gray-600': !active,
+        'bg-bg-5': !active,
       }"
       style="border-radius: 50%"
     >
@@ -45,7 +45,7 @@ const clicked = ref(false);
       class="w-[70px] h-14 overflow-hidden mt-[10px]"
       :class="{
         'bg-button-blue-dark': active,
-        'bg-gray-700': !active,
+        'bg-bg-4': !active,
       }"
       style="
         border-bottom-right-radius: 50%;

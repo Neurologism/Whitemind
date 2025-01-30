@@ -385,11 +385,11 @@ const smallScreenNoteDismissed = ref(false);
 
 <template>
   <div
-    class="sm:hidden absolute top-0 left-0 h-screen w-screen bg-white bg-opacity-85 z-50 select-none flex"
+    class="sm:hidden absolute top-0 left-0 h-screen w-screen bg-text-1 bg-opacity-85 z-50 select-none flex"
     v-if="!smallScreenNoteDismissed"
   >
     <div
-      class="flex flex-col mx-auto px-4 font-bold font-mono text-black justify-center items-center"
+      class="flex flex-col mx-auto px-4 font-bold font-mono text-bg-1 justify-center items-center"
     >
       <span class="text-3xl font-bold font-mono">Small Screen</span>
       <span class="mt-8">
@@ -427,7 +427,7 @@ const smallScreenNoteDismissed = ref(false);
     </div>
   </UContextMenu>
   <div
-    class="flex-2 bg-slate-900 w-screen"
+    class="flex-2 bg-bg-2 w-screen"
     style="height: calc(100vh - 4rem)"
     @drop="handleDrop"
     @dragover.prevent

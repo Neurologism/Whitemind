@@ -97,7 +97,7 @@ onMounted(() => {
       v-if="isSelf"
     >
       <div
-        class="z-10 absolute w-full h-full bg-black transition-all duration-300 bg-opacity-0 hover:bg-opacity-50 hover:opacity-100 opacity-0"
+        class="z-10 absolute w-full h-full bg-bg-1 transition-all duration-300 bg-opacity-0 hover:bg-opacity-50 hover:opacity-100 opacity-0"
       >
         <UIcon
           name="fluent:edit-32-filled"

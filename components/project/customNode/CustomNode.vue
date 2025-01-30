@@ -67,7 +67,7 @@ function clickIcons() {
     <UIcon class="resize-arrow" name="gridicons:resize" />
   </NodeResizeControl>
   <div
-    class="h-full w-full text-zinc-50 rounded bg-gray-800 flex flex-col border-r-2 border-2 border-slate-800 shadow-2xl"
+    class="h-full w-full text-zinc-50 rounded bg-bg-3 flex flex-col border-r-2 border-2 border-slate-800 shadow-2xl"
     @contextmenu.prevent="$emit('node-contextmenu', props.nodeId)"
     :style="{
       width: `${shapeGroupData.default_width}px`,
@@ -139,7 +139,6 @@ function clickIcons() {
           :is="chartComponentsByIdentifier[shapeData.identifier]!"
           :nodeId="props.nodeId"
         ></component>
-        <!--<div class="h-max w-full bg-slate-500 flex content-end justify-end rounded-sm">hello</div>-->
       </div>
       <div :class="`${nodesData!.data.isExpanded ? 'mt-0.5 mb-1' : null}`">
         <div v-for="(shapeDefinition, key) in shapeData.data">
@@ -159,10 +158,9 @@ function clickIcons() {
             }"
           >
             <div class="font-mono text-sm relative">
-              <span
-                class="bg-slate-800 pr-2.5 pl-2.5 p-0.5 rounded font-mono"
-                >{{ key }}</span
-              >
+              <span class="bg-bg-3 pr-2.5 pl-2.5 p-0.5 rounded font-mono">{{
+                key
+              }}</span>
               <CustomHandle
                 :constraints="shapeDefinition.constraints"
                 :handle-id="`val-${key}-${props.nodeId}`"
@@ -185,7 +183,7 @@ function clickIcons() {
         </div>
         <div
           v-if="nodesData!.data.isExpanded && !nodesData!.data.showVisConfigs"
-          class="mr-1 ml-1 mb-1 bg-slate-700"
+          class="mr-1 ml-1 mb-1 bg-bg-4"
           style="height: 1px"
         />
         <div

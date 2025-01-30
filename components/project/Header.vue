@@ -65,10 +65,10 @@ const breadcrumbSettings = computed(() => {
 <template>
   <ClientOnly>
     <div
-      class="bg-slate-800 border-b-2 border-slate-600 h-16 flex flex-row flex-nowrap items-center select-none"
+      class="bg-bg-3 border-b-2 border-slate-600 h-16 flex flex-row flex-nowrap items-center select-none"
     >
       <div class="ml-3 hidden md:block">
-        <div class="rounded bg-slate-900 border">
+        <div class="rounded bg-bg-2 border">
           <ULink
             to="/"
             class="group-hover:text-primary hover:bg-blend first:text-xl first:font-semibold first:text-text-1 first:group-hover:text-text-1 p-2"

@@ -67,7 +67,7 @@ checkNumber();
 <template>
   <div class="w-full">
     <div
-      class="flex-nowrap w-full inputRange cursor-default flex flex-row border-0 form-input rounded-md placeholder-gray-500 text-xs shadow-sm px-0 py-1 bg-gray-900 text-text-1 ring-1 ring-inset ring-gray-700 focus-within:ring-2 focus-within:ring-primary-400 focus-within:outline-none"
+      class="flex-nowrap w-full inputRange cursor-default flex flex-row border-0 form-input rounded-md placeholder-gray-500 text-xs shadow-sm px-0 py-1 bg-bg-2 text-text-1 ring-1 ring-inset ring-gray-700 focus-within:ring-2 focus-within:ring-primary-400 focus-within:outline-none"
       :class="{
         'ring-2 ring-red-400 outline-none': !isValidNumber,
       }"

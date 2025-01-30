@@ -142,7 +142,7 @@ onMounted(() => {
 <template>
   <div style="height: calc(100vh - 4rem)" class="w-screen flex flex-row">
     <div
-      class="w-[32rem] border-r-2 border-slate-600 bg-slate-800 h-full overflow-y-scroll flex flex-col p-3 space-y-1"
+      class="w-[32rem] border-r-2 border-slate-600 bg-bg-3 h-full overflow-y-scroll flex flex-col p-3 space-y-1"
     >
       <div
         class="w-full border-customBlue-700 text-customBlue-700 border-2 p-3 bg-transparent rounded-lg cursor-pointer flex flex-row pointer-events-auto z-10"
@@ -153,7 +153,7 @@ onMounted(() => {
         </span>
       </div>
       <div
-        class="w-full border bg-slate-900 rounded-lg hover:scale-[102%] transition-all duration-200 hover:border-logoBlueBright cursor-pointer flex flex-row items-center"
+        class="w-full border bg-bg-2 rounded-lg hover:scale-[102%] transition-all duration-200 hover:border-logoBlueBright cursor-pointer flex flex-row items-center"
         :class="{
           'border-logoBlueDark': task === selectedTask,
           'border-slate-700': task !== selectedTask,
@@ -178,10 +178,10 @@ onMounted(() => {
         ></UIcon>
       </div>
     </div>
-    <div class="w-full h-full bg-slate-900 p-8 pt-16">
+    <div class="w-full h-full bg-bg-2 p-8 pt-16">
       <h1 class="text-4xl font-bold mb-6">{{ selectedTask.name }}</h1>
       <div
-        class="bg-gray-900 border border-slate-600 w-full rounded-lg flex flex-col"
+        class="bg-bg-2 border border-slate-600 w-full rounded-lg flex flex-col"
       >
         <div class="w-full p-4 flex flex-row items-center">
           <UIcon

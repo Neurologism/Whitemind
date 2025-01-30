@@ -15,7 +15,7 @@ onMounted(async () => {
 
 <template>
   <div
-    class="h-40 select-none transform hover:scale-105 transition-transform duration-300 cursor-pointer p-4 rounded-md border-2 border-customPrimary-950 hover:border-primary bg-zinc-200 hover:bg-customPrimary-100 text-black font-mono"
+    class="h-40 select-none transform hover:scale-105 transition-transform duration-300 cursor-pointer p-4 rounded-md border-2 border-customPrimary-950 hover:border-primary bg-zinc-200 hover:bg-customPrimary-100 text-bg-1 font-mono"
     @click="
       sessionStore.showLoadingAnimation('Loading...');
       navigateTo(`/project/${props.id}`);

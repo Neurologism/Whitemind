@@ -85,7 +85,7 @@ setInterval(updateTrainingStatus, 1000);
           v-if="trainingStore.training.running"
         >
           <b>Status:</b>
-          <div class="rounded-md bg-slate-900 p-1">
+          <div class="rounded-md bg-bg-2 p-1">
             {{ trainingStore.training.data.status }}
           </div>
         </div>
@@ -103,7 +103,7 @@ setInterval(updateTrainingStatus, 1000);
           v-if="trainingStore.training.epoch !== null"
         >
           <b>Epoch:</b>
-          <div class="rounded-md bg-slate-900 p-1">
+          <div class="rounded-md bg-bg-2 p-1">
             {{ trainingStore.training.epoch + 1 }}
           </div>
         </div>
@@ -112,7 +112,7 @@ setInterval(updateTrainingStatus, 1000);
           v-if="trainingStore.training.loss !== null"
         >
           <b>Loss:</b>
-          <div class="rounded-md bg-slate-900 p-1">
+          <div class="rounded-md bg-bg-2 p-1">
             {{ trainingStore.training.loss.toFixed(2) }}
           </div>
         </div>
@@ -121,7 +121,7 @@ setInterval(updateTrainingStatus, 1000);
           v-if="trainingStore.training.accuracy !== null"
         >
           <b>Accuracy:</b>
-          <div class="rounded-md bg-slate-900 p-1">
+          <div class="rounded-md bg-bg-2 p-1">
             {{ (trainingStore.training.accuracy * 100).toFixed(2) }}%
           </div>
         </div>
@@ -130,7 +130,7 @@ setInterval(updateTrainingStatus, 1000);
           v-if="trainingStore.training.mean_absolute_error !== null"
         >
           <b>MAE:</b>
-          <div class="rounded-md bg-slate-900 p-1">
+          <div class="rounded-md bg-bg-2 p-1">
             {{ trainingStore.training.mean_absolute_error.toFixed(2) }}
           </div>
         </div>

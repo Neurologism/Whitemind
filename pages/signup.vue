@@ -87,7 +87,7 @@ const onRegister = async () => {
 </script>
 
 <template>
-  <div class="w-screen bg-black min-h-screen pt-8 px-8 flex flex-col">
+  <div class="w-screen bg-bg-1 min-h-screen pt-8 px-8 flex flex-col">
     <img
       src="/whitemindLogo.svg"
       width="128"

@@ -21,7 +21,7 @@ const isHovering = ref(false);
 <template>
   <div
     :key="nodeDefinition.type"
-    class="flex-none items-center ml-3 mr-3 cursor-grab border-[1.5px] hover:border-2 pt-2 pl-2 pr-2 rounded-md hover:scale-105 transition-transform w-80 relative bg-gray-800"
+    class="flex-none items-center ml-3 mr-3 cursor-grab border-[1.5px] hover:border-2 pt-2 pl-2 pr-2 rounded-md hover:scale-105 transition-transform w-80 relative bg-bg-3"
     :style="{
       borderColor: nodeGroupDefinition.color,
     }"
