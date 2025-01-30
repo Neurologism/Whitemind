@@ -38,7 +38,7 @@ const clicked = ref(false);
       <UIcon
         :name="props.icon"
         class="text-[40px] my-auto"
-        :class="{ 'text-gray-400': !active }"
+        :class="{ 'text-text-2': !active }"
       ></UIcon>
     </div>
     <div

@@ -95,7 +95,7 @@ onMounted(() => {
         "
       >
         <div class="flex flex-col items-center justify-center">
-          <div class="text-2xl font-bold text-gray-500">No projects found</div>
+          <div class="text-2xl font-bold text-text-3">No projects found</div>
         </div>
       </div>
     </div>

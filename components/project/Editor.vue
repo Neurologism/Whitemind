@@ -437,7 +437,7 @@ const smallScreenNoteDismissed = ref(false);
       v-model:nodes="vueFlowStore.nodes"
       v-model:edges="vueFlowStore.edges"
       @viewport-change-end="vueFlowStore.viewport = toObject().viewport"
-      class="border-3 border-amber-400 text-slate-500"
+      class="border-3 border-amber-400 text-text-2"
       @edge-mouse-enter="
         (infos) => (vueFlowStore.highlightedEdge = infos.edge.id)
       "

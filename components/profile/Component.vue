@@ -80,7 +80,7 @@ const showIngRatio = computed(() => {
             :inline="true"
             rounded="full"
           >
-            <span class="text-lg text-slate-400">
+            <span class="text-lg text-text-2">
               {{ userLoading ? 'username' : user?.brainetTag }}
             </span>
           </GenericLoadingSkeleton>
@@ -110,7 +110,7 @@ const showIngRatio = computed(() => {
             >
           </div>
           <GenericLoadingSkeleton :active="userLoading" class="mt-6">
-            <p class="text-md text-slate-100 line-clamp-5 break-words w-52">
+            <p class="text-md text-text-1 line-clamp-5 break-words w-52">
               {{ userLoading ? 's'.repeat(200) : user?.aboutYou }}
             </p></GenericLoadingSkeleton
           >

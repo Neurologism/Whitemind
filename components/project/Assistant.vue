@@ -139,7 +139,7 @@ watch(showSpeechBubble, () => {
           @click="stepForward"
         ></UButton>
       </div>
-      <div class="w-full text-center mt-[-16px] text-gray-400">
+      <div class="w-full text-center mt-[-16px] text-text-2">
         <span class="text-xs">
           {{ tutorialStore.visibleStep + 1 }} /
           {{ tutorialStore.tutorial.data?.steps.length }}

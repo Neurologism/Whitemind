@@ -97,7 +97,7 @@ async function deleteAccount() {
       <p class="text-green-600" v-else-if="isUsernameInUse === false">
         This username is available.
       </p>
-      <p class="text-gray-600" v-else-if="isUsernameInUse === null">
+      <p class="text-text-3" v-else-if="isUsernameInUse === null">
         This username is ...
       </p>
     </div>

@@ -8,21 +8,21 @@
           <div class="text-text-1 text-lg font-bold">
             <a href="/">WhiteMind</a>
           </div>
-          <div class="text-gray-400 ml-0 md:ml-4 mt-2 md:mt-0">
+          <div class="text-text-2 ml-0 md:ml-4 mt-2 md:mt-0">
             © {{ new Date().getFullYear() }}
           </div>
         </div>
         <div class="flex sm:grid-cols-2 md:flex-row items-center mt-4 md:mt-0">
-          <div class="grid text-gray-400">
+          <div class="grid text-text-2">
             <a href="/privacy-policy">Privacy Policy</a>
           </div>
-          <div class="text-gray-400 ml-4">
+          <div class="text-text-2 ml-4">
             <a href="/terms-and-conditions">Terms and Conditions</a>
           </div>
-          <div class="text-gray-400 ml-4">
+          <div class="text-text-2 ml-4">
             <a href="/contact">Contact Us</a>
           </div>
-          <div class="text-gray-400 ml-4 mt-2 items-center">
+          <div class="text-text-2 ml-4 mt-2 items-center">
             <a href="https://discord.gg/RhnprTzd8q" target="_blank">
               <UIcon name="ic:baseline-discord" class="w-5 h-5" />
             </a>

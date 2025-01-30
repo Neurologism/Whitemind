@@ -310,12 +310,12 @@ function initGsap() {
         >
           Unlock the power of AI creation
         </h2>
-        <p class="text2 text-xl lg:text-2xl mt-4 text-slate-200">
+        <p class="text2 text-xl lg:text-2xl mt-4 text-text-2">
           Turn your concepts into smart, AI-powered solutions effortlessly.
         </p>
         <UButton
           :to="sessionStore.isAuthorized ? '/profile' : '/signup'"
-          class="text3 px-4 py-2 md:px-6 md:py-3 text-lg font-semibold text-text-1 bg-blue-600 hover:bg-blue-700 mt-8 transition-transform"
+          class="text3 px-4 py-2 md:px-6 md:py-3 text-lg font-semibold text-text-1 dark:text-text-1 bg-blue-600 hover:bg-blue-700 mt-8 transition-transform"
           icon="i-heroicons-rocket-launch-solid"
           :color="'none' as any"
         >
@@ -374,7 +374,7 @@ function initGsap() {
         >
           Create AI without coding skills
         </h2>
-        <p class="text5 text-2xl mt-4 text-slate-300 xl:opacity-0">
+        <p class="text5 text-2xl mt-4 text-text-2 xl:opacity-0">
           WhiteMind lets anyone create advanced AI models <br />
           with an intuitive drag-and-drop interface.
         </p>
@@ -425,7 +425,7 @@ function initGsap() {
         >
           No need for expensive hardware
         </h2>
-        <p class="text-2xl mt-4 text-slate-300">
+        <p class="text-2xl mt-4 text-text-2">
           WhiteMind provides cloud-based infrastructure, so you can build
           powerful AI without the need for costly equipment.
         </p>
@@ -462,7 +462,7 @@ function initGsap() {
         >
           Learn with easy-to-follow tutorials
         </h2>
-        <p class="text7 text-2xl mt-4 text-slate-300">
+        <p class="text7 text-2xl mt-4 text-text-2">
           Access step-by-step tutorials that make complex AI concepts easy to
           grasp.
         </p>
@@ -490,7 +490,7 @@ function initGsap() {
         >
           Built on leading technology
         </h2>
-        <p class="text-2xl mt-4 text-slate-300">
+        <p class="text-2xl mt-4 text-text-2">
           WhiteMind leverages Keras, a high-level neural networks API, utilizing
           several state-of-the-art deep learning frameworks such as TensorFlow,
           Theano and CNTK, to deliver highly efficient and scalable AI

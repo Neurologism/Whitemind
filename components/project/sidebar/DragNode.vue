@@ -30,13 +30,13 @@ const isHovering = ref(false);
     @mouseenter="isHovering = true"
     @mouseleave="isHovering = false"
   >
-    <span class="text-slate-50 brightness-150 text-center">
+    <span class="text-text-1 brightness-150 text-center">
       <UIcon :name="nodeSubGroupDefinition.icon ?? nodeGroupDefinition.icon" />
       {{ nodeDefinition.name }}
     </span>
     <br />
     <small
-      class="text-gray-400 brightness-90 text-ellipsis"
+      class="text-text-2 brightness-90 text-ellipsis"
       :class="{ 'line-clamp-1': !isHovering }"
       >&nbsp;{{ nodeDefinition.description }}</small
     >

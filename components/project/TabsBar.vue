@@ -13,7 +13,7 @@ const route = useRoute();
         variant="ghost"
         color="gray"
         size="xl"
-        class="h-full cursor-pointer text-slate-200 hover:text-text-1 transition-all duration-100 py-2 px-4 flex flex-row items-center"
+        class="h-full cursor-pointer text-text-1.5 hover:text-text-1 transition-all duration-100 py-2 px-4 flex flex-row items-center"
       >
         <UIcon name="carbon:model-builder" class="mr-1"></UIcon>
         Editor
@@ -23,7 +23,7 @@ const route = useRoute();
         variant="ghost"
         color="gray"
         size="xl"
-        class="h-full cursor-pointer text-slate-200 hover:text-text-1 transition-all duration-100 py-2 px-4 flex flex-row items-center"
+        class="h-full cursor-pointer text-text-1.5 hover:text-text-1 transition-all duration-100 py-2 px-4 flex flex-row items-center"
       >
         <UIcon name="mdi:cube" class="mr-1"></UIcon>
         Models
@@ -33,7 +33,7 @@ const route = useRoute();
         variant="ghost"
         color="gray"
         size="xl"
-        class="h-full cursor-pointer text-slate-200 hover:text-text-1 transition-all duration-100 py-2 px-4 flex flex-row items-center"
+        class="h-full cursor-pointer text-text-1.5 hover:text-text-1 transition-all duration-100 py-2 px-4 flex flex-row items-center"
       >
         <UIcon name="mdi:settings-outline" class="mr-1"></UIcon> Settings
       </div>

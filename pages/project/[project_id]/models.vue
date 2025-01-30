@@ -167,7 +167,7 @@ onMounted(() => {
         ></div>
         <div class="w-full h-full p-3">
           <h3 class="text-lg font-bold">{{ task.name }}</h3>
-          <span class="text-gray-500 text-sm">
+          <span class="text-text-3 text-sm">
             {{ new Date(task.dateStarted).toDateString() }}
           </span>
         </div>

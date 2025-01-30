@@ -19,7 +19,7 @@ const model = defineModel() as Ref<string>;
       v-model="model"
       autoresize
     ></UTextarea>
-    <p class="text-sm text-gray-400">
+    <p class="text-sm text-text-2">
       <slot></slot>
     </p>
   </div>

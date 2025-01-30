@@ -33,11 +33,11 @@ onMounted(async () => {
         />
       </div>
       <UDivider class="flex-none" />
-      <span class="flex-1 text-sm text-gray-600 line-clamp-4 overflow-ellipsis">
+      <span class="flex-1 text-sm text-text-3 line-clamp-4 overflow-ellipsis">
         {{ data?.description }}
       </span>
       <UDivider class="flex-none" />
-      <span class="text-sm text-gray-600 flex items-center">
+      <span class="text-sm text-text-3 flex items-center">
         <UIcon name="mdi-calendar" class="mr-1" />
         Edited {{ new Date(data?.dateLastEdited ?? 0).toDateString() }}
       </span>
