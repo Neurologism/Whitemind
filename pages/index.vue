@@ -306,7 +306,7 @@ function initGsap() {
         style="top: 40%; left: 50%; transform: translate(-50%, -50%)"
       >
         <h2
-          class="text1 text-4xl sm:text-5xl lg:text-6xl xl:text-8xl font-bold tracking-tight text-gray-900 dark:text-white mx-auto"
+          class="text1 text-4xl sm:text-5xl lg:text-6xl xl:text-8xl font-bold tracking-tight text-text-1 mx-auto"
         >
           Unlock the power of AI creation
         </h2>
@@ -315,7 +315,7 @@ function initGsap() {
         </p>
         <UButton
           :to="sessionStore.isAuthorized ? '/profile' : '/signup'"
-          class="text3 px-4 py-2 md:px-6 md:py-3 text-lg font-semibold dark:text-white bg-blue-600 hover:bg-blue-700 mt-8 transition-transform"
+          class="text3 px-4 py-2 md:px-6 md:py-3 text-lg font-semibold text-text-1 bg-blue-600 hover:bg-blue-700 mt-8 transition-transform"
           icon="i-heroicons-rocket-launch-solid"
           :color="'none' as any"
         >
@@ -370,7 +370,7 @@ function initGsap() {
         style="top: 40%; transform: translate(-50%, -50%)"
       >
         <h2
-          class="text4 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white xl:opacity-0"
+          class="text4 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-text-1 xl:opacity-0"
         >
           Create AI without coding skills
         </h2>
@@ -421,7 +421,7 @@ function initGsap() {
         style="top: 50%; transform: translate(-50%, -50%)"
       >
         <h2
-          class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white"
+          class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-text-1"
         >
           No need for expensive hardware
         </h2>
@@ -458,7 +458,7 @@ function initGsap() {
         style="top: 50%; transform: translate(-50%, -50%)"
       >
         <h2
-          class="text7 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white"
+          class="text7 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-text-1"
         >
           Learn with easy-to-follow tutorials
         </h2>
@@ -486,7 +486,7 @@ function initGsap() {
         style="top: 40%; left: 50%; transform: translate(-50%, -50%)"
       >
         <h2
-          class="text-4xl sm:text-5xl md:text-8xl font-bold tracking-tight text-gray-900 dark:text-white mx-auto"
+          class="text-4xl sm:text-5xl md:text-8xl font-bold tracking-tight text-text-1 mx-auto"
         >
           Built on leading technology
         </h2>
@@ -498,7 +498,7 @@ function initGsap() {
         </p>
         <UButton
           :to="sessionStore.isAuthorized ? '/profile' : '/signup'"
-          class="px-4 py-2 md:px-6 md:py-3 text-lg font-semibold dark:text-white bg-purple-700 mt-8"
+          class="px-4 py-2 md:px-6 md:py-3 text-lg font-semibold text-text-1 bg-purple-700 mt-8"
           icon="i-heroicons-rocket-launch-solid"
           :color="'none' as any"
         >

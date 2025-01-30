@@ -185,7 +185,7 @@ const arrowRotation: ComputedRef<number> = computed(() => {
       :style="{ transform: `rotate(${arrowRotation - 90}deg)` }"
       mode="css"
       size="1rem"
-      class="text-white pointer-events-none"
+      class="text-text-1 pointer-events-none"
     />
   </Handle>
 </template>

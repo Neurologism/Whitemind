@@ -32,12 +32,12 @@ const colorMode = useColorMode();
           width="48"
           height="48"
           alt="WhiteMind"
-          class="group-hover:text-primary hover:bg-blend relative first:text-xl first:font-semibold first:dark:text-white first:dark:group-hover:text-white p-2"
+          class="group-hover:text-primary hover:bg-blend relative first:text-xl first:font-semibold first:text-text-1 first:group-hover:text-text-1 p-2"
           style="filter: drop-shadow(2px 4px 3px rgba(0, 0, 0, 0.5))"
         />
       </div>
       <div
-        class="text-white text-2xl font-semibold hover:cursor-pointer grow-0"
+        class="text-text-1 text-2xl font-semibold hover:cursor-pointer grow-0"
         style="filter: drop-shadow(2px 4px 3px rgba(0, 0, 0, 0.5))"
         @click="() => navigateTo('/')"
       >

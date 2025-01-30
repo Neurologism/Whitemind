@@ -97,7 +97,7 @@ defineShortcuts({
     :style="{
       width: sessionStore.sessionData.pinEditorSidebar ? '28rem' : '',
     }"
-    class="parent-div border-r-2 h-100 border-slate-600 bg-opacity-90 dark:bg-opacity-90 bg-slate-200 dark:bg-slate-800 pt-4 pl-2 pb-2 w-20 origin-left transition-transform flex flex-row flex-nowrap select-none"
+    class="parent-div border-r-2 h-100 border-slate-600 bg-opacity-90 bg-slate-800 pt-4 pl-2 pb-2 w-20 origin-left transition-transform flex flex-row flex-nowrap select-none"
     :class="{
       'hover:w-[28rem]': !sessionStore.sessionData.pinEditorSidebar,
       'hover:scale-x-105': !sessionStore.sessionData.pinEditorSidebar,

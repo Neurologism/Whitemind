@@ -30,13 +30,13 @@ const isHovering = ref(false);
     @mouseenter="isHovering = true"
     @mouseleave="isHovering = false"
   >
-    <span class="text-slate-950 dark:text-slate-50 brightness-150 text-center">
+    <span class="text-slate-50 brightness-150 text-center">
       <UIcon :name="nodeSubGroupDefinition.icon ?? nodeGroupDefinition.icon" />
       {{ nodeDefinition.name }}
     </span>
     <br />
     <small
-      class="text-gray-600 dark:text-gray-400 brightness-90 text-ellipsis"
+      class="text-gray-400 brightness-90 text-ellipsis"
       :class="{ 'line-clamp-1': !isHovering }"
       >&nbsp;{{ nodeDefinition.description }}</small
     >
@@ -57,7 +57,7 @@ const isHovering = ref(false);
           style="transform: rotate(-90deg)"
           mode="css"
           size="1rem"
-          class="text-white pointer-events-none"
+          class="text-text-1 pointer-events-none"
         />
       </div>
       <div class="" v-for="specialInputConnection in nodeDefinition.data">
@@ -80,7 +80,7 @@ const isHovering = ref(false);
             style="transform: rotate(-90deg)"
             mode="css"
             size="1rem"
-            class="text-white pointer-events-none"
+            class="text-text-1 pointer-events-none"
           />
         </div>
       </div>
@@ -105,7 +105,7 @@ const isHovering = ref(false);
             style="transform: rotate(90deg)"
             mode="css"
             size="1rem"
-            class="text-white pointer-events-none"
+            class="text-text-1 pointer-events-none"
           />
         </div>
       </div>
@@ -125,7 +125,7 @@ const isHovering = ref(false);
           style="transform: rotate(90deg)"
           mode="css"
           size="1rem"
-          class="text-white pointer-events-none"
+          class="text-text-1 pointer-events-none"
         />
       </div>
     </div>

@@ -10,7 +10,7 @@ const sessionStore = useSessionStore();
       :ui="{
         body: { base: 'flex-1' },
         ring: '',
-        divide: 'divide-y divide-gray-100 dark:divide-gray-800',
+        divide: 'divide-y divide-gray-800',
       }"
     >
       <template #header>
@@ -22,7 +22,7 @@ const sessionStore = useSessionStore();
             class="flex-initial"
           />
           <h2
-            class="flex-auto mx-4 text-lg font-semibold leading-6 text-gray-900 dark:text-white"
+            class="flex-auto mx-4 text-lg font-semibold leading-6 text-text-1"
           >
             {{ sessionStore.sessionData?.user.displayname }}
           </h2>

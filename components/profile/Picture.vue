@@ -101,7 +101,7 @@ onMounted(() => {
       >
         <UIcon
           name="fluent:edit-32-filled"
-          class="text-white w-8 h-8 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
+          class="text-text-1 w-8 h-8 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10"
         />
       </div>
       <NuxtImg

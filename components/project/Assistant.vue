@@ -106,7 +106,7 @@ watch(showSpeechBubble, () => {
       />
     </div>
     <UCard
-      class="speech-bubble text-white min-w-[350px] max-w-[500px] absolute"
+      class="speech-bubble text-text-1 min-w-[350px] max-w-[500px] absolute"
     >
       <slot name="content">
         <ProjectHighlightText

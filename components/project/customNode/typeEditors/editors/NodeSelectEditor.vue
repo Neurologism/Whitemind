@@ -41,10 +41,10 @@ onBeforeUnmount(() => {
 <template>
   <div
     ref="baseElement"
-    class="cursor-default flex flex-row border-0 form-input rounded-md placeholder-gray-400 dark:placeholder-gray-500 text-xs px-2 py-1 shadow-sm bg-white dark:bg-gray-900 text-gray-900 dark:text-white ring-1 ring-inset ring-gray-300 dark:ring-gray-700"
+    class="cursor-default flex flex-row border-0 form-input rounded-md placeholder-gray-500 text-xs px-2 py-1 shadow-sm bg-gray-900 text-text-1 ring-1 ring-inset ring-gray-700"
     @click="isOpen = !isOpen"
     :class="{
-      'ring-2 ring-primary-500 dark:ring-primary-400 outline-none': isOpen,
+      'ring-2 ring-primary-400 outline-none': isOpen,
     }"
   >
     <span class="text-sky-100 flex-1 line-clamp-1 text-ellipsis">{{
@@ -70,7 +70,7 @@ onBeforeUnmount(() => {
   >
     <div
       v-for="option in options"
-      class="flex flex-row flex-nowrap align-middle cursor-pointer hover:bg-gray-900 dark:hover:bg-gray-700 px-2 py-1"
+      class="flex flex-row flex-nowrap align-middle cursor-pointer hover:bg-gray-700 px-2 py-1"
       @click="() => (nodesData!.data[paramName] = option)"
     >
       <span class="flex-1 font-mono text-sm line-clamp-1 text-ellipsis">
