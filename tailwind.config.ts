@@ -24,6 +24,12 @@ export default <Partial<Config>>{
           blue: '#2196f3',
           'blue-dark': '#1976d2',
         },
+        text: {
+          1: '#ffffff',
+          '1.5': '#e5e7eb',
+          2: '#9ca3af',
+          3: '#4b5563',
+        },
       },
     },
   },
