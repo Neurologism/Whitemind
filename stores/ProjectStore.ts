@@ -40,6 +40,10 @@ export const useProjectStore = defineStore('projectStore', {
         };
       }
 
+      const vueFlowStore = useVueFlowStore();
+      vueFlowStore.nodes = this.project.data.components.nodes;
+      vueFlowStore.edges = this.project.data.components.edges;
+
       this.syncStatus = SyncStatus.synced;
       return true;
     },

@@ -54,6 +54,7 @@ const {
   applyNodeChanges,
   removeNodes,
   viewportRef,
+  setViewport,
 } = useVueFlow();
 
 function handleDrop(event: DragEvent) {
@@ -277,16 +278,6 @@ function onRemoveEdge(infos: any) {
   }
 }
 
-async function loadProject() {
-  vueFlowStore.$reset();
-  await sessionStore.checkSession(true);
-  await projectStore.loadProject(projectStore.projectId);
-  if (!projectStore.project) {
-    return;
-  }
-  fromObject(projectStore.project?.data.components);
-}
-
 let syncInterval: NodeJS.Timeout | null = null;
 function setSyncInterval() {
   projectStore.syncStatus = SyncStatus.unsaved;
@@ -296,24 +287,17 @@ function setSyncInterval() {
   syncInterval = setTimeout(() => projectStore.syncProject(), 8000);
 }
 
-if (projectStore.projectId !== '') {
-  loadProject();
-}
-
-watch(
-  () => projectStore.projectId,
-  () => {
-    console.log('Project ID changed');
-    loadProject();
-  },
-  { deep: true }
-);
+fromObject({
+  nodes: vueFlowStore.nodes,
+  edges: vueFlowStore.edges,
+  viewport: vueFlowStore.viewport,
+} as any);
 
 // save to server 5 seconds after last edit
 watch(
   getNodes,
   () => {
-    if (projectStore.projectId !== '') {
+    if (projectStore.projectId !== null) {
       setSyncInterval();
     }
   },
@@ -323,13 +307,14 @@ watch(
 watch(
   getEdges,
   () => {
-    if (projectStore.projectId !== '') {
+    if (projectStore.project !== null) {
       setSyncInterval();
     }
   },
   { deep: true }
 );
 
+// tutorial auto step forward
 watch(
   () => tutorialStore.isNextStepUnlocked,
   (newValue, oldValue) => {
@@ -476,6 +461,9 @@ const smallScreenNoteDismissed = ref(false);
       <ProjectSidebarBase class="h-full pointer-events-auto" />
     </div>
   </div>
+  <UButton @click="console.log('test')" class="z-40">
+    CLICK MEasdffffddddddddddddddddddddddddddddddddddddddddddddddd
+  </UButton>
 </template>
 
 <style>
