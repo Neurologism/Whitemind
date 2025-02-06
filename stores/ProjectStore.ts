@@ -1,15 +1,52 @@
 import { defineStore } from 'pinia';
 import { SyncStatus } from '~/types/syncStatus.enum';
 
+interface Model {
+  status: string;
+  output: string;
+  dateQueued: string;
+  dateStarted: string;
+  dateFinished: string;
+  projectId: string;
+  ownerId: string;
+}
+
 export const useProjectStore = defineStore('projectStore', {
   state: () => ({
     syncStatus: ref(SyncStatus.initializing as SyncStatus),
     project: null as Project | null,
     projectId: '',
+    models: [] as Model[],
     projects: [] as Project[],
   }),
   getters: {},
   actions: {
+    async populateModels(): Promise<boolean> {
+      if (!this.project) return false;
+      for (const modelId of this.project.data.models) {
+        const model = await this.fetchModel(modelId);
+        if (!model) {
+          return false;
+        }
+        this.models.push(model);
+      }
+      return true;
+    },
+    async fetchModel(modelId: string): Promise<Model | null> {
+      const sessionStore = useSessionStore();
+      let response = await sessionStore.fetch(`/tasks/${modelId}`, {
+        method: 'GET',
+        cache: 'no-cache',
+      });
+
+      if (!response.ok) {
+        console.error('Failed to fetch model.');
+        return null;
+      }
+
+      const data = await response.json();
+      return data.task;
+    },
     async loadProject(projectId: string = ''): Promise<boolean> {
       if (!projectId) {
         if (!this.project) {
@@ -43,6 +80,7 @@ export const useProjectStore = defineStore('projectStore', {
       const vueFlowStore = useVueFlowStore();
       vueFlowStore.nodes = this.project.data.components.nodes;
       vueFlowStore.edges = this.project.data.components.edges;
+      vueFlowStore.viewport = this.project.data.components.viewport;
 
       this.syncStatus = SyncStatus.synced;
       return true;
