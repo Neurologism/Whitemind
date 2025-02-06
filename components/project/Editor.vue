@@ -10,24 +10,11 @@ import CustomEdge from '~/components/project/customEdge/CustomEdge.vue';
 import { useMouse } from '@vueuse/core';
 
 const props = defineProps({
-  projectId: {
-    type: String,
-    required: true,
-  },
   tutorialProject: {
     type: Boolean,
     default: false,
   },
 });
-
-watch(
-  () => props.projectId,
-  () => {
-    console.log('Project ID changed');
-    loadProject();
-  },
-  { deep: true }
-);
 
 const toast = useToast();
 const colorMode = useColorMode();
@@ -293,8 +280,8 @@ function onRemoveEdge(infos: any) {
 async function loadProject() {
   vueFlowStore.$reset();
   await sessionStore.checkSession(true);
-  const loadSuccess = await projectStore.loadProject(props.projectId);
-  if (!loadSuccess) {
+  await projectStore.loadProject(projectStore.projectId);
+  if (!projectStore.project) {
     return;
   }
   fromObject(projectStore.project?.data.components);
@@ -309,15 +296,24 @@ function setSyncInterval() {
   syncInterval = setTimeout(() => projectStore.syncProject(), 8000);
 }
 
-if (props.projectId !== '') {
+if (projectStore.projectId !== '') {
   loadProject();
 }
+
+watch(
+  () => projectStore.projectId,
+  () => {
+    console.log('Project ID changed');
+    loadProject();
+  },
+  { deep: true }
+);
 
 // save to server 5 seconds after last edit
 watch(
   getNodes,
   () => {
-    if (props.projectId !== '') {
+    if (projectStore.projectId !== '') {
       setSyncInterval();
     }
   },
@@ -327,7 +323,7 @@ watch(
 watch(
   getEdges,
   () => {
-    if (props.projectId !== '') {
+    if (projectStore.projectId !== '') {
       setSyncInterval();
     }
   },

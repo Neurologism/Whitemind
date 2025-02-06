@@ -3,7 +3,10 @@ import { SyncStatus } from '~/types/syncStatus.enum';
 
 const sessionStore = useSessionStore();
 const projectStore = useProjectStore();
-const vueFlowStore = useVueFlowStore();
+const route = useRoute();
+
+projectStore.project = null;
+projectStore.projectId = route.params.project_id as string;
 
 onMounted(() => {
   sessionStore.loading = false;
@@ -13,11 +16,16 @@ onMounted(() => {
   }
 });
 
+async function init() {
+  sessionStore.showLoadingAnimation();
+  await projectStore.loadProject(projectStore.projectId);
+}
+
 defineShortcuts({
   s: () => projectStore.syncProject(),
 });
 
-sessionStore.showLoadingAnimation();
+init();
 </script>
 
 <template>

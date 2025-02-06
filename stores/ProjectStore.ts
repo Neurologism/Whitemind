@@ -5,6 +5,7 @@ export const useProjectStore = defineStore('projectStore', {
   state: () => ({
     syncStatus: ref(SyncStatus.initializing as SyncStatus),
     project: null as Project | null,
+    projectId: '',
     projects: [] as Project[],
   }),
   getters: {},
