@@ -293,32 +293,11 @@ function onRemoveEdge(infos: any) {
 async function loadProject() {
   vueFlowStore.$reset();
   await sessionStore.checkSession(true);
-  const project = await projectStore.fetchProject(props.projectId);
-
-  if (!project) return;
-
-  let components;
-  if (!project.data.components) {
-    components = {
-      nodes: [],
-      edges: [],
-    };
-  } else {
-    components = project.data.components;
+  const loadSuccess = await projectStore.loadProject(props.projectId);
+  if (!loadSuccess) {
+    return;
   }
-  const loadResult = await fromObject(components);
-  if (!loadResult) {
-    toast.add({
-      title: 'Failed to load project',
-      icon: 'mdi-alert-circle',
-      color: 'red',
-    });
-    projectStore.syncStatus = SyncStatus.error;
-  } else {
-    projectStore.project = project;
-    sessionStore.loading = false;
-    projectStore.syncStatus = SyncStatus.synced;
-  }
+  fromObject(projectStore.project?.data.components);
 }
 
 let syncInterval: NodeJS.Timeout | null = null;
@@ -470,6 +449,7 @@ const smallScreenNoteDismissed = ref(false);
           :targetX="props.targetX"
           :targetY="props.targetY"
           :data="props.data"
+          :style="props.style"
         />
       </template>
       <template

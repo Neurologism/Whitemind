@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { SyncStatus } from '~/types/syncStatus.enum';
-import { useVueFlow } from '@vue-flow/core';
 
 export const useProjectStore = defineStore('projectStore', {
   state: () => ({
@@ -40,6 +39,7 @@ export const useProjectStore = defineStore('projectStore', {
         };
       }
 
+      this.syncStatus = SyncStatus.synced;
       return true;
     },
 
