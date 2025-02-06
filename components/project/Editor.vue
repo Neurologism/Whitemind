@@ -479,7 +479,7 @@ const smallScreenNoteDismissed = ref(false);
         :key="node.type"
         v-slot:[`node-${node.type}`]="props"
       >
-        <EditorCustomNode
+        <ProjectCustomNodeBase
           :props="props"
           :node-id="props.id"
           @nodeContextmenu="onContextMenu"
