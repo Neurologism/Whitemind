@@ -97,7 +97,7 @@ function toggle() {
               }}</span>
             </template>
             <div
-              class="w-11 h-11 border-2 border-slate-600 bg-bg-3 mt-1 flex justify-center items-center rounded-2xl hover:rounded-lg transition-all cursor-pointer"
+              class="w-11 h-11 border-2 border-gray-600 bg-bg-3 mt-1 flex justify-center items-center rounded-2xl hover:rounded-lg transition-all cursor-pointer"
               :class="{
                 'scale-110 border-3':
                   activeElementId?.subCategory === child.name && isScrolledTo,

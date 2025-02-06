@@ -69,7 +69,7 @@ const createProject = async () => {
 <template>
   <div class="flex w-screen justify-center flex-row conte">
     <div
-      class="md:basis-2/3 lg:basis-2/5 sm:basis-full basis-full divide-slate-700 mx-5 p-5"
+      class="md:basis-2/3 lg:basis-2/5 sm:basis-full basis-full divide-gray-700 mx-5 p-5"
     >
       <h1 class="sm:text-3xl text-2xl">Create a new Project</h1>
       <span class="text-text-3"> </span>

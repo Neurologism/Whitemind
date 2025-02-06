@@ -65,7 +65,7 @@ watch(showSpeechBubble, () => {
 
 <template>
   <div
-    class="relative rounded-fullborder border-slate-800 flex items-center justify-center"
+    class="relative rounded-fullborder border-gray-800 flex items-center justify-center"
   >
     <div class="flex flex-row items-end space-x-4">
       <UTooltip text="Restart Tutorial"
