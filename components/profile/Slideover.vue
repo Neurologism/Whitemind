@@ -10,7 +10,7 @@ const sessionStore = useSessionStore();
       :ui="{
         body: { base: 'flex-1' },
         ring: '',
-        divide: 'divide-y divide-gray-800',
+        divide: 'divide-y divide-accent-8',
       }"
     >
       <template #header>

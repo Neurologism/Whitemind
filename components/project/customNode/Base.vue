@@ -67,7 +67,7 @@ function clickIcons() {
     <UIcon class="resize-arrow" name="gridicons:resize" />
   </NodeResizeControl>
   <div
-    class="h-full w-full text-zinc-50 rounded bg-bg-3 flex flex-col border-r-2 border-2 border-gray-800 shadow-2xl"
+    class="h-full w-full text-zinc-50 rounded bg-bg-3 flex flex-col border-r-2 border-2 border-accent-8 shadow-2xl"
     @contextmenu.prevent="$emit('node-contextmenu', props.nodeId)"
     :style="{
       width: `${shapeGroupData.default_width}px`,

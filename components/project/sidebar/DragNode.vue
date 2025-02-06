@@ -42,7 +42,7 @@ const isHovering = ref(false);
     >
     <div class="h-3 flex flex-row flex-nowrap">
       <div
-        class="flex-none h-3 w-3 rounded-t-sm flex items-center justify-center border-t border-l border-r border-gray-700"
+        class="flex-none h-3 w-3 rounded-t-sm flex items-center justify-center border-t border-l border-r border-accent-7"
         v-if="!nodeDefinition.hideInput"
         :style="{
           backgroundImage: CustomNodes.getHardGradientOfMultipleCategories(

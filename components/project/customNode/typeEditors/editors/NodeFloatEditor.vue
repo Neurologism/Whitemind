@@ -56,14 +56,14 @@ checkNumber();
 <template>
   <div class="w-full">
     <div
-      class="flex-nowrap w-full inputRange cursor-default flex flex-row border-0 form-input rounded-md placeholder-gray-500 text-xs shadow-sm px-0 py-1 bg-bg-2 text-text-1 ring-1 ring-inset ring-gray-700 focus-within:ring-2 focus-within:ring-primary-400 focus-within:outline-none"
+      class="flex-nowrap w-full inputRange cursor-default flex flex-row border-0 form-input rounded-md placeholder-accent-5 text-xs shadow-sm px-0 py-1 bg-bg-2 text-text-1 ring-1 ring-inset ring-accent-7 focus-within:ring-2 focus-within:ring-primary-400 focus-within:outline-none"
       :class="{
         'ring-2 ring-red-400 outline-none': !isValidNumber,
       }"
     >
       <div
         v-if="step !== undefined"
-        class="w-8 flex-none flex justify-center place-items-center cursor-pointer border-r-[1px] border-gray-700 mr-1"
+        class="w-8 flex-none flex justify-center place-items-center cursor-pointer border-r-[1px] border-accent-7 mr-1"
         @click="minusClick"
       >
         <UIcon name="mdi-minus" />
@@ -79,7 +79,7 @@ checkNumber();
       </div>
       <div
         v-if="step !== undefined"
-        class="w-8 flex-none flex justify-center place-items-center cursor-pointer border-l-[1px] border-gray-700 ml-1"
+        class="w-8 flex-none flex justify-center place-items-center cursor-pointer border-l-[1px] border-accent-7 ml-1"
         @click="addClick"
       >
         <UIcon name="mdi-plus" />

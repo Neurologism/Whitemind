@@ -41,7 +41,7 @@ onBeforeUnmount(() => {
 <template>
   <div
     ref="baseElement"
-    class="cursor-default flex flex-row border-0 form-input rounded-md placeholder-gray-500 text-xs px-2 py-1 shadow-sm bg-bg-2 text-text-1 ring-1 ring-inset ring-gray-700"
+    class="cursor-default flex flex-row border-0 form-input rounded-md placeholder-accent-5 text-xs px-2 py-1 shadow-sm bg-bg-2 text-text-1 ring-1 ring-inset ring-accent-7"
     @click="isOpen = !isOpen"
     :class="{
       'ring-2 ring-primary-400 outline-none': isOpen,
@@ -63,7 +63,7 @@ onBeforeUnmount(() => {
   <div
     v-if="isOpen"
     ref="dropdownElement"
-    class="z-10 absolute h-72 bg-bg-3 border-2 border-gray-900 rounded shadow-lg mt-1 overflow-y-auto overflow-x-hidden"
+    class="z-10 absolute h-72 bg-bg-3 border-2 border-accent-9 rounded shadow-lg mt-1 overflow-y-auto overflow-x-hidden"
     :style="{
       width: baseElement?.clientWidth + 'px',
     }"

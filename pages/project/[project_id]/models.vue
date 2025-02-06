@@ -142,7 +142,7 @@ onMounted(() => {
 <template>
   <div style="height: calc(100vh - 4rem)" class="w-screen flex flex-row">
     <div
-      class="w-[32rem] border-r-2 border-gray-600 bg-bg-3 h-full overflow-y-scroll flex flex-col p-3 space-y-1"
+      class="w-[32rem] border-r-2 border-accent-6 bg-bg-3 h-full overflow-y-scroll flex flex-col p-3 space-y-1"
     >
       <div
         class="w-full border-customBlue-700 text-customBlue-700 border-2 p-3 bg-transparent rounded-lg cursor-pointer flex flex-row pointer-events-auto z-10"
@@ -156,7 +156,7 @@ onMounted(() => {
         class="w-full border bg-bg-2 rounded-lg hover:scale-[102%] transition-all duration-200 hover:border-logoBlueBright cursor-pointer flex flex-row items-center"
         :class="{
           'border-logoBlueDark': task === selectedTask,
-          'border-gray-700': task !== selectedTask,
+          'border-accent-7': task !== selectedTask,
         }"
         v-for="task in tasks"
         @click="selectedTaskIndex = tasks.indexOf(task)"
@@ -181,7 +181,7 @@ onMounted(() => {
     <div class="w-full h-full bg-bg-2 p-8 pt-16">
       <h1 class="text-4xl font-bold mb-6">{{ selectedTask.name }}</h1>
       <div
-        class="bg-bg-2 border border-gray-600 w-full rounded-lg flex flex-col"
+        class="bg-bg-2 border border-accent-6 w-full rounded-lg flex flex-col"
       >
         <div class="w-full p-4 flex flex-row items-center">
           <UIcon
@@ -202,7 +202,7 @@ onMounted(() => {
             v-else-if="selectedTask.status === 'training'"
           />
         </div>
-        <hr class="border-gray-600" />
+        <hr class="border-accent-6" />
         <div class="w-full p-4 flex flex-row items-center space-x-8">
           <div
             class="flex flex-col items-center"
