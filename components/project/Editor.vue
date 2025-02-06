@@ -53,8 +53,6 @@ const {
   applyEdgeChanges,
   applyNodeChanges,
   removeNodes,
-  viewportRef,
-  setViewport,
 } = useVueFlow();
 
 function handleDrop(event: DragEvent) {
@@ -287,11 +285,7 @@ function setSyncInterval() {
   syncInterval = setTimeout(() => projectStore.syncProject(), 8000);
 }
 
-fromObject({
-  nodes: vueFlowStore.nodes,
-  edges: vueFlowStore.edges,
-  viewport: vueFlowStore.viewport,
-} as any);
+fromObject(vueFlowStore.components as any);
 
 // save to server 5 seconds after last edit
 watch(
