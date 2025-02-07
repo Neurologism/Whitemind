@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const projectStore = useProjectStore();
 const statusIcons = {
   queued: 'f7:hourglass',
   training: 'solar:dumbbell-large-bold-duotone',
@@ -41,7 +42,19 @@ const statusCardStats = computed(() => {
 
 const selectedTaskIndex = ref<number | null>(null);
 const selectedTask = computed(() => {
-  return tasks.value[selectedTaskIndex.value ?? 0];
+  return (
+    projectStore.models[selectedTaskIndex.value ?? 0] ?? {
+      _id: '6754b7da527860ba96ed1e3e',
+      status: 'queued',
+      dateLastUpdated: '2024-12-07T21:26:03.706Z',
+      dateQueued: '2024-12-07T21:02:18.303Z',
+      dateStarted: '2024-12-07T21:02:19.501Z',
+      dateFinished: null,
+      projectId: '675367e40a29e18025fd1d92',
+      ownerId: '675364cf0a29e18025fd1d0b',
+      name: 'Model 7',
+    }
+  );
 });
 
 const tasks = ref([
@@ -154,8 +167,8 @@ onMounted(() => {
           'border-logoBlueDark': task === selectedTask,
           'border-accent-7': task !== selectedTask,
         }"
-        v-for="task in tasks"
-        @click="selectedTaskIndex = tasks.indexOf(task)"
+        v-for="task in projectStore.models"
+        @click="selectedTaskIndex = projectStore.models.indexOf(task)"
       >
         <div
           class="bg-logoBlueDark w-[6px] h-full rounded-l-lg"

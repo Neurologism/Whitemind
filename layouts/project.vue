@@ -3,6 +3,7 @@ import { SyncStatus } from '~/types/syncStatus.enum';
 
 const sessionStore = useSessionStore();
 const projectStore = useProjectStore();
+const vueFlowStore = useVueFlowStore();
 const route = useRoute();
 
 projectStore.project = null;
@@ -16,9 +17,15 @@ onMounted(() => {
   }
 });
 
+onUnmounted(() => {
+  vueFlowStore.$reset();
+  projectStore.$reset();
+});
+
 async function init() {
   sessionStore.showLoadingAnimation();
   await projectStore.loadProject(projectStore.projectId);
+  await projectStore.populateModels();
 }
 
 defineShortcuts({

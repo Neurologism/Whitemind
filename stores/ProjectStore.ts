@@ -2,13 +2,16 @@ import { defineStore } from 'pinia';
 import { SyncStatus } from '~/types/syncStatus.enum';
 
 interface Model {
+  _id: string;
   status: string;
   output: string;
   dateQueued: string;
   dateStarted: string;
   dateFinished: string;
+  dateLastUpdated: string;
   projectId: string;
   ownerId: string;
+  name: string;
 }
 
 export const useProjectStore = defineStore('projectStore', {
