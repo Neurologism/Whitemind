@@ -4,7 +4,7 @@ import { SyncStatus } from '~/types/syncStatus.enum';
 interface Model {
   _id: string;
   status: string;
-  output: string;
+  output: any;
   dateQueued: string;
   dateStarted: string;
   dateFinished: string;

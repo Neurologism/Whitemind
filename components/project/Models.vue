@@ -37,6 +37,26 @@ const statusCardStats = computed(() => {
         value: '0.42',
       },
     ];
+  } else if (selectedTask.value.status === 'finished') {
+    const lastOutput =
+      selectedTask.value.output[selectedTask.value.output.length - 1];
+    if (!lastOutput) {
+      return [];
+    }
+    const stats = [];
+    if (lastOutput?.logs?.accuracy) {
+      stats.push({
+        title: 'accuracy',
+        value: Number(lastOutput.logs.accuracy.toFixed(4)),
+      });
+    }
+    if (lastOutput?.logs?.loss) {
+      stats.push({
+        title: 'loss',
+        value: Number(lastOutput.logs.loss.toFixed(4)),
+      });
+    }
+    return stats;
   }
 });
 
@@ -52,90 +72,10 @@ const selectedTask = computed(() => {
       dateFinished: null,
       projectId: '675367e40a29e18025fd1d92',
       ownerId: '675364cf0a29e18025fd1d0b',
-      name: 'Model 7',
+      name: 'Placeholder',
     }
   );
 });
-
-const tasks = ref([
-  {
-    _id: '6754b7da527860ba96ed1e3e',
-    status: 'queued',
-    dateLastUpdated: '2024-12-07T21:26:03.706Z',
-    dateQueued: '2024-12-07T21:02:18.303Z',
-    dateStarted: '2024-12-07T21:02:19.501Z',
-    dateFinished: null,
-    projectId: '675367e40a29e18025fd1d92',
-    ownerId: '675364cf0a29e18025fd1d0b',
-    name: 'Model 7',
-  },
-  {
-    _id: '6754b7da527860ba96ed1e3e',
-    status: 'training',
-    dateLastUpdated: '2024-12-07T21:26:03.706Z',
-    dateQueued: '2024-12-07T21:02:18.303Z',
-    dateStarted: '2024-12-07T21:02:19.501Z',
-    dateFinished: null,
-    projectId: '675367e40a29e18025fd1d92',
-    ownerId: '675364cf0a29e18025fd1d0b',
-    name: 'Model 6',
-  },
-  {
-    _id: '6754b7da527860ba96ed1e3e',
-    status: 'finished',
-    dateLastUpdated: '2024-12-07T21:26:03.706Z',
-    dateQueued: '2024-12-07T21:02:18.303Z',
-    dateStarted: '2024-12-07T21:02:19.501Z',
-    dateFinished: null,
-    projectId: '675367e40a29e18025fd1d92',
-    ownerId: '675364cf0a29e18025fd1d0b',
-    name: 'Model 5',
-  },
-  {
-    _id: '6754b7da527860ba96ed1e3e',
-    status: 'finished',
-    dateLastUpdated: '2024-12-07T21:26:03.706Z',
-    dateQueued: '2024-12-07T21:02:18.303Z',
-    dateStarted: '2024-12-07T21:02:19.501Z',
-    dateFinished: null,
-    projectId: '675367e40a29e18025fd1d92',
-    ownerId: '675364cf0a29e18025fd1d0b',
-    name: 'Model 4',
-  },
-  {
-    _id: '6754b7da527860ba96ed1e3e',
-    status: 'error',
-    dateLastUpdated: '2024-12-07T21:26:03.706Z',
-    dateQueued: '2024-12-07T21:02:18.303Z',
-    dateStarted: '2024-12-07T21:02:19.501Z',
-    dateFinished: null,
-    projectId: '675367e40a29e18025fd1d92',
-    ownerId: '675364cf0a29e18025fd1d0b',
-    name: 'Model 3',
-  },
-  {
-    _id: '6754b7da527860ba96ed1e3e',
-    status: 'finished',
-    dateLastUpdated: '2024-12-07T21:26:03.706Z',
-    dateQueued: '2024-12-07T21:02:18.303Z',
-    dateStarted: '2024-12-07T21:02:19.501Z',
-    dateFinished: null,
-    projectId: '675367e40a29e18025fd1d92',
-    ownerId: '675364cf0a29e18025fd1d0b',
-    name: 'Model 2',
-  },
-  {
-    _id: '6754b7da527860ba96ed1e3e',
-    status: 'finished',
-    dateLastUpdated: '2024-12-07T21:26:03.706Z',
-    dateQueued: '2024-12-07T21:02:18.303Z',
-    dateStarted: '2024-12-07T21:02:19.501Z',
-    dateFinished: null,
-    projectId: '675367e40a29e18025fd1d92',
-    ownerId: '675364cf0a29e18025fd1d0b',
-    name: 'Model 1',
-  },
-]);
 
 onMounted(() => {
   gsap.to('.dumbbell', {
