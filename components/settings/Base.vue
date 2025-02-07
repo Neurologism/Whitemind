@@ -24,10 +24,15 @@ const settingsItems = props.inProject
         icon: 'i-heroicons-cog-6-tooth',
       },
       {
-        label: 'Appearance',
-        click: () => navigateToSubroute(route.fullPath, 4, 'appearance'),
-        icon: 'mdi:brush-variant',
+        label: 'Other',
+        click: () => navigateToSubroute(route.fullPath, 4, 'other'),
+        icon: 'mdi:dots-horizontal',
       },
+      // {
+      //   label: 'Appearance',
+      //   click: () => navigateToSubroute(route.fullPath, 4, 'appearance'),
+      //   icon: 'mdi:brush-variant',
+      // },
     ]
   : [
       {

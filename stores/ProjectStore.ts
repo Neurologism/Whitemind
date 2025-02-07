@@ -97,9 +97,6 @@ export const useProjectStore = defineStore('projectStore', {
       const response = await sessionStore.fetch(`/projects/${projectId}`, {
         method: 'DELETE',
         cache: 'no-cache',
-        headers: {
-          'Content-Type': 'application/json',
-        },
       });
 
       if (!response.ok) {
