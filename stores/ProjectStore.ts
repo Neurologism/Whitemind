@@ -146,8 +146,8 @@ export const useProjectStore = defineStore('projectStore', {
     },
 
     async updateProject(
-      projectId: string = '',
-      projectData: Object = {}
+      projectData: Object = {},
+      projectId: string = ''
     ): Promise<boolean> {
       let project;
       if (!projectId || projectId === this.project?.data._id) {
