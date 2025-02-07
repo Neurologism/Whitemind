@@ -5,6 +5,7 @@ definePageMeta({
 
 const projectStore = useProjectStore();
 const toast = useToast();
+const route = useRoute();
 
 const showDeleteAccountModal = ref(false);
 
@@ -25,6 +26,8 @@ async function deleteProject() {
     });
   }
 }
+
+projectStore.projectId = route.params.project_id as string;
 </script>
 
 <template>

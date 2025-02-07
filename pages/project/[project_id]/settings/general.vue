@@ -5,6 +5,7 @@ definePageMeta({
 
 const projectStore = useProjectStore();
 const toast = useToast();
+const route = useRoute();
 
 const projectVisibility = ref(
   projectStore.project?.data.visibility ?? 'private'
@@ -33,6 +34,18 @@ async function updateProject() {
     });
   }
 }
+
+watch(
+  () => projectStore.project,
+  (newProject, oldProject) => {
+    projectVisibility.value =
+      projectStore.project?.data.visibility ?? 'private';
+    projectName.value = projectStore.project?.data.name ?? 'none';
+    projectDescription.value = projectStore.project?.data.description ?? 'none';
+  }
+);
+
+projectStore.projectId = route.params.project_id as string;
 </script>
 
 <template>

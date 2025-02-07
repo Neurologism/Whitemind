@@ -7,7 +7,6 @@ const vueFlowStore = useVueFlowStore();
 const route = useRoute();
 
 projectStore.project = null;
-projectStore.projectId = route.params.project_id as string;
 
 onMounted(() => {
   sessionStore.loading = false;
@@ -24,9 +23,16 @@ onUnmounted(() => {
 
 async function init() {
   sessionStore.showLoadingAnimation();
-  await projectStore.loadProject(projectStore.projectId);
-  await projectStore.populateModels();
 }
+
+watch(
+  () => projectStore.projectId,
+  async () => {
+    console.log('Loading project...');
+    await projectStore.loadProject(projectStore.projectId);
+    await projectStore.populateModels();
+  }
+);
 
 defineShortcuts({
   s: () => projectStore.syncProject(),
