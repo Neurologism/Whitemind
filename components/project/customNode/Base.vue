@@ -128,7 +128,7 @@ function clickIcons() {
         />
         <StartTrainingButton
           v-if="shapeData.identifier === 'Model'"
-          node-id="props.nodeId"
+          :node-id="props.nodeId"
         />
       </div>
       <span class="font-semibold">{{ shapeData.name }}</span>
