@@ -10,6 +10,7 @@ import {
 } from '@vue-flow/node-resizer';
 import '@vue-flow/node-resizer/dist/style.css';
 import CustomHandle from '~/components/project/customNode/CustomHandle.vue';
+import StartTrainingButton from '~/components/project/StartTrainingButton.vue';
 
 defineEmits(['node-contextmenu']);
 
@@ -102,27 +103,32 @@ function clickIcons() {
         :shape-data="shapeData"
         :shape-group-data="shapeGroupData"
       />
-      <div
-        class="flex justify-between items-center p-1 cursor-pointer"
-        @click="clickIcons"
-      >
+      <div class="flex justify-between items-center cursor-pointer">
         <UIcon
+          class="my-1 ml-1"
           v-if="shapeGroupData.group_identifier !== 'visualizer'"
           name="material-symbols:expand-more"
+          @click="clickIcons"
           :style="{
             transform: nodesData!.data.isExpanded
               ? 'rotate(0deg)'
               : 'rotate(270deg)',
           }"
         />
-        <UIcon :name="shapeGroupData.icon" />
+        <UIcon class="my-1" :name="shapeGroupData.icon" @click="clickIcons" />
         <UIcon
+          class="my-1"
           v-if="shapeGroupData.group_identifier === 'visualizer'"
+          @click="clickIcons"
           :name="
             nodesData!.data.showVisConfigs
               ? 'mdi-settings'
               : 'mdi-settings-outline'
           "
+        />
+        <StartTrainingButton
+          v-if="shapeData.identifier === 'Model'"
+          node-id="props.nodeId"
         />
       </div>
       <span class="font-semibold">{{ shapeData.name }}</span>

@@ -4,6 +4,7 @@ interface TrainingState {
   training: {
     running: boolean;
     projectId?: string;
+    startNodeId?: string;
     modelId?: string;
     epoch: number | null;
     accuracy: number | null;
@@ -43,7 +44,7 @@ export const useTrainingStore = defineStore('trainingStore', {
     },
   }),
   actions: {
-    async startTraining(projectId: string) {
+    async startTraining(projectId: string, startNodeId: string) {
       const sessionStore = useSessionStore();
       this.$reset();
       const response = await sessionStore.fetch('/tasks', {
@@ -51,6 +52,7 @@ export const useTrainingStore = defineStore('trainingStore', {
         body: JSON.stringify({
           project: {
             _id: projectId,
+            blockId: startNodeId,
           },
         }),
         headers: {
@@ -63,6 +65,7 @@ export const useTrainingStore = defineStore('trainingStore', {
       if (response.ok) {
         this.training.running = true;
         this.training.projectId = projectId;
+        this.training.startNodeId = startNodeId;
         this.training.modelId = data.model._id;
       }
 
