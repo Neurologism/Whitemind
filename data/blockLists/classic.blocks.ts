@@ -1,7 +1,7 @@
 import { FlowOrientation } from '~/types/blocks.types';
 import type { NodeGroupDefinition } from '~/types/blocks.types';
 
-export const blocks: NodeGroupDefinition[] = [
+export const classicBlocks: NodeGroupDefinition[] = [
   {
     name: 'DATASETS',
     icon: 'mdi-database',
