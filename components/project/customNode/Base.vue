@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { Position, useNodesData } from '@vue-flow/core';
-import { CustomNodes } from '~/utility/customNodeList';
 import NodeValueEditor from '~/components/project/customNode/typeEditors/NodeValueEditor.vue';
 import LineChart from '~/components/project/charts/LineChart.vue';
 import {
@@ -10,6 +9,7 @@ import {
 } from '@vue-flow/node-resizer';
 import '@vue-flow/node-resizer/dist/style.css';
 import CustomHandle from '~/components/project/customNode/CustomHandle.vue';
+import { ProjectCustomNodeTypeEditorsEditorsNodeBoolEditor } from '#components';
 
 defineEmits(['node-contextmenu']);
 
@@ -19,9 +19,16 @@ const props = defineProps({
     required: true,
   },
 });
+
+const projectStore = useProjectStore();
+
 const nodesData = useNodesData(props.nodeId);
-const shapeData = CustomNodes.getCustomNodeConfig(nodesData.value!.type)!;
-const shapeGroupData = CustomNodes.getNodeGroup(nodesData.value!.type)!;
+const shapeData = projectStore.editorConfig.getCustomNodeConfig(
+  nodesData.value!.type
+)!;
+const shapeGroupData = projectStore.editorConfig.getNodeGroup(
+  nodesData.value!.type
+)!;
 
 const isResizing = ref(false);
 

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { CustomNodes } from '~/utility/customNodeList';
+const sessionStore = useSessionStore();
+const projectStore = useProjectStore();
 
 const searchQuery = ref('');
-const sessionStore = useSessionStore();
 const scrollRef = ref<HTMLElement | null>(null);
 const currentScrolledTo = ref<{
   domId: string;
@@ -75,10 +75,11 @@ onMounted(() => {
       const [category, subCategory] = elementId.split('-').slice(2);
       currentScrolledTo.value = {
         domId: elementId,
-        category: CustomNodes.nodesList[Number(category)].name,
+        category: projectStore.editorConfig.nodesList[Number(category)].name,
         subCategory:
-          CustomNodes.nodesList[Number(category)].groups[Number(subCategory)]
-            .name,
+          projectStore.editorConfig.nodesList[Number(category)].groups[
+            Number(subCategory)
+          ].name,
       };
     }
   };
@@ -109,7 +110,7 @@ defineShortcuts({
       <div class="h-full flex flex-col">
         <div class="flex-1 overflow-y-auto p-2 overflow-x-hidden">
           <div
-            v-for="(category, index) in CustomNodes.nodesList"
+            v-for="(category, index) in projectStore.editorConfig.nodesList"
             :key="index"
             class="flex-none items-center mb-3"
           >
@@ -180,7 +181,11 @@ defineShortcuts({
         </UInput>
       </div>
       <div class="flex flex-col flex-1 ml-1 mt-3 pt-16">
-        <div v-for="(nodeGroup, listIndex) in CustomNodes.search(searchQuery)">
+        <div
+          v-for="(nodeGroup, listIndex) in projectStore.editorConfig.search(
+            searchQuery
+          )"
+        >
           <div
             class="pr-3 pl-3 font-mono font-semibold text-lg"
             :id="`scroll-group-${listIndex}`"

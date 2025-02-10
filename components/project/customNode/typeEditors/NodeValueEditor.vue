@@ -5,7 +5,7 @@ import NodeBoolEditor from '~/components/project/customNode/typeEditors/editors/
 import NodeSelectEditor from '~/components/project/customNode/typeEditors/editors/NodeSelectEditor.vue';
 import NodeTupleEditor from '~/components/project/customNode/typeEditors/editors/NodeTupleEditor.vue';
 import NodeMultiselectEditor from '~/components/project/customNode/typeEditors/editors/NodeMultiselectEditor.vue';
-import type { NodeDefinition } from '~/data/blocks';
+import type { NodeDefinition } from '~/types/blocks.types';
 import { useNodesData } from '@vue-flow/core';
 import NodeRangeEditor from '~/components/project/customNode/typeEditors/editors/NodeRangeEditor.vue';
 import NodeIntEditor from '~/components/project/customNode/typeEditors/editors/NodeIntEditor.vue';

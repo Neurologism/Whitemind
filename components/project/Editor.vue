@@ -2,7 +2,6 @@
 import { VueFlow, useVueFlow, Panel } from '@vue-flow/core';
 // import { MiniMap } from "@vue-flow/minimap";
 // import "@vue-flow/minimap/dist/style.css";
-import { CustomNodes } from '~/utility/customNodeList';
 import { Background } from '@vue-flow/background';
 import { SyncStatus } from '~/types/syncStatus.enum';
 import CustomConnectionEdge from '~/components/project/customEdge/CustomConnectionEdge.vue';
@@ -57,7 +56,8 @@ const {
 
 function handleDrop(event: DragEvent) {
   const nodeTypeString = event.dataTransfer?.getData('node') ?? '';
-  const nodeType = CustomNodes.getCustomNodeConfig(nodeTypeString);
+  const nodeType =
+    projectStore.editorConfig.getCustomNodeConfig(nodeTypeString);
   if (!nodeType) return;
 
   if (vueFlowRef.value === null) {
@@ -77,7 +77,10 @@ function handleDrop(event: DragEvent) {
     y: event.clientY - top,
   });
 
-  let newNode = CustomNodes.getDefaultData(nodeType.type, position);
+  let newNode = projectStore.editorConfig.getDefaultData(
+    nodeType.type,
+    position
+  );
 
   addNewNode(newNode);
 }
@@ -144,7 +147,7 @@ function contextMenuDuplicate() {
   if (!contextMenuTargetNodeId.value) return;
   const node = vueFlowStore.getNode(contextMenuTargetNodeId.value);
   if (node === undefined) return;
-  const newNode = CustomNodes.getDefaultData(node.type!, {
+  const newNode = projectStore.editorConfig.getDefaultData(node.type!, {
     x: node.position.x + 100,
     y: node.position.y + 100,
   });
@@ -206,8 +209,10 @@ onConnect((newEdge: any) => {
   newEdge.animationSpeed = 0.5;
   newEdge.style = {
     stroke:
-      CustomNodes.getEdgeColor(newEdge.sourceHandle, newEdge.targetHandle) ??
-      '#666',
+      projectStore.editorConfig.getEdgeColor(
+        newEdge.sourceHandle,
+        newEdge.targetHandle
+      ) ?? '#666',
     strokeWidth: 2,
   };
 
@@ -426,7 +431,7 @@ const smallScreenNoteDismissed = ref(false);
         />
       </template>
       <template
-        v-for="node in CustomNodes.nodesList.flatMap((group) =>
+        v-for="node in projectStore.editorConfig.nodesList.flatMap((group) =>
           group.groups.flatMap((subGroup) => subGroup.nodes)
         )"
         :key="node.type"

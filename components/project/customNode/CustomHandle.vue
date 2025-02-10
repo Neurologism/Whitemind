@@ -2,15 +2,15 @@
 import type { PropType } from 'vue';
 import type { Connection, GraphEdge, GraphNode } from '@vue-flow/core';
 import { Handle, Position } from '@vue-flow/core';
-import {
-  FlowOrientation,
-  type NodeConnectionConstraint,
-  type NodeDefinition,
-  type NodeGroupDefinition,
-} from '~/data/blocks';
-import { CustomNodes } from '~/utility/customNodeList';
+import { FlowOrientation } from '~/types/blocks.types';
+import type {
+  NodeConnectionConstraint,
+  NodeDefinition,
+  NodeGroupDefinition,
+} from '~/types/blocks.types';
 
 const flowStore = useVueFlowStore();
+const projectStore = useProjectStore();
 
 const props = defineProps({
   handleId: {
@@ -54,12 +54,10 @@ function checkConnection(
     targetNode: GraphNode;
   }
 ): boolean {
-  const sourceNodeDefinition: NodeDefinition = CustomNodes.getCustomNodeConfig(
-    elements.sourceNode.type
-  )!;
-  const targetNodeDefinition: NodeDefinition = CustomNodes.getCustomNodeConfig(
-    elements.targetNode.type
-  )!;
+  const sourceNodeDefinition: NodeDefinition =
+    projectStore.editorConfig.getCustomNodeConfig(elements.sourceNode.type)!;
+  const targetNodeDefinition: NodeDefinition =
+    projectStore.editorConfig.getCustomNodeConfig(elements.targetNode.type)!;
 
   if (connection.target === connection.source) {
     return false;
@@ -171,7 +169,7 @@ const arrowRotation: ComputedRef<number> = computed(() => {
     class="z-10 rounded-sm h-4 w-4 hover:w-5 hover:h-5 origin-center text-center flex items-center justify-center border hover:border-2 border-accent-8"
     :style="{
       backgroundImage: constraints?.allowedCategories
-        ? CustomNodes.getHardGradientOfMultipleCategories(
+        ? projectStore.editorConfig.getHardGradientOfMultipleCategories(
             constraints!.allowedCategories,
             arrowRotation === Rotations.left ||
               arrowRotation === Rotations.right
