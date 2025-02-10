@@ -453,9 +453,6 @@ const smallScreenNoteDismissed = ref(false);
       <ProjectSidebarBase class="h-full pointer-events-auto" />
     </div>
   </div>
-  <UButton @click="console.log('test')" class="z-40">
-    CLICK MEasdffffddddddddddddddddddddddddddddddddddddddddddddddd
-  </UButton>
 </template>
 
 <style>
