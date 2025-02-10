@@ -1,5 +1,4 @@
-import { blocks } from '~/data/blocks';
-import type { NodeGroupDefinition, NodeDefinition } from '~/data/blocks';
+import type { NodeGroupDefinition, NodeDefinition } from '~/types/blocks.types';
 import type { XYPosition } from '@vue-flow/core';
 import { useVueFlowStore } from '~/stores/VueFlowStore';
 import Fuse from 'fuse.js';
