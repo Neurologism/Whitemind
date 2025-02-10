@@ -4,30 +4,34 @@ import type { XYPosition } from '@vue-flow/core';
 import { useVueFlowStore } from '~/stores/VueFlowStore';
 import Fuse from 'fuse.js';
 
-export class CustomNodes {
-  static nodesList: NodeGroupDefinition[] = blocks;
+export class EditorConfig {
+  nodesList: NodeGroupDefinition[];
+  fuse;
 
-  static get allNodes() {
-    return CustomNodes.nodesList.flatMap((group) =>
+  constructor(nodesList: NodeGroupDefinition[]) {
+    this.nodesList = nodesList;
+    this.fuse = new Fuse(this.allNodes, {
+      keys: ['name', 'description', 'type', 'group_identifier'],
+    });
+  }
+
+  get allNodes() {
+    return this.nodesList.flatMap((group) =>
       group.groups.flatMap((node) => node.nodes)
     );
   }
 
-  static fuse = new Fuse(CustomNodes.allNodes, {
-    keys: ['name', 'description', 'type', 'group_identifier'],
-  });
-
-  static getCustomNodeConfig(type: string): NodeDefinition | undefined {
-    return CustomNodes.nodesList
+  getCustomNodeConfig(type: string): NodeDefinition | undefined {
+    return this.nodesList
       .flatMap((group) => group.groups.flatMap((node) => node.nodes))
       .find((node) => node.type === type);
   }
 
-  static getNodeGroup(type: string): NodeGroupDefinition | null {
-    const node = CustomNodes.getCustomNodeConfig(type);
+  getNodeGroup(type: string): NodeGroupDefinition | null {
+    const node = this.getCustomNodeConfig(type);
     if (!node) return null;
     return (
-      CustomNodes.nodesList.find((group) =>
+      this.nodesList.find((group) =>
         group.groups
           .flatMap((node) => node.nodes)
           .some((node: NodeDefinition) => node.type === type)
@@ -35,8 +39,8 @@ export class CustomNodes {
     );
   }
 
-  static getDefaultData(type: string, position: XYPosition) {
-    const node = CustomNodes.getCustomNodeConfig(type);
+  getDefaultData(type: string, position: XYPosition) {
+    const node = this.getCustomNodeConfig(type);
     if (!node) return null;
     const data = {};
 
@@ -51,7 +55,7 @@ export class CustomNodes {
     return {
       id: Math.random().toString(36),
       identifier: node.identifier,
-      group_identifier: CustomNodes.getNodeGroup(type)?.group_identifier ?? '',
+      group_identifier: this.getNodeGroup(type)?.group_identifier ?? '',
       type,
       position,
       height: node.minSize?.height,
@@ -60,24 +64,24 @@ export class CustomNodes {
     };
   }
 
-  static getColorOfCategory(category: string) {
-    const group = CustomNodes.nodesList.find(
+  getColorOfCategory(category: string) {
+    const group = this.nodesList.find(
       (group) => group.group_identifier === category
     );
     return group?.color;
   }
 
-  static getHardGradientOfMultipleCategories(
+  getHardGradientOfMultipleCategories(
     categories: string[],
     vertical: boolean = false
   ) {
     const colors = categories.map((category) =>
-      CustomNodes.getColorOfCategory(category)
+      this.getColorOfCategory(category)
     );
     return `linear-gradient(to ${vertical ? 'top' : 'right'}, ${colors.map((color, index) => `${color} ${index * (100 / colors.length)}%, ${color} ${(index + 1) * (100 / colors.length)}%`).join(', ')})`;
   }
 
-  static getColorOfHandle(sourceHandle: string) {
+  getColorOfHandle(sourceHandle: string) {
     const flowStore = useVueFlowStore();
 
     const split = sourceHandle.split('-');
@@ -85,22 +89,22 @@ export class CustomNodes {
     if (split.length === 1) return '#000000';
     if (split.length === 2) {
       const node = flowStore.getNode(nodeId!)!;
-      const group = CustomNodes.getNodeGroup(node.type ?? '');
+      const group = this.getNodeGroup(node.type ?? '');
       return group?.color ?? '#000000';
     }
     if (split.length === 3) {
       const node = flowStore.getNode(nodeId!)!;
-      const nodeDef = CustomNodes.getCustomNodeConfig(node.type ?? '');
+      const nodeDef = this.getCustomNodeConfig(node.type ?? '');
       const handleTypeKey = split[split.length - 2];
       const handleCategoryType =
         //@ts-ignore "constraints" exists on type 'id'
         nodeDef?.data[handleTypeKey!]?.constraints?.allowedCategories[0] ??
-        CustomNodes.getNodeGroup(node.type ?? '')?.group_identifier;
-      return CustomNodes.getColorOfCategory(handleCategoryType ?? '');
+        this.getNodeGroup(node.type ?? '')?.group_identifier;
+      return this.getColorOfCategory(handleCategoryType ?? '');
     }
   }
 
-  static getConstraintOfHandle(sourceHandle: string) {
+  getConstraintOfHandle(sourceHandle: string) {
     const flowStore = useVueFlowStore();
 
     const split = sourceHandle.split('-');
@@ -108,7 +112,7 @@ export class CustomNodes {
     if (split.length === 1) return null;
     if (split.length === 2) {
       const node = flowStore.getNode(nodeId!)!;
-      const nodeDef = CustomNodes.getCustomNodeConfig(node.type ?? '');
+      const nodeDef = this.getCustomNodeConfig(node.type ?? '');
 
       if (split[0] === 'in') {
         return nodeDef?.inputConstraints;
@@ -118,28 +122,28 @@ export class CustomNodes {
     }
     if (split.length === 3) {
       const node = flowStore.getNode(nodeId!)!;
-      const nodeDef = CustomNodes.getCustomNodeConfig(node.type ?? '');
+      const nodeDef = this.getCustomNodeConfig(node.type ?? '');
       const handleTypeKey = split[split.length - 2];
       // @ts-ignore "constraints" exists on type 'id'
       return nodeDef?.data[handleTypeKey!]?.constraints;
     }
   }
 
-  static getEdgeColor(sourceHandle: string, targetHandle: string) {
-    const sourceConstraint = CustomNodes.getConstraintOfHandle(sourceHandle);
-    const targetConstraint = CustomNodes.getConstraintOfHandle(targetHandle);
+  getEdgeColor(sourceHandle: string, targetHandle: string) {
+    const sourceConstraint = this.getConstraintOfHandle(sourceHandle);
+    const targetConstraint = this.getConstraintOfHandle(targetHandle);
     const overlappingCategories = sourceConstraint?.allowedCategories?.filter(
       (category: string) =>
         targetConstraint?.allowedCategories?.includes(category)
     );
     if (!overlappingCategories) return null;
-    return CustomNodes.getColorOfCategory(overlappingCategories[0]); //todo: maybe other solution
+    return this.getColorOfCategory(overlappingCategories[0]); //todo: maybe other solution
   }
 
-  static search(q: string): NodeGroupDefinition[] {
-    if (q === '') return CustomNodes.nodesList;
-    let clone = structuredClone(CustomNodes.nodesList);
-    const result = CustomNodes.fuse.search(q);
+  search(q: string): NodeGroupDefinition[] {
+    if (q === '') return this.nodesList;
+    let clone = structuredClone(this.nodesList);
+    const result = this.fuse.search(q);
     for (const group of clone) {
       for (const subGroup of group.groups) {
         subGroup.nodes = subGroup.nodes.filter((node) =>
