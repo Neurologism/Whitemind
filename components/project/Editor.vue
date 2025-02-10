@@ -408,11 +408,9 @@ const smallScreenNoteDismissed = ref(false);
           <slot name="bottomright"></slot>
         </div>
       </Panel>
-      <!--        <MiniMap zoomable node-color="black" mask-color="rgba(56,56,56,0.5)" />-->
       <template #connection-line="props">
         <CustomConnectionEdge v-bind="props" />
       </template>
-      <!-- this warning is an webstorm/lang server error, code works -->
       <template #edge-smoothstep="props">
         <CustomEdge
           :id="props.id"
