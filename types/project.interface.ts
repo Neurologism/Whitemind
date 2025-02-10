@@ -9,7 +9,7 @@ declare global {
       dateCreatedAt: Date;
       dateLastEdited: Date;
       description: string;
-      models: string[];
+      tasks: string[];
       name: string;
       ownerId: string;
       visibility: 'private' | 'public';

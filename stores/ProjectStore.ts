@@ -32,7 +32,7 @@ export const useProjectStore = defineStore('projectStore', {
   actions: {
     async populateModels(): Promise<boolean> {
       if (!this.project) return false;
-      for (const modelId of this.project.data.models) {
+      for (const modelId of this.project.data.tasks) {
         const model = await this.fetchModel(modelId);
         if (!model) {
           return false;
@@ -182,6 +182,7 @@ export const useProjectStore = defineStore('projectStore', {
             description: project.data.description,
             visibility: project.data.visibility,
             components: project.data.components,
+            editorType: project.data.editorType,
             // ownerId: project.data.ownerId, this line can be uncommented when backmind issue #82 branch is merged
           },
         }),
