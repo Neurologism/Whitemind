@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia';
 import { SyncStatus } from '~/types/syncStatus.enum';
+import { editorConfigs } from '~/data/editorConfigs';
+import { EditorConfig } from '~/utility/editorConfig.class';
 
 interface Model {
   _id: string;
@@ -22,7 +24,11 @@ export const useProjectStore = defineStore('projectStore', {
     models: [] as Model[],
     projects: [] as Project[],
   }),
-  getters: {},
+  getters: {
+    editorConfig(state): EditorConfig {
+      return editorConfigs[state.project?.data.editorType ?? 'classic'];
+    },
+  },
   actions: {
     async populateModels(): Promise<boolean> {
       if (!this.project) return false;

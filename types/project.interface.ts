@@ -4,6 +4,7 @@ declare global {
     data: {
       _id: string;
       components: any;
+      editorType: string;
       contributors: string[];
       dateCreatedAt: Date;
       dateLastEdited: Date;
