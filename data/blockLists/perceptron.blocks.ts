@@ -74,4 +74,42 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
       },
     ],
   },
+  {
+    name: 'Activation',
+    icon: 'tabler:function',
+    color: '#7cb518',
+    group_identifier: 'activation',
+    default_width: 120,
+    groups: [
+      {
+        name: 'UNCATEGORIZED',
+        nodes: [
+          {
+            type: 'activation_sign',
+            name: 'Sign',
+            description: 'Outputs 1 if the input is positive, otherwise -1.',
+            identifier: 'perceptron_activation_sign',
+            hideInput: true,
+            hideOutput: true,
+            data: {
+              input: {
+                type: 'id',
+                flowOrientation: FlowOrientation.INPUT,
+                constraints: {
+                  allowedCategories: ['perceptron_raw_output'],
+                },
+              },
+              output: {
+                type: 'id',
+                flowOrientation: FlowOrientation.OUTPUT,
+                constraints: {
+                  allowedCategories: ['perceptron_activation_output'],
+                },
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
 ];
