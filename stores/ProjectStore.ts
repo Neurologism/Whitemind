@@ -183,7 +183,7 @@ export const useProjectStore = defineStore('projectStore', {
             visibility: project.data.visibility,
             components: project.data.components,
             editorType: project.data.editorType,
-            // ownerId: project.data.ownerId, this line can be uncommented when backmind issue #82 branch is merged
+            ownerId: project.data.ownerId,
           },
         }),
       });
