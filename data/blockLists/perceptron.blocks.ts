@@ -10,12 +10,12 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
     default_width: 240,
     groups: [
       {
-        name: 'placeholder',
+        name: 'UNCATEGORIZED',
         nodes: [
           {
-            type: 'input',
-            name: 'INPUT VALUE',
-            description: 'Perceptron input value.',
+            type: 'input_value',
+            name: 'Input Value',
+            description: 'Provide an input value.',
             identifier: 'perceptron_input_variable',
             hideInput: true,
             hideOutput: true,
@@ -31,8 +31,8 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
           },
           {
             type: 'constant',
-            name: 'CONSTANT',
-            description: 'Constant input value.',
+            name: 'Constant Value',
+            description: 'Provide a constant value.',
             identifier: 'perceptron_input_constant',
             hideInput: true,
             hideOutput: true,
