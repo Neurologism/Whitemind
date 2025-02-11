@@ -7,7 +7,7 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
     icon: 'solar:structure-bold',
     color: '#00bbf9',
     group_identifier: 'perceptron',
-    default_width: 240,
+    default_width: 200,
     groups: [
       {
         name: 'UNCATEGORIZED',
@@ -42,6 +42,30 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                 flowOrientation: FlowOrientation.OUTPUT,
                 constraints: {
                   allowedCategories: ['perceptron_input'],
+                },
+              },
+            },
+          },
+          {
+            type: 'operator_add',
+            name: 'Add',
+            description: 'Calculate the sum of all input values.',
+            identifier: 'perceptron_operator_add',
+            hideInput: true,
+            hideOutput: true,
+            data: {
+              summand: {
+                type: 'id',
+                flowOrientation: FlowOrientation.INPUT,
+                constraints: {
+                  allowedCategories: ['perceptron_input'],
+                },
+              },
+              sum: {
+                type: 'id',
+                flowOrientation: FlowOrientation.OUTPUT,
+                constraints: {
+                  allowedCategories: ['perceptron_raw_output'],
                 },
               },
             },
