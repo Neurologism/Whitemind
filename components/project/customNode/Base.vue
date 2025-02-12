@@ -13,7 +13,10 @@ const props = defineProps({
 </script>
 
 <template>
-  <ClassicNode :nodeId="props.nodeId" />
+  <ClassicNode
+    :nodeId="props.nodeId"
+    @node-contextmenu="$emit('node-contextmenu', nodeId)"
+  />
 </template>
 
 <style scoped></style>
