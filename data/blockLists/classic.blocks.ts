@@ -1,4 +1,5 @@
 import { FlowOrientation } from '~/types/blocks.types';
+import { NodeDisplay } from '~/types/blocks.types';
 import type { NodeGroupDefinition } from '~/types/blocks.types';
 
 export const classicBlocks: NodeGroupDefinition[] = [
@@ -13,6 +14,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
         name: 'UNCATEGORIZED',
         nodes: [
           {
+            display: NodeDisplay.CLASSIC,
             type: 'mnist',
             name: 'MNIST',
             description: 'Load the MNIST dataset.',
@@ -41,6 +43,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
             },
           },
           {
+            display: NodeDisplay.CLASSIC,
             type: 'wine_quality',
             name: 'Wine Quality',
             description: 'Load the Wine Quality dataset.',
@@ -62,6 +65,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
             },
           },
           {
+            display: NodeDisplay.CLASSIC,
             type: 'split',
             name: 'Split',
             description: 'Split the dataset into two parts.',
@@ -113,6 +117,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
         name: 'UNCATEGORIZED',
         nodes: [
           {
+            display: NodeDisplay.CLASSIC,
             type: 'Model',
             name: 'Model',
             description: 'Create and compile a new model.',
@@ -228,6 +233,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
             },
           },
           {
+            display: NodeDisplay.CLASSIC,
             type: 'fit',
             name: 'fit',
             description: 'Fit the model.',
@@ -284,6 +290,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
             },
           },
           {
+            display: NodeDisplay.CLASSIC,
             type: 'evaluate',
             name: 'evaluate',
             description: 'Evaluate the model.',
@@ -315,6 +322,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
             },
           },
           {
+            display: NodeDisplay.CLASSIC,
             type: 'export',
             name: 'export',
             description: 'Export the model.',
@@ -355,6 +363,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
         name: 'UNCATEGORIZED',
         nodes: [
           {
+            display: NodeDisplay.CLASSIC,
             type: 'line-chart',
             name: 'Line Chart',
             hideOutput: true,
@@ -393,6 +402,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
         name: 'CORE LAYERS',
         nodes: [
           {
+            display: NodeDisplay.CLASSIC,
             type: 'input_layer',
             name: 'Input Layer',
             identifier: 'input',
@@ -442,6 +452,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
             },
           },
           {
+            display: NodeDisplay.CLASSIC,
             type: 'dense',
             name: 'Dense Layer',
             identifier: 'dense',
@@ -496,6 +507,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
             },
           },
           {
+            display: NodeDisplay.CLASSIC,
             type: 'embedding',
             name: 'Embedding Layer',
             identifier: 'embedding',
@@ -530,6 +542,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
             },
           },
           // {
+          // display: NodeDisplay.CLASSIC,
           //   type: "activation",
           //   name: "Activation Layer",
           //   identifier: "activation",
@@ -566,6 +579,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
       //   name: 'CONVOLUTION LAYERS',
       //   nodes: [
       //     // {
+      //      // display: NodeDisplay.CLASSIC,
       //               //   type: "conv1d",
       //               //   name: "1D Convolution Layer",
       //               //   identifier: "conv1d",
@@ -630,6 +644,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
       //               //   },
       //               // },
       //               // {
+      //      // display: NodeDisplay.CLASSIC,
       //               //   type: "conv2d",
       //               //   name: "2D Convolution Layer",
       //               //   identifier: "conv2d",
@@ -697,6 +712,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
       //               //   },
       //               // },
       //               // {
+      //      // display: NodeDisplay.CLASSIC,
       //               //   type: "conv3d",
       //               //   name: "3D Convolution Layer",
       //               //   identifier: "conv3d",
@@ -764,6 +780,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
       //               //   },
       //               // },
       //               // {
+      //      // display: NodeDisplay.CLASSIC,
       //               //   type: "maxpooling1d",
       //               //   name: "MaxPooling1D Layer",
       //               //   identifier: "maxpooling1d",
@@ -817,6 +834,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
       //               //   },
       //               // },
       //               // {
+      //      // display: NodeDisplay.CLASSIC,
       //               //   type: "maxpooling3d",
       //               //   name: "MaxPooling3D Layer",
       //               //   identifier: "maxpooling3d",
@@ -869,6 +887,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
       //               //   },
       //               // },
       //               // {
+      //      // display: NodeDisplay.CLASSIC,
       //               //   type: "averagepooling2d",
       //               //   name: "AveragePooling2D Layer",
       //               //   identifier: "averagepooling2d",
@@ -897,6 +916,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
       //               //   },
       //               // },
       //               // {
+      //      // display: NodeDisplay.CLASSIC,
       //               //   type: "averagepooling3d",
       //               //   name: "AveragePooling3D Layer",
       //               //   identifier: "averagepooling3d",
@@ -941,6 +961,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
       //               //   },
       //               // },
       //               // {
+      //      // display: NodeDisplay.CLASSIC,
       //               //   type: "globalmaxpooling2d",
       //               //   name: "GlobalMaxPooling2D Layer",
       //               //   identifier: "globalmaxpooling2d",
@@ -958,6 +979,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
       //               //   },
       //               // },
       //               // {
+      //      // display: NodeDisplay.CLASSIC,
       //               //   type: "globalmaxpooling3d",
       //               //   name: "GlobalMaxPooling3D Layer",
       //               //   identifier: "globalmaxpooling3d",
@@ -975,6 +997,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
       //               //   },
       //               // },
       //               // {
+      //      // display: NodeDisplay.CLASSIC,
       //               //   type: "globalaveragepooling1d",
       //               //   name: "GlobalAveragePooling1D layer",
       //               //   identifier: "globalaveragepooling1d",
@@ -992,6 +1015,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
       //               //   },
       //               // },
       //               // {
+      //      // display: NodeDisplay.CLASSIC,
       //               //   type: "globalaveragepooling2d",
       //               //   name: "GlobalAveragePooling2D Layer",
       //               //   identifier: "globalaveragepooling2d",
@@ -1009,6 +1033,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
       //               //   },
       //               // },
       //               // {
+      //      // display: NodeDisplay.CLASSIC,
       //               //   type: "globalaveragepooling3d",
       //               //   name: "GlobalAveragePooling3D Layer",
       //               //   identifier: "globalaveragepooling3d",
@@ -1043,6 +1068,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
         name: 'PREPROCESSING LAYERS',
         nodes: [
           {
+            display: NodeDisplay.CLASSIC,
             type: 'normalization',
             name: 'Normalization Layer',
             identifier: 'normalization',
@@ -1076,6 +1102,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
         name: 'NORMALIZATION LAYERS',
         nodes: [
           {
+            display: NodeDisplay.CLASSIC,
             type: 'batch_normalization',
             name: 'Batch Normalization Layer',
             identifier: 'batch_normalization',
@@ -1121,6 +1148,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
         name: 'REGULARIZATION LAYERS',
         nodes: [
           {
+            display: NodeDisplay.CLASSIC,
             type: 'dropout',
             name: 'Dropout Layer',
             identifier: 'dropout',
@@ -1162,6 +1190,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
         name: 'RESHAPING LAYERS',
         nodes: [
           {
+            display: NodeDisplay.CLASSIC,
             type: 'flatten',
             name: 'Flatten Layer',
             identifier: 'flatten',
@@ -1188,6 +1217,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
       },
 
       // {
+      // display: NodeDisplay.CLASSIC,
       //   type: "ReLU",
       //   name: "ReLU Layer",
       //   identifier: "relu",

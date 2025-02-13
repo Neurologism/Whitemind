@@ -1,4 +1,4 @@
-import { FlowOrientation } from '~/types/blocks.types';
+import { FlowOrientation, NodeDisplay } from '~/types/blocks.types';
 import type { NodeGroupDefinition } from '~/types/blocks.types';
 
 export const perceptronBlocks: NodeGroupDefinition[] = [
@@ -13,6 +13,7 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
         name: 'UNCATEGORIZED',
         nodes: [
           {
+            display: NodeDisplay.CIRCLE,
             type: 'input_value',
             name: 'Input Value',
             description: 'Provide an input value.',
@@ -30,6 +31,7 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
             },
           },
           {
+            display: NodeDisplay.CIRCLE,
             type: 'constant',
             name: 'Constant Value',
             description: 'Provide a constant value.',
@@ -47,6 +49,7 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
             },
           },
           {
+            display: NodeDisplay.CIRCLE,
             type: 'operator_add',
             name: 'Add',
             description: 'Calculate the sum of all input values.',
@@ -85,6 +88,7 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
         name: 'UNCATEGORIZED',
         nodes: [
           {
+            display: NodeDisplay.RECTANGLE,
             type: 'activation_sign',
             name: 'Sign',
             description: 'Outputs 1 if the input is positive, otherwise -1.',

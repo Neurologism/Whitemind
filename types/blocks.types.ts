@@ -25,7 +25,14 @@ export type NodeConnectionConstraint = {
   max?: number;
 };
 
+export enum NodeDisplay {
+  CLASSIC = 'classic',
+  CIRCLE = 'circle',
+  RECTANGLE = 'rectangle',
+}
+
 export type NodeDefinition = {
+  display: NodeDisplay;
   type: string;
   name: string;
   description: string;
