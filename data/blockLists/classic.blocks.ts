@@ -14,7 +14,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
         name: 'UNCATEGORIZED',
         nodes: [
           {
-            display: NodeDisplay.CLASSIC,
+            display: NodeDisplay.Classic,
             type: 'mnist',
             name: 'MNIST',
             description: 'Load the MNIST dataset.',
@@ -43,7 +43,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
             },
           },
           {
-            display: NodeDisplay.CLASSIC,
+            display: NodeDisplay.Classic,
             type: 'wine_quality',
             name: 'Wine Quality',
             description: 'Load the Wine Quality dataset.',
@@ -65,7 +65,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
             },
           },
           {
-            display: NodeDisplay.CLASSIC,
+            display: NodeDisplay.Classic,
             type: 'split',
             name: 'Split',
             description: 'Split the dataset into two parts.',
@@ -117,7 +117,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
         name: 'UNCATEGORIZED',
         nodes: [
           {
-            display: NodeDisplay.CLASSIC,
+            display: NodeDisplay.Classic,
             type: 'Model',
             name: 'Model',
             description: 'Create and compile a new model.',
@@ -233,7 +233,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
             },
           },
           {
-            display: NodeDisplay.CLASSIC,
+            display: NodeDisplay.Classic,
             type: 'fit',
             name: 'fit',
             description: 'Fit the model.',
@@ -290,7 +290,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
             },
           },
           {
-            display: NodeDisplay.CLASSIC,
+            display: NodeDisplay.Classic,
             type: 'evaluate',
             name: 'evaluate',
             description: 'Evaluate the model.',
@@ -322,7 +322,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
             },
           },
           {
-            display: NodeDisplay.CLASSIC,
+            display: NodeDisplay.Classic,
             type: 'export',
             name: 'export',
             description: 'Export the model.',
@@ -363,7 +363,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
         name: 'UNCATEGORIZED',
         nodes: [
           {
-            display: NodeDisplay.CLASSIC,
+            display: NodeDisplay.Classic,
             type: 'line-chart',
             name: 'Line Chart',
             hideOutput: true,
@@ -402,7 +402,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
         name: 'CORE LAYERS',
         nodes: [
           {
-            display: NodeDisplay.CLASSIC,
+            display: NodeDisplay.Classic,
             type: 'input_layer',
             name: 'Input Layer',
             identifier: 'input',
@@ -452,7 +452,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
             },
           },
           {
-            display: NodeDisplay.CLASSIC,
+            display: NodeDisplay.Classic,
             type: 'dense',
             name: 'Dense Layer',
             identifier: 'dense',
@@ -507,7 +507,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
             },
           },
           {
-            display: NodeDisplay.CLASSIC,
+            display: NodeDisplay.Classic,
             type: 'embedding',
             name: 'Embedding Layer',
             identifier: 'embedding',
@@ -1068,7 +1068,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
         name: 'PREPROCESSING LAYERS',
         nodes: [
           {
-            display: NodeDisplay.CLASSIC,
+            display: NodeDisplay.Classic,
             type: 'normalization',
             name: 'Normalization Layer',
             identifier: 'normalization',
@@ -1102,7 +1102,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
         name: 'NORMALIZATION LAYERS',
         nodes: [
           {
-            display: NodeDisplay.CLASSIC,
+            display: NodeDisplay.Classic,
             type: 'batch_normalization',
             name: 'Batch Normalization Layer',
             identifier: 'batch_normalization',
@@ -1148,7 +1148,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
         name: 'REGULARIZATION LAYERS',
         nodes: [
           {
-            display: NodeDisplay.CLASSIC,
+            display: NodeDisplay.Classic,
             type: 'dropout',
             name: 'Dropout Layer',
             identifier: 'dropout',
@@ -1190,7 +1190,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
         name: 'RESHAPING LAYERS',
         nodes: [
           {
-            display: NodeDisplay.CLASSIC,
+            display: NodeDisplay.Classic,
             type: 'flatten',
             name: 'Flatten Layer',
             identifier: 'flatten',

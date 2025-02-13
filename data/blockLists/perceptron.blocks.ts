@@ -13,7 +13,7 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
         name: 'UNCATEGORIZED',
         nodes: [
           {
-            display: NodeDisplay.CIRCLE,
+            display: NodeDisplay.Circle,
             type: 'input_value',
             name: 'Input Value',
             description: 'Provide an input value.',
@@ -31,7 +31,7 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
             },
           },
           {
-            display: NodeDisplay.CIRCLE,
+            display: NodeDisplay.Circle,
             type: 'constant',
             name: 'Constant Value',
             description: 'Provide a constant value.',
@@ -49,7 +49,7 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
             },
           },
           {
-            display: NodeDisplay.CIRCLE,
+            display: NodeDisplay.Circle,
             type: 'operator_add',
             name: 'Add',
             description: 'Calculate the sum of all input values.',
@@ -88,7 +88,7 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
         name: 'UNCATEGORIZED',
         nodes: [
           {
-            display: NodeDisplay.RECTANGLE,
+            display: NodeDisplay.Rectangle,
             type: 'activation_sign',
             name: 'Sign',
             description: 'Outputs 1 if the input is positive, otherwise -1.',
