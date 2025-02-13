@@ -21,7 +21,7 @@ const shapeData = projectStore.editorConfig.getCustomNodeConfig(
   nodesData.value!.type
 )!;
 
-const DISPLAY_NODES: Record<NodeDisplay, Component> = {
+const DISPLAY_NODES: Record<NodeDisplay, any> = {
   CLASSIC: ClassicNode,
   CIRCLE: CircleNode,
   RECTANGLE: ClassicNode,
@@ -30,7 +30,7 @@ const DISPLAY_NODES: Record<NodeDisplay, Component> = {
 
 <template>
   <component
-    :is="shapeData.display"
+    :is="DISPLAY_NODES[shapeData.display]"
     :nodeId="props.nodeId"
     @node-contextmenu="$emit('node-contextmenu', nodeId)"
   />
