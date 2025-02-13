@@ -28,7 +28,6 @@ export type NodeConnectionConstraint = {
 export enum NodeDisplay {
   Classic = 'CLASSIC',
   Circle = 'CIRCLE',
-  Rectangle = 'RECTANGLE',
 }
 
 export type NodeDefinition = {

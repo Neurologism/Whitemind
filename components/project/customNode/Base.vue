@@ -24,7 +24,6 @@ const shapeData = projectStore.editorConfig.getCustomNodeConfig(
 const DISPLAY_NODES: Record<NodeDisplay, any> = {
   CLASSIC: ClassicNode,
   CIRCLE: CircleNode,
-  RECTANGLE: ClassicNode,
 };
 </script>
 

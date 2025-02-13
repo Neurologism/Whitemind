@@ -3,10 +3,10 @@ import type { NodeGroupDefinition } from '~/types/blocks.types';
 
 export const perceptronBlocks: NodeGroupDefinition[] = [
   {
-    name: 'PERCEPTRON',
+    name: 'Perceptron',
     icon: 'solar:structure-bold',
     color: '#00bbf9',
-    group_identifier: 'perceptron',
+    group_identifier: 'perceptron_base',
     default_width: 200,
     groups: [
       {
@@ -86,14 +86,14 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
     name: 'Activation',
     icon: 'tabler:function',
     color: '#7cb518',
-    group_identifier: 'activation',
+    group_identifier: 'perceptron_activation',
     default_width: 120,
     groups: [
       {
         name: 'UNCATEGORIZED',
         nodes: [
           {
-            display: NodeDisplay.Rectangle,
+            display: NodeDisplay.Classic,
             type: 'activation_sign',
             name: 'Sign',
             description: 'Outputs 1 if the input is positive, otherwise -1.',
@@ -111,6 +111,77 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
               output: {
                 type: 'id',
                 flowOrientation: FlowOrientation.OUTPUT,
+                constraints: {
+                  allowedCategories: ['perceptron_activation_output'],
+                },
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+  // {
+  //   name: 'Output',
+  //   icon: 'mdi:output',
+  //   color: '#7cb518',
+  //   group_identifier: 'perceptron_output',
+  //   default_width: 120,
+  //   groups: [
+  //     {
+  //       name: 'UNCATEGORIZED',
+  //       nodes: [
+  //         {
+  //           display: NodeDisplay.Classic,
+  //           type: 'output',
+  //           name: 'Output',
+  //           description: 'Outputs 1 if the input is positive, otherwise -1.',
+  //           identifier: 'perceptron_activation_sign',
+  //           hideInput: true,
+  //           hideOutput: true,
+  //           data: {
+  //             input: {
+  //               type: 'id',
+  //               flowOrientation: FlowOrientation.INPUT,
+  //               constraints: {
+  //                 allowedCategories: ['perceptron_raw_output'],
+  //               },
+  //             },
+  //             output: {
+  //               type: 'id',
+  //               flowOrientation: FlowOrientation.OUTPUT,
+  //               constraints: {
+  //                 allowedCategories: ['perceptron_activation_output'],
+  //               },
+  //             },
+  //           },
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
+  {
+    name: 'Output',
+    icon: 'mdi:output',
+    color: '#ef233c',
+    group_identifier: 'perceptron_output',
+    default_width: 160,
+    groups: [
+      {
+        name: 'UNCATEGORIZED',
+        nodes: [
+          {
+            display: NodeDisplay.Classic,
+            type: 'output_simple',
+            name: 'Output',
+            description: 'Used to return the final output of the perceptron.',
+            identifier: 'perceptron_output_simple',
+            hideInput: true,
+            hideOutput: true,
+            data: {
+              output: {
+                type: 'id',
+                flowOrientation: FlowOrientation.INPUT,
                 constraints: {
                   allowedCategories: ['perceptron_activation_output'],
                 },
