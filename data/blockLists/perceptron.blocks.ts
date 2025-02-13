@@ -14,6 +14,8 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
         nodes: [
           {
             display: NodeDisplay.Circle,
+            circleDiameter: 60,
+            hideTopBar: true,
             type: 'input_value',
             name: 'Input Value',
             description: 'Provide an input value.',
@@ -32,14 +34,16 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
           },
           {
             display: NodeDisplay.Circle,
-            type: 'constant',
-            name: 'Constant Value',
-            description: 'Provide a constant value.',
+            circleDiameter: 60,
+            hideTopBar: true,
+            type: 'bias',
+            name: 'Bias Value',
+            description: 'Provide a constant bias value.',
             identifier: 'perceptron_input_constant',
             hideInput: true,
             hideOutput: true,
             data: {
-              x: {
+              bias: {
                 type: 'id',
                 flowOrientation: FlowOrientation.OUTPUT,
                 constraints: {
@@ -50,6 +54,7 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
           },
           {
             display: NodeDisplay.Circle,
+            circleDiameter: 150,
             type: 'operator_add',
             name: 'Add',
             description: 'Calculate the sum of all input values.',

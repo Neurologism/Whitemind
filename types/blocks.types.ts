@@ -38,6 +38,8 @@ export type NodeDefinition = {
   description: string;
   identifier: string;
   minSize?: { width: number; height: number };
+  circleDiameter?: number;
+  hideTopBar?: boolean;
   hideInput?: boolean;
   hideOutput?: boolean;
   inputConstraints?: NodeConnectionConstraint;
