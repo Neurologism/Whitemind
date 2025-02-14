@@ -27,7 +27,15 @@ export const useVueFlowStore = defineStore('vueFlowStore', {
       return this.nodes.find((node) => node.id === nodeId);
     },
 
-    removeEdge(edgeId: string) {
+    getEdgesByTargetId(targetId: string): Edge[] {
+      return this.edges.filter((edge: Edge) => edge.target === targetId);
+    },
+
+    getEdgesBySourceId(sourceId: string): Edge[] {
+      return this.edges.filter((edge: Edge) => edge.source === sourceId);
+    },
+
+    removeEdge(edgeId: string): void {
       console.log('Removing edge', edgeId);
       this.edges = this.edges.filter((edge) => edge.id !== edgeId);
       this.highlightedEdge = null;
