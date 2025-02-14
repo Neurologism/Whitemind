@@ -69,7 +69,7 @@ export class Perceptron {
 
     return new Perceptron(
       weights,
-      activationFunctionNodes['sign'], // FIXME: hardcoded activation function
+      activationFunctionNodes['activation_sign'], // FIXME: hardcoded activation function
       operatorNode,
       inputNodes,
       signNode
