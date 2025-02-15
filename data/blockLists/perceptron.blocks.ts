@@ -28,6 +28,8 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                 flowOrientation: FlowOrientation.OUTPUT,
                 constraints: {
                   allowedCategories: ['perceptron_input'],
+                  min: 1,
+                  max: 1,
                 },
               },
             },
@@ -48,6 +50,8 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                 flowOrientation: FlowOrientation.OUTPUT,
                 constraints: {
                   allowedCategories: ['perceptron_input'],
+                  min: 1,
+                  max: 1,
                 },
               },
             },
@@ -74,6 +78,8 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                 flowOrientation: FlowOrientation.OUTPUT,
                 constraints: {
                   allowedCategories: ['perceptron_raw_output'],
+                  min: 1,
+                  max: 1,
                 },
               },
             },
@@ -115,6 +121,8 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                 flowOrientation: FlowOrientation.OUTPUT,
                 constraints: {
                   allowedCategories: ['perceptron_activation_output'],
+                  min: 1,
+                  max: 1,
                 },
               },
             },
