@@ -62,8 +62,8 @@ const offset = Math.abs(
     15
 );
 
-const path = computed(() =>
-  sessionStore.sessionData.smoothEdges
+const path = computed(() => {
+  const path = sessionStore.sessionData.smoothEdges
     ? getBezierPath({
         sourceX: props.sourceX,
         sourceY: props.sourceY,
@@ -80,8 +80,24 @@ const path = computed(() =>
         sourcePosition: props.sourcePosition,
         targetPosition: props.targetPosition,
         offset,
-      })
-);
+      });
+
+  return path;
+});
+
+const lengthX = props.targetX - props.sourceX;
+const lengthY = props.targetY - props.sourceY;
+const lengthVertical = Math.sqrt(lengthX ** 2 + lengthY ** 2);
+const angle = Math.asin(lengthY / lengthVertical);
+const coefficient = 7;
+
+const horizontalOffset = computed(() => {
+  return angle * coefficient;
+});
+
+const verticalOffset = computed(() => {
+  return -((1 / 2) * Math.PI - angle) * coefficient;
+});
 
 const isHovered = computed(() => flowStore.highlightedEdge === props.id);
 </script>
@@ -110,7 +126,17 @@ export default {
       }"
       @click="flowStore.removeEdge(props.id)"
     >
-      ×
+      x
+    </div>
+    <div
+      :style="{
+        position: 'absolute',
+        transform: `translate(-50%, -50%) translate(${path[1] + horizontalOffset}px,${path[2] + verticalOffset}px)`,
+      }"
+      class="p-1 rounded-full text-center flex justify-center items-center text-text-2 text-sm pointer-events-none shadow-2xl"
+      :class="{ hidden: isHovered }"
+    >
+      42
     </div>
   </EdgeLabelRenderer>
 </template>

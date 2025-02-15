@@ -27,12 +27,7 @@ export class EditorConfig {
   }
 
   static nodeHasNonIdData(node: NodeDefinition): boolean {
-    const returnValue = Object.keys(node.data).some(
-      (key) => node.data[key].type !== 'id'
-    );
-
-    console.log('returnValue', returnValue);
-    return returnValue;
+    return Object.keys(node.data).some((key) => node.data[key].type !== 'id');
   }
 
   getCustomNodeConfig(type: string): NodeDefinition | undefined {
