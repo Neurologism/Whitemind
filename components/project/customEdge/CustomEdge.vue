@@ -85,18 +85,20 @@ const path = computed(() => {
   return path;
 });
 
-const lengthX = props.targetX - props.sourceX;
-const lengthY = props.targetY - props.sourceY;
-const lengthVertical = Math.sqrt(lengthX ** 2 + lengthY ** 2);
-const angle = Math.asin(lengthY / lengthVertical);
-const coefficient = 7;
+const lengthX = computed(() => props.targetX - props.sourceX);
+const lengthY = computed(() => props.targetY - props.sourceY);
+const lengthVertical = computed(() =>
+  Math.sqrt(lengthX.value ** 2 + lengthY.value ** 2)
+);
+const angle = computed(() => Math.asin(lengthY.value / lengthVertical.value));
+const coefficient = 10;
 
 const horizontalOffset = computed(() => {
-  return angle * coefficient;
+  return angle.value * coefficient;
 });
 
 const verticalOffset = computed(() => {
-  return -((1 / 2) * Math.PI - angle) * coefficient;
+  return -((1 / 2) * Math.PI - angle.value) * coefficient;
 });
 
 const isHovered = computed(() => flowStore.highlightedEdge === props.id);
