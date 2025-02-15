@@ -1,6 +1,6 @@
 import { FlowOrientation } from '~/types/blocks.types';
 import { NodeDisplay } from '~/types/blocks.types';
-import type { NodeGroupDefinition } from '~/types/blocks.types';
+import type { NodeGroupDefinition, EdgeColors } from '~/types/blocks.types';
 
 export const classicBlocks: NodeGroupDefinition[] = [
   {
@@ -1263,3 +1263,10 @@ export const classicBlocks: NodeGroupDefinition[] = [
     ],
   },
 ];
+
+export const classicEdgeColors: EdgeColors = {
+  dataset: '#ff5722',
+  model: '#2196f3',
+  visualizer: '#673ab7',
+  layer: '#4caf50',
+};

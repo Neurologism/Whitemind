@@ -101,3 +101,5 @@ export type NodeDefinition = {
       }
   >;
 };
+
+export type EdgeColors = Record<string, string>;

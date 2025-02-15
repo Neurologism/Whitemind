@@ -1,14 +1,20 @@
-import type { NodeGroupDefinition, NodeDefinition } from '~/types/blocks.types';
+import type {
+  NodeGroupDefinition,
+  NodeDefinition,
+  EdgeColors,
+} from '~/types/blocks.types';
 import type { XYPosition } from '@vue-flow/core';
 import { useVueFlowStore } from '~/stores/VueFlowStore';
 import Fuse from 'fuse.js';
 
 export class EditorConfig {
   nodesList: NodeGroupDefinition[];
+  edgeColors: EdgeColors;
   fuse;
 
-  constructor(nodesList: NodeGroupDefinition[]) {
+  constructor(nodesList: NodeGroupDefinition[], edgeColors: EdgeColors) {
     this.nodesList = nodesList;
+    this.edgeColors = edgeColors;
     this.fuse = new Fuse(this.allNodes, {
       keys: ['name', 'description', 'type', 'group_identifier'],
     });
@@ -64,10 +70,7 @@ export class EditorConfig {
   }
 
   getColorOfCategory(category: string) {
-    const group = this.nodesList.find(
-      (group) => group.group_identifier === category
-    );
-    return group?.color;
+    return this.edgeColors[category] ?? '#FFFFFF';
   }
 
   getHardGradientOfMultipleCategories(
@@ -85,13 +88,13 @@ export class EditorConfig {
 
     const split = sourceHandle.split('-');
     const nodeId = split[split.length - 1];
-    if (split.length === 1) return '#000000';
-    if (split.length === 2) {
+    if (split.length === 1) {
+      return '#000000';
+    } else if (split.length === 2) {
       const node = flowStore.getNode(nodeId!)!;
       const group = this.getNodeGroup(node.type ?? '');
       return group?.color ?? '#000000';
-    }
-    if (split.length === 3) {
+    } else if (split.length === 3) {
       const node = flowStore.getNode(nodeId!)!;
       const nodeDef = this.getCustomNodeConfig(node.type ?? '');
       const handleTypeKey = split[split.length - 2];
@@ -136,7 +139,7 @@ export class EditorConfig {
         targetConstraint?.allowedCategories?.includes(category)
     );
     if (!overlappingCategories) return null;
-    return this.getColorOfCategory(overlappingCategories[0]); //todo: maybe other solution
+    return this.getColorOfCategory(overlappingCategories[0]); // todo: maybe other solution
   }
 
   search(q: string): NodeGroupDefinition[] {

@@ -1,5 +1,5 @@
 import { FlowOrientation, NodeDisplay } from '~/types/blocks.types';
-import type { NodeGroupDefinition } from '~/types/blocks.types';
+import type { NodeGroupDefinition, EdgeColors } from '~/types/blocks.types';
 
 export const perceptronBlocks: NodeGroupDefinition[] = [
   {
@@ -158,3 +158,9 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
     ],
   },
 ];
+
+export const perceptronEdgeColors: EdgeColors = {
+  perceptron_input: '#00bbf9',
+  perceptron_raw_output: '#7cb518',
+  perceptron_activation_output: '#ef233c',
+};
