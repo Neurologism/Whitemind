@@ -106,6 +106,8 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                 flowOrientation: FlowOrientation.INPUT,
                 constraints: {
                   allowedCategories: ['perceptron_raw_output'],
+                  max: 1,
+                  min: 1,
                 },
               },
               output: {
@@ -121,45 +123,6 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
       },
     ],
   },
-  // {
-  //   name: 'Output',
-  //   icon: 'mdi:output',
-  //   color: '#7cb518',
-  //   group_identifier: 'perceptron_output',
-  //   default_width: 120,
-  //   groups: [
-  //     {
-  //       name: 'UNCATEGORIZED',
-  //       nodes: [
-  //         {
-  //           display: NodeDisplay.Classic,
-  //           type: 'output',
-  //           name: 'Output',
-  //           description: 'Outputs 1 if the input is positive, otherwise -1.',
-  //           identifier: 'perceptron_activation_sign',
-  //           hideInput: true,
-  //           hideOutput: true,
-  //           data: {
-  //             input: {
-  //               type: 'id',
-  //               flowOrientation: FlowOrientation.INPUT,
-  //               constraints: {
-  //                 allowedCategories: ['perceptron_raw_output'],
-  //               },
-  //             },
-  //             output: {
-  //               type: 'id',
-  //               flowOrientation: FlowOrientation.OUTPUT,
-  //               constraints: {
-  //                 allowedCategories: ['perceptron_activation_output'],
-  //               },
-  //             },
-  //           },
-  //         },
-  //       ],
-  //     },
-  //   ],
-  // },
   {
     name: 'Output',
     icon: 'mdi:output',
@@ -184,6 +147,8 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                 flowOrientation: FlowOrientation.INPUT,
                 constraints: {
                   allowedCategories: ['perceptron_activation_output'],
+                  min: 1,
+                  max: 1,
                 },
               },
             },
