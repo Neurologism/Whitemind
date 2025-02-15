@@ -26,6 +26,15 @@ export class EditorConfig {
     );
   }
 
+  static nodeHasNonIdData(node: NodeDefinition): boolean {
+    const returnValue = Object.keys(node.data).some(
+      (key) => node.data[key].type !== 'id'
+    );
+
+    console.log('returnValue', returnValue);
+    return returnValue;
+  }
+
   getCustomNodeConfig(type: string): NodeDefinition | undefined {
     return this.nodesList
       .flatMap((group) => group.groups.flatMap((node) => node.nodes))

@@ -8,6 +8,7 @@ import {
 } from '@vue-flow/node-resizer';
 import '@vue-flow/node-resizer/dist/style.css';
 import ClassicHandle from '~/components/project/customNode/ClassicHandle.vue';
+import { EditorConfig } from '~/types/editorConfig.class';
 
 defineEmits(['node-contextmenu']);
 
@@ -111,7 +112,10 @@ function clickIcons() {
         @click="clickIcons"
       >
         <UIcon
-          v-if="shapeGroupData.group_identifier !== 'visualizer'"
+          v-if="
+            EditorConfig.nodeHasNonIdData(shapeData) &&
+            shapeGroupData.group_identifier !== 'visualizer'
+          "
           name="material-symbols:expand-more"
           :style="{
             transform: nodesData!.data.isExpanded
@@ -144,7 +148,9 @@ function clickIcons() {
           :nodeId="props.nodeId"
         ></component>
       </div>
-      <div :class="`${nodesData!.data.isExpanded ? 'mt-0.5 mb-1' : null}`">
+      <div
+        :class="`${EditorConfig.nodeHasNonIdData(shapeData) && nodesData!.data.isExpanded ? 'mt-0.5 mb-1' : null}`"
+      >
         <div v-for="(shapeDefinition, key) in shapeData.data">
           <div
             v-if="shapeDefinition.type === 'id'"
@@ -186,12 +192,22 @@ function clickIcons() {
           </div>
         </div>
         <div
-          v-if="nodesData!.data.isExpanded && !nodesData!.data.showVisConfigs"
+          v-if="
+            EditorConfig.nodeHasNonIdData(shapeData) &&
+            nodesData!.data.isExpanded &&
+            !nodesData!.data.showVisConfigs
+          "
           class="mr-1 ml-1 mb-1 bg-bg-4"
           style="height: 1px"
         />
         <div
-          v-if="nodesData!.data.isExpanded && !nodesData!.data.showVisConfigs"
+          v-if="
+            EditorConfig.nodeHasNonIdData(shapeData) &&
+            nodesData!.data.isExpanded &&
+            !nodesData!.data.showVisConfigs
+          "
+          EditorConfig.nodeHasNonIdData(shapeData)
+          &&
           v-for="(shapeDefinition, key) in shapeData.data"
           class="grid grid-cols-1 mb-0.5 mt-1 items-center justify-between"
         >
