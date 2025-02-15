@@ -1,3 +1,5 @@
+import type { Edge } from '@vue-flow/core';
+
 export enum FlowOrientation {
   INPUT = 'input',
   OUTPUT = 'output',
@@ -52,6 +54,7 @@ export type NodeDefinition = {
         constraints?: NodeConnectionConstraint;
         required?: boolean;
         rules?: any[];
+        edgeDisplayText?: (edgeId: Edge) => string;
       }
     | {
         type: 'select';

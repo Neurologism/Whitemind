@@ -30,6 +30,23 @@ export class EditorConfig {
     return Object.keys(node.data).some((key) => node.data[key].type !== 'id');
   }
 
+  getEdgeDisplayText(edgeId: string) {
+    const vueFlowStore = useVueFlowStore();
+    const edge = vueFlowStore.getEdge(edgeId);
+    if (!edge) return '';
+    const sourceNode = vueFlowStore.getNode(edge.source);
+    if (!sourceNode?.type) return '';
+    const sourceNodeDef = this.getCustomNodeConfig(sourceNode.type);
+    if (!sourceNodeDef) return '';
+    const sourceHandleType = edge.sourceHandle?.split('-')[1];
+    if (!sourceHandleType) return '';
+    const edgeDataAttribute = sourceNodeDef.data[sourceHandleType];
+    if (edgeDataAttribute?.type !== 'id') return '';
+    const edgeDisplayFunction = edgeDataAttribute.edgeDisplayText;
+    if (!edgeDisplayFunction) return '';
+    return edgeDisplayFunction(edge);
+  }
+
   getCustomNodeConfig(type: string): NodeDefinition | undefined {
     return this.nodesList
       .flatMap((group) => group.groups.flatMap((node) => node.nodes))

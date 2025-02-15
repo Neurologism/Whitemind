@@ -1,3 +1,4 @@
+import type { Edge } from '@vue-flow/core';
 import { FlowOrientation, NodeDisplay } from '~/types/blocks.types';
 import type { NodeGroupDefinition, EdgeColors } from '~/types/blocks.types';
 
@@ -30,6 +31,9 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                   allowedCategories: ['perceptron_input'],
                   min: 1,
                   max: 1,
+                },
+                edgeDisplayText: (edge: Edge) => {
+                  return '42';
                 },
               },
             },

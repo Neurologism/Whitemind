@@ -9,6 +9,7 @@ import {
 
 const flowStore = useVueFlowStore();
 const sessionStore = useSessionStore();
+const projectStore = useProjectStore();
 
 const props = defineProps({
   id: {
@@ -53,6 +54,10 @@ const props = defineProps({
   },
 });
 
+const edgeDisplayText = computed(() =>
+  projectStore.editorConfig.getEdgeDisplayText(props.id)
+);
+
 // random offset between 15 and 35 based on string hash
 const offset = Math.abs(
   (props.id
@@ -85,18 +90,16 @@ const path = computed(() => {
   return path;
 });
 
+const coefficient = 10;
 const lengthX = computed(() => props.targetX - props.sourceX);
 const lengthY = computed(() => props.targetY - props.sourceY);
 const lengthVertical = computed(() =>
   Math.sqrt(lengthX.value ** 2 + lengthY.value ** 2)
 );
 const angle = computed(() => Math.asin(lengthY.value / lengthVertical.value));
-const coefficient = 10;
-
 const horizontalOffset = computed(() => {
   return angle.value * coefficient;
 });
-
 const verticalOffset = computed(() => {
   return -((1 / 2) * Math.PI - angle.value) * coefficient;
 });
@@ -138,7 +141,7 @@ export default {
       class="p-1 rounded-full text-center flex justify-center items-center text-text-2 text-sm pointer-events-none shadow-2xl"
       :class="{ hidden: isHovered }"
     >
-      42
+      {{ edgeDisplayText }}
     </div>
   </EdgeLabelRenderer>
 </template>

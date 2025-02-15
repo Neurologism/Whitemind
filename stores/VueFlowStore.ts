@@ -27,6 +27,10 @@ export const useVueFlowStore = defineStore('vueFlowStore', {
       return this.nodes.find((node) => node.id === nodeId);
     },
 
+    getEdge(edgeId: string): Edge | undefined {
+      return this.edges.find((edge) => edge.id === edgeId);
+    },
+
     getEdgesByTargetId(targetId: string): Edge[] {
       return this.edges.filter((edge: Edge) => edge.target === targetId);
     },
