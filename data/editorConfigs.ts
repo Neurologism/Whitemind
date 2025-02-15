@@ -1,4 +1,4 @@
-import { EditorConfig } from '~/utility/editorConfig.class';
+import { EditorConfig } from '~/types/editorConfig.class';
 import { classicBlocks } from './blockLists/classic.blocks';
 import { perceptronBlocks } from './blockLists/perceptron.blocks';
 

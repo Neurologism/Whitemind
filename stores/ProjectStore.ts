@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { SyncStatus } from '~/types/syncStatus.enum';
 import { editorConfigs } from '~/data/editorConfigs';
-import { EditorConfig } from '~/utility/editorConfig.class';
+import { EditorConfig } from '~/types/editorConfig.class';
 
 interface Model {
   _id: string;
