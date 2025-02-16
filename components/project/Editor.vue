@@ -39,7 +39,6 @@ trainingStore.training.mean_absolute_error = null;
 
 const {
   onConnect,
-  addEdges,
   addNodes,
   vueFlowRef,
   project,
@@ -218,7 +217,6 @@ onEdgesChange((changes) => {
 });
 
 onConnect((newEdge: any) => {
-  console.log(newEdge);
   newEdge.type = 'smoothstep';
   newEdge.animated = false;
   newEdge.animationSpeed = 0.5;
@@ -232,7 +230,7 @@ onConnect((newEdge: any) => {
   };
 
   if (!props.tutorialProject) {
-    addEdges([newEdge]);
+    vueFlowStore.addEdges([newEdge]);
     return;
   }
 
@@ -250,13 +248,14 @@ onConnect((newEdge: any) => {
       ...newEdge,
       ...addEdge,
     };
-    addEdges([newEdge]);
+
+    vueFlowStore.addEdges([newEdge]);
     console.log('Adding tutorial edge', newEdge);
     return;
   }
 
   if (config.public.tutorialAllowUnlistedEdgeCreation) {
-    addEdges([newEdge]);
+    vueFlowStore.addEdges([newEdge]);
   } else {
     displayActionForbiddenToast();
   }
@@ -275,7 +274,7 @@ function displayActionForbiddenToast() {
 
 function onRemoveEdge(infos: any) {
   if (!props.tutorialProject) {
-    vueFlowStore.removeEdge(infos.edge.id);
+    vueFlowStore.removeEdge(infos.edge);
     return;
   }
 
@@ -284,13 +283,13 @@ function onRemoveEdge(infos: any) {
       continue;
     }
 
-    vueFlowStore.removeEdge(infos.edge.id);
+    vueFlowStore.removeEdge(infos.edge);
     console.log('Removing tutorial edge', infos.edge);
     return;
   }
 
   if (config.public.tutorialAllowUnlistedEdgeDeletion) {
-    vueFlowStore.removeEdge(infos.edge.id);
+    vueFlowStore.removeEdge(infos.edge);
   } else {
     displayActionForbiddenToast();
   }

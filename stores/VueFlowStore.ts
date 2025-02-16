@@ -23,6 +23,32 @@ export const useVueFlowStore = defineStore('vueFlowStore', {
     },
   },
   actions: {
+    addEdges(edges: Edge[] | Edge): void {
+      if (!Array.isArray(edges)) {
+        edges = [edges];
+      }
+      this.edges = this.edges.concat(edges);
+
+      const projectStore = useProjectStore();
+
+      for (const edge of edges) {
+        const callback =
+          projectStore.editorConfig.getOnEdgeConnectedCallback(edge);
+        if (callback) callback(edge);
+      }
+    },
+
+    removeEdge(edge: Edge): void {
+      const projectStore = useProjectStore();
+      const callback =
+        projectStore.editorConfig.getOnEdgeDisconnectedCallback(edge);
+      if (callback) callback(edge);
+      this.edges = this.edges.filter(
+        (currentEdge) => currentEdge.id !== edge.id
+      );
+      this.highlightedEdge = null;
+    },
+
     getNode(nodeId: string): Node | undefined {
       return this.nodes.find((node) => node.id === nodeId);
     },
@@ -37,12 +63,6 @@ export const useVueFlowStore = defineStore('vueFlowStore', {
 
     getEdgesBySourceId(sourceId: string): Edge[] {
       return this.edges.filter((edge: Edge) => edge.source === sourceId);
-    },
-
-    removeEdge(edgeId: string): void {
-      console.log('Removing edge', edgeId);
-      this.edges = this.edges.filter((edge) => edge.id !== edgeId);
-      this.highlightedEdge = null;
     },
 
     nodeExists(nodeId: string): boolean {
