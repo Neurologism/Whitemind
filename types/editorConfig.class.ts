@@ -3,7 +3,7 @@ import type {
   NodeDefinition,
   EdgeColors,
 } from '~/types/blocks.types';
-import type { XYPosition } from '@vue-flow/core';
+import type { Node, XYPosition } from '@vue-flow/core';
 import { useVueFlowStore } from '~/stores/VueFlowStore';
 import Fuse from 'fuse.js';
 
@@ -65,16 +65,18 @@ export class EditorConfig {
     );
   }
 
-  getDefaultData(type: string, position: XYPosition) {
+  getNodeDefaultData(type: string, position: XYPosition): Node | null {
     const node = this.getCustomNodeConfig(type);
     if (!node) return null;
-    const data = {};
+    const data = {} as Record<string, any>;
 
     for (const key in node.data) {
-      // @ts-ignore - data[key] is not a valid type
-      if (node.data[key].value !== undefined) {
-        // @ts-ignore - data[key] is not a valid type
-        data[key] = node.data[key]['value'];
+      if (node.data[key] !== undefined) {
+        if ('value' in node.data[key]) {
+          data[key] = node.data[key].value;
+        } else {
+          data[key] = undefined;
+        }
       }
     }
 
@@ -118,10 +120,29 @@ export class EditorConfig {
     } else if (split.length === 3) {
       const node = flowStore.getNode(nodeId!)!;
       const nodeDef = this.getCustomNodeConfig(node.type ?? '');
+      if (!nodeDef) {
+        throw new Error(`Node definition not found for node ${node.type}`);
+      }
       const handleTypeKey = split[split.length - 2];
+      if (nodeDef.data[handleTypeKey].type !== 'id') {
+        throw new Error(
+          `Handle type ${handleTypeKey} is not of type 'id' in node ${node.type}`
+        );
+      }
+      const constraints = nodeDef.data[handleTypeKey].constraints;
+      if (!constraints) {
+        throw new Error(
+          `No constraints found for handle type ${handleTypeKey} in node ${node.type}`
+        );
+      }
+      const allowedCategories = constraints.allowedCategories;
+      if (!allowedCategories) {
+        throw new Error(
+          `No allowed categories found for handle type ${handleTypeKey} in node ${node.type}`
+        );
+      }
       const handleCategoryType =
-        //@ts-ignore "constraints" exists on type 'id'
-        nodeDef?.data[handleTypeKey!]?.constraints?.allowedCategories[0] ??
+        allowedCategories[0] ??
         this.getNodeGroup(node.type ?? '')?.group_identifier;
       return this.getColorOfCategory(handleCategoryType ?? '');
     }
@@ -133,22 +154,30 @@ export class EditorConfig {
     const split = sourceHandle.split('-');
     const nodeId = split[split.length - 1];
     if (split.length === 1) return null;
+    const node = flowStore.getNode(nodeId);
+    if (!node) {
+      throw new Error(`Node with id ${nodeId} not found`);
+    }
+    const nodeDef = this.getCustomNodeConfig(node.type ?? '');
+    if (!nodeDef) {
+      throw new Error(`Node definition not found for node ${node.type}`);
+    }
     if (split.length === 2) {
-      const node = flowStore.getNode(nodeId!)!;
-      const nodeDef = this.getCustomNodeConfig(node.type ?? '');
-
       if (split[0] === 'in') {
-        return nodeDef?.inputConstraints;
+        return nodeDef.inputConstraints;
       } else if (split[0] === 'out') {
-        return nodeDef?.outputConstraints;
+        return nodeDef.outputConstraints;
       } else return null;
     }
     if (split.length === 3) {
-      const node = flowStore.getNode(nodeId!)!;
-      const nodeDef = this.getCustomNodeConfig(node.type ?? '');
       const handleTypeKey = split[split.length - 2];
-      // @ts-ignore "constraints" exists on type 'id'
-      return nodeDef?.data[handleTypeKey!]?.constraints;
+      if ('constraints' in nodeDef.data[handleTypeKey]) {
+        return nodeDef.data[handleTypeKey].constraints;
+      } else {
+        throw new Error(
+          `No constraints found for handle type ${handleTypeKey} in node ${node.type}`
+        );
+      }
     }
   }
 

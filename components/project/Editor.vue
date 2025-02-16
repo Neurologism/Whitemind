@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { VueFlow, useVueFlow, Panel } from '@vue-flow/core';
+import { VueFlow, useVueFlow, Panel, type Node } from '@vue-flow/core';
 // import { MiniMap } from "@vue-flow/minimap";
 // import "@vue-flow/minimap/dist/style.css";
 import { Background } from '@vue-flow/background';
@@ -77,17 +77,25 @@ function handleDrop(event: DragEvent) {
     y: event.clientY - top,
   });
 
-  let newNode = projectStore.editorConfig.getDefaultData(
+  const newNode = projectStore.editorConfig.getNodeDefaultData(
     nodeType.type,
     position
   );
+  if (newNode === null) {
+    toast.add({
+      title: 'Failed to drop node',
+      description: 'Node type not found',
+      icon: 'mdi-alert-circle',
+      color: 'red',
+    });
+    return;
+  }
 
   addNewNode(newNode);
 }
 
-function addNewNode(newNode: any) {
+function addNewNode(newNode: Node) {
   if (!props.tutorialProject) {
-    // @ts-ignore
     addNodes([newNode]);
     return;
   }
@@ -112,14 +120,12 @@ function addNewNode(newNode: any) {
       },
     };
 
-    // @ts-ignore
     addNodes([newNode]);
     console.log('Adding tutorial node', newNode);
     return;
   }
 
   if (config.public.tutorialAllowUnlistedNodeCreation) {
-    // @ts-ignore
     addNodes([newNode]);
   } else {
     displayActionForbiddenToast();
@@ -147,10 +153,19 @@ function contextMenuDuplicate() {
   if (!contextMenuTargetNodeId.value) return;
   const node = vueFlowStore.getNode(contextMenuTargetNodeId.value);
   if (node === undefined) return;
-  const newNode = projectStore.editorConfig.getDefaultData(node.type!, {
+  const newNode = projectStore.editorConfig.getNodeDefaultData(node.type!, {
     x: node.position.x + 100,
     y: node.position.y + 100,
   });
+  if (!newNode) {
+    toast.add({
+      title: 'Failed to duplicate node',
+      description: 'Node type not found',
+      icon: 'mdi-alert-circle',
+      color: 'red',
+    });
+    return;
+  }
   addNewNode(newNode);
 }
 

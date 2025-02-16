@@ -48,7 +48,6 @@ export const useSessionStore = defineStore('sessionStore', {
       return backmindHost + `/users/${state.sessionData.user._id}/get-pfp`;
     },
 
-    // @ts-ignore somehow this is not recognized as a getter
     isProd: () => import.meta.env.PROD,
   },
   actions: {

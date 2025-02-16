@@ -24,9 +24,10 @@ const shapeGroupData = projectStore.editorConfig.getNodeGroup(
   nodesData.value!.type
 )!;
 
-// @ts-ignore - the value is set here initialy
+if (nodesData.value === null) {
+  throw new Error('Node data is null');
+}
 nodesData.value.data.isExpanded ??= true;
-// @ts-ignore - the value is set here initialy
 nodesData.value.data.showVisConfigs ??= false;
 
 function clickIcons() {
