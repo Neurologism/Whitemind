@@ -1,4 +1,5 @@
 import type { Edge } from '@vue-flow/core';
+import { on } from 'events';
 import { defineStore } from 'pinia';
 import { Perceptron } from '~/types/perceptron.class';
 
@@ -41,6 +42,22 @@ export const usePerceptronTrainingStore = defineStore(
           return null;
         }
         return perceptron.getInputWeight(edge.source);
+      },
+
+      onConnectedInput(edge: Edge) {
+        const perceptron = this.getOperatorNodePerceptron(edge.target);
+        if (!perceptron) {
+          return;
+        }
+        perceptron.addInput(edge.source);
+      },
+
+      onDisconnectedInput(edge: Edge) {
+        const perceptron = this.getOperatorNodePerceptron(edge.target);
+        if (!perceptron) {
+          return;
+        }
+        perceptron.removeInput(edge.source);
       },
     },
   }
