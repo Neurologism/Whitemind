@@ -45,19 +45,31 @@ export const usePerceptronTrainingStore = defineStore(
       },
 
       onConnectedInput(edge: Edge) {
+        const vueFlowStore = useVueFlowStore();
         const perceptron = this.getOperatorNodePerceptron(edge.target);
         if (!perceptron) {
           return;
         }
-        perceptron.addInput(edge.source);
+        const inputNode = vueFlowStore.getNode(edge.source);
+        if (!inputNode) {
+          throw new Error('Input node not found while adding perceptron input');
+        }
+        perceptron.addInput(inputNode);
       },
 
       onDisconnectedInput(edge: Edge) {
+        const vueFlowStore = useVueFlowStore();
         const perceptron = this.getOperatorNodePerceptron(edge.target);
         if (!perceptron) {
           return;
         }
-        perceptron.removeInput(edge.source);
+        const inputNode = vueFlowStore.getNode(edge.source);
+        if (!inputNode) {
+          throw new Error(
+            'Input node not found while removing perceptron input'
+          );
+        }
+        perceptron.removeInput(inputNode.id);
       },
     },
   }
