@@ -199,18 +199,18 @@ export class EditorConfig {
   }
 
   getColorOfHandle(sourceHandle: string) {
-    const flowStore = useVueFlowStore();
+    const vueFlowStore = useVueFlowStore();
 
     const split = sourceHandle.split('-');
     const nodeId = split[split.length - 1];
     if (split.length === 1) {
       return '#000000';
     } else if (split.length === 2) {
-      const node = flowStore.getNode(nodeId!)!;
+      const node = vueFlowStore.getNode(nodeId!)!;
       const group = this.getNodeGroup(node.type ?? '');
       return group?.color ?? '#000000';
     } else if (split.length === 3) {
-      const node = flowStore.getNode(nodeId!)!;
+      const node = vueFlowStore.getNode(nodeId!)!;
       const nodeDef = this.getCustomNodeConfig(node.type ?? '');
       if (!nodeDef) {
         throw new Error(`Node definition not found for node ${node.type}`);
@@ -241,12 +241,12 @@ export class EditorConfig {
   }
 
   getConstraintOfHandle(sourceHandle: string) {
-    const flowStore = useVueFlowStore();
+    const vueFlowStore = useVueFlowStore();
 
     const split = sourceHandle.split('-');
     const nodeId = split[split.length - 1];
     if (split.length === 1) return null;
-    const node = flowStore.getNode(nodeId);
+    const node = vueFlowStore.getNode(nodeId);
     if (!node) {
       throw new Error(`Node with id ${nodeId} not found`);
     }

@@ -9,7 +9,7 @@ import type {
   NodeGroupDefinition,
 } from '~/types/blocks.types';
 
-const flowStore = useVueFlowStore();
+const vueFlowStore = useVueFlowStore();
 const projectStore = useProjectStore();
 
 const props = defineProps({
@@ -40,7 +40,7 @@ const props = defineProps({
 });
 
 function getHandleConnectionCount(handleId: string): number {
-  return flowStore.edges.filter(
+  return vueFlowStore.edges.filter(
     (edge) => edge.sourceHandle === handleId || edge.targetHandle === handleId
   ).length;
 }

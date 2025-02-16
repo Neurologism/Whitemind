@@ -7,7 +7,7 @@ import {
   getBezierPath,
 } from '@vue-flow/core';
 
-const flowStore = useVueFlowStore();
+const vueFlowStore = useVueFlowStore();
 const sessionStore = useSessionStore();
 const projectStore = useProjectStore();
 
@@ -53,6 +53,8 @@ const props = defineProps({
     required: false,
   },
 });
+
+const edge = computed(() => vueFlowStore.getEdge(props.id)!);
 
 const edgeDisplayText = computed(() =>
   projectStore.editorConfig.getEdgeDisplayText(props.id)
@@ -104,7 +106,7 @@ const verticalOffset = computed(() => {
   return -((1 / 2) * Math.PI - angle.value) * coefficient;
 });
 
-const isHovered = computed(() => flowStore.highlightedEdge === props.id);
+const isHovered = computed(() => vueFlowStore.highlightedEdge === props.id);
 </script>
 
 <script lang="ts">
@@ -129,7 +131,7 @@ export default {
       :class="{
         hidden: !isHovered,
       }"
-      @click="flowStore.removeEdge(props.id)"
+      @click="vueFlowStore.removeEdge(edge)"
     >
       x
     </div>
