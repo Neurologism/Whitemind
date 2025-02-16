@@ -30,7 +30,6 @@ export const useVueFlowStore = defineStore('vueFlowStore', {
       this.edges = this.edges.concat(edges);
 
       const projectStore = useProjectStore();
-
       for (const edge of edges) {
         const callback =
           projectStore.editorConfig.getOnEdgeConnectedCallback(edge);
@@ -39,13 +38,14 @@ export const useVueFlowStore = defineStore('vueFlowStore', {
     },
 
     removeEdge(edge: Edge): void {
+      this.edges = this.edges.filter(
+        (currentEdge) => currentEdge.id !== edge.id
+      );
+
       const projectStore = useProjectStore();
       const callback =
         projectStore.editorConfig.getOnEdgeDisconnectedCallback(edge);
       if (callback) callback(edge);
-      this.edges = this.edges.filter(
-        (currentEdge) => currentEdge.id !== edge.id
-      );
       this.highlightedEdge = null;
     },
 
