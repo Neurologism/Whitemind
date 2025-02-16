@@ -59,6 +59,8 @@ export type NodeDefinitionDataEntry =
       edgeDisplayText?: (edge: Edge) => string; // do a global search when renaming
       onConnected?: (edge: Edge) => void; // do a global search when renaming
       onDisconnected?: (edge: Edge) => void; // do a global search when renaming
+      allowModifyDisplayText?: boolean;
+      setDisplayText?: (edge: Edge, text: string) => void;
     }
   | {
       type: 'select';
