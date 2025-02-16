@@ -131,4 +131,17 @@ export class Perceptron {
     this.inputNodes.splice(inputIndex, 1);
     this.weights.splice(inputIndex, 1);
   }
+
+  updateInputNodeWeight(inputNode: Node, weight: number): void {
+    if (!this.inputNodes) {
+      throw new Error('Specified input Node does not belong to perceptron.');
+    }
+    const nodeIndex = this.inputNodes.findIndex(
+      (node) => node.id === inputNode.id
+    );
+    if (nodeIndex === -1) {
+      throw new Error('Specified input Node does not belong to perceptron.');
+    }
+    this.weights[nodeIndex] = weight;
+  }
 }

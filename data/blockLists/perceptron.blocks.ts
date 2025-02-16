@@ -57,6 +57,12 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                   perceptronTrainingStore.onDisconnectedInput(edge);
                 },
                 allowModifyDisplayText: true,
+                setDisplayText: (edge: Edge, text: string) => {
+                  const perceptronTrainingStore = usePerceptronTrainingStore();
+                  const weightValue = Number(text);
+                  if (isNaN(weightValue)) return;
+                  perceptronTrainingStore.updateEdgeWeight(edge, weightValue);
+                },
               },
             },
           },
@@ -91,6 +97,9 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                 allowModifyDisplayText: true,
                 setDisplayText: (edge: Edge, text: string) => {
                   const perceptronTrainingStore = usePerceptronTrainingStore();
+                  const weightValue = Number(text);
+                  if (isNaN(weightValue)) return;
+                  perceptronTrainingStore.updateEdgeWeight(edge, weightValue);
                 },
               },
             },

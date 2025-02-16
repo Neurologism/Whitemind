@@ -6,6 +6,7 @@ import {
   getSmoothStepPath,
   Position,
   getBezierPath,
+  type Edge,
 } from '@vue-flow/core';
 
 const vueFlowStore = useVueFlowStore();
@@ -103,29 +104,41 @@ const allowModifyDisplayText = computed((): boolean => {
 });
 const displayTextInputRef = ref<HTMLInputElement | null>(null);
 
-const edgeDisplayText = computed({
-  get: (): string => {
-    return projectStore.editorConfig.getEdgeDisplayText(props.id);
+const edgeDisplayText = ref('');
+
+watch(
+  () => projectStore.editorConfig.getEdgeDisplayText(props.id),
+  (newValue: string) => {
+    edgeDisplayText.value = newValue;
   },
-  set: (value: string) => {
-    let setDisplayText: Function | undefined;
-    if (sourceDataAttribute.value?.allowModifyDisplayText) {
-      setDisplayText = sourceDataAttribute.value.setDisplayText;
-    } else if (targetDataAttribute.value?.allowModifyDisplayText) {
-      setDisplayText = targetDataAttribute.value.setDisplayText;
-    } else {
-      throw new Error(
-        `Both source and target data attributes cannot have allowModifyDisplayText set to true. \nnode types are ${sourceNode.value.type} and ${targetNode.value.type}`
-      );
-    }
-    if (!setDisplayText) {
-      throw new Error(
-        `setDisplayText function is not defined even though allowModifyDisplayText is set to true. \nnode types are ${sourceNode.value.type} and ${targetNode.value.type}`
-      );
-    }
-    setDisplayText(value);
-  },
-});
+  { immediate: true }
+);
+
+function onDeselectDisplayTextInput() {
+  let setDisplayText: ((edge: Edge, text: string) => void) | undefined;
+  if (sourceDataAttribute.value?.allowModifyDisplayText) {
+    setDisplayText = sourceDataAttribute.value.setDisplayText;
+  } else if (targetDataAttribute.value?.allowModifyDisplayText) {
+    setDisplayText = targetDataAttribute.value.setDisplayText;
+  } else {
+    throw new Error(
+      `Both source and target data attributes cannot have allowModifyDisplayText set to true. \nnode types are ${sourceNode.value.type} and ${targetNode.value.type}`
+    );
+  }
+  if (!setDisplayText) {
+    throw new Error(
+      `setDisplayText function is not defined even though allowModifyDisplayText is set to true. \nnode types are ${sourceNode.value.type} and ${targetNode.value.type}`
+    );
+  }
+  setDisplayText(edge.value, edgeDisplayText.value);
+  edgeDisplayText.value = projectStore.editorConfig.getEdgeDisplayText(
+    props.id
+  );
+}
+
+function onSubmitDisplayTextInput() {
+  displayTextInputRef.value?.blur();
+}
 
 // random offset between 15 and 35 based on string hash
 const offset = Math.abs(
@@ -221,6 +234,8 @@ export default {
         class="w-6 bg-transparent focus:bg-bg-2 border-none focus:text-text-1"
         variant="none"
         ref="displayTextInputRef"
+        @blur="onDeselectDisplayTextInput"
+        @keyup.enter="onSubmitDisplayTextInput"
       />
       <span v-else> {{ edgeDisplayText }} </span>
     </div>

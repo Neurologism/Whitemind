@@ -48,7 +48,7 @@ export const usePerceptronTrainingStore = defineStore(
         const vueFlowStore = useVueFlowStore();
         const perceptron = this.getOperatorNodePerceptron(edge.target);
         if (!perceptron) {
-          return;
+          throw new Error('Perceptron does not exist. ');
         }
         const inputNode = vueFlowStore.getNode(edge.source);
         if (!inputNode) {
@@ -61,7 +61,7 @@ export const usePerceptronTrainingStore = defineStore(
         const vueFlowStore = useVueFlowStore();
         const perceptron = this.getOperatorNodePerceptron(edge.target);
         if (!perceptron) {
-          return;
+          throw new Error('Perceptron does not exist. ');
         }
         const inputNode = vueFlowStore.getNode(edge.source);
         if (!inputNode) {
@@ -70,6 +70,15 @@ export const usePerceptronTrainingStore = defineStore(
           );
         }
         perceptron.removeInput(inputNode.id);
+      },
+
+      updateEdgeWeight(edge: Edge, weight: number) {
+        const vueFlowStore = useVueFlowStore();
+        const perceptron = this.getOperatorNodePerceptron(edge.target);
+        if (!perceptron) throw new Error('Perceptron does not exist. ');
+        const inputNode = vueFlowStore.getNode(edge.source);
+        if (!inputNode) throw new Error('Input node does not exist.');
+        perceptron.updateInputNodeWeight(inputNode, weight);
       },
     },
   }
