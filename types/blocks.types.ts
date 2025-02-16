@@ -56,7 +56,9 @@ export type NodeDefinitionDataEntry =
       constraints?: NodeConnectionConstraint;
       required?: boolean;
       rules?: any[];
-      edgeDisplayText?: (edgeId: Edge) => string;
+      edgeDisplayText?: (edge: Edge) => string; // do a global search when renaming
+      onConnected?: (edge: Edge) => void; // do a global search when renaming
+      onDisconnected?: (edge: Edge) => void; // do a global search when renaming
     }
   | {
       type: 'select';

@@ -2,8 +2,9 @@ import type {
   NodeGroupDefinition,
   NodeDefinition,
   EdgeColors,
+  NodeDefinitionDataEntry,
 } from '~/types/blocks.types';
-import type { Node, XYPosition } from '@vue-flow/core';
+import type { Edge, Node, XYPosition } from '@vue-flow/core';
 import { useVueFlowStore } from '~/stores/VueFlowStore';
 import Fuse from 'fuse.js';
 
@@ -26,25 +27,116 @@ export class EditorConfig {
     );
   }
 
-  static nodeHasNonIdData(node: NodeDefinition): boolean {
-    return Object.keys(node.data).some((key) => node.data[key].type !== 'id');
+  getEdgeSourceDataAttribute(edge: Edge): NodeDefinitionDataEntry | undefined {
+    const sourceNode = useVueFlowStore().getNode(edge.source);
+    if (!sourceNode || !sourceNode.type) return;
+    const sourceNodeDef = this.getCustomNodeConfig(sourceNode.type);
+    if (!sourceNodeDef) return;
+    const sourceHandleType = edge.sourceHandle?.split('-')[1];
+    if (!sourceHandleType) return;
+    return sourceNodeDef.data[sourceHandleType];
   }
 
-  getEdgeDisplayText(edgeId: string) {
+  getEdgeTargetDataAttribute(edge: Edge): NodeDefinitionDataEntry | undefined {
+    const targetNode = useVueFlowStore().getNode(edge.target);
+    if (!targetNode || !targetNode.type) return;
+    const targetNodeDef = this.getCustomNodeConfig(targetNode.type);
+    if (!targetNodeDef) return;
+    const targetHandleType = edge.targetHandle?.split('-')[1];
+    if (!targetHandleType) return;
+    return targetNodeDef.data[targetHandleType];
+  }
+
+  getOnEdgeConnectedCallback(edge: Edge): ((edge: Edge) => void) | undefined {
+    const callbacks = this.getDoubleSidedAttributes(edge, 'onConnected') as ((
+      edge: Edge
+    ) => any)[];
+    return this.combineEdgeCallbacks(callbacks);
+  }
+
+  getOnEdgeDisconnectedCallback(
+    edge: Edge
+  ): ((edge: Edge) => void) | undefined {
+    const callbacks = this.getDoubleSidedAttributes(
+      edge,
+      'onDisconnected'
+    ) as ((edge: Edge) => any)[];
+    return this.combineEdgeCallbacks(callbacks);
+  }
+
+  getEdgeDisplayText(edgeId: string): string {
     const vueFlowStore = useVueFlowStore();
+
     const edge = vueFlowStore.getEdge(edgeId);
     if (!edge) return '';
-    const sourceNode = vueFlowStore.getNode(edge.source);
-    if (!sourceNode?.type) return '';
-    const sourceNodeDef = this.getCustomNodeConfig(sourceNode.type);
-    if (!sourceNodeDef) return '';
-    const sourceHandleType = edge.sourceHandle?.split('-')[1];
-    if (!sourceHandleType) return '';
-    const edgeDataAttribute = sourceNodeDef.data[sourceHandleType];
-    if (edgeDataAttribute?.type !== 'id') return '';
-    const edgeDisplayFunction = edgeDataAttribute.edgeDisplayText;
-    if (!edgeDisplayFunction) return '';
-    return edgeDisplayFunction(edge);
+
+    const callbacks = this.getDoubleSidedAttributes(
+      edge,
+      'edgeDisplayText'
+    ) as (((edge: Edge) => string) | undefined)[];
+
+    if (callbacks[0] === undefined && callbacks[1] === undefined) {
+      return '';
+    } else if (callbacks[0] !== undefined && callbacks[1] !== undefined) {
+      throw new Error(
+        `Conflict: Both source and target have edgeDisplayText callbacks defined for edge ${edgeId}`
+      );
+    }
+
+    return this.combineEdgeCallbacks(callbacks)(edge);
+  }
+
+  getDoubleSidedEdgeSingleCallback(
+    edge: Edge,
+    attributeName: string
+  ): (edge: Edge) => any {
+    const callbacks = this.getDoubleSidedAttributes(edge, attributeName) as ((
+      edge: Edge
+    ) => any)[];
+    return this.combineEdgeCallbacks(callbacks);
+  }
+
+  getDoubleSidedAttributes(
+    edge: Edge,
+    attributeName: string
+  ): (Function | undefined)[] {
+    let sourceAttribute: any = undefined;
+    const edgeSourceDataAttribute = this.getEdgeSourceDataAttribute(edge);
+    if (edgeSourceDataAttribute && attributeName in edgeSourceDataAttribute) {
+      sourceAttribute = (edgeSourceDataAttribute as Record<string, any>)[
+        attributeName
+      ];
+    }
+
+    let targetAttribute: any = undefined;
+    const edgeTargetDataAttribute = this.getEdgeTargetDataAttribute(edge);
+    if (edgeTargetDataAttribute && attributeName in edgeTargetDataAttribute) {
+      targetAttribute = (edgeTargetDataAttribute as Record<string, any>)[
+        attributeName
+      ];
+    }
+
+    return [sourceAttribute, targetAttribute];
+  }
+
+  combineEdgeCallbacks(
+    callbacks: (((edge: Edge) => any) | undefined)[]
+  ): (edge: Edge) => any {
+    if (callbacks.length === 1) return callbacks[0] ?? ((edge: Edge) => {});
+    return callbacks.reduce(
+      (accumulated: (edge: Edge) => any, callback) => {
+        if (callback === undefined) return accumulated;
+        return (edge: Edge) => {
+          accumulated(edge);
+          return callback(edge);
+        };
+      },
+      (edge: Edge) => {}
+    );
+  }
+
+  static nodeHasNonIdData(node: NodeDefinition): boolean {
+    return Object.keys(node.data).some((key) => node.data[key].type !== 'id');
   }
 
   getCustomNodeConfig(type: string): NodeDefinition | undefined {
