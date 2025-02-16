@@ -12,13 +12,13 @@ export class Perceptron {
   constructor(
     weights: number[],
     activationFunction: ActivationFunction,
-    operatorNodeId: Node | undefined = undefined,
+    operatorNode: Node | undefined = undefined,
     inputNodes: Node[] | undefined = undefined,
     signNode: Node | undefined = undefined
   ) {
     this.weights = weights;
     this.activationFunction = activationFunction;
-    this.operatorNode = operatorNodeId;
+    this.operatorNode = operatorNode;
     this.inputNodes = inputNodes;
     this.signNode = signNode;
 
@@ -89,5 +89,18 @@ export class Perceptron {
       (sum, weight, index) => sum + weight * inputs[index],
       0
     );
+  }
+
+  getInputWeight(sourceNodeId: string): number | null {
+    if (!this.inputNodes) {
+      return null;
+    }
+    const inputIndex = this.inputNodes.findIndex(
+      (node) => node.id === sourceNodeId
+    );
+    if (inputIndex === -1) {
+      return null;
+    }
+    return this.weights[inputIndex];
   }
 }
