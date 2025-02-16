@@ -2,6 +2,15 @@ import type { Edge } from '@vue-flow/core';
 import { FlowOrientation, NodeDisplay } from '~/types/blocks.types';
 import type { NodeGroupDefinition, EdgeColors } from '~/types/blocks.types';
 
+function getPerceptronInputEdgeDisplayText(edge: Edge): string {
+  const perceptronTrainingStore = usePerceptronTrainingStore();
+  const inputWeight = perceptronTrainingStore.getInputWeight(edge);
+  if (inputWeight === null) {
+    return '?';
+  }
+  return inputWeight.toFixed(2).replace('/^0/', '');
+}
+
 export const perceptronBlocks: NodeGroupDefinition[] = [
   {
     name: 'Perceptron',
@@ -32,12 +41,7 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                   min: 1,
                   max: 1,
                 },
-                edgeDisplayText: (edge: Edge): string => {
-                  const perceptronTrainingStore = usePerceptronTrainingStore();
-                  return String(
-                    perceptronTrainingStore.getInputWeight(edge) ?? '?'
-                  );
-                },
+                edgeDisplayText: getPerceptronInputEdgeDisplayText,
               },
             },
           },
@@ -60,12 +64,7 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                   min: 1,
                   max: 1,
                 },
-                edgeDisplayText: (edge: Edge): string => {
-                  const perceptronTrainingStore = usePerceptronTrainingStore();
-                  return String(
-                    perceptronTrainingStore.getInputWeight(edge) ?? '?'
-                  );
-                },
+                edgeDisplayText: getPerceptronInputEdgeDisplayText,
               },
             },
           },
