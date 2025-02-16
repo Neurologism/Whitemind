@@ -42,6 +42,7 @@ export const useTrainingStore = defineStore('trainingStore', {
       },
     },
   }),
+  getters: {},
   actions: {
     async startTraining(projectId: string) {
       const sessionStore = useSessionStore();
