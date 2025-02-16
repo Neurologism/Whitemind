@@ -8,7 +8,13 @@ function getPerceptronInputEdgeDisplayText(edge: Edge): string {
   if (inputWeight === null) {
     return '?';
   }
-  return inputWeight.toFixed(2).replace('0.', '.');
+  if (Math.abs(inputWeight) < 1) {
+    return inputWeight.toFixed(2).replace('0.', '.');
+  } else if (Math.abs(Math.floor(inputWeight)) < 10) {
+    return inputWeight.toFixed(1);
+  } else {
+    return String(Math.floor(inputWeight));
+  }
 }
 
 export const perceptronBlocks: NodeGroupDefinition[] = [
@@ -50,6 +56,7 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                   const perceptronTrainingStore = usePerceptronTrainingStore();
                   perceptronTrainingStore.onDisconnectedInput(edge);
                 },
+                allowModifyDisplayText: true,
               },
             },
           },
@@ -80,6 +87,10 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                 onDisconnected: (edge: Edge) => {
                   const perceptronTrainingStore = usePerceptronTrainingStore();
                   perceptronTrainingStore.onDisconnectedInput(edge);
+                },
+                allowModifyDisplayText: true,
+                setDisplayText: (edge: Edge, text: string) => {
+                  const perceptronTrainingStore = usePerceptronTrainingStore();
                 },
               },
             },
