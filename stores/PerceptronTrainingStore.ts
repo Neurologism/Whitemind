@@ -6,6 +6,7 @@ export const usePerceptronTrainingStore = defineStore(
   'perceptronTrainingStore',
   {
     state: () => ({
+      initialized: false,
       perceptrons: [] as Perceptron[],
     }),
     getters: {},
@@ -19,6 +20,8 @@ export const usePerceptronTrainingStore = defineStore(
             this.perceptrons.push(Perceptron.fromOperator(node.id));
           }
         }
+
+        this.initialized = true;
       },
 
       getOperatorNodePerceptron(
@@ -30,6 +33,9 @@ export const usePerceptronTrainingStore = defineStore(
       },
 
       getInputWeight(edge: Edge): number | null {
+        if (!this.initialized) {
+          this.initializePerceptrons();
+        }
         const perceptron = this.getOperatorNodePerceptron(edge.target);
         if (!perceptron) {
           return null;
