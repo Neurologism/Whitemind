@@ -8,7 +8,7 @@ function getPerceptronInputEdgeDisplayText(edge: Edge): string {
   if (inputWeight === null) {
     return '?';
   }
-  return inputWeight.toFixed(2).replace('/^0/', '');
+  return inputWeight.toFixed(2).replace('0.', '.');
 }
 
 export const perceptronBlocks: NodeGroupDefinition[] = [
