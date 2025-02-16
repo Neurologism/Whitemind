@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import {
+  type Node,
   BaseEdge,
   EdgeLabelRenderer,
   getSmoothStepPath,
@@ -55,10 +56,76 @@ const props = defineProps({
 });
 
 const edge = computed(() => vueFlowStore.getEdge(props.id)!);
-
-const edgeDisplayText = computed(() =>
-  projectStore.editorConfig.getEdgeDisplayText(props.id)
+const sourceNode = computed(
+  (): Node => vueFlowStore.getNode(edge.value.source)!
 );
+const targetNode = computed(
+  (): Node => vueFlowStore.getNode(edge.value.target)!
+);
+const sourceNodeDefinition = computed(() =>
+  projectStore.editorConfig.getCustomNodeConfig(sourceNode.value.type ?? '')
+);
+const targetNodeDefinition = computed(() =>
+  projectStore.editorConfig.getCustomNodeConfig(targetNode.value.type ?? '')
+);
+const sourceDataAttribute = computed(() => {
+  const sourceDataAttribute =
+    sourceNodeDefinition.value?.data[
+      edge.value.sourceHandle?.split('-')[1] ?? ''
+    ];
+  if (sourceDataAttribute?.type === 'id') {
+    return sourceDataAttribute;
+  } else {
+    return undefined;
+  }
+});
+const targetDataAttribute = computed(() => {
+  const targetDataAttribute =
+    targetNodeDefinition.value?.data[
+      edge.value.targetHandle?.split('-')[1] ?? ''
+    ];
+  if (targetDataAttribute?.type === 'id') {
+    return targetDataAttribute;
+  } else {
+    return undefined;
+  }
+});
+const allowModifyDisplayText = computed((): boolean => {
+  const sourceVal = Boolean(sourceDataAttribute.value?.allowModifyDisplayText);
+  const targetVal = Boolean(targetDataAttribute.value?.allowModifyDisplayText);
+  if (sourceVal && targetVal) {
+    throw new Error(
+      `Both source and target data attributes cannot have allowModifyDisplayText set to true. \nnode types are ${sourceNode.value.type} and ${targetNode.value.type}`
+    );
+  } else {
+    return sourceVal !== targetVal;
+  }
+});
+const displayTextInputRef = ref<HTMLInputElement | null>(null);
+
+const edgeDisplayText = computed({
+  get: (): string => {
+    return projectStore.editorConfig.getEdgeDisplayText(props.id);
+  },
+  set: (value: string) => {
+    let setDisplayText: Function | undefined;
+    if (sourceDataAttribute.value?.allowModifyDisplayText) {
+      setDisplayText = sourceDataAttribute.value.setDisplayText;
+    } else if (targetDataAttribute.value?.allowModifyDisplayText) {
+      setDisplayText = targetDataAttribute.value.setDisplayText;
+    } else {
+      throw new Error(
+        `Both source and target data attributes cannot have allowModifyDisplayText set to true. \nnode types are ${sourceNode.value.type} and ${targetNode.value.type}`
+      );
+    }
+    if (!setDisplayText) {
+      throw new Error(
+        `setDisplayText function is not defined even though allowModifyDisplayText is set to true. \nnode types are ${sourceNode.value.type} and ${targetNode.value.type}`
+      );
+    }
+    setDisplayText(value);
+  },
+});
 
 // random offset between 15 and 35 based on string hash
 const offset = Math.abs(
@@ -140,10 +207,22 @@ export default {
         position: 'absolute',
         transform: `translate(-50%, -50%) translate(${path[1] + horizontalOffset}px,${path[2] + verticalOffset}px)`,
       }"
-      class="p-1 rounded-full text-center flex justify-center items-center text-text-2 text-sm pointer-events-none shadow-2xl"
-      :class="{ hidden: isHovered }"
+      class="rounded-full text-center flex justify-center items-center text-text-2 text-sm z-10"
+      :class="{
+        hidden: isHovered,
+        'pointer-events-auto ': allowModifyDisplayText,
+        'cursor-text': allowModifyDisplayText,
+      }"
+      @mousedown.stop
     >
-      {{ edgeDisplayText }}
+      <input
+        v-if="allowModifyDisplayText"
+        v-model="edgeDisplayText"
+        class="w-6 bg-transparent focus:bg-bg-2 border-none focus:text-text-1"
+        variant="none"
+        ref="displayTextInputRef"
+      />
+      <span v-else> {{ edgeDisplayText }} </span>
     </div>
   </EdgeLabelRenderer>
 </template>
