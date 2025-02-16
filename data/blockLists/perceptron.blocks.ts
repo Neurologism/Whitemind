@@ -32,8 +32,11 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                   min: 1,
                   max: 1,
                 },
-                edgeDisplayText: (edge: Edge) => {
-                  return '42';
+                edgeDisplayText: (edge: Edge): string => {
+                  const perceptronTrainingStore = usePerceptronTrainingStore();
+                  return String(
+                    perceptronTrainingStore.getInputWeight(edge) ?? '?'
+                  );
                 },
               },
             },
@@ -56,6 +59,12 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                   allowedCategories: ['perceptron_input'],
                   min: 1,
                   max: 1,
+                },
+                edgeDisplayText: (edge: Edge): string => {
+                  const perceptronTrainingStore = usePerceptronTrainingStore();
+                  return String(
+                    perceptronTrainingStore.getInputWeight(edge) ?? '?'
+                  );
                 },
               },
             },
