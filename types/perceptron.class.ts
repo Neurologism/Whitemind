@@ -103,4 +103,32 @@ export class Perceptron {
     }
     return this.weights[inputIndex];
   }
+
+  addInput(node: Node): void {
+    if (this.inputNodes === undefined && this.weights.length === 0) {
+      this.inputNodes = [];
+    } else if (this.inputNodes?.length !== this.weights.length) {
+      throw new Error('Input ids length is different from weights length.');
+    }
+    this.inputNodes.push(node);
+    this.weights.push(1);
+  }
+
+  removeInput(nodeId: string): void {
+    if (this.inputNodes === undefined) {
+      throw new Error(
+        'You tried to remove an input from a perceptron that has no input nodes defined.'
+      );
+    }
+    const inputIndex = this.inputNodes.findIndex(
+      (inputNode) => inputNode.id === nodeId
+    );
+    if (inputIndex === -1) {
+      throw new Error(
+        'The input node you are trying to remove was not found in this perceptron.'
+      );
+    }
+    this.inputNodes.splice(inputIndex, 1);
+    this.weights.splice(inputIndex, 1);
+  }
 }
