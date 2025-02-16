@@ -42,6 +42,14 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                   max: 1,
                 },
                 edgeDisplayText: getPerceptronInputEdgeDisplayText,
+                onConnected: (edge: Edge) => {
+                  const perceptronTrainingStore = usePerceptronTrainingStore();
+                  perceptronTrainingStore.onConnectedInput(edge);
+                },
+                onDisconnected: (edge: Edge) => {
+                  const perceptronTrainingStore = usePerceptronTrainingStore();
+                  perceptronTrainingStore.onDisconnectedInput(edge);
+                },
               },
             },
           },
@@ -65,6 +73,14 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                   max: 1,
                 },
                 edgeDisplayText: getPerceptronInputEdgeDisplayText,
+                onConnected: (edge: Edge) => {
+                  const perceptronTrainingStore = usePerceptronTrainingStore();
+                  perceptronTrainingStore.onConnectedInput(edge);
+                },
+                onDisconnected: (edge: Edge) => {
+                  const perceptronTrainingStore = usePerceptronTrainingStore();
+                  perceptronTrainingStore.onDisconnectedInput(edge);
+                },
               },
             },
           },
