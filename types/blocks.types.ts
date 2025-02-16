@@ -45,64 +45,64 @@ export type NodeDefinition = {
   hideOutput?: boolean;
   inputConstraints?: NodeConnectionConstraint;
   outputConstraints?: NodeConnectionConstraint;
-  data: Record<
-    string,
-    | {
-        type: 'id';
-        flowOrientation: FlowOrientation;
-        invertPosition?: boolean;
-        constraints?: NodeConnectionConstraint;
-        required?: boolean;
-        rules?: any[];
-        edgeDisplayText?: (edgeId: Edge) => string;
-      }
-    | {
-        type: 'select';
-        options: string[];
-        value?: string | null;
-      }
-    | {
-        type: 'float';
-        value?: number | null;
-        min?: number;
-        max?: number;
-        step?: number;
-      }
-    | {
-        type: 'int';
-        value?: number | null;
-        min?: number;
-        max?: number;
-        step?: number;
-      }
-    | {
-        type: 'boolean';
-        value?: boolean | null;
-        inline: boolean | undefined;
-      }
-    | {
-        type: 'tuple';
-        itemType: 'number' | 'string';
-        value?: string[] | null;
-      }
-    | {
-        type: 'multiselect';
-        options: string[];
-        value?: string[] | null;
-      }
-    | {
-        type: 'string';
-        value?: string | null;
-      }
-    | {
-        type: 'range';
-        min: number;
-        max: number;
-        step: number;
-        value?: number | null;
-        inline: boolean | undefined;
-      }
-  >;
+  data: Record<string, NodeDefinitionDataEntry>;
 };
+
+export type NodeDefinitionDataEntry =
+  | {
+      type: 'id';
+      flowOrientation: FlowOrientation;
+      invertPosition?: boolean;
+      constraints?: NodeConnectionConstraint;
+      required?: boolean;
+      rules?: any[];
+      edgeDisplayText?: (edgeId: Edge) => string;
+    }
+  | {
+      type: 'select';
+      options: string[];
+      value?: string | null;
+    }
+  | {
+      type: 'float';
+      value?: number | null;
+      min?: number;
+      max?: number;
+      step?: number;
+    }
+  | {
+      type: 'int';
+      value?: number | null;
+      min?: number;
+      max?: number;
+      step?: number;
+    }
+  | {
+      type: 'boolean';
+      value?: boolean | null;
+      inline: boolean | undefined;
+    }
+  | {
+      type: 'tuple';
+      itemType: 'number' | 'string';
+      value?: string[] | null;
+    }
+  | {
+      type: 'multiselect';
+      options: string[];
+      value?: string[] | null;
+    }
+  | {
+      type: 'string';
+      value?: string | null;
+    }
+  | {
+      type: 'range';
+      min: number;
+      max: number;
+      step: number;
+      value?: number | null;
+      inline: boolean | undefined;
+    };
 
 export type EdgeColors = Record<string, string>;

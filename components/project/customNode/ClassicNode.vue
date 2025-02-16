@@ -156,15 +156,15 @@ function clickIcons() {
             v-if="shapeDefinition.type === 'id'"
             class="mt-0.5 mb-0.5 p-0.5"
             :class="{
-              'ml-3 rounded-l-sm pr-0': shapeData.data[key].invertPosition
-                ? !(shapeData.data[key].flowOrientation === 'output')
-                : shapeData.data[key].flowOrientation === 'output',
-              'mr-3 rounded-r-sm pl-0': shapeData.data[key].invertPosition
-                ? !(shapeData.data[key].flowOrientation === 'input')
-                : shapeData.data[key].flowOrientation === 'input',
-              'justify-end flex': shapeData.data[key].invertPosition
-                ? !(shapeData.data[key].flowOrientation === 'output')
-                : shapeData.data[key].flowOrientation === 'output',
+              'ml-3 rounded-l-sm pr-0': shapeDefinition.invertPosition
+                ? !(shapeDefinition.flowOrientation === 'output')
+                : shapeDefinition.flowOrientation === 'output',
+              'mr-3 rounded-r-sm pl-0': shapeDefinition.invertPosition
+                ? !(shapeDefinition.flowOrientation === 'input')
+                : shapeDefinition.flowOrientation === 'input',
+              'justify-end flex': shapeDefinition.invertPosition
+                ? !(shapeDefinition.flowOrientation === 'output')
+                : shapeDefinition.flowOrientation === 'output',
             }"
           >
             <div class="font-mono text-sm relative">
@@ -175,12 +175,12 @@ function clickIcons() {
                 :constraints="shapeDefinition.constraints"
                 :handle-id="`val-${key}-${props.nodeId}`"
                 :key="`${key}-${props.nodeId}`"
-                :is-input="shapeData.data[key].flowOrientation! === 'input'"
+                :is-input="shapeDefinition.flowOrientation! === 'input'"
                 :position="
                   (
-                    shapeData.data[key].invertPosition
-                      ? !(shapeData.data[key].flowOrientation === 'input')
-                      : shapeData.data[key].flowOrientation === 'input'
+                    shapeDefinition.invertPosition
+                      ? !(shapeDefinition.flowOrientation === 'input')
+                      : shapeDefinition.flowOrientation === 'input'
                   )
                     ? Position.Left
                     : Position.Right

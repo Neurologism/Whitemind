@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import NodeStringEditor from '~/components/project/customNode/typeEditors/editors/NodeStringEditor.vue';
-
 import NodeBoolEditor from '~/components/project/customNode/typeEditors/editors/NodeBoolEditor.vue';
 import NodeSelectEditor from '~/components/project/customNode/typeEditors/editors/NodeSelectEditor.vue';
 import NodeTupleEditor from '~/components/project/customNode/typeEditors/editors/NodeTupleEditor.vue';
 import NodeMultiselectEditor from '~/components/project/customNode/typeEditors/editors/NodeMultiselectEditor.vue';
-import type { NodeDefinition } from '~/types/blocks.types';
+import type { NodeDefinitionDataEntry } from '~/types/blocks.types';
 import { useNodesData } from '@vue-flow/core';
 import NodeRangeEditor from '~/components/project/customNode/typeEditors/editors/NodeRangeEditor.vue';
 import NodeIntEditor from '~/components/project/customNode/typeEditors/editors/NodeIntEditor.vue';
@@ -13,13 +12,13 @@ import NodeFloatEditor from '~/components/project/customNode/typeEditors/editors
 
 const props = defineProps<{
   paramName: string;
-  shapeDefinition: NodeDefinition;
+  shapeDefinition: NodeDefinitionDataEntry;
   nodeId: string;
 }>();
 
 const nodesData = useNodesData(props.nodeId)!;
 
-const editors = {
+const nodeDataEditors = {
   string: NodeStringEditor,
   boolean: NodeBoolEditor,
   select: NodeSelectEditor,
@@ -28,7 +27,7 @@ const editors = {
   tuple: NodeTupleEditor,
   multiselect: NodeMultiselectEditor,
   range: NodeRangeEditor,
-};
+} as Record<string, Component>;
 
 function deepEqual(a: any, b: any) {
   return JSON.stringify(a) === JSON.stringify(b);
@@ -40,7 +39,7 @@ const actionRequired = computed(() => {
   return required && nodesData.value?.data[props.paramName] === undefined;
 });
 
-if (editors[props.shapeDefinition.type] === undefined) {
+if (nodeDataEditors[props.shapeDefinition.type] === undefined) {
   console.warn(
     `No editor found for type "${props.shapeDefinition.type}" in NodeValueEditor`
   );
@@ -49,7 +48,11 @@ if (editors[props.shapeDefinition.type] === undefined) {
 
 <template>
   <div
-    v-if="!(shapeDefinition.inline ?? false)"
+    v-if="
+      !('inline' in props.shapeDefinition
+        ? props.shapeDefinition.inline
+        : false)
+    "
     class="pr-1 pl-1 grid grid-cols-1 text-sky-100"
   >
     <div class="flex flex-row flex-nowrap">
@@ -68,7 +71,7 @@ if (editors[props.shapeDefinition.type] === undefined) {
             <br />
             <span class="text-sky-100 text-xs font-mono font-thin">
               <span class="font-semibold">default: </span>
-              {{ shapeDefinition.value }}
+              {{ props.shapeDefinition }}
             </span>
           </template>
         </UTooltip>
@@ -76,7 +79,7 @@ if (editors[props.shapeDefinition.type] === undefined) {
       <div class="flex-none m-1"></div>
       <div class="flex-1 ml-2">
         <component
-          :is="editors[shapeDefinition.type]"
+          :is="nodeDataEditors[shapeDefinition.type]"
           :key="`${paramName}-${nodeId}`"
           :nodeId="nodeId"
           :paramName="paramName"
@@ -86,12 +89,12 @@ if (editors[props.shapeDefinition.type] === undefined) {
       <div
         v-if="
           !deepEqual(
-            shapeDefinition.value,
+            props.shapeDefinition,
             nodesData?.data[paramName] ?? undefined
           )
         "
         class="flex-none p-1 ml-1 z-10 flex items-center justify-center cursor-pointer"
-        @click="nodesData!.data[paramName] = shapeDefinition.value"
+        @click="nodesData!.data[paramName] = shapeDefinition"
       >
         <UIcon name="mdi-reload" />
       </div>
@@ -101,7 +104,7 @@ if (editors[props.shapeDefinition.type] === undefined) {
     <div class="flex flex-row flex-nowrap">
       <div class="flex-1 ml-1 mr-1 mt-0.5 mb-0.5">
         <component
-          :is="editors[shapeDefinition.type]"
+          :is="nodeDataEditors[shapeDefinition.type]"
           :key="`${paramName}-${nodeId}`"
           :nodeId="nodeId"
           :paramName="paramName"
@@ -110,13 +113,10 @@ if (editors[props.shapeDefinition.type] === undefined) {
       </div>
       <div
         v-if="
-          !deepEqual(
-            shapeDefinition.value,
-            nodesData?.data[paramName] ?? undefined
-          )
+          !deepEqual(shapeDefinition, nodesData?.data[paramName] ?? undefined)
         "
         class="flex-none p-1 ml-1 z-10 flex items-center justify-center cursor-pointer"
-        @click="nodesData!.data[paramName] = shapeDefinition.value"
+        @click="nodesData!.data[paramName] = shapeDefinition"
       >
         <UIcon name="mdi-reload" />
       </div>

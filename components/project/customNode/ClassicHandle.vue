@@ -63,8 +63,8 @@ function checkConnection(
     return false;
   }
 
-  let sourceConstraints: NodeConnectionConstraint | undefined;
-  let sourceDirection: FlowOrientation | undefined;
+  let sourceConstraints: NodeConnectionConstraint | undefined = undefined;
+  let sourceDirection: FlowOrientation | undefined = undefined;
   let targetConstraints: NodeConnectionConstraint | undefined;
   let targetDirection: FlowOrientation | undefined;
   if (connection.sourceHandle!.startsWith('out')) {
@@ -75,9 +75,17 @@ function checkConnection(
     sourceDirection = FlowOrientation.INPUT;
   } else if (connection.sourceHandle!.startsWith('val')) {
     let key = connection.sourceHandle!.split('-')[1];
-    sourceConstraints = sourceNodeDefinition.data[key].constraints;
-    sourceDirection = sourceNodeDefinition.data[key].flowOrientation;
+    if (
+      'constraints' in sourceNodeDefinition.data[key] &&
+      'flowOrientation' in sourceNodeDefinition.data[key]
+    ) {
+      sourceConstraints = sourceNodeDefinition.data[key].constraints;
+      sourceDirection = sourceNodeDefinition.data[key].flowOrientation;
+    }
+  } else {
+    throw new Error('Invalid handle type');
   }
+
   if (connection.targetHandle!.startsWith('in')) {
     targetConstraints = targetNodeDefinition.inputConstraints;
     targetDirection = FlowOrientation.INPUT;
@@ -85,14 +93,24 @@ function checkConnection(
     targetConstraints = targetNodeDefinition.outputConstraints;
     targetDirection = FlowOrientation.OUTPUT;
   } else if (connection.targetHandle!.startsWith('val')) {
-    let key = connection.targetHandle!.split('-')[1];
-    targetConstraints = targetNodeDefinition.data[key].constraints;
-    targetDirection = targetNodeDefinition.data[key].flowOrientation;
-  }
-  if (sourceDirection !== undefined && targetDirection !== undefined) {
-    if (sourceDirection === targetDirection) {
-      return false;
+    const key = connection.targetHandle!.split('-')[1];
+    if (
+      'constraints' in targetNodeDefinition.data[key] &&
+      'flowOrientation' in targetNodeDefinition.data[key]
+    ) {
+      targetConstraints = targetNodeDefinition.data[key].constraints;
+      targetDirection = targetNodeDefinition.data[key].flowOrientation;
     }
+  } else {
+    throw new Error('Invalid handle type');
+  }
+
+  if (
+    sourceDirection !== undefined &&
+    targetDirection !== undefined &&
+    sourceDirection === targetDirection
+  ) {
+    return false;
   }
 
   // Check if the connection is allowed by the constraints
@@ -100,15 +118,16 @@ function checkConnection(
     sourceConstraints?.allowedCategories &&
     targetConstraints?.allowedCategories
   ) {
-    let result = sourceConstraints.allowedCategories.some((category) =>
+    const result = sourceConstraints.allowedCategories.some((category) =>
       targetConstraints.allowedCategories!.includes(category)
     );
     if (!result) {
       return false;
     }
   }
+
   if (sourceConstraints?.min || sourceConstraints?.max) {
-    let newSourceConnectionCount =
+    const newSourceConnectionCount =
       getHandleConnectionCount(connection.sourceHandle!) + 1;
     if (
       !(
@@ -119,8 +138,9 @@ function checkConnection(
       return false;
     }
   }
+
   if (targetConstraints?.min || targetConstraints?.max) {
-    let newTargetConnectionCount =
+    const newTargetConnectionCount =
       getHandleConnectionCount(connection.targetHandle!) + 1;
     if (
       !(
