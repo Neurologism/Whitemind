@@ -7,7 +7,7 @@ import {
   Position,
   getBezierPath,
 } from '@vue-flow/core';
-import { type Edge } from '~/types/edge.types';
+import { type Edge } from '~/types/edge.type';
 
 const vueFlowStore = useVueFlowStore();
 const sessionStore = useSessionStore();

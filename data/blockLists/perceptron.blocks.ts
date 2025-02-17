@@ -1,4 +1,4 @@
-import { type Edge } from '~/types/edge.types';
+import { type Edge } from '~/types/edge.type';
 import { FlowOrientation, NodeDisplay } from '~/types/blocks.types';
 import type { NodeGroupDefinition, EdgeColors } from '~/types/blocks.types';
 

@@ -1,4 +1,4 @@
-import { type Edge } from '~/types/edge.types';
+import { type Edge } from '~/types/edge.type';
 import { defineStore } from 'pinia';
 import { Perceptron } from '~/types/perceptron.class';
 

@@ -5,7 +5,7 @@ import type {
   NodeDefinitionDataEntry,
 } from '~/types/blocks.types';
 import type { Node, XYPosition } from '@vue-flow/core';
-import { type Edge } from './edge.types';
+import { type Edge } from './edge.type';
 import { useVueFlowStore } from '~/stores/VueFlowStore';
 import Fuse from 'fuse.js';
 
