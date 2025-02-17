@@ -1,5 +1,4 @@
-import type { Edge } from '@vue-flow/core';
-import { on } from 'events';
+import { type Edge } from '~/types/edge.types';
 import { defineStore } from 'pinia';
 import { Perceptron } from '~/types/perceptron.class';
 

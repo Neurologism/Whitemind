@@ -6,8 +6,8 @@ import {
   getSmoothStepPath,
   Position,
   getBezierPath,
-  type Edge,
 } from '@vue-flow/core';
+import { type Edge } from '~/types/edge.types';
 
 const vueFlowStore = useVueFlowStore();
 const sessionStore = useSessionStore();

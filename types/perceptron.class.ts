@@ -1,4 +1,5 @@
-import type { Edge, Node } from '@vue-flow/core';
+import type { Node } from '@vue-flow/core';
+import { type Edge } from './edge.types';
 import type { ActivationFunction } from '~/types/activationFunction.type';
 import { activationFunctionNodes } from '~/data/activationFunctionNodes';
 

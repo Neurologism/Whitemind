@@ -1,4 +1,4 @@
-import type { Edge } from '@vue-flow/core';
+import { type Edge } from '~/types/edge.types';
 import { FlowOrientation, NodeDisplay } from '~/types/blocks.types';
 import type { NodeGroupDefinition, EdgeColors } from '~/types/blocks.types';
 

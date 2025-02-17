@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { Position, useNodesData } from '@vue-flow/core';
-import NodeValueEditor from '~/components/project/customNode/typeEditors/NodeValueEditor.vue';
-import LineChart from '~/components/project/charts/LineChart.vue';
 import '@vue-flow/node-resizer/dist/style.css';
 import ClassicHandle from '~/components/project/customNode/ClassicHandle.vue';
 
