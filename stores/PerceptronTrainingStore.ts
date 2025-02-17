@@ -1,23 +1,54 @@
 import { type Edge } from '~/types/edge.type';
 import { defineStore } from 'pinia';
 import { Perceptron } from '~/types/perceptron.class';
+import { instanceToPlain, plainToInstance } from 'class-transformer';
+
+interface PerceptronTrainingStoreData {
+  perceptrons: Perceptron[];
+}
+
+interface PerceptronTrainingStoreExport {
+  perceptrons: Record<string, any>[];
+}
 
 export const usePerceptronTrainingStore = defineStore(
   'perceptronTrainingStore',
   {
     state: () => ({
       initialized: false,
-      perceptrons: [] as Perceptron[],
+      data: {
+        perceptrons: [],
+      } as PerceptronTrainingStoreData,
     }),
     getters: {},
     actions: {
+      export(): PerceptronTrainingStoreExport {
+        if (!this.initialized) {
+          throw new Error(
+            "Trying to export perceptronTrainingStore even though perceptrons aren't initialized yet. "
+          );
+        }
+        const perceptrons = this.data.perceptrons.map(
+          (perceptron: Perceptron) => instanceToPlain(perceptron)
+        );
+        return { perceptrons };
+      },
+
+      import(state: PerceptronTrainingStoreExport): void {
+        this.data.perceptrons = state.perceptrons.map(
+          (perceptron: Record<string, any>) =>
+            plainToInstance(Perceptron, perceptron)
+        );
+        this.initialized = true;
+      },
+
       initializePerceptrons() {
         const vueFlowStore = useVueFlowStore();
 
-        this.perceptrons = [];
+        this.data.perceptrons = [];
         for (const node of vueFlowStore.nodes) {
           if (node.type === 'operator_add') {
-            this.perceptrons.push(Perceptron.fromOperator(node.id));
+            this.data.perceptrons.push(Perceptron.fromOperator(node.id));
           }
         }
 
@@ -27,7 +58,7 @@ export const usePerceptronTrainingStore = defineStore(
       getOperatorNodePerceptron(
         operatorNodeId: string
       ): Perceptron | undefined {
-        return this.perceptrons.find(
+        return this.data.perceptrons.find(
           (perceptron) => perceptron.operatorNode?.id === operatorNodeId
         );
       },

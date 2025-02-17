@@ -59,6 +59,9 @@ importers:
       axios:
         specifier: ^1.7.9
         version: 1.7.9
+      class-transformer:
+        specifier: ^0.5.1
+        version: 0.5.1
       echarts:
         specifier: ^5.6.0
         version: 5.6.0
@@ -1516,6 +1519,9 @@ packages:
 
   citty@0.1.6:
     resolution: {integrity: sha512-tskPPKEs8D2KPafUypv2gxwJP8h/OaJmC82QQGGDQcHvXX43xF2VDACcJVmZ0EuSxkpO9Kc4MlrA3q0+FG58AQ==}
+
+  class-transformer@0.5.1:
+    resolution: {integrity: sha512-SQa1Ws6hUbfC98vKGxZH3KFY0Y1lm5Zm0SY8XX9zbK7FJCyVEac3ATW0RIpwzW+oOfmHE5PMPufDG9hCfoEOMw==}
 
   clipboardy@4.0.0:
     resolution: {integrity: sha512-5mOlNS0mhX0707P2I0aZ2V/cmHUEO/fL7VFLqszkhUsxt7RwnmrInf/eEQKlf5GzvYeHIjT+Ov1HRfNmymlG0w==}
@@ -5974,6 +5980,8 @@ snapshots:
   citty@0.1.6:
     dependencies:
       consola: 3.4.0
+
+  class-transformer@0.5.1: {}
 
   clipboardy@4.0.0:
     dependencies:

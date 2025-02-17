@@ -32,6 +32,7 @@
     "@vueuse/core": "^12.7.0",
     "animate.css": "^4.1.1",
     "axios": "^1.7.9",
+    "class-transformer": "^0.5.1",
     "echarts": "^5.6.0",
     "fuse.js": "^7.1.0",
     "gsap": "^3.12.7",
@@ -43,7 +44,6 @@
     "vue-router": "latest",
     "zod": "^3.24.2"
   },
-  "packageManager": "pnpm@9.10.0+sha512.73a29afa36a0d092ece5271de5177ecbf8318d454ecd701343131b8ebc0c1a91c487da46ab77c8e596d6acf1461e3594ced4becedf8921b074fbd8653ed7051c",
   "devDependencies": {
     "@iconify-json/fluent": "^1.2.14",
     "@iconify-json/heroicons": "^1.2.2",
@@ -57,5 +57,6 @@
     "nuxi": "^3.21.1",
     "postcss": "^8.5.2",
     "tailwindcss": "^3.4.17"
-  }
+  },
+  "packageManager": "pnpm@9.10.0+sha512.73a29afa36a0d092ece5271de5177ecbf8318d454ecd701343131b8ebc0c1a91c487da46ab77c8e596d6acf1461e3594ced4becedf8921b074fbd8653ed7051c"
 }
