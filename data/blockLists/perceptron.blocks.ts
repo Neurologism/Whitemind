@@ -122,6 +122,10 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
             identifier: 'perceptron_operator_add',
             hideInput: true,
             hideOutput: true,
+            onNodeCreation: (node: Node) => {
+              const perceptronTrainingStore = usePerceptronTrainingStore();
+              perceptronTrainingStore.onOperatorNodeCreation(node);
+            },
             data: {
               summand: {
                 type: 'id',

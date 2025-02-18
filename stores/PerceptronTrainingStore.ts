@@ -1,4 +1,5 @@
 import { type Edge } from '~/types/edge.type';
+import { type Node } from '@vue-flow/core';
 import { defineStore } from 'pinia';
 import { Perceptron } from '~/types/perceptron.class';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
@@ -84,6 +85,11 @@ export const usePerceptronTrainingStore = defineStore(
           return null;
         }
         return perceptron.getInputWeight(edge.source);
+      },
+
+      onOperatorNodeCreation(node: Node) {
+        const perceptron = new Perceptron([], (x) => x, node, [], undefined);
+        this.data.perceptrons.push(perceptron);
       },
 
       onConnectedInput(edge: Edge) {
