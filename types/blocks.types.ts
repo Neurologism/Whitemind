@@ -49,6 +49,7 @@ export type NodeDefinition = {
   data: Record<string, NodeDefinitionDataEntry>;
   dynamicNodeName?: (node: Node) => string;
   onNodeCreation?: (node: Node) => void;
+  onNodeRemoval?: (node: Node) => void;
 };
 
 export type NodeDefinitionDataEntry =

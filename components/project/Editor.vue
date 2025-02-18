@@ -173,27 +173,26 @@ function contextMenuDelete() {
   removeNodes([contextMenuTargetNodeId.value]);
 }
 
-function onNodeRemove(change: any) {
-  console.log('Node removed', change);
+function onNodeRemove(change: { id: string; type: string }) {
+  const nodeId = change.id;
+  const node = vueFlowStore.getNode(nodeId);
+  if (!node) throw new Error('Tried to remove inexistent node. ');
   if (!props.tutorialProject) {
-    applyNodeChanges([change]);
+    vueFlowStore.removeNodes(node);
     return;
   }
-  console.log('Node removed', change);
 
   for (const removeNode of tutorialStore.currentRemoveNodes) {
     if (removeNode.id !== change.id) {
       continue;
     }
 
-    applyNodeChanges([change]);
-    console.log('Removing tutorial node', change);
+    vueFlowStore.removeNodes(node);
     return;
   }
-  console.log('Node removed', change);
 
   if (config.public.tutorialAllowUnlistedNodeDeletion) {
-    applyNodeChanges([change]);
+    vueFlowStore.removeNodes(node);
   } else {
     displayActionForbiddenToast();
   }

@@ -68,6 +68,10 @@ export class EditorConfig {
     return this.getCustomNodeConfig(node.type ?? '')?.onNodeCreation;
   }
 
+  getOnNodeRemovalCallback(node: Node): ((node: Node) => void) | undefined {
+    return this.getCustomNodeConfig(node.type ?? '')?.onNodeRemoval;
+  }
+
   getOnEdgeConnectedCallback(edge: Edge): ((edge: Edge) => void) | undefined {
     const callbacks = this.getDoubleSidedAttributes(edge, 'onConnected') as ((
       edge: Edge
