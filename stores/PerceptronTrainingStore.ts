@@ -22,9 +22,7 @@ export const usePerceptronTrainingStore = defineStore(
     actions: {
       export(): OptionalExports {
         if (!this.initialized) {
-          throw new Error(
-            "Trying to export perceptronTrainingStore even though perceptrons aren't initialized yet. "
-          );
+          this.initializePerceptrons();
         }
         const perceptrons = this.data.perceptrons.map(
           (perceptron: Perceptron) => instanceToPlain(perceptron)
