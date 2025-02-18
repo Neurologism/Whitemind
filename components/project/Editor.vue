@@ -39,7 +39,6 @@ trainingStore.training.mean_absolute_error = null;
 
 const {
   onConnect,
-  addNodes,
   vueFlowRef,
   project,
   toObject,
@@ -95,7 +94,7 @@ function handleDrop(event: DragEvent) {
 
 function addNewNode(newNode: Node) {
   if (!props.tutorialProject) {
-    addNodes([newNode]);
+    vueFlowStore.addNodes([newNode]);
     return;
   }
 
@@ -119,13 +118,13 @@ function addNewNode(newNode: Node) {
       },
     };
 
-    addNodes([newNode]);
+    vueFlowStore.addNodes([newNode]);
     console.log('Adding tutorial node', newNode);
     return;
   }
 
   if (config.public.tutorialAllowUnlistedNodeCreation) {
-    addNodes([newNode]);
+    vueFlowStore.addNodes([newNode]);
   } else {
     displayActionForbiddenToast();
   }

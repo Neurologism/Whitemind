@@ -48,6 +48,7 @@ export type NodeDefinition = {
   outputConstraints?: NodeConnectionConstraint;
   data: Record<string, NodeDefinitionDataEntry>;
   dynamicNodeName?: (node: Node) => string;
+  onNodeCreation?: (node: Node) => void;
 };
 
 export type NodeDefinitionDataEntry =

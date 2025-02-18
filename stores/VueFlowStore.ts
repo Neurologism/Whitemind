@@ -35,6 +35,20 @@ export const useVueFlowStore = defineStore('vueFlowStore', {
       };
     },
 
+    addNodes(nodes: Node[] | Node): void {
+      if (!Array.isArray(nodes)) {
+        nodes = [nodes];
+      }
+      this.nodes = this.nodes.concat(nodes);
+
+      const projectStore = useProjectStore();
+      for (const node of nodes) {
+        const callback =
+          projectStore.editorConfig.getOnNodeCreationCallback(node);
+        if (callback) callback(node);
+      }
+    },
+
     addEdges(edges: Edge[] | Edge): void {
       if (!Array.isArray(edges)) {
         edges = [edges];

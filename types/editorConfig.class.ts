@@ -64,6 +64,10 @@ export class EditorConfig {
     return targetNodeDef.data[targetHandleType];
   }
 
+  getOnNodeCreationCallback(node: Node): ((node: Node) => void) | undefined {
+    return this.getCustomNodeConfig(node.id)?.onNodeCreation;
+  }
+
   getOnEdgeConnectedCallback(edge: Edge): ((edge: Edge) => void) | undefined {
     const callbacks = this.getDoubleSidedAttributes(edge, 'onConnected') as ((
       edge: Edge
