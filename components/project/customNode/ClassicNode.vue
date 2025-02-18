@@ -134,9 +134,14 @@ function clickIcons() {
           "
         />
       </div>
-      <span class="font-semibold">{{
-        shapeData.dynamicNodeName ? shapeData.dynamicNodeName() : shapeData.name
-      }}</span>
+      <span
+        class="font-semibold"
+        v-html="
+          shapeData.dynamicNodeName
+            ? shapeData.dynamicNodeName()
+            : shapeData.name
+        "
+      ></span>
     </div>
     <div class="w-full h-full nodrag nowheel cursor-default">
       <div

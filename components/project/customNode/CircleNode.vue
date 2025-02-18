@@ -87,11 +87,15 @@ function clickIcons() {
         >
           <UIcon :name="shapeGroupData.icon" />
         </div>
-        <span class="font-semibold mr-auto">{{
-          shapeData.dynamicNodeName
-            ? shapeData.dynamicNodeName()
-            : shapeData.name
-        }}</span>
+        <span
+          class="font-semibold mr-auto"
+          v-html="
+            shapeData.dynamicNodeName
+              ? shapeData.dynamicNodeName()
+              : shapeData.name
+          "
+        >
+        </span>
       </div>
     </div>
     <div class="my-auto">
