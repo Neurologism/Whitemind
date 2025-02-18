@@ -41,6 +41,7 @@ export const useProjectStore = defineStore('projectStore', {
       }
       return true;
     },
+
     async fetchModel(modelId: string): Promise<Model | null> {
       const sessionStore = useSessionStore();
       let response = await sessionStore.fetch(`/tasks/${modelId}`, {
@@ -56,6 +57,7 @@ export const useProjectStore = defineStore('projectStore', {
       const data = await response.json();
       return data.task;
     },
+
     async loadProject(projectId: string = ''): Promise<boolean> {
       if (!projectId) {
         if (!this.project) {
@@ -91,6 +93,11 @@ export const useProjectStore = defineStore('projectStore', {
       vueFlowStore.nodes = this.project.data.components.nodes;
       vueFlowStore.edges = this.project.data.components.edges;
       vueFlowStore.viewport = this.project.data.components.viewport;
+
+      this.editorConfig.importFromData(
+        this.editorConfig,
+        this.project.data.components
+      );
 
       this.syncStatus = SyncStatus.synced;
       return true;
