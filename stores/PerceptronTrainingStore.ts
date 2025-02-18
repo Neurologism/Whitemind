@@ -74,6 +74,15 @@ export const usePerceptronTrainingStore = defineStore(
         return -1;
       },
 
+      getInputNodePerceptron(inputNodeId: string): Perceptron | undefined {
+        for (const perceptron of this.data.perceptrons) {
+          if (!perceptron.inputNodes) continue;
+          for (let i = 0; i < perceptron.inputNodes.length; i++) {
+            if (perceptron.inputNodes[i].id === inputNodeId) return perceptron;
+          }
+        }
+      },
+
       getInputWeight(edge: Edge): number | null {
         if (!this.initialized) {
           this.initializePerceptrons();
@@ -95,6 +104,12 @@ export const usePerceptronTrainingStore = defineStore(
           (perceptron) => perceptron.operatorNode?.id !== node.id
         );
         console.log(node);
+      },
+
+      onInputNodeRemoval(node: Node) {
+        const perceptron = this.getInputNodePerceptron(node.id);
+        if (!perceptron) return;
+        perceptron.removeInput(node.id);
       },
 
       onConnectedInput(edge: Edge) {

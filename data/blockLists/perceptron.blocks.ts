@@ -74,6 +74,10 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                 },
               },
             },
+            onNodeRemoval: (node: Node) => {
+              const perceptronTrainingStore = usePerceptronTrainingStore();
+              perceptronTrainingStore.onInputNodeRemoval(node);
+            },
           },
           {
             display: NodeDisplay.Circle,
@@ -111,6 +115,10 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                   perceptronTrainingStore.updateEdgeWeight(edge, weightValue);
                 },
               },
+            },
+            onNodeRemoval: (node: Node) => {
+              const perceptronTrainingStore = usePerceptronTrainingStore();
+              perceptronTrainingStore.onInputNodeRemoval(node);
             },
           },
           {
