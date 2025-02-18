@@ -65,7 +65,7 @@ export class EditorConfig {
   }
 
   getOnNodeCreationCallback(node: Node): ((node: Node) => void) | undefined {
-    return this.getCustomNodeConfig(node.id)?.onNodeCreation;
+    return this.getCustomNodeConfig(node.type ?? '')?.onNodeCreation;
   }
 
   getOnEdgeConnectedCallback(edge: Edge): ((edge: Edge) => void) | undefined {
