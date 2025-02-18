@@ -2,13 +2,10 @@ import { type Edge } from '~/types/edge.type';
 import { defineStore } from 'pinia';
 import { Perceptron } from '~/types/perceptron.class';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
+import type { OptionalExports } from '~/types/components.type';
 
 interface PerceptronTrainingStoreData {
   perceptrons: Perceptron[];
-}
-
-interface PerceptronTrainingStoreExport {
-  perceptrons: Record<string, any>[];
 }
 
 export const usePerceptronTrainingStore = defineStore(
@@ -22,7 +19,7 @@ export const usePerceptronTrainingStore = defineStore(
     }),
     getters: {},
     actions: {
-      export(): PerceptronTrainingStoreExport {
+      export(): OptionalExports {
         if (!this.initialized) {
           throw new Error(
             "Trying to export perceptronTrainingStore even though perceptrons aren't initialized yet. "
@@ -34,7 +31,10 @@ export const usePerceptronTrainingStore = defineStore(
         return { perceptrons };
       },
 
-      import(state: PerceptronTrainingStoreExport): void {
+      import(state: OptionalExports): void {
+        if (!state.perceptrons) {
+          throw new Error('Invalid import object.');
+        }
         this.data.perceptrons = state.perceptrons.map(
           (perceptron: Record<string, any>) =>
             plainToInstance(Perceptron, perceptron)

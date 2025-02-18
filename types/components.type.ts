@@ -12,5 +12,5 @@ export interface Components extends OptionalExports {
 }
 
 export interface OptionalExports {
-  perceptrons?: Record<string, any>;
+  perceptrons?: Record<string, any>[];
 }

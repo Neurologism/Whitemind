@@ -14,6 +14,7 @@ export class EditorConfig {
   nodesList: NodeGroupDefinition[];
   edgeColors: EdgeColors;
   getAdditionalExports: () => OptionalExports;
+  importFromData: (editorConfig: EditorConfig, data: OptionalExports) => void;
   fuse: Fuse<NodeDefinition>;
 
   constructor(
@@ -21,11 +22,16 @@ export class EditorConfig {
     edgeColors: EdgeColors,
     getAdditionalExports: () => OptionalExports = () => {
       return {};
-    }
+    },
+    importFromData: (
+      editorConfig: EditorConfig,
+      data: OptionalExports
+    ) => void = (editorConfig, data) => {}
   ) {
     this.nodesList = nodesList;
     this.edgeColors = edgeColors;
     this.getAdditionalExports = getAdditionalExports;
+    this.importFromData = importFromData;
 
     this.fuse = new Fuse(this.allNodes, {
       keys: ['name', 'description', 'type', 'group_identifier'],
