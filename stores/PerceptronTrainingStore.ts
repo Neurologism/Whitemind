@@ -33,8 +33,10 @@ export const usePerceptronTrainingStore = defineStore(
 
       import(state: OptionalExports): void {
         if (!state.perceptrons) {
-          throw new Error('Invalid import object.');
+          console.error('Invalid import object.');
+          return;
         }
+
         this.data.perceptrons = state.perceptrons.map(
           (perceptron: Record<string, any>) =>
             plainToInstance(Perceptron, perceptron)
