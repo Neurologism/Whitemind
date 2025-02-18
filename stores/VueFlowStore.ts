@@ -53,9 +53,6 @@ export const useVueFlowStore = defineStore('vueFlowStore', {
       if (!Array.isArray(nodes)) {
         nodes = [nodes];
       }
-      this.nodes = this.nodes.filter(
-        (node: Node) => !nodes.some((n) => n.id === node.id)
-      );
 
       const projectStore = useProjectStore();
       for (const node of nodes) {
@@ -63,6 +60,10 @@ export const useVueFlowStore = defineStore('vueFlowStore', {
           projectStore.editorConfig.getOnNodeRemovalCallback(node);
         if (callback) callback(node);
       }
+
+      this.nodes = this.nodes.filter(
+        (node: Node) => !nodes.some((n) => n.id === node.id)
+      );
     },
 
     addEdges(edges: Edge[] | Edge): void {

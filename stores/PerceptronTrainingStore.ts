@@ -92,8 +92,9 @@ export const usePerceptronTrainingStore = defineStore(
 
       onOperatorNodeRemoval(node: Node) {
         this.data.perceptrons = this.data.perceptrons.filter(
-          (perceptron) => perceptron.operatorNode !== node
+          (perceptron) => perceptron.operatorNode?.id !== node.id
         );
+        console.log(node);
       },
 
       onConnectedInput(edge: Edge) {
