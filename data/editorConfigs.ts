@@ -7,5 +7,8 @@ import {
 
 export const editorConfigs = {
   classic: new EditorConfig(classicBlocks, classicEdgeColors),
-  perceptron: new EditorConfig(perceptronBlocks, perceptronEdgeColors),
+  perceptron: new EditorConfig(perceptronBlocks, perceptronEdgeColors, () => {
+    const perceptronTrainingStore = usePerceptronTrainingStore();
+    return perceptronTrainingStore.export();
+  }),
 } as Record<string, EditorConfig>;
