@@ -8,15 +8,25 @@ import type { Node, XYPosition } from '@vue-flow/core';
 import { type Edge } from './edge.type';
 import { useVueFlowStore } from '~/stores/VueFlowStore';
 import Fuse from 'fuse.js';
+import type { OptionalExports } from './components.type';
 
 export class EditorConfig {
   nodesList: NodeGroupDefinition[];
   edgeColors: EdgeColors;
-  fuse;
+  getAdditionalExports: () => OptionalExports;
+  fuse: Fuse<NodeDefinition>;
 
-  constructor(nodesList: NodeGroupDefinition[], edgeColors: EdgeColors) {
+  constructor(
+    nodesList: NodeGroupDefinition[],
+    edgeColors: EdgeColors,
+    getAdditionalExports: () => OptionalExports = () => {
+      return {};
+    }
+  ) {
     this.nodesList = nodesList;
     this.edgeColors = edgeColors;
+    this.getAdditionalExports = getAdditionalExports;
+
     this.fuse = new Fuse(this.allNodes, {
       keys: ['name', 'description', 'type', 'group_identifier'],
     });
