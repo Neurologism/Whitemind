@@ -8,6 +8,7 @@ import {
   getBezierPath,
 } from '@vue-flow/core';
 import { type Edge } from '~/types/edge.type';
+import { SyncStatus } from '~/types/syncStatus.enum';
 
 const vueFlowStore = useVueFlowStore();
 const sessionStore = useSessionStore();
@@ -130,10 +131,16 @@ function onDeselectDisplayTextInput() {
       `setDisplayText function is not defined even though allowModifyDisplayText is set to true. \nnode types are ${sourceNode.value.type} and ${targetNode.value.type}`
     );
   }
-  setDisplayText(edge.value, edgeDisplayText.value);
-  edgeDisplayText.value = projectStore.editorConfig.getEdgeDisplayText(
+  const currentDisplayText = projectStore.editorConfig.getEdgeDisplayText(
     props.id
   );
+  if (currentDisplayText !== edgeDisplayText.value) {
+    setDisplayText(edge.value, edgeDisplayText.value);
+    edgeDisplayText.value = projectStore.editorConfig.getEdgeDisplayText(
+      props.id
+    );
+    projectStore.syncStatus = SyncStatus.unsaved;
+  }
 }
 
 function onSubmitDisplayTextInput() {
