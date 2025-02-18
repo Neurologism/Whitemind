@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import type { Edge, Node } from '@vue-flow/core';
+import type { Node } from '@vue-flow/core';
+import type { Edge } from '~/types/edge.type';
+import type { Components, OptionalExports } from '~/types/components.type';
 
 export const useVueFlowStore = defineStore('vueFlowStore', {
   state: () => ({
@@ -14,7 +16,7 @@ export const useVueFlowStore = defineStore('vueFlowStore', {
     highlightedEdge: ref<string | null>(null),
   }),
   getters: {
-    components(state) {
+    components(state): Components {
       return {
         nodes: state.nodes,
         edges: state.edges,
@@ -23,6 +25,16 @@ export const useVueFlowStore = defineStore('vueFlowStore', {
     },
   },
   actions: {
+    export(): Components {
+      const projectStore = useProjectStore();
+      const additionalExports: OptionalExports =
+        projectStore.editorConfig.getAdditionalExports();
+      return {
+        ...this.components,
+        ...additionalExports,
+      };
+    },
+
     addEdges(edges: Edge[] | Edge): void {
       if (!Array.isArray(edges)) {
         edges = [edges];

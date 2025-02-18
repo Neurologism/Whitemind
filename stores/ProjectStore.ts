@@ -83,6 +83,7 @@ export const useProjectStore = defineStore('projectStore', {
         this.project.data.components = {
           nodes: [],
           edges: [],
+          viewport: { x: 0.1, y: 0.1, zoom: 1.1 },
         };
       }
 
@@ -196,7 +197,7 @@ export const useProjectStore = defineStore('projectStore', {
       this.syncStatus = SyncStatus.syncing;
 
       const vueFlowStore = useVueFlowStore();
-      this.project.data.components = vueFlowStore.components;
+      this.project.data.components = vueFlowStore.export();
 
       const success = await this.updateProject();
 
