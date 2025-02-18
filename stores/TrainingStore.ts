@@ -52,7 +52,7 @@ export const useTrainingStore = defineStore('trainingStore', {
         body: JSON.stringify({
           project: {
             _id: projectId,
-            blockId: startNodeId,
+            startNodeId,
           },
         }),
         headers: {
@@ -62,11 +62,13 @@ export const useTrainingStore = defineStore('trainingStore', {
 
       const data = await response.json();
 
+      console.log(data);
+
       if (response.ok) {
         this.training.running = true;
         this.training.projectId = projectId;
         this.training.startNodeId = startNodeId;
-        this.training.modelId = data.model._id;
+        this.training.modelId = data.task._id;
       }
 
       return {
