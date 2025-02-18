@@ -65,6 +65,16 @@ export const usePerceptronTrainingStore = defineStore(
         );
       },
 
+      getInputNodeIndex(inputNodeId: string): number {
+        for (const perceptron of this.data.perceptrons) {
+          if (!perceptron.inputNodes) continue;
+          for (let i = 0; i < perceptron.inputNodes.length; i++) {
+            if (perceptron.inputNodes[i].id === inputNodeId) return i;
+          }
+        }
+        return -1;
+      },
+
       getInputWeight(edge: Edge): number | null {
         if (!this.initialized) {
           this.initializePerceptrons();

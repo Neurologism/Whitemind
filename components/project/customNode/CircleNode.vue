@@ -13,6 +13,15 @@ const props = defineProps({
 });
 
 const projectStore = useProjectStore();
+const vueFlowStore = useVueFlowStore();
+
+const nodeObject = computed(() => {
+  const nodeObject = vueFlowStore.getNode(props.nodeId);
+  if (!nodeObject) {
+    throw new Error('Node for specified nodeId does not exist.');
+  }
+  return nodeObject;
+});
 
 const nodesData = useNodesData(props.nodeId);
 const shapeData = projectStore.editorConfig.getCustomNodeConfig(
@@ -91,7 +100,7 @@ function clickIcons() {
           class="font-semibold mr-auto"
           v-html="
             shapeData.dynamicNodeName
-              ? shapeData.dynamicNodeName()
+              ? shapeData.dynamicNodeName(nodeObject)
               : shapeData.name
           "
         >
@@ -120,7 +129,7 @@ function clickIcons() {
               class="pr-2.5 pl-2.5 p-0.5 font-mono"
               v-html="
                 shapeDefinition.dynamicAttributeName
-                  ? shapeDefinition.dynamicAttributeName()
+                  ? shapeDefinition.dynamicAttributeName(nodeObject)
                   : key
               "
             >

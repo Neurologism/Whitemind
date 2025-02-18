@@ -1,4 +1,5 @@
-import type { Edge } from '@vue-flow/core';
+import type { Node } from '@vue-flow/core';
+import type { Edge } from './edge.type';
 
 export enum FlowOrientation {
   INPUT = 'input',
@@ -46,7 +47,7 @@ export type NodeDefinition = {
   inputConstraints?: NodeConnectionConstraint;
   outputConstraints?: NodeConnectionConstraint;
   data: Record<string, NodeDefinitionDataEntry>;
-  dynamicNodeName?: () => string;
+  dynamicNodeName?: (node: Node) => string;
 };
 
 export type NodeDefinitionDataEntry =
@@ -62,7 +63,7 @@ export type NodeDefinitionDataEntry =
       onDisconnected?: (edge: Edge) => void; // do a global search when renaming
       allowModifyDisplayText?: boolean;
       setDisplayText?: (edge: Edge, text: string) => void;
-      dynamicAttributeName?: () => string;
+      dynamicAttributeName?: (node: Node) => string;
     }
   | {
       type: 'select';

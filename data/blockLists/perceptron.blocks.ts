@@ -1,4 +1,5 @@
 import { type Edge } from '~/types/edge.type';
+import { type Node } from '@vue-flow/core';
 import { FlowOrientation, NodeDisplay } from '~/types/blocks.types';
 import type { NodeGroupDefinition, EdgeColors } from '~/types/blocks.types';
 
@@ -62,6 +63,14 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                   const weightValue = Number(text);
                   if (isNaN(weightValue)) return;
                   perceptronTrainingStore.updateEdgeWeight(edge, weightValue);
+                },
+                dynamicAttributeName: (node: Node) => {
+                  const perceptronTrainingStore = usePerceptronTrainingStore();
+                  let inputNodeIndex = String(
+                    perceptronTrainingStore.getInputNodeIndex(node.id)
+                  );
+                  if (inputNodeIndex === '-1') inputNodeIndex = 'i';
+                  return `x<sub>${inputNodeIndex}</sub>`;
                 },
               },
             },
