@@ -126,6 +126,10 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
               const perceptronTrainingStore = usePerceptronTrainingStore();
               perceptronTrainingStore.onOperatorNodeCreation(node);
             },
+            onNodeRemoval: (node: Node) => {
+              const perceptronTrainingStore = usePerceptronTrainingStore();
+              perceptronTrainingStore.onOperatorNodeRemoval(node);
+            },
             data: {
               summand: {
                 type: 'id',

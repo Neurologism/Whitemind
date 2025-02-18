@@ -92,6 +92,12 @@ export const usePerceptronTrainingStore = defineStore(
         this.data.perceptrons.push(perceptron);
       },
 
+      onOperatorNodeRemoval(node: Node) {
+        this.data.perceptrons = this.data.perceptrons.filter(
+          (perceptron) => perceptron.operatorNode !== node
+        );
+      },
+
       onConnectedInput(edge: Edge) {
         const vueFlowStore = useVueFlowStore();
         const perceptron = this.getOperatorNodePerceptron(edge.target);
