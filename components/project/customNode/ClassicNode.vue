@@ -176,9 +176,15 @@ function clickIcons() {
             }"
           >
             <div class="font-mono text-sm relative">
-              <span class="bg-bg-3 pr-2.5 pl-2.5 p-0.5 rounded font-mono">{{
-                key
-              }}</span>
+              <span
+                class="bg-bg-3 pr-2.5 pl-2.5 p-0.5 rounded font-mono"
+                v-html="
+                  shapeDefinition.dynamicAttributeName
+                    ? shapeDefinition.dynamicAttributeName()
+                    : key
+                "
+              >
+              </span>
               <ClassicHandle
                 :constraints="shapeDefinition.constraints"
                 :handle-id="`val-${key}-${props.nodeId}`"

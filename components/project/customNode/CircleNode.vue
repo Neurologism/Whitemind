@@ -116,8 +116,14 @@ function clickIcons() {
           }"
         >
           <div class="font-mono text-sm relative">
-            <span class="pr-2.5 pl-2.5 p-0.5 font-mono">
-              {{ key }}
+            <span
+              class="pr-2.5 pl-2.5 p-0.5 font-mono"
+              v-html="
+                shapeDefinition.dynamicAttributeName
+                  ? shapeDefinition.dynamicAttributeName()
+                  : key
+              "
+            >
             </span>
             <ClassicHandle
               :constraints="shapeDefinition.constraints"
