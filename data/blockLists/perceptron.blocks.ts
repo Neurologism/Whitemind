@@ -45,8 +45,6 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                 flowOrientation: FlowOrientation.OUTPUT,
                 constraints: {
                   allowedCategories: ['perceptron_input'],
-                  min: 1,
-                  max: 1,
                 },
                 edgeDisplayText: getPerceptronInputEdgeDisplayText,
                 onConnected: (edge: Edge) => {
@@ -95,8 +93,6 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                 flowOrientation: FlowOrientation.OUTPUT,
                 constraints: {
                   allowedCategories: ['perceptron_input'],
-                  min: 1,
-                  max: 1,
                 },
                 edgeDisplayText: getPerceptronInputEdgeDisplayText,
                 onConnected: (edge: Edge) => {
@@ -147,8 +143,6 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                 flowOrientation: FlowOrientation.OUTPUT,
                 constraints: {
                   allowedCategories: ['perceptron_input'],
-                  min: 1,
-                  max: 1,
                 },
                 edgeDisplayText: getPerceptronInputEdgeDisplayText,
                 onConnected: (edge: Edge) => {
