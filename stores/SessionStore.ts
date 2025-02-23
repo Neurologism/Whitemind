@@ -8,7 +8,7 @@ export const useSessionStore = defineStore('sessionStore', {
     loadingText: 'Loading...',
     hasPfp: true,
     sessionData: ref({
-      smoothEdges: false,
+      smoothEdges: true,
       pinEditorSidebar: true,
       sessionStart: Date(),
       authorizationToken: '',
