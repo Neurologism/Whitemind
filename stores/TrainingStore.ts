@@ -89,10 +89,11 @@ export const useTrainingStore = defineStore('trainingStore', {
       });
       const responseJson = await response.json();
       if (response.ok) {
-        this.training.data = responseJson.model;
+        this.training.data = responseJson.task;
         if (
-          responseJson.model.status === 'stopped' ||
-          responseJson.model.status === 'finished'
+          responseJson.task.status === 'stopped' ||
+          responseJson.task.status === 'finished' ||
+          responseJson.task.status === 'error'
         ) {
           this.training.running = false;
         }
