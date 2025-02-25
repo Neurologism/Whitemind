@@ -62,8 +62,6 @@ export const useTrainingStore = defineStore('trainingStore', {
 
       const data = await response.json();
 
-      console.log(data);
-
       if (response.ok) {
         this.training.running = true;
         this.training.projectId = projectId;
@@ -151,6 +149,31 @@ export const useTrainingStore = defineStore('trainingStore', {
       return this.training.data.output.filter((data) =>
         Object.keys(data).includes(nodeID)
       );
+    },
+    lastVisualizerData(nodeID: string) {
+      const toFix2 = (input: string | number) => {
+        if (typeof input === 'number') {
+          return input.toFixed(2);
+        } else {
+          return input;
+        }
+      };
+
+      return computed(() => {
+        const entries = this.training.data.output.filter((data) =>
+          Object.keys(data).includes(nodeID)
+        );
+
+        if (entries.length > 0) {
+          let resultMap = entries[entries.length - 1][nodeID];
+          for (const key in resultMap) {
+            resultMap[key] = toFix2(resultMap[key]);
+          }
+          return resultMap;
+        } else {
+          return {};
+        }
+      });
     },
   },
 });

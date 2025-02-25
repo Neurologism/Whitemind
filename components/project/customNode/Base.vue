@@ -20,6 +20,8 @@ const props = defineProps({
     required: true,
   },
 });
+const trainingStore = useTrainingStore();
+
 const nodesData = useNodesData(props.nodeId);
 const shapeData = CustomNodes.getCustomNodeConfig(nodesData.value!.type)!;
 const shapeGroupData = CustomNodes.getNodeGroup(nodesData.value!.type)!;
@@ -44,6 +46,11 @@ function clickIcons() {
       !nodesData.value!.data.showVisConfigs;
   }
 }
+
+const lastTrainingDataForNode = trainingStore.lastVisualizerData(props.nodeId);
+const renderTrainingDataInHeader = computed(() => {
+  return Object.keys(lastTrainingDataForNode.value).length <= 2;
+});
 </script>
 
 <template>
@@ -103,7 +110,7 @@ function clickIcons() {
         :shape-data="shapeData"
         :shape-group-data="shapeGroupData"
       />
-      <div class="flex justify-between items-center cursor-pointer">
+      <div class="flex justify-between items-center cursor-pointer flex-1">
         <UIcon
           class="my-1 ml-1"
           v-if="shapeGroupData.group_identifier !== 'visualizer'"
@@ -130,10 +137,38 @@ function clickIcons() {
           v-if="shapeData.identifier === 'Model'"
           :node-id="props.nodeId"
         />
+        <div
+          v-if="
+            shapeGroupData.group_identifier !== 'visualizer' &&
+            renderTrainingDataInHeader
+          "
+          class="flex flex-1 flex-wrap text-xs items-center justify-center"
+        >
+          <div v-for="(value, key) in lastTrainingDataForNode">
+            <span
+              class="bg-opacity-40 bg-gray-900 mx-0.5 p-0.5 rounded-sm text-nowrap leading-5"
+              >{{ key }} {{ value }}</span
+            >
+          </div>
+        </div>
       </div>
       <span class="font-semibold">{{ shapeData.name }}</span>
     </div>
     <div class="w-full h-full nodrag nowheel cursor-default">
+      <div
+        v-if="
+          shapeGroupData.group_identifier !== 'visualizer' &&
+          !renderTrainingDataInHeader
+        "
+        class="font-mono flex flex-1 flex-wrap text-xs text-center justify-center mt-1"
+      >
+        <div v-for="(value, key) in lastTrainingDataForNode">
+          <span
+            class="bg-opacity-60 bg-gray-900 mx-0.5 p-0.5 rounded-sm text-nowrap leading-5"
+            >{{ key }}: {{ value }}</span
+          >
+        </div>
+      </div>
       <div
         v-if="
           shapeGroupData.group_identifier === 'visualizer' &&
