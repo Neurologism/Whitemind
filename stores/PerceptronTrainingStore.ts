@@ -7,6 +7,7 @@ import type { OptionalExports } from '~/types/components.type';
 
 interface PerceptronTrainingStoreData {
   perceptrons: Perceptron[];
+  inputNodes: string[];
 }
 
 export const usePerceptronTrainingStore = defineStore(
@@ -16,6 +17,7 @@ export const usePerceptronTrainingStore = defineStore(
       initialized: false,
       data: {
         perceptrons: [],
+        inputNodes: [],
       } as PerceptronTrainingStoreData,
     }),
     getters: {},
@@ -65,13 +67,15 @@ export const usePerceptronTrainingStore = defineStore(
       },
 
       getInputNodeIndex(inputNodeId: string): number {
-        for (const perceptron of this.data.perceptrons) {
-          if (!perceptron.inputNodes) continue;
-          for (let i = 0; i < perceptron.inputNodes.length; i++) {
-            if (perceptron.inputNodes[i].id === inputNodeId) return i;
-          }
-        }
-        return -1;
+        return this.data.inputNodes.findIndex((nId) => nId === inputNodeId);
+        // perceptron specific index
+        // for (const perceptron of this.data.perceptrons) {
+        //   if (!perceptron.inputNodes) continue;
+        //   for (let i = 0; i < perceptron.inputNodes.length; i++) {
+        //     if (perceptron.inputNodes[i].id === inputNodeId) return i;
+        //   }
+        // }
+        // return -1;
       },
 
       getInputNodePerceptron(inputNodeId: string): Perceptron | undefined {
@@ -111,23 +115,31 @@ export const usePerceptronTrainingStore = defineStore(
         perceptron.removeInput(node.id);
       },
 
+      onInputNodeCreation(nodeId: string) {
+        this.data.inputNodes.push(nodeId);
+      },
+
       onConnectedInput(edge: Edge) {
         const vueFlowStore = useVueFlowStore();
-        const perceptron = this.getOperatorNodePerceptron(edge.target);
-        if (!perceptron) {
+        const newPerceptron = this.getOperatorNodePerceptron(edge.target);
+        if (
+          !this.data.inputNodes.some((nodeId: string) => nodeId === edge.source)
+        )
+          this.data.inputNodes.push(edge.source);
+        if (!newPerceptron) {
           throw new Error('Perceptron does not exist. ');
         }
         const inputNode = vueFlowStore.getNode(edge.source);
         if (!inputNode) {
           throw new Error('Input node not found while adding perceptron input');
         }
-        perceptron.addInput(inputNode);
+        newPerceptron.addInput(inputNode);
       },
 
       onDisconnectedInput(edge: Edge) {
         const vueFlowStore = useVueFlowStore();
-        const perceptron = this.getOperatorNodePerceptron(edge.target);
-        if (!perceptron) {
+        const oldPerceptron = this.getOperatorNodePerceptron(edge.target);
+        if (!oldPerceptron) {
           throw new Error('Perceptron does not exist. ');
         }
         const inputNode = vueFlowStore.getNode(edge.source);
@@ -136,7 +148,11 @@ export const usePerceptronTrainingStore = defineStore(
             'Input node not found while removing perceptron input'
           );
         }
-        perceptron.removeInput(inputNode.id);
+        oldPerceptron.removeInput(inputNode.id);
+        if (this.getInputNodePerceptron(edge.source) === undefined)
+          this.data.inputNodes = this.data.inputNodes.filter(
+            (nodeId) => nodeId !== edge.source
+          );
       },
 
       updateEdgeWeight(edge: Edge, weight: number) {
