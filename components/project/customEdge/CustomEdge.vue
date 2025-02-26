@@ -234,7 +234,6 @@ export default {
       }"
       class="rounded-full text-center flex justify-center items-center text-text-2 text-sm z-10"
       :class="{
-        hidden: isHovered,
         'pointer-events-auto ': allowModifyDisplayText,
         'cursor-text': allowModifyDisplayText,
       }"
