@@ -76,10 +76,6 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
               const perceptronTrainingStore = usePerceptronTrainingStore();
               perceptronTrainingStore.onInputNodeRemoval(node);
             },
-            // onNodeCreation: (node: Node) => {
-            //   const perceptronTrainingStore = usePerceptronTrainingStore();
-            //   perceptronTrainingStore.onInputNodeCreation(node.id);
-            // },
           },
           {
             display: NodeDisplay.Circle,

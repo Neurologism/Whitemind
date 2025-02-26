@@ -50,6 +50,12 @@ export type NodeDefinition = {
   dynamicNodeName?: (node: Node) => string;
   onNodeCreation?: (node: Node) => void;
   onNodeRemoval?: (node: Node) => void;
+  contextMenuOptions?: ContextMenuOption[];
+};
+
+export type ContextMenuOption = {
+  label: string;
+  onClick: (node: Node) => void;
 };
 
 export type NodeDefinitionDataEntry =

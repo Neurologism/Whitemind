@@ -7,6 +7,7 @@ import { SyncStatus } from '~/types/syncStatus.enum';
 import CustomConnectionEdge from '~/components/project/customEdge/CustomConnectionEdge.vue';
 import CustomEdge from '~/components/project/customEdge/CustomEdge.vue';
 import { useMouse } from '@vueuse/core';
+import { type ContextMenuOption } from '~/types/blocks.types';
 
 const props = defineProps({
   tutorialProject: {
@@ -51,6 +52,18 @@ const {
   applyNodeChanges,
   removeNodes,
 } = useVueFlow();
+
+const baseContextMenuOptions = [
+  {
+    label: 'Duplicate',
+    onClick: contextMenuDuplicate,
+  },
+  {
+    label: 'Delete',
+    onClick: contextMenuDelete,
+  },
+] as ContextMenuOption[];
+const contextMenuOptions = ref<ContextMenuOption[]>([]);
 
 function handleDrop(event: DragEvent) {
   const nodeTypeString = event.dataTransfer?.getData('node') ?? '';
@@ -132,6 +145,10 @@ function addNewNode(newNode: Node) {
 
 function onContextMenu(nodeId: string) {
   contextMenuTargetNodeId.value = nodeId;
+  const contextMenuNodeDef =
+    projectStore.editorConfig.getCustomNodeConfig(nodeId);
+  const additionalOptions = contextMenuNodeDef?.contextMenuOptions ?? [];
+  contextMenuOptions.value = baseContextMenuOptions.concat(additionalOptions);
 
   const top = unref(mouse.y);
   const left = unref(mouse.x);
@@ -146,11 +163,17 @@ function onContextMenu(nodeId: string) {
   openContextMenu.value = true;
 }
 
-function contextMenuDuplicate() {
+function contextMenuAction(onClick: (node: Node) => void) {
   openContextMenu.value = false;
-  if (!contextMenuTargetNodeId.value) return;
-  const node = vueFlowStore.getNode(contextMenuTargetNodeId.value);
-  if (node === undefined) return;
+  const node = vueFlowStore.getNode(contextMenuTargetNodeId.value ?? '');
+  if (node === undefined) {
+    sessionStore.errorToast('Could not find node.');
+    return;
+  }
+  onClick(node);
+}
+
+function contextMenuDuplicate(node: Node) {
   const newNode = projectStore.editorConfig.getNodeDefaultData(node.type!, {
     x: node.position.x + 100,
     y: node.position.y + 100,
@@ -167,10 +190,8 @@ function contextMenuDuplicate() {
   addNewNode(newNode);
 }
 
-function contextMenuDelete() {
-  openContextMenu.value = false;
-  if (!contextMenuTargetNodeId.value) return;
-  removeNodes([contextMenuTargetNodeId.value]);
+function contextMenuDelete(node: Node) {
+  removeNodes([node.id]);
 }
 
 function onNodeRemove(change: { id: string; type: string }) {
@@ -384,20 +405,13 @@ const smallScreenNoteDismissed = ref(false);
   <UContextMenu v-model="openContextMenu" :virtual-element="contextMenu">
     <div class="flex flex-col">
       <UButton
-        @click="contextMenuDuplicate"
+        v-for="option in contextMenuOptions"
+        @click="contextMenuAction(option.onClick)"
         class="w-full"
         variant="ghost"
         color="gray"
         size="lg"
-        >Duplicate</UButton
-      >
-      <UButton
-        @click="contextMenuDelete"
-        class="w-full"
-        variant="ghost"
-        color="gray"
-        size="lg"
-        >Delete</UButton
+        >{{ option.label }}</UButton
       >
     </div>
   </UContextMenu>
