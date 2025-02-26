@@ -29,7 +29,7 @@ export const usePerceptronTrainingStore = defineStore(
         const perceptrons = this.data.perceptrons.map(
           (perceptron: Perceptron) => instanceToPlain(perceptron)
         );
-        return { perceptrons };
+        return { perceptrons, inputNodes: this.data.inputNodes };
       },
 
       import(state: OptionalExports): void {
@@ -42,6 +42,8 @@ export const usePerceptronTrainingStore = defineStore(
           (perceptron: Record<string, any>) =>
             plainToInstance(Perceptron, perceptron)
         );
+        this.data.inputNodes = state.inputNodes ?? [];
+
         this.initialized = true;
       },
 
