@@ -210,6 +210,7 @@ export default {
 <template>
   <BaseEdge
     :path="path[0]"
+    class="transition-all duration-300"
     :style="{ ...style, strokeWidth: isHovered ? 3 : 2 }"
   ></BaseEdge>
   <EdgeLabelRenderer>
@@ -218,11 +219,9 @@ export default {
         position: 'absolute',
         backgroundColor: style?.stroke ?? '#FFFFFF',
         transform: `translate(-50%, -50%) translate(${path[1]}px,${path[2]}px)`,
+        opacity: isHovered ? `1` : `0`,
       }"
-      class="h-4 w-4 hover:bg-bg-3 p-1 rounded-sm text-center flex justify-center items-center text-text-1 text-lg pointer-events-none shadow-2xl shadow-white"
-      :class="{
-        hidden: !isHovered,
-      }"
+      class="transition-opacity duration-300 h-4 w-4 pb-2 hover:bg-bg-3 p-1 rounded-sm text-center flex justify-center items-center text-text-1 text-lg pointer-events-none shadow-2xl shadow-white"
       @click="vueFlowStore.removeEdge(edge)"
     >
       x
