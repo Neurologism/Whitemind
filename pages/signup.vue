@@ -52,7 +52,7 @@ const validateEmail = (email: string) => {
 
 const onRegister = async () => {
   sessionStore.showLoadingAnimation('Registering...');
-  let response = await sessionStore.fetch('/api/auth/register', {
+  let response = await sessionStore.fetch('/auth/register', {
     method: 'POST',
     cache: 'no-cache',
     headers: {
@@ -72,7 +72,7 @@ const onRegister = async () => {
     console.log(response.body);
     let data = await response.json();
     console.log(data);
-    await sessionStore.loginWithSessionToken(data.token);
+    await sessionStore.loginWithSessionToken(data.access_token);
     navigateTo('/tutorials');
   } else {
     sessionStore.loading = false;
@@ -87,7 +87,7 @@ const onRegister = async () => {
 </script>
 
 <template>
-  <div class="w-screen bg-black min-h-screen pt-8 px-8 flex flex-col">
+  <div class="w-screen bg-bg-1 min-h-screen pt-8 px-8 flex flex-col">
     <img
       src="/whitemindLogo.svg"
       width="128"
@@ -95,12 +95,12 @@ const onRegister = async () => {
       class="mx-auto mb-8 hover:cursor-pointer"
       @click="navigateTo('/')"
     />
-    <h1 class="text-3xl font-semibold text-white text-center mb-8">
+    <h1 class="text-3xl font-semibold text-text-1 text-center mb-8">
       Sign up to WhiteMind
     </h1>
     <UCard class="md:w-3/5 lg:w-2/5 xl:w-4/12 2xl:w-3/12 mx-auto">
       <div class="input-tile">
-        <HintBox>
+        <GenericHintBox>
           <UInput
             v-model="username"
             label="Username"
@@ -118,10 +118,10 @@ const onRegister = async () => {
               message="Please choose a unique username"
             />
           </template>
-        </HintBox>
+        </GenericHintBox>
       </div>
       <div class="input-tile">
-        <HintBox>
+        <GenericHintBox>
           <UInput
             v-model="email"
             label="Email"
@@ -139,10 +139,10 @@ const onRegister = async () => {
               message="Please enter a valid email adress!"
             />
           </template>
-        </HintBox>
+        </GenericHintBox>
       </div>
       <div class="input-tile">
-        <HintBox>
+        <GenericHintBox>
           <UInput
             v-model="password"
             label="Password"
@@ -169,10 +169,10 @@ const onRegister = async () => {
               />
             </div>
           </template>
-        </HintBox>
+        </GenericHintBox>
       </div>
       <div class="input-tile">
-        <HintBox>
+        <GenericHintBox>
           <UInput
             v-model="password2"
             label="Confirm Password"
@@ -189,7 +189,7 @@ const onRegister = async () => {
               title="The passwords do not match!"
             />
           </template>
-        </HintBox>
+        </GenericHintBox>
       </div>
       <div class="input-tile">
         <UCheckbox v-model="legalStuff" required>

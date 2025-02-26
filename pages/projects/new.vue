@@ -14,26 +14,26 @@ if (!sessionStore.isAuthorized) {
   });
 }
 
-let projectName = ref('');
-let projectDescription = ref('');
-let projectVisible = ref(true);
+const projectName = ref('');
+const projectDescription = ref('');
+const projectVisible = ref(true);
 
 let isProcessingCreation = ref(false);
 
 const tabValues = [
   {
-    label: 'Public',
+    label: 'Private',
     value: false,
   },
   {
-    label: 'Private',
+    label: 'Public',
     value: true,
   },
 ];
 
 const createProject = async () => {
   isProcessingCreation.value = true;
-  let response = await sessionStore.fetch('/api/project/create', {
+  let response = await sessionStore.fetch('/projects', {
     method: 'POST',
     cache: 'no-cache',
     headers: {
@@ -57,7 +57,7 @@ const createProject = async () => {
   if (data.project?._id) {
     await projectStore.fetchProject(data.project._id);
     await sessionStore.loginWithSessionToken(
-      sessionStore.sessionData.Authorization
+      sessionStore.sessionData.authorizationToken
     );
     navigateTo(`/project/${data.project._id}`);
   }
@@ -69,15 +69,15 @@ const createProject = async () => {
 <template>
   <div class="flex w-screen justify-center flex-row conte">
     <div
-      class="md:basis-2/3 lg:basis-2/5 sm:basis-full basis-full dark:divide-slate-700 mx-5 p-5"
+      class="md:basis-2/3 lg:basis-2/5 sm:basis-full basis-full divide-accent-7 mx-5 p-5"
     >
       <h1 class="sm:text-3xl text-2xl">Create a new Project</h1>
-      <span class="text-gray-500"> </span>
+      <span class="text-text-3"> </span>
       <div class="mt-1 mb-1">
         <UDivider />
       </div>
       <div class="input-tile">
-        <HintBox>
+        <GenericHintBox>
           <UInput
             v-model="projectName"
             label="Project Name"
@@ -91,7 +91,7 @@ const createProject = async () => {
               description="ensure the project name is unique"
             />
           </template>
-        </HintBox>
+        </GenericHintBox>
       </div>
       <div class="input-tile">
         <UTextarea
@@ -105,7 +105,7 @@ const createProject = async () => {
       <div class="input-tile">
         <UTabs
           :items="tabValues"
-          @change="(index) => (projectVisible = index == 0)"
+          @change="(index) => (projectVisible = index === 0)"
         />
       </div>
       <div class="input-tile">

@@ -27,7 +27,7 @@ const validateEmail = (email: string): boolean => {
 
 const onLogin = async () => {
   sessionStore.showLoadingAnimation('Logging in...');
-  let response = await sessionStore.fetch('/api/auth/login', {
+  let response = await sessionStore.fetch('/auth/login', {
     method: 'POST',
     cache: 'no-cache',
     headers: {
@@ -48,15 +48,14 @@ const onLogin = async () => {
             },
     }),
   });
-  let data = await response.json();
   if (response.ok) {
-    await sessionStore.loginWithSessionToken(data.token);
+    const data = await response.json();
+    await sessionStore.loginWithSessionToken(data.access_token);
     navigateTo('/profile');
   } else {
     sessionStore.loading = false;
     toast.add({
       title: 'Login failed',
-      description: data.msg,
       color: 'red',
       icon: 'mdi-alert-circle',
     });
@@ -73,7 +72,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="w-screen bg-black min-h-screen pt-8 px-8 flex flex-col">
+  <div class="w-screen bg-bg-1 min-h-screen pt-8 px-8 flex flex-col">
     <img
       src="/whitemindLogo.svg"
       width="128"
@@ -81,7 +80,7 @@ onMounted(() => {
       class="mx-auto mb-8 hover:cursor-pointer"
       @click="navigateTo('/')"
     />
-    <h1 class="text-3xl font-semibold text-white text-center mb-8">
+    <h1 class="text-3xl font-semibold text-text-1 text-center mb-8">
       Login to WhiteMind
     </h1>
     <UCard class="md:w-3/5 lg:w-2/5 xl:w-4/12 2xl:w-3/12 mx-auto">

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
+import type { User } from '~/types/user.interface';
 
 export const useSessionStore = defineStore('sessionStore', {
   state: () => ({
@@ -7,9 +8,10 @@ export const useSessionStore = defineStore('sessionStore', {
     loadingText: 'Loading...',
     hasPfp: true,
     sessionData: ref({
+      smoothEdges: false,
       pinEditorSidebar: true,
       sessionStart: Date(),
-      Authorization: '',
+      authorizationToken: '',
       user: {
         _id: '' as string | null,
         brainetTag: '' as string | null,
@@ -38,12 +40,12 @@ export const useSessionStore = defineStore('sessionStore', {
   }),
   getters: {
     isAuthorized: (state) => {
-      return state.sessionData.Authorization !== '';
+      return state.sessionData.authorizationToken !== '';
     },
 
     pfpUrl: (state) => {
       const backmindHost = useRuntimeConfig().public.backmindHost as string;
-      return backmindHost + `/api/user/get-pfp/` + state.sessionData.user._id;
+      return backmindHost + `/users/${state.sessionData.user._id}/get-pfp`;
     },
 
     // @ts-ignore somehow this is not recognized as a getter
@@ -54,16 +56,19 @@ export const useSessionStore = defineStore('sessionStore', {
       if (!this.sessionData.user.emails) {
         return false;
       }
-      const result = await this.fetch('/api/user/update-secondary-email', {
-        method: 'POST',
-        cache: 'no-cache',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          user: { email: secondaryEmail },
-        }),
-      });
+      const result = await this.fetch(
+        `/users/${this.sessionData.user._id}/emails`,
+        {
+          method: 'PATCH',
+          cache: 'no-cache',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            user: { email: secondaryEmail, emailType: 'secondary' },
+          }),
+        }
+      );
       if (result.ok) {
         for (const email of this.sessionData.user.emails) {
           if (email.emailType === 'secondary') {
@@ -131,23 +136,29 @@ export const useSessionStore = defineStore('sessionStore', {
         user.email = email;
       }
 
-      const result = await this.fetch('/api/user/is-taken', {
-        method: 'POST',
-        cache: 'no-cache',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          user,
-        }),
-      });
+      const queryParams = new URLSearchParams();
+      if (brainetTag) queryParams.append('brainetTag', brainetTag);
+      if (email) queryParams.append('email', email);
 
-      return !result.ok;
+      const result = await this.fetch(
+        `/users/is-taken?${queryParams.toString()}`,
+        {
+          method: 'GET',
+          cache: 'no-cache',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (result.ok) {
+        return (await result.json()).isTaken;
+      }
     },
 
     async modifyAccountData(user: any) {
-      const result = await this.fetch('/api/user/update', {
-        method: 'POST',
+      const result = await this.fetch(`/users/${this.sessionData.user._id}`, {
+        method: 'PATCH',
         cache: 'no-cache',
         headers: {
           'Content-Type': 'application/json',
@@ -158,8 +169,8 @@ export const useSessionStore = defineStore('sessionStore', {
     },
 
     async deleteAccount() {
-      await this.fetch('/api/user/delete', {
-        method: 'POST',
+      await this.fetch(`/users/${this.sessionData.user._id}`, {
+        method: 'DELETE',
         cache: 'no-cache',
       });
     },
@@ -171,6 +182,10 @@ export const useSessionStore = defineStore('sessionStore', {
       this.loading = true;
     },
 
+    saveSessionData() {
+      localStorage.setItem('sessionData', JSON.stringify(this.sessionData));
+    },
+
     async checkForPfp() {
       await axios
         .get(this.pfpUrl)
@@ -178,14 +193,10 @@ export const useSessionStore = defineStore('sessionStore', {
         .catch(() => (this.hasPfp = false));
     },
 
-    saveSessionData() {
-      localStorage.setItem('sessionData', JSON.stringify(this.sessionData));
-    },
-
     async signOut() {
       const toast = useToast();
 
-      this.sessionData.Authorization = '';
+      this.sessionData.authorizationToken = '';
       this.sessionData.user = {
         _id: null,
         brainetTag: null,
@@ -226,13 +237,30 @@ export const useSessionStore = defineStore('sessionStore', {
 
       const headers = {
         ...options.headers,
-        Authorization: `Bearer ${this.sessionData.Authorization}`,
+        Authorization: `Bearer ${this.sessionData.authorizationToken}`,
       };
 
-      return fetch(url, {
+      const result = await fetch(url, {
         ...options,
         headers,
       });
+      if (result.status == 401) {
+        this.$reset();
+        navigateTo('/login');
+      }
+      return result;
+    },
+
+    async getUserByBrainetTag(brainetTag: string): Promise<User | null> {
+      const response = await this.fetch(`/users/by-name/${brainetTag}`, {
+        method: 'GET',
+        cache: 'no-cache',
+      });
+      if (response.ok) {
+        return (await response.json()).user as User;
+      } else {
+        return null;
+      }
     },
 
     async loginWithSessionToken(token: string) {
@@ -242,19 +270,18 @@ export const useSessionStore = defineStore('sessionStore', {
         return;
       }
 
-      this.sessionData.Authorization = token;
-      let response = await this.fetch('/api/user/get', {
-        method: 'POST',
+      this.sessionData.authorizationToken = token;
+      const response = await this.fetch(`/users`, {
+        method: 'GET',
       });
       if (response.ok) {
-        let data = await response.json();
+        const data = await response.json();
         console.log(data);
         this.sessionData.user = data.user;
         this.saveSessionData();
         this.checkForPfp();
-        // navigateTo('/projects');
       } else {
-        this.sessionData.Authorization = '';
+        this.sessionData.authorizationToken = '';
         console.error(
           'Failed to log in with session token. Rerouting user to login page.'
         );
@@ -274,17 +301,13 @@ export const useSessionStore = defineStore('sessionStore', {
         return;
       }
 
-      let result = await this.fetch('/api/auth/check', {
+      let result = await this.fetch(`/users/${this.sessionData.user._id}`, {
         method: 'GET',
         cache: 'no-cache',
       });
 
-      if (result.status === 404) {
-        console.warn('Session check not implemented on server jet.');
-        return;
-      }
-      if (result.status == 401 || (await result.json()).loggedIn == false) {
-        this.sessionData.Authorization = '';
+      if (!result.ok) {
+        this.sessionData.authorizationToken = '';
         this.sessionData.user = {
           _id: null,
           brainetTag: null,
@@ -304,33 +327,33 @@ export const useSessionStore = defineStore('sessionStore', {
     },
 
     async refreshUserData() {
-      await this.loginWithSessionToken(this.sessionData.Authorization);
+      await this.loginWithSessionToken(this.sessionData.authorizationToken);
     },
 
     async syncLocalSessionData() {
       if (!import.meta.client) return;
+
       const localSession = JSON.parse(
         localStorage.getItem('sessionData') || '{}'
       );
       const currentSession = this.sessionData;
 
-      if (!localSession.Authorization && !currentSession.Authorization) {
-        console.warn(
-          'No session found in both local storage and current session data.'
-        );
+      if (
+        !localSession.authorizationToken &&
+        !currentSession.authorizationToken
+      )
         return;
-      }
 
       if (
-        localSession.Authorization &&
-        (!currentSession.Authorization ||
+        localSession.authorizationToken &&
+        (!currentSession.authorizationToken ||
           new Date(localSession.sessionStart) >
             new Date(currentSession.sessionStart))
       ) {
         this.sessionData = localSession;
       } else if (
-        currentSession.Authorization &&
-        (!localSession.Authorization ||
+        currentSession.authorizationToken &&
+        (!localSession.authorizationToken ||
           new Date(currentSession.sessionStart) >
             new Date(localSession.sessionStart))
       ) {

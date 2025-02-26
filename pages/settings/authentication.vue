@@ -1,8 +1,4 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: 'settings',
-});
-
 const openChangePasswordModal = ref(false);
 const sessionStore = useSessionStore();
 const toast = useToast();
@@ -44,7 +40,7 @@ const newPasswordsMatch = computed(() => {
 });
 </script>
 <template>
-  <Modal v-model="openChangePasswordModal">
+  <GenericModal v-model="openChangePasswordModal">
     <template #title>Change password</template>
     <template #text>
       Prove your identity by entering your current password and then choose a
@@ -60,7 +56,7 @@ const newPasswordsMatch = computed(() => {
           class="w-full"
         >
         </SettingsInput>
-        <HintBox>
+        <GenericHintBox>
           <SettingsInput
             label="New password"
             type="password"
@@ -88,8 +84,8 @@ const newPasswordsMatch = computed(() => {
               />
             </div>
           </template>
-        </HintBox>
-        <HintBox class="mb-8">
+        </GenericHintBox>
+        <GenericHintBox class="mb-8">
           <SettingsInput
             label="Confirm new password"
             type="password"
@@ -106,7 +102,7 @@ const newPasswordsMatch = computed(() => {
               title="The passwords do not match!"
             />
           </template>
-        </HintBox>
+        </GenericHintBox>
         <UButton
           color="gray"
           :disabled="
@@ -118,14 +114,16 @@ const newPasswordsMatch = computed(() => {
         >
       </div>
     </template>
-  </Modal>
-  <SettingsHeader>Password</SettingsHeader>
-  <SettingsText
-    >You can change your password by clicking the button below.
-  </SettingsText>
-  <div>
-    <UButton color="gray" @click="openChangePasswordModal = true"
-      >Change your password</UButton
-    >
-  </div>
+  </GenericModal>
+  <SettingsBase :in-project="false">
+    <SettingsHeader>Password</SettingsHeader>
+    <SettingsText
+      >You can change your password by clicking the button below.
+    </SettingsText>
+    <div>
+      <UButton color="gray" @click="openChangePasswordModal = true"
+        >Change your password</UButton
+      >
+    </div>
+  </SettingsBase>
 </template>

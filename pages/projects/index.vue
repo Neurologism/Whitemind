@@ -12,23 +12,23 @@ const onSearchChange = () => {
   if (searchTimeout) {
     clearTimeout(searchTimeout);
   }
-  searchTimeout = setTimeout(async () => {
-    let response = await sessionStore.fetch('/api/project/search', {
-      method: 'POST',
-      cache: 'no-cache',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query: {
-          q: searchQuery.value,
-        },
-      }),
-    });
-    if (!response.ok) return;
-    let data = await response.json();
-    projects.value = data.projects;
-  }, 300);
+  // searchTimeout = setTimeout(async () => {
+  //   let response = await sessionStore.fetch('/projects/search', {
+  //     method: 'POST',
+  //     cache: 'no-cache',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       query: {
+  //         q: searchQuery.value,
+  //       },
+  //     }),
+  //   });
+  //   if (!response.ok) return;
+  //   let data = await response.json();
+  //   projects.value = data.projects;
+  // }, 300);
 };
 
 const reloadAndReset = async () => {
@@ -43,9 +43,7 @@ onMounted(() => {
 
 <template>
   <div class="flex w-screen justify-center flex-row">
-    <div
-      class="md:basis-2/3 lg:basis-1/2 dark:divide-slate-700 mx-10 md:mx-0 truncate"
-    >
+    <div class="md:basis-2/3 lg:basis-1/2 divide-accent-7 mx-10 md:mx-0">
       <div class="flex flex-row py-8 pl-8 pr-8">
         <UInput
           v-model="searchQuery"
@@ -97,7 +95,7 @@ onMounted(() => {
         "
       >
         <div class="flex flex-col items-center justify-center">
-          <div class="text-2xl font-bold text-gray-500">No projects found</div>
+          <div class="text-2xl font-bold text-text-3">No projects found</div>
         </div>
       </div>
     </div>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { current } from 'tailwindcss/colors';
 import BrainCircuit20Filled from '~/components/icon/BrainCircuit20Filled.vue';
 
 definePageMeta({
@@ -51,8 +50,8 @@ function onMouseMove(event: MouseEvent) {
   });
 
   gsap.to('.icon3-0', {
-    x: -x * 1.0,
-    y: -y * 1.0,
+    x: -x,
+    y: -y,
     duration: 2,
     ease: 'power3.out',
   });
@@ -77,7 +76,7 @@ function initGsap() {
       .timeline()
       .from('.text1', {
         duration: 1,
-        y: 100,
+        y: 50,
         opacity: 0,
         ease: 'power3.out',
       })
@@ -85,12 +84,21 @@ function initGsap() {
         '.text2',
         {
           duration: 1,
-          y: 100,
+          y: 50,
           opacity: 0,
           ease: 'power3.out',
         },
         '-=0.5'
       )
+      // .from(
+      //   '.text3',
+      //   {
+      //     duration: 1,
+      //     opacity: 0,
+      //     ease: 'power3.out',
+      //   },
+      //   '-=0.5'
+      // )
       .from(
         '.icon2',
         {
@@ -111,12 +119,7 @@ function initGsap() {
           ease: 'elastic.out',
         },
         '-=0.5'
-      )
-      .from('.text3', {
-        duration: 3,
-        opacity: 0,
-        ease: 'power3.out',
-      });
+      );
   });
 
   matchMedia.add('(max-width: 1279px)', () => {
@@ -138,6 +141,15 @@ function initGsap() {
         },
         '-=0.5'
       )
+      // .from(
+      //   '.text3',
+      //   {
+      //     duration: 1,
+      //     opacity: 0,
+      //     ease: 'power3.out',
+      //   },
+      //   '-=0.5'
+      // )
       .from(
         '.icon3',
         {
@@ -147,12 +159,7 @@ function initGsap() {
           ease: 'elastic.out',
         },
         '-=0.5'
-      )
-      .from('.text3', {
-        duration: 3,
-        opacity: 0,
-        ease: 'power3.out',
-      });
+      );
   });
 
   matchMedia.add('(min-width: 1280px)', () => {
@@ -287,9 +294,9 @@ function initGsap() {
 
 <template>
   <AppHeader />
-  <div class="h-16 bg-black"></div>
+  <div class="h-16 bg-bg-1"></div>
   <div
-    class="mainpanel flex flex-col w-full overflow-hidden bg-black"
+    class="mainpanel flex flex-col w-full overflow-hidden bg-bg-1"
     @mousemove="onMouseMove"
   >
     <!-- style="background-image: linear-gradient(to bottom, #340062ff, #003ff0ff)" -->
@@ -299,23 +306,25 @@ function initGsap() {
         style="top: 40%; left: 50%; transform: translate(-50%, -50%)"
       >
         <h2
-          class="text1 text-4xl sm:text-5xl lg:text-6xl xl:text-8xl font-bold tracking-tight text-gray-900 dark:text-white mx-auto"
+          class="text1 text-4xl sm:text-5xl lg:text-6xl xl:text-8xl font-bold tracking-tight text-text-1 mx-auto"
         >
           Unlock the power of AI creation
         </h2>
-        <p class="text2 text-xl lg:text-2xl mt-4 text-slate-200">
+        <p class="text2 text-xl lg:text-2xl mt-4 text-text-2">
           Turn your concepts into smart, AI-powered solutions effortlessly.
         </p>
-        <div>
-          <UButton
-            :to="sessionStore.isAuthorized ? '/profile' : '/signup'"
-            class="text3 px-4 py-2 md:px-6 md:py-3 text-lg font-semibold dark:text-white bg-blue-600 hover:bg-blue-700 mt-8"
-            icon="i-heroicons-rocket-launch-solid"
-            :color="'none' as any"
-          >
-            Sign up for WhiteMind
-          </UButton>
-        </div>
+        <UButton
+          :to="sessionStore.isAuthorized ? '/profile' : '/signup'"
+          class="text3 px-4 py-2 md:px-6 md:py-3 text-lg font-semibold text-text-1 dark:text-text-1 bg-blue-600 hover:bg-blue-700 mt-8 transition-transform"
+          icon="i-heroicons-rocket-launch-solid"
+          :color="'none' as any"
+        >
+          {{
+            sessionStore.isAuthorized
+              ? 'Go to Profile'
+              : 'Sign up for WhiteMind'
+          }}
+        </UButton>
         <UIcon
           name="mage:robot-uwu-fill"
           class="icon3 icon3-0 mt-14 xl:hidden text mx-auto"
@@ -361,11 +370,11 @@ function initGsap() {
         style="top: 40%; transform: translate(-50%, -50%)"
       >
         <h2
-          class="text4 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white xl:opacity-0"
+          class="text4 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-text-1 xl:opacity-0"
         >
           Create AI without coding skills
         </h2>
-        <p class="text5 text-2xl mt-4 text-slate-300 xl:opacity-0">
+        <p class="text5 text-2xl mt-4 text-text-2 xl:opacity-0">
           WhiteMind lets anyone create advanced AI models <br />
           with an intuitive drag-and-drop interface.
         </p>
@@ -412,11 +421,11 @@ function initGsap() {
         style="top: 50%; transform: translate(-50%, -50%)"
       >
         <h2
-          class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white"
+          class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-text-1"
         >
           No need for expensive hardware
         </h2>
-        <p class="text-2xl mt-4 text-slate-300">
+        <p class="text-2xl mt-4 text-text-2">
           WhiteMind provides cloud-based infrastructure, so you can build
           powerful AI without the need for costly equipment.
         </p>
@@ -449,11 +458,11 @@ function initGsap() {
         style="top: 50%; transform: translate(-50%, -50%)"
       >
         <h2
-          class="text7 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white"
+          class="text7 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-text-1"
         >
           Learn with easy-to-follow tutorials
         </h2>
-        <p class="text7 text-2xl mt-4 text-slate-300">
+        <p class="text7 text-2xl mt-4 text-text-2">
           Access step-by-step tutorials that make complex AI concepts easy to
           grasp.
         </p>
@@ -477,11 +486,11 @@ function initGsap() {
         style="top: 40%; left: 50%; transform: translate(-50%, -50%)"
       >
         <h2
-          class="text-4xl sm:text-5xl md:text-8xl font-bold tracking-tight text-gray-900 dark:text-white mx-auto"
+          class="text-4xl sm:text-5xl md:text-8xl font-bold tracking-tight text-text-1 mx-auto"
         >
           Built on leading technology
         </h2>
-        <p class="text-2xl mt-4 text-slate-300">
+        <p class="text-2xl mt-4 text-text-2">
           WhiteMind leverages Keras, a high-level neural networks API, utilizing
           several state-of-the-art deep learning frameworks such as TensorFlow,
           Theano and CNTK, to deliver highly efficient and scalable AI
@@ -489,7 +498,7 @@ function initGsap() {
         </p>
         <UButton
           :to="sessionStore.isAuthorized ? '/profile' : '/signup'"
-          class="px-4 py-2 md:px-6 md:py-3 text-lg font-semibold dark:text-white bg-purple-700 mt-8"
+          class="px-4 py-2 md:px-6 md:py-3 text-lg font-semibold text-text-1 bg-purple-700 mt-8"
           icon="i-heroicons-rocket-launch-solid"
           :color="'none' as any"
         >

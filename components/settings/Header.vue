@@ -10,5 +10,5 @@ const props = defineProps({
   <h3 class="text-2xl" v-else-if="weight === 2"><slot></slot></h3>
   <h4 class="text-xl" v-else-if="weight >= 3"><slot></slot></h4>
 
-  <hr class="border-gray-800" v-if="weight <= 2" />
+  <hr class="border-accent-8" v-if="weight <= 2" />
 </template>

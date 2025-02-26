@@ -24,11 +24,11 @@ onUnmounted(() => {
 
 <template>
   <div>
-    <LoadingOverlay />
+    <AppLoadingOverlay />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
     <UNotifications :class="{ 'mr-96': moveNotifications }" />
-    <VerifyEmailModal />
+    <ModalVerifyEmail />
   </div>
 </template>

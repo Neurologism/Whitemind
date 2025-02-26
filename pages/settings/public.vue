@@ -1,8 +1,4 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: 'settings',
-});
-
 const sessionStore = useSessionStore();
 const toast = useToast();
 const user = ref({
@@ -37,35 +33,37 @@ async function updateUser() {
 }
 </script>
 <template>
-  <SettingsHeader>Public Profile</SettingsHeader>
-  <div class="h-4"></div>
-  <ProfilePicture
-    :loading="false"
-    :is-self="true"
-    :pfp-url="sessionStore.hasPfp ? sessionStore.pfpUrl : '/user.svg'"
-  />
-  <div class="h-4"></div>
-  <SettingsInput
-    label="Displayname"
-    placeholder="Kurumi"
-    v-model="user.displayname"
-  >
-    Name that will be primarily visible to users users. You can change the
-    displayname at any time. It does not need to be unique.
-  </SettingsInput>
-  <SettingsTextarea
-    label="About you"
-    placeholder="Nothing here yet."
-    v-model="user.aboutYou"
-  >
-    Tell the world about your interests.
-  </SettingsTextarea>
-  <!-- <SettingsInput label="Pronouns" placeholder="he/him"></SettingsInput>
+  <SettingsBase :in-project="false">
+    <SettingsHeader>Public Profile</SettingsHeader>
+    <div class="h-4"></div>
+    <ProfilePicture
+      :loading="false"
+      :is-self="true"
+      :pfp-url="sessionStore.hasPfp ? sessionStore.pfpUrl : '/user.svg'"
+    />
+    <div class="h-4"></div>
+    <SettingsInput
+      label="Displayname"
+      placeholder="Kurumi"
+      v-model="user.displayname"
+    >
+      Name that will be primarily visible to users users. You can change the
+      displayname at any time. It does not need to be unique.
+    </SettingsInput>
+    <SettingsTextarea
+      label="About you"
+      placeholder="Nothing here yet."
+      v-model="user.aboutYou"
+    >
+      Tell the world about your interests.
+    </SettingsTextarea>
+    <!-- <SettingsInput label="Pronouns" placeholder="he/him"></SettingsInput>
   <SettingsInput label="Company" placeholder="Eggs Inc."></SettingsInput>
   <SettingsInput label="Location" placeholder="The Nether"></SettingsInput> -->
-  <div>
-    <UButton color="gray" icon="material-symbols:save" @click="updateUser"
-      >Save profile</UButton
-    >
-  </div>
+    <div>
+      <UButton color="gray" icon="material-symbols:save" @click="updateUser"
+        >Save profile</UButton
+      >
+    </div>
+  </SettingsBase>
 </template>

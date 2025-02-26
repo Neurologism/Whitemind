@@ -1,19 +1,15 @@
 <script setup lang="ts">
+import { navigateToSubroute } from '~/utility/navigateToSubroute';
+
 definePageMeta({
   layout: 'project',
 });
 
 const route = useRoute();
-const tutorialStore = useTutorialStore();
+const projectStore = useProjectStore();
 
-tutorialStore.openInEditor = false;
+projectStore.projectId = route.params.project_id as string;
+navigateToSubroute(route.fullPath, 3, 'editor');
 </script>
 
-<template>
-  <ProjectEditor
-    :tutorial-project="false"
-    :project-id="route.params.project_id as string"
-  />
-</template>
-
-<style scoped></style>
+<template></template>
