@@ -1,15 +1,55 @@
 import { defineStore } from 'pinia';
-import { SyncStatus } from '~/components/editor/syncStatus';
-import { useVueFlow } from '@vue-flow/core';
+import { SyncStatus } from '~/types/syncStatus.enum';
+
+interface Model {
+  _id: string;
+  status: string;
+  output: any;
+  dateQueued: string;
+  dateStarted: string;
+  dateFinished: string;
+  dateLastUpdated: string;
+  projectId: string;
+  ownerId: string;
+  name: string;
+}
 
 export const useProjectStore = defineStore('projectStore', {
   state: () => ({
     syncStatus: ref(SyncStatus.initializing as SyncStatus),
     project: null as Project | null,
+    projectId: '',
+    models: [] as Model[],
     projects: [] as Project[],
   }),
   getters: {},
   actions: {
+    async populateModels(): Promise<boolean> {
+      if (!this.project) return false;
+      for (const modelId of this.project.data.models) {
+        const model = await this.fetchModel(modelId);
+        if (!model) {
+          return false;
+        }
+        this.models.push(model);
+      }
+      return true;
+    },
+    async fetchModel(modelId: string): Promise<Model | null> {
+      const sessionStore = useSessionStore();
+      let response = await sessionStore.fetch(`/tasks/${modelId}`, {
+        method: 'GET',
+        cache: 'no-cache',
+      });
+
+      if (!response.ok) {
+        console.error('Failed to fetch model.');
+        return null;
+      }
+
+      const data = await response.json();
+      return data.task;
+    },
     async loadProject(projectId: string = ''): Promise<boolean> {
       if (!projectId) {
         if (!this.project) {
@@ -40,6 +80,12 @@ export const useProjectStore = defineStore('projectStore', {
         };
       }
 
+      const vueFlowStore = useVueFlowStore();
+      vueFlowStore.nodes = this.project.data.components.nodes;
+      vueFlowStore.edges = this.project.data.components.edges;
+      vueFlowStore.viewport = this.project.data.components.viewport;
+
+      this.syncStatus = SyncStatus.synced;
       return true;
     },
 
@@ -51,9 +97,6 @@ export const useProjectStore = defineStore('projectStore', {
       const response = await sessionStore.fetch(`/projects/${projectId}`, {
         method: 'DELETE',
         cache: 'no-cache',
-        headers: {
-          'Content-Type': 'application/json',
-        },
       });
 
       if (!response.ok) {
@@ -103,8 +146,8 @@ export const useProjectStore = defineStore('projectStore', {
     },
 
     async updateProject(
-      projectId: string = '',
-      projectData: Object = {}
+      projectData: Object = {},
+      projectId: string = ''
     ): Promise<boolean> {
       let project;
       if (!projectId || projectId === this.project?.data._id) {
@@ -140,12 +183,13 @@ export const useProjectStore = defineStore('projectStore', {
       return result.ok;
     },
 
-    async syncProject(flowStore: any): Promise<boolean> {
+    async syncProject(): Promise<boolean> {
       if (!this.project) return false;
       const toast = useToast();
       this.syncStatus = SyncStatus.syncing;
 
-      this.project.data.components = flowStore.components;
+      const vueFlowStore = useVueFlowStore();
+      this.project.data.components = vueFlowStore.components;
 
       const success = await this.updateProject();
 

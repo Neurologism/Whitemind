@@ -4,6 +4,7 @@ interface TrainingState {
   training: {
     running: boolean;
     projectId?: string;
+    startNodeId?: string;
     modelId?: string;
     epoch: number | null;
     accuracy: number | null;
@@ -43,7 +44,7 @@ export const useTrainingStore = defineStore('trainingStore', {
     },
   }),
   actions: {
-    async startTraining(projectId: string) {
+    async startTraining(projectId: string, startNodeId: string) {
       const sessionStore = useSessionStore();
       this.$reset();
       const response = await sessionStore.fetch('/tasks', {
@@ -51,6 +52,7 @@ export const useTrainingStore = defineStore('trainingStore', {
         body: JSON.stringify({
           project: {
             _id: projectId,
+            startNodeId,
           },
         }),
         headers: {
@@ -63,7 +65,8 @@ export const useTrainingStore = defineStore('trainingStore', {
       if (response.ok) {
         this.training.running = true;
         this.training.projectId = projectId;
-        this.training.modelId = data.model._id;
+        this.training.startNodeId = startNodeId;
+        this.training.modelId = data.task._id;
       }
 
       return {
@@ -84,10 +87,11 @@ export const useTrainingStore = defineStore('trainingStore', {
       });
       const responseJson = await response.json();
       if (response.ok) {
-        this.training.data = responseJson.model;
+        this.training.data = responseJson.task;
         if (
-          responseJson.model.status === 'stopped' ||
-          responseJson.model.status === 'finished'
+          responseJson.task.status === 'stopped' ||
+          responseJson.task.status === 'finished' ||
+          responseJson.task.status === 'error'
         ) {
           this.training.running = false;
         }
@@ -145,6 +149,31 @@ export const useTrainingStore = defineStore('trainingStore', {
       return this.training.data.output.filter((data) =>
         Object.keys(data).includes(nodeID)
       );
+    },
+    lastVisualizerData(nodeID: string) {
+      const toFix2 = (input: string | number) => {
+        if (typeof input === 'number') {
+          return input.toFixed(2);
+        } else {
+          return input;
+        }
+      };
+
+      return computed(() => {
+        const entries = this.training.data.output.filter((data) =>
+          Object.keys(data).includes(nodeID)
+        );
+
+        if (entries.length > 0) {
+          let resultMap = entries[entries.length - 1][nodeID];
+          for (const key in resultMap) {
+            resultMap[key] = toFix2(resultMap[key]);
+          }
+          return resultMap;
+        } else {
+          return {};
+        }
+      });
     },
   },
 });

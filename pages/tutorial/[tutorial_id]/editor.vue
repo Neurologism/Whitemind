@@ -50,9 +50,9 @@ tutorialStore.openInEditor = true;
 </script>
 
 <template>
-  <ProjectEditor :project-id="projectId" :tutorial-project="true">
+  <ProjectEditor :tutorial-project="true">
     <template v-slot:bottomright>
-      <EditorAssistant> </EditorAssistant>
+      <ProjectAssistant> </ProjectAssistant>
     </template>
   </ProjectEditor>
 </template>

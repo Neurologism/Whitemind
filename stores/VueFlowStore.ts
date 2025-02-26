@@ -6,7 +6,7 @@ export const useVueFlowStore = defineStore('vueFlowStore', {
   state: () => ({
     nodes: ref<Node[]>([]),
     edges: ref<Edge[]>([]),
-    viewport: { x: 0, y: 0, zoom: 1 } as {
+    viewport: { x: 0.1, y: 0.1, zoom: 1.1 } as {
       x: number;
       y: number;
       zoom: number;

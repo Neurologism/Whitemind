@@ -33,7 +33,7 @@ async function updateUser() {
 }
 </script>
 <template>
-  <Settings :in-project="false">
+  <SettingsBase :in-project="false">
     <SettingsHeader>Public Profile</SettingsHeader>
     <div class="h-4"></div>
     <ProfilePicture
@@ -65,5 +65,5 @@ async function updateUser() {
         >Save profile</UButton
       >
     </div>
-  </Settings>
+  </SettingsBase>
 </template>

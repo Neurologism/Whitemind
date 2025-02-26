@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { tutorialSections as tutorialSections_ } from '~/components/tutorials/tutorials';
+import { tutorialSections as tutorialSections_ } from '~/data/tutorials';
 
 const tutorialSections = ref(tutorialSections_);
 

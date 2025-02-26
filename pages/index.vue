@@ -294,9 +294,9 @@ function initGsap() {
 
 <template>
   <AppHeader />
-  <div class="h-16 bg-black"></div>
+  <div class="h-16 bg-bg-1"></div>
   <div
-    class="mainpanel flex flex-col w-full overflow-hidden bg-black"
+    class="mainpanel flex flex-col w-full overflow-hidden bg-bg-1"
     @mousemove="onMouseMove"
   >
     <!-- style="background-image: linear-gradient(to bottom, #340062ff, #003ff0ff)" -->
@@ -306,16 +306,16 @@ function initGsap() {
         style="top: 40%; left: 50%; transform: translate(-50%, -50%)"
       >
         <h2
-          class="text1 text-4xl sm:text-5xl lg:text-6xl xl:text-8xl font-bold tracking-tight text-gray-900 dark:text-white mx-auto"
+          class="text1 text-4xl sm:text-5xl lg:text-6xl xl:text-8xl font-bold tracking-tight text-text-1 mx-auto"
         >
           Unlock the power of AI creation
         </h2>
-        <p class="text2 text-xl lg:text-2xl mt-4 text-slate-200">
+        <p class="text2 text-xl lg:text-2xl mt-4 text-text-2">
           Turn your concepts into smart, AI-powered solutions effortlessly.
         </p>
         <UButton
           :to="sessionStore.isAuthorized ? '/profile' : '/signup'"
-          class="text3 px-4 py-2 md:px-6 md:py-3 text-lg font-semibold dark:text-white bg-blue-600 hover:bg-blue-700 mt-8 transition-transform"
+          class="text3 px-4 py-2 md:px-6 md:py-3 text-lg font-semibold text-text-1 dark:text-text-1 bg-blue-600 hover:bg-blue-700 mt-8 transition-transform"
           icon="i-heroicons-rocket-launch-solid"
           :color="'none' as any"
         >
@@ -370,11 +370,11 @@ function initGsap() {
         style="top: 40%; transform: translate(-50%, -50%)"
       >
         <h2
-          class="text4 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white xl:opacity-0"
+          class="text4 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-text-1 xl:opacity-0"
         >
           Create AI without coding skills
         </h2>
-        <p class="text5 text-2xl mt-4 text-slate-300 xl:opacity-0">
+        <p class="text5 text-2xl mt-4 text-text-2 xl:opacity-0">
           WhiteMind lets anyone create advanced AI models <br />
           with an intuitive drag-and-drop interface.
         </p>
@@ -421,11 +421,11 @@ function initGsap() {
         style="top: 50%; transform: translate(-50%, -50%)"
       >
         <h2
-          class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white"
+          class="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-text-1"
         >
           No need for expensive hardware
         </h2>
-        <p class="text-2xl mt-4 text-slate-300">
+        <p class="text-2xl mt-4 text-text-2">
           WhiteMind provides cloud-based infrastructure, so you can build
           powerful AI without the need for costly equipment.
         </p>
@@ -458,11 +458,11 @@ function initGsap() {
         style="top: 50%; transform: translate(-50%, -50%)"
       >
         <h2
-          class="text7 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-gray-900 dark:text-white"
+          class="text7 text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-text-1"
         >
           Learn with easy-to-follow tutorials
         </h2>
-        <p class="text7 text-2xl mt-4 text-slate-300">
+        <p class="text7 text-2xl mt-4 text-text-2">
           Access step-by-step tutorials that make complex AI concepts easy to
           grasp.
         </p>
@@ -486,11 +486,11 @@ function initGsap() {
         style="top: 40%; left: 50%; transform: translate(-50%, -50%)"
       >
         <h2
-          class="text-4xl sm:text-5xl md:text-8xl font-bold tracking-tight text-gray-900 dark:text-white mx-auto"
+          class="text-4xl sm:text-5xl md:text-8xl font-bold tracking-tight text-text-1 mx-auto"
         >
           Built on leading technology
         </h2>
-        <p class="text-2xl mt-4 text-slate-300">
+        <p class="text-2xl mt-4 text-text-2">
           WhiteMind leverages Keras, a high-level neural networks API, utilizing
           several state-of-the-art deep learning frameworks such as TensorFlow,
           Theano and CNTK, to deliver highly efficient and scalable AI
@@ -498,7 +498,7 @@ function initGsap() {
         </p>
         <UButton
           :to="sessionStore.isAuthorized ? '/profile' : '/signup'"
-          class="px-4 py-2 md:px-6 md:py-3 text-lg font-semibold dark:text-white bg-purple-700 mt-8"
+          class="px-4 py-2 md:px-6 md:py-3 text-lg font-semibold text-text-1 bg-purple-700 mt-8"
           icon="i-heroicons-rocket-launch-solid"
           :color="'none' as any"
         >

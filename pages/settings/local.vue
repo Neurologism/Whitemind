@@ -47,7 +47,7 @@ const smoothEdgesTabs = [
 ];
 </script>
 <template>
-  <Settings :in-project="false">
+  <SettingsBase :in-project="false">
     <SettingsHeader>Local Settings</SettingsHeader>
     <SettingsHeader :weight="2" class="mt-8">Edge display</SettingsHeader>
     <SettingsText>
@@ -68,5 +68,5 @@ const smoothEdgesTabs = [
         </div>
       </template>
     </UTabs>
-  </Settings>
+  </SettingsBase>
 </template>

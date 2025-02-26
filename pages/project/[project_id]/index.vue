@@ -6,7 +6,9 @@ definePageMeta({
 });
 
 const route = useRoute();
+const projectStore = useProjectStore();
 
+projectStore.projectId = route.params.project_id as string;
 navigateToSubroute(route.fullPath, 3, 'editor');
 </script>
 

@@ -69,15 +69,15 @@ const createProject = async () => {
 <template>
   <div class="flex w-screen justify-center flex-row conte">
     <div
-      class="md:basis-2/3 lg:basis-2/5 sm:basis-full basis-full dark:divide-slate-700 mx-5 p-5"
+      class="md:basis-2/3 lg:basis-2/5 sm:basis-full basis-full divide-accent-7 mx-5 p-5"
     >
       <h1 class="sm:text-3xl text-2xl">Create a new Project</h1>
-      <span class="text-gray-500"> </span>
+      <span class="text-text-3"> </span>
       <div class="mt-1 mb-1">
         <UDivider />
       </div>
       <div class="input-tile">
-        <HintBox>
+        <GenericHintBox>
           <UInput
             v-model="projectName"
             label="Project Name"
@@ -91,7 +91,7 @@ const createProject = async () => {
               description="ensure the project name is unique"
             />
           </template>
-        </HintBox>
+        </GenericHintBox>
       </div>
       <div class="input-tile">
         <UTextarea

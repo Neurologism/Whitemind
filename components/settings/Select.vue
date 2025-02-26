@@ -24,7 +24,7 @@ const model = defineModel() as Ref<string>;
       :options="props.options"
       :disabled="props.disabled"
     />
-    <p class="text-sm text-gray-400">
+    <p class="text-sm text-text-2">
       <slot></slot>
     </p>
   </div>

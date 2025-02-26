@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { SyncStatus } from '~/components/editor/syncStatus';
+import { SyncStatus } from '~/types/syncStatus.enum';
 
 const sessionStore = useSessionStore();
 const projectStore = useProjectStore();
 const vueFlowStore = useVueFlowStore();
+const route = useRoute();
+
+projectStore.project = null;
 
 onMounted(() => {
   sessionStore.loading = false;
@@ -13,21 +16,42 @@ onMounted(() => {
   }
 });
 
-sessionStore.showLoadingAnimation();
+onUnmounted(() => {
+  vueFlowStore.$reset();
+  projectStore.$reset();
+});
+
+async function init() {
+  sessionStore.showLoadingAnimation();
+}
+
+watch(
+  () => projectStore.projectId,
+  async () => {
+    console.log('Loading project...');
+    await projectStore.loadProject(projectStore.projectId);
+    await projectStore.populateModels();
+  }
+);
+
+defineShortcuts({
+  s: () => projectStore.syncProject(),
+});
+
+init();
 </script>
 
 <template>
-  <EditorProjectHeader
+  <ProjectHeader
     :project-title="projectStore.project?.data.name ?? ''"
     :project-owner="sessionStore.sessionData.user.displayname ?? ''"
     class="w-full pointer-events-auto"
   >
     <div class="flex flex-row">
       <div class="flex-1 lg:mr-10">
-        <EditorTrainingHeader
+        <ProjectTrainingHeader
           :project-id="projectStore.project?.data._id ?? ''"
           :sync-status="projectStore.syncStatus"
-          :sync-project="projectStore.syncProject"
         />
       </div>
       <div class="flex">
@@ -45,13 +69,13 @@ sessionStore.showLoadingAnimation();
                       : 'gray',
               color: 'white',
             }"
-            @click="() => projectStore.syncProject(vueFlowStore)"
+            @click="() => projectStore.syncProject()"
           >
             <UIcon :name="projectStore.syncStatus" />
           </div>
         </UTooltip>
       </div>
     </div>
-  </EditorProjectHeader>
+  </ProjectHeader>
   <slot />
 </template>
