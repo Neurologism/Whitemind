@@ -30,7 +30,6 @@
     "@vue-flow/node-toolbar": "^1.1.0",
     "@vue/language-server": "2.0.28",
     "@vueuse/core": "^12.7.0",
-    "animate.css": "^4.1.1",
     "axios": "^1.7.9",
     "class-transformer": "^0.5.1",
     "echarts": "^5.6.0",
