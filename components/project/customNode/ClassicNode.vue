@@ -229,8 +229,6 @@ function clickIcons() {
             nodesData!.data.isExpanded &&
             !nodesData!.data.showVisConfigs
           "
-          EditorConfig.nodeHasNonIdData(shapeData)
-          &&
           v-for="(shapeDefinition, key) in shapeData.data"
           class="grid grid-cols-1 mb-0.5 mt-1 items-center justify-between"
         >
