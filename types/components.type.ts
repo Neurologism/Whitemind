@@ -14,4 +14,5 @@ export interface Components extends OptionalExports {
 export interface OptionalExports {
   perceptrons?: Record<string, any>[];
   inputNodes?: string[];
+  inputNodeUserValues?: number[];
 }

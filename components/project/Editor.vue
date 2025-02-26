@@ -145,9 +145,14 @@ function addNewNode(newNode: Node) {
 
 function onContextMenu(nodeId: string) {
   contextMenuTargetNodeId.value = nodeId;
-  const contextMenuNodeDef =
-    projectStore.editorConfig.getCustomNodeConfig(nodeId);
-  const additionalOptions = contextMenuNodeDef?.contextMenuOptions ?? [];
+  const node = vueFlowStore.getNode(nodeId);
+  const nodeDef = projectStore.editorConfig.getCustomNodeConfig(
+    node?.type ?? ''
+  );
+  if (!nodeDef) {
+    console.error("Couldn't identify node.");
+  }
+  const additionalOptions = nodeDef?.contextMenuOptions ?? [];
   contextMenuOptions.value = baseContextMenuOptions.concat(additionalOptions);
 
   const top = unref(mouse.y);

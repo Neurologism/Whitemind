@@ -76,6 +76,13 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
               const perceptronTrainingStore = usePerceptronTrainingStore();
               perceptronTrainingStore.onInputNodeRemoval(node);
             },
+            contextMenuOptions: [
+              // {
+              //   label: 'Assign',
+              //   onClick: (node: Node) => {
+              //   },
+              // },
+            ],
           },
           {
             display: NodeDisplay.Circle,

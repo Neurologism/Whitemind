@@ -8,6 +8,7 @@ import type { OptionalExports } from '~/types/components.type';
 interface PerceptronTrainingStoreData {
   perceptrons: Perceptron[];
   inputNodes: string[];
+  inputNodeUserValues: number[];
 }
 
 export const usePerceptronTrainingStore = defineStore(
@@ -18,6 +19,7 @@ export const usePerceptronTrainingStore = defineStore(
       data: {
         perceptrons: [],
         inputNodes: [],
+        inputNodeUserValues: [],
       } as PerceptronTrainingStoreData,
     }),
     getters: {},
@@ -29,7 +31,11 @@ export const usePerceptronTrainingStore = defineStore(
         const perceptrons = this.data.perceptrons.map(
           (perceptron: Perceptron) => instanceToPlain(perceptron)
         );
-        return { perceptrons, inputNodes: this.data.inputNodes };
+        return {
+          perceptrons,
+          inputNodes: this.data.inputNodes,
+          inputNodeUserValues: this.data.inputNodeUserValues,
+        };
       },
 
       import(state: OptionalExports): void {
@@ -43,6 +49,7 @@ export const usePerceptronTrainingStore = defineStore(
             plainToInstance(Perceptron, perceptron)
         );
         this.data.inputNodes = state.inputNodes ?? [];
+        this.data.inputNodeUserValues = state.inputNodeUserValues ?? [];
 
         this.initialized = true;
       },
@@ -78,6 +85,13 @@ export const usePerceptronTrainingStore = defineStore(
         //   }
         // }
         // return -1;
+      },
+
+      getInputNodeUserValue(inputNodeId: string): number {
+        const index = this.getInputNodeIndex(inputNodeId);
+        if (index === -1 || index >= this.data.inputNodeUserValues.length)
+          return 0;
+        return this.data.inputNodeUserValues[index];
       },
 
       getInputNodePerceptron(inputNodeId: string): Perceptron | undefined {
