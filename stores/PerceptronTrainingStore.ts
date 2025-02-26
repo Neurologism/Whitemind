@@ -121,17 +121,22 @@ export const usePerceptronTrainingStore = defineStore(
 
       onConnectedInput(edge: Edge) {
         const vueFlowStore = useVueFlowStore();
+        const sessionStore = useSessionStore();
         const newPerceptron = this.getOperatorNodePerceptron(edge.target);
         if (
           !this.data.inputNodes.some((nodeId: string) => nodeId === edge.source)
         )
           this.data.inputNodes.push(edge.source);
         if (!newPerceptron) {
-          throw new Error('Perceptron does not exist. ');
+          sessionStore.errorToast('Perceptron does not exist.');
+          return;
         }
         const inputNode = vueFlowStore.getNode(edge.source);
         if (!inputNode) {
-          throw new Error('Input node not found while adding perceptron input');
+          sessionStore.errorToast(
+            'Input node not found while adding perceptron input'
+          );
+          return;
         }
         newPerceptron.addInput(inputNode);
       },

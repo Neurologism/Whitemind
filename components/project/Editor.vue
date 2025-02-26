@@ -176,7 +176,11 @@ function contextMenuDelete() {
 function onNodeRemove(change: { id: string; type: string }) {
   const nodeId = change.id;
   const node = vueFlowStore.getNode(nodeId);
-  if (!node) throw new Error('Tried to remove inexistent node. ');
+  const sessionStore = useSessionStore();
+  if (!node) {
+    sessionStore.errorToast('Tried to remove inexistent node.');
+    return;
+  }
   if (!props.tutorialProject) {
     vueFlowStore.removeNodes(node);
     return;

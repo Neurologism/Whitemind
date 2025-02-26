@@ -95,10 +95,12 @@ const targetDataAttribute = computed(() => {
 const allowModifyDisplayText = computed((): boolean => {
   const sourceVal = Boolean(sourceDataAttribute.value?.allowModifyDisplayText);
   const targetVal = Boolean(targetDataAttribute.value?.allowModifyDisplayText);
+  const sessionStore = useSessionStore();
   if (sourceVal && targetVal) {
-    throw new Error(
+    sessionStore.errorToast(
       `Both source and target data attributes cannot have allowModifyDisplayText set to true. \nnode types are ${sourceNode.value.type} and ${targetNode.value.type}`
     );
+    return false;
   } else {
     return sourceVal !== targetVal;
   }
@@ -117,19 +119,22 @@ watch(
 
 function onDeselectDisplayTextInput() {
   let setDisplayText: ((edge: Edge, text: string) => void) | undefined;
+  const sessionStore = useSessionStore();
   if (sourceDataAttribute.value?.allowModifyDisplayText) {
     setDisplayText = sourceDataAttribute.value.setDisplayText;
   } else if (targetDataAttribute.value?.allowModifyDisplayText) {
     setDisplayText = targetDataAttribute.value.setDisplayText;
   } else {
-    throw new Error(
+    sessionStore.errorToast(
       `Both source and target data attributes cannot have allowModifyDisplayText set to true. \nnode types are ${sourceNode.value.type} and ${targetNode.value.type}`
     );
+    return;
   }
   if (!setDisplayText) {
-    throw new Error(
+    sessionStore.errorToast(
       `setDisplayText function is not defined even though allowModifyDisplayText is set to true. \nnode types are ${sourceNode.value.type} and ${targetNode.value.type}`
     );
+    return;
   }
   const currentDisplayText = projectStore.editorConfig.getEdgeDisplayText(
     props.id

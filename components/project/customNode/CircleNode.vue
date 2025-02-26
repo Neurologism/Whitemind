@@ -32,7 +32,7 @@ const shapeGroupData = projectStore.editorConfig.getNodeGroup(
 )!;
 
 if (nodesData.value === null) {
-  throw new Error('Node data is null');
+  throw new Error('Node data is null.');
 }
 nodesData.value.data.isExpanded ??= true;
 nodesData.value.data.showVisConfigs ??= false;

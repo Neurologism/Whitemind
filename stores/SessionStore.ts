@@ -51,6 +51,16 @@ export const useSessionStore = defineStore('sessionStore', {
     isProd: () => import.meta.env.PROD,
   },
   actions: {
+    async errorToast(msg: string) {
+      const toast = useToast();
+      toast.add({
+        title: 'An error occurred.',
+        description: msg,
+        icon: 'mdi-alert-circle',
+        color: 'red',
+      });
+      console.error(msg);
+    },
     async updateSecondaryEmail(secondaryEmail: string) {
       if (!this.sessionData.user.emails) {
         return false;
