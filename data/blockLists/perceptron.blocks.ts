@@ -290,7 +290,6 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                 constraints: {
                   allowedCategories: ['perceptron_activation_output'],
                   min: 1,
-                  max: 1,
                 },
               },
             },
