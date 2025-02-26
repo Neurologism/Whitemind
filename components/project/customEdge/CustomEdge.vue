@@ -210,8 +210,12 @@ export default {
 <template>
   <BaseEdge
     :path="path[0]"
-    class="transition-all duration-300"
-    :style="{ ...style, strokeWidth: isHovered ? 3 : 2 }"
+    class="duration-300"
+    :style="{
+      ...style,
+      strokeWidth: isHovered ? 3 : 2,
+      transitionProperty: 'stroke-width',
+    }"
   ></BaseEdge>
   <EdgeLabelRenderer>
     <div
@@ -242,7 +246,9 @@ export default {
         v-if="allowModifyDisplayText"
         v-model="edgeDisplayText"
         class="bg-transparent backdrop-blur-sm focus:bg-bg-2 border-bg-4 rounded-lg border focus:border-none px-[2px] focus:text-text-1 text-center"
-        :style="{ width: `${displayTextInputRef?.value.length ?? 2}ch` }"
+        :style="{
+          width: `${edgeDisplayText.length + 0.5}ch`,
+        }"
         variant="none"
         ref="displayTextInputRef"
         @blur="onDeselectDisplayTextInput"
