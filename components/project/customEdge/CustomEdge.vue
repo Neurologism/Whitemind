@@ -243,7 +243,8 @@ export default {
       <input
         v-if="allowModifyDisplayText"
         v-model="edgeDisplayText"
-        class="w-6 bg-transparent focus:bg-bg-2 border-none focus:text-text-1"
+        class="bg-transparent backdrop-blur-sm focus:bg-bg-2 border-bg-4 rounded-lg border focus:border-none px-[2px] focus:text-text-1 text-center"
+        :style="{ width: `${displayTextInputRef?.value.length ?? 2}ch` }"
         variant="none"
         ref="displayTextInputRef"
         @blur="onDeselectDisplayTextInput"
