@@ -18,7 +18,8 @@ const route = useRoute();
         <UIcon name="carbon:model-builder" class="mr-1"></UIcon>
         Editor
       </div>
-      <div
+      <!--   hide Models     -->
+      <!-- <div
         @click="navigateToSubroute(route.fullPath, 3, 'models')"
         variant="ghost"
         color="gray"
@@ -27,7 +28,7 @@ const route = useRoute();
       >
         <UIcon name="mdi:cube" class="mr-1"></UIcon>
         Models
-      </div>
+      </div> -->
       <div
         @click="navigateToSubroute(route.fullPath, 3, 'settings')"
         variant="ghost"
