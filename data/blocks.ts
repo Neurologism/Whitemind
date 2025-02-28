@@ -223,10 +223,6 @@ export const blocks: NodeGroupDefinition[] = [
                 ],
                 value: ['accuracy'],
               },
-              name: {
-                type: 'string',
-                value: 'model',
-              },
             },
           },
           {
@@ -279,10 +275,6 @@ export const blocks: NodeGroupDefinition[] = [
                 type: 'float',
                 value: null,
               },
-              name: {
-                type: 'string',
-                value: 'model',
-              },
             },
           },
           {
@@ -310,10 +302,6 @@ export const blocks: NodeGroupDefinition[] = [
                   min: 1,
                 },
               },
-              name: {
-                type: 'string',
-                value: 'model',
-              },
             },
           },
           {
@@ -336,10 +324,6 @@ export const blocks: NodeGroupDefinition[] = [
                 type: 'select',
                 options: ['onnx'],
                 value: 'onnx',
-              },
-              name: {
-                type: 'string',
-                value: 'model',
               },
             },
           },
