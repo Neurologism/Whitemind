@@ -5,6 +5,7 @@ definePageMeta({
 
 const projectStore = useProjectStore();
 const vueFlowStore = useVueFlowStore();
+const perceptronTrainingStore = usePerceptronTrainingStore();
 const toast = useToast();
 const route = useRoute();
 
@@ -72,6 +73,7 @@ async function confirmEditorChange() {
   showChangeProjectEditorModal.value = false;
   vueFlowStore.nodes = [];
   vueFlowStore.edges = [];
+  perceptronTrainingStore.$reset();
 
   await updateProject();
 }
