@@ -83,14 +83,6 @@ export const usePerceptronTrainingStore = defineStore(
 
       getInputNodeIndex(inputNodeId: string): number {
         return this.data.inputNodes.findIndex((nId) => nId === inputNodeId);
-        // perceptron specific index
-        // for (const perceptron of this.data.perceptrons) {
-        //   if (!perceptron.inputNodes) continue;
-        //   for (let i = 0; i < perceptron.inputNodes.length; i++) {
-        //     if (perceptron.inputNodes[i].id === inputNodeId) return i;
-        //   }
-        // }
-        // return -1;
       },
 
       setInputNodeUserValue(inputNodeId: string, newValue: number): void {
