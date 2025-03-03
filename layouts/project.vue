@@ -30,7 +30,7 @@ watch(
     console.log('Loading project...');
     await projectStore.loadProject(projectStore.projectId);
     sessionStore.loading = false;
-    await projectStore.populateModels();
+    // await projectStore.populateModels();
   }
 );
 
