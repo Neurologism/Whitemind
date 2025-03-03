@@ -1,24 +1,23 @@
 import type { Node } from '@vue-flow/core';
 import { type Edge } from './edge.type';
-import type { ActivationFunction } from '~/types/activationFunction.type';
 import { activationFunctionNodes } from '~/data/activationFunctionNodes';
 
 export class Perceptron {
   weights: number[];
-  activationFunction: ActivationFunction;
+  activationFunctionNodeType: string;
   operatorNode: Node | undefined;
   inputNodes: Node[] | undefined;
   signNode: Node | undefined;
 
   constructor(
     weights: number[],
-    activationFunction: ActivationFunction,
+    activationFunctionNodeType: string,
     operatorNode: Node | undefined = undefined,
     inputNodes: Node[] | undefined = undefined,
     signNode: Node | undefined = undefined
   ) {
     this.weights = weights;
-    this.activationFunction = activationFunction;
+    this.activationFunctionNodeType = activationFunctionNodeType;
     this.operatorNode = operatorNode;
     this.inputNodes = inputNodes;
     this.signNode = signNode;
@@ -70,7 +69,7 @@ export class Perceptron {
 
     return new Perceptron(
       weights,
-      activationFunctionNodes['activation_sign'], // FIXME: hardcoded activation function
+      'activation_sign', // FIXME: hardcoded activation function
       operatorNode,
       inputNodes,
       signNode
@@ -144,5 +143,9 @@ export class Perceptron {
       throw new Error('Specified input Node does not belong to perceptron.');
     }
     this.weights[nodeIndex] = weight;
+  }
+
+  get activationFunction() {
+    return activationFunctionNodes[this.activationFunctionNodeType];
   }
 }

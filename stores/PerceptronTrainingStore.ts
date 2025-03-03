@@ -122,7 +122,13 @@ export const usePerceptronTrainingStore = defineStore(
       },
 
       onOperatorNodeCreation(node: Node) {
-        const perceptron = new Perceptron([], (x) => x, node, [], undefined);
+        const perceptron = new Perceptron(
+          [],
+          'activation_none',
+          node,
+          [],
+          undefined
+        );
         this.data.perceptrons.push(perceptron);
       },
 

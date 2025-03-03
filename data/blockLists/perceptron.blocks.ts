@@ -188,14 +188,6 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                   if (isNaN(weightValue)) return;
                   perceptronTrainingStore.updateEdgeWeight(edge, weightValue);
                 },
-                dynamicAttributeName: (node: Node) => {
-                  const perceptronTrainingStore = usePerceptronTrainingStore();
-                  let inputNodeIndex = String(
-                    perceptronTrainingStore.getInputNodeIndex(node.id)
-                  );
-                  if (inputNodeIndex === '-1') inputNodeIndex = 'i';
-                  return `x<sub>${inputNodeIndex}</sub>`;
-                },
               },
             },
             onNodeRemoval: (node: Node) => {
@@ -269,8 +261,8 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                     return;
                   }
                   perceptron.signNode = signNode;
-                  perceptron.activationFunction =
-                    activationFunctionNodes[signNode.type ?? ''] ?? ((x) => x);
+                  perceptron.activationFunctionNodeType =
+                    signNode.type ?? 'activation_none';
                 },
                 onDisconnected(edge) {
                   const perceptronTrainingStore = usePerceptronTrainingStore();
@@ -281,7 +273,7 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                     return;
                   }
                   perceptron.signNode = undefined;
-                  perceptron.activationFunction = (x) => x;
+                  perceptron.activationFunctionNodeType = 'activation_none';
                 },
               },
             },
@@ -324,7 +316,6 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                 constraints: {
                   allowedCategories: ['perceptron_activation_output'],
                   min: 1,
-                  max: 1,
                 },
                 edgeDisplayText: (edge: Edge) => {
                   const perceptronTrainingStore = usePerceptronTrainingStore();
