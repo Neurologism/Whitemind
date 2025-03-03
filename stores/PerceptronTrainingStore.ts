@@ -87,6 +87,15 @@ export const usePerceptronTrainingStore = defineStore(
         // return -1;
       },
 
+      setInputNodeUserValue(inputNodeId: string, newValue: number): void {
+        const index = this.getInputNodeIndex(inputNodeId);
+        if (index === -1 || index >= this.data.inputNodeUserValues.length) {
+          console.error('Could not set input node user value.');
+          return;
+        }
+        this.data.inputNodeUserValues[index] = newValue;
+      },
+
       getInputNodeUserValue(inputNodeId: string): number {
         const index = this.getInputNodeIndex(inputNodeId);
         if (index === -1 || index >= this.data.inputNodeUserValues.length)
@@ -129,10 +138,9 @@ export const usePerceptronTrainingStore = defineStore(
         const perceptron = this.getInputNodePerceptron(node.id);
         if (!perceptron) return;
         perceptron.removeInput(node.id);
-      },
-
-      onInputNodeCreation(nodeId: string) {
-        this.data.inputNodes.push(nodeId);
+        const inputNodeIndex = this.getInputNodeIndex(node.id);
+        this.data.inputNodes.splice(inputNodeIndex);
+        this.data.inputNodeUserValues.splice(inputNodeIndex);
       },
 
       onConnectedInput(edge: Edge) {
@@ -141,8 +149,10 @@ export const usePerceptronTrainingStore = defineStore(
         const newPerceptron = this.getOperatorNodePerceptron(edge.target);
         if (
           !this.data.inputNodes.some((nodeId: string) => nodeId === edge.source)
-        )
+        ) {
           this.data.inputNodes.push(edge.source);
+          this.data.inputNodeUserValues.push(0);
+        }
         if (!newPerceptron) {
           sessionStore.errorToast('Perceptron does not exist.');
           return;
@@ -170,10 +180,15 @@ export const usePerceptronTrainingStore = defineStore(
           );
         }
         oldPerceptron.removeInput(inputNode.id);
-        if (this.getInputNodePerceptron(edge.source) === undefined)
-          this.data.inputNodes = this.data.inputNodes.filter(
-            (nodeId) => nodeId !== edge.source
-          );
+        if (this.getInputNodePerceptron(edge.source) === undefined) {
+          const index = this.getInputNodeIndex(inputNode.id);
+          if (index === -1) {
+            console.error('Input node not found');
+            return;
+          }
+          this.data.inputNodes.splice(index);
+          this.data.inputNodeUserValues.splice(index);
+        }
       },
 
       updateEdgeWeight(edge: Edge, weight: number) {

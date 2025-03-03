@@ -48,6 +48,11 @@ export default <Partial<Config>>{
           2: '#9ca3af',
           3: '#4b5563',
         },
+        editor: {
+          perceptron: {
+            blue: '#00bbf9',
+          },
+        },
       },
     },
   },

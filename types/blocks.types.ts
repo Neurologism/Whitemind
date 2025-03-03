@@ -72,6 +72,9 @@ export type NodeDefinitionDataEntry =
       allowModifyDisplayText?: boolean;
       setDisplayText?: (edge: Edge, text: string) => void;
       dynamicAttributeName?: (node: Node) => string;
+      hasInput?: boolean;
+      setInputValue?: (node: Node, text: string) => void;
+      getInputValue?: (node: Node) => string;
     }
   | {
       type: 'select';

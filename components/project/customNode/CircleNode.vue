@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Position, useNodesData } from '@vue-flow/core';
 import '@vue-flow/node-resizer/dist/style.css';
+import type { Reactive } from 'vue';
 import ClassicHandle from '~/components/project/customNode/ClassicHandle.vue';
 
 defineEmits(['node-contextmenu']);
@@ -14,6 +15,7 @@ const props = defineProps({
 
 const projectStore = useProjectStore();
 const vueFlowStore = useVueFlowStore();
+const perceptronTrainingStore = usePerceptronTrainingStore();
 
 const nodeObject = computed(() => {
   const nodeObject = vueFlowStore.getNode(props.nodeId);
@@ -36,6 +38,36 @@ if (nodesData.value === null) {
 }
 nodesData.value.data.isExpanded ??= true;
 nodesData.value.data.showVisConfigs ??= false;
+
+const attributeInputValues = ref<Record<string, string>>({});
+
+for (const key in shapeData.data) {
+  if (shapeData.data[key].type === 'id' && shapeData.data[key].hasInput) {
+    watch(
+      computed(() =>
+        shapeData.data[key].type === 'id' && shapeData.data[key].getInputValue
+          ? shapeData.data[key].getInputValue(nodeObject.value)
+          : '0'
+      ),
+      (newValue) => {
+        attributeInputValues.value[key] = newValue;
+      },
+      { immediate: true }
+    );
+  }
+}
+
+function onDeselectAttributeInputValue(key: string) {
+  if (shapeData.data[key].type !== 'id' || !shapeData.data[key].setInputValue)
+    return;
+  shapeData.data[key].setInputValue(
+    nodeObject.value,
+    attributeInputValues.value[key]
+  );
+  const getInputValue = shapeData.data[key].getInputValue;
+  if (getInputValue)
+    attributeInputValues.value[key] = getInputValue(nodeObject.value);
+}
 
 function clickIcons() {
   if (shapeGroupData.group_identifier !== 'visualizer') {
@@ -124,9 +156,16 @@ function clickIcons() {
               : shapeDefinition.flowOrientation === 'output',
           }"
         >
-          <div class="font-mono text-sm relative">
+          <div class="font-mono text-sm relative flex flex-row">
+            <input
+              v-if="shapeDefinition.hasInput"
+              v-model="attributeInputValues[key]"
+              class="mx-[-7px] w-8 bg-bg-2 border-text-3 rounded-lg border focus:border-editor-perceptron-blue px-[2px] text-center outline-none transition-colors duration-300"
+              @blur="onDeselectAttributeInputValue(key)"
+              @keyup.enter="onDeselectAttributeInputValue(key)"
+            />
             <span
-              class="pr-2.5 pl-2.5 p-0.5 font-mono"
+              class="px-2.5 p-0.5 font-mono"
               v-html="
                 shapeDefinition.dynamicAttributeName
                   ? shapeDefinition.dynamicAttributeName(nodeObject)
