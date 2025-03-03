@@ -226,10 +226,6 @@ export const classicBlocks: NodeGroupDefinition[] = [
                 ],
                 value: ['accuracy'],
               },
-              name: {
-                type: 'string',
-                value: 'model',
-              },
             },
           },
           {
@@ -283,10 +279,6 @@ export const classicBlocks: NodeGroupDefinition[] = [
                 type: 'float',
                 value: null,
               },
-              name: {
-                type: 'string',
-                value: 'model',
-              },
             },
           },
           {
@@ -315,10 +307,6 @@ export const classicBlocks: NodeGroupDefinition[] = [
                   min: 1,
                 },
               },
-              name: {
-                type: 'string',
-                value: 'model',
-              },
             },
           },
           {
@@ -342,10 +330,6 @@ export const classicBlocks: NodeGroupDefinition[] = [
                 type: 'select',
                 options: ['onnx'],
                 value: 'onnx',
-              },
-              name: {
-                type: 'string',
-                value: 'model',
               },
             },
           },

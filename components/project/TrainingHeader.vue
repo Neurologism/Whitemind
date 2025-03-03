@@ -1,27 +1,7 @@
 <script setup lang="ts">
-import { SyncStatus } from '~/types/syncStatus.enum';
-
 const toast = useToast();
 
 const trainingStore = useTrainingStore();
-const tutorialStore = useTutorialStore();
-const projectStore = useProjectStore();
-
-async function trainingStart() {
-  if (trainingStore.training.running || projectStore.project === null) return;
-  if (projectStore.syncStatus !== projectStore.syncStatus) {
-    await projectStore.syncProject();
-  }
-  const result = await trainingStore.startTraining(
-    projectStore.project?.data._id
-  );
-  toast.add({
-    icon: 'material-symbols:play-circle',
-    title: result.success ? 'Training started' : 'Training failed',
-    description: result.message ?? undefined,
-    color: result.success ? 'green' : 'red',
-  });
-}
 
 async function trainingStop() {
   const result = await trainingStore.stopTraining();
@@ -57,19 +37,8 @@ setInterval(updateTrainingStatus, 1000);
   <ClientOnly>
     <div class="rounded-lg flex flex-row items-center" style="">
       <UButton
-        @click="trainingStart"
-        v-if="!trainingStore.training.running"
-        icon="solar:dumbbell-large-bold"
-        size="lg"
-        variant="solid"
-        :color="tutorialStore.isTrainingEnabled ? 'primary' : 'gray'"
-        class="transition-all duration-300"
-        :disabled="!tutorialStore.isTrainingEnabled"
-        >Start Training</UButton
-      >
-      <UButton
         @click="trainingStop"
-        v-else
+        v-if="trainingStore.training.running"
         icon="material-symbols:stop-circle"
         size="lg"
         variant="solid"

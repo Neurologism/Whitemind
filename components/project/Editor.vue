@@ -443,7 +443,9 @@ onMounted(() => {
       v-model:nodes="vueFlowStore.nodes"
       v-model:edges="vueFlowStore.edges"
       @viewport-change-end="vueFlowStore.viewport = toObject().viewport"
-      class="border-3 border-amber-400 text-text-2"
+      class="text-text-2"
+      :snap-to-grid="true"
+      :snap-grid="[16, 16]"
       @edge-mouse-enter="
         (infos) => (vueFlowStore.highlightedEdge = infos.edge.id)
       "
