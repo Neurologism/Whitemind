@@ -21,7 +21,7 @@ function getPerceptronInputEdgeDisplayText(edge: Edge): string {
 
 export const perceptronBlocks: NodeGroupDefinition[] = [
   {
-    name: 'Perceptron',
+    name: 'Body',
     icon: 'solar:structure-bold',
     color: '#00bbf9',
     group_identifier: 'perceptron_base',
@@ -149,56 +149,56 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
               perceptronTrainingStore.onInputNodeRemoval(node);
             },
           },
-          {
-            display: NodeDisplay.Circle,
-            circleDiameter: 60,
-            hideTopBar: true,
-            type: 'perceptron_output_to_input_value',
-            name: 'Output to Input',
-            description:
-              'Use the output of a perceptron as input for the next one. ',
-            identifier: 'perceptron_output_to_input_value',
-            hideInput: true,
-            hideOutput: true,
-            data: {
-              y: {
-                type: 'id',
-                flowOrientation: FlowOrientation.INPUT,
-                constraints: {
-                  allowedCategories: ['perceptron_activation_output'],
-                  min: 1,
-                  max: 1,
-                },
-              },
-              x: {
-                type: 'id',
-                flowOrientation: FlowOrientation.OUTPUT,
-                constraints: {
-                  allowedCategories: ['perceptron_input'],
-                },
-                edgeDisplayText: getPerceptronInputEdgeDisplayText,
-                onConnected: (edge: Edge) => {
-                  const perceptronTrainingStore = usePerceptronTrainingStore();
-                  perceptronTrainingStore.onConnectedInput(edge);
-                },
-                onDisconnected: (edge: Edge) => {
-                  const perceptronTrainingStore = usePerceptronTrainingStore();
-                  perceptronTrainingStore.onDisconnectedInput(edge);
-                },
-                allowModifyDisplayText: true,
-                setDisplayText: (edge: Edge, text: string) => {
-                  const perceptronTrainingStore = usePerceptronTrainingStore();
-                  const weightValue = Number(text);
-                  if (isNaN(weightValue)) return;
-                  perceptronTrainingStore.updateEdgeWeight(edge, weightValue);
-                },
-              },
-            },
-            onNodeRemoval: (node: Node) => {
-              const perceptronTrainingStore = usePerceptronTrainingStore();
-              perceptronTrainingStore.onInputNodeRemoval(node);
-            },
-          },
+          // {
+          //   display: NodeDisplay.Circle,
+          //   circleDiameter: 60,
+          //   hideTopBar: true,
+          //   type: 'perceptron_output_to_input_value',
+          //   name: 'Output to Input',
+          //   description:
+          //     'Use the output of a perceptron as input for the next one. ',
+          //   identifier: 'perceptron_output_to_input_value',
+          //   hideInput: true,
+          //   hideOutput: true,
+          //   data: {
+          //     y: {
+          //       type: 'id',
+          //       flowOrientation: FlowOrientation.INPUT,
+          //       constraints: {
+          //         allowedCategories: ['perceptron_activation_output'],
+          //         min: 1,
+          //         max: 1,
+          //       },
+          //     },
+          //     x: {
+          //       type: 'id',
+          //       flowOrientation: FlowOrientation.OUTPUT,
+          //       constraints: {
+          //         allowedCategories: ['perceptron_input'],
+          //       },
+          //       edgeDisplayText: getPerceptronInputEdgeDisplayText,
+          //       onConnected: (edge: Edge) => {
+          //         const perceptronTrainingStore = usePerceptronTrainingStore();
+          //         perceptronTrainingStore.onConnectedInput(edge);
+          //       },
+          //       onDisconnected: (edge: Edge) => {
+          //         const perceptronTrainingStore = usePerceptronTrainingStore();
+          //         perceptronTrainingStore.onDisconnectedInput(edge);
+          //       },
+          //       allowModifyDisplayText: true,
+          //       setDisplayText: (edge: Edge, text: string) => {
+          //         const perceptronTrainingStore = usePerceptronTrainingStore();
+          //         const weightValue = Number(text);
+          //         if (isNaN(weightValue)) return;
+          //         perceptronTrainingStore.updateEdgeWeight(edge, weightValue);
+          //       },
+          //     },
+          //   },
+          //   onNodeRemoval: (node: Node) => {
+          //     const perceptronTrainingStore = usePerceptronTrainingStore();
+          //     perceptronTrainingStore.onInputNodeRemoval(node);
+          //   },
+          // },
           {
             display: NodeDisplay.Circle,
             circleDiameter: 150,
