@@ -9,7 +9,6 @@ const route = useRoute();
 projectStore.project = null;
 
 onMounted(() => {
-  sessionStore.loading = false;
   sessionStore.syncLocalSessionData();
   if (!sessionStore.isAuthorized) {
     navigateTo('/login');
@@ -30,6 +29,7 @@ watch(
   async () => {
     console.log('Loading project...');
     await projectStore.loadProject(projectStore.projectId);
+    sessionStore.loading = false;
     await projectStore.populateModels();
   }
 );
