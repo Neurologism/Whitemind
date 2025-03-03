@@ -1266,7 +1266,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
 
 export const classicEdgeColors: EdgeColors = {
   dataset: '#ff5722',
-  model: '#2196f3',
-  visualizer: '#673ab7',
-  layer: '#4caf50',
+  model: 'teal',
+  visualizer: 'purple',
+  layer: 'green',
 };
