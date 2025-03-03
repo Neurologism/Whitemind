@@ -39,7 +39,7 @@ if (nodesData.value === null) {
 nodesData.value.data.isExpanded ??= true;
 nodesData.value.data.showVisConfigs ??= false;
 
-const attributeInputValues = ref<Record<string, string>>({});
+const attributeInputValues = ref<Record<string, string | null>>({});
 
 for (const key in shapeData.data) {
   if (shapeData.data[key].type === 'id' && shapeData.data[key].hasInput) {
@@ -58,7 +58,11 @@ for (const key in shapeData.data) {
 }
 
 function onDeselectAttributeInputValue(key: string) {
-  if (shapeData.data[key].type !== 'id' || !shapeData.data[key].setInputValue)
+  if (
+    shapeData.data[key].type !== 'id' ||
+    !shapeData.data[key].setInputValue ||
+    attributeInputValues.value[key] === null
+  )
     return;
   shapeData.data[key].setInputValue(
     nodeObject.value,
@@ -158,7 +162,9 @@ function clickIcons() {
         >
           <div class="font-mono text-sm relative flex flex-row">
             <input
-              v-if="shapeDefinition.hasInput"
+              v-if="
+                shapeDefinition.hasInput && attributeInputValues[key] !== null
+              "
               v-model="attributeInputValues[key]"
               class="mx-[-7px] w-8 bg-bg-2 border-text-3 rounded-lg border focus:border-editor-perceptron-blue px-[2px] text-center outline-none transition-colors duration-300"
               @blur="onDeselectAttributeInputValue(key)"

@@ -74,9 +74,11 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                 hasInput: true,
                 getInputValue: (node: Node) => {
                   const perceptronTrainingStore = usePerceptronTrainingStore();
-                  return String(
-                    perceptronTrainingStore.getInputNodeUserValue(node.id)
-                  );
+                  const inputNodeUserValue =
+                    perceptronTrainingStore.getInputNodeUserValue(node.id);
+                  return isNaN(inputNodeUserValue)
+                    ? null
+                    : String(inputNodeUserValue);
                 },
                 setInputValue: (node: Node, text: string) => {
                   const perceptronTrainingStore = usePerceptronTrainingStore();

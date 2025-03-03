@@ -74,7 +74,7 @@ export type NodeDefinitionDataEntry =
       dynamicAttributeName?: (node: Node) => string;
       hasInput?: boolean;
       setInputValue?: (node: Node, text: string) => void;
-      getInputValue?: (node: Node) => string;
+      getInputValue?: (node: Node) => string | null;
     }
   | {
       type: 'select';
