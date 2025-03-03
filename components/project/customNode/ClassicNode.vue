@@ -9,6 +9,7 @@ import {
 import '@vue-flow/node-resizer/dist/style.css';
 import ClassicHandle from '~/components/project/customNode/ClassicHandle.vue';
 import { EditorConfig } from '~/types/editorConfig.class';
+import StartTrainingButton from '../StartTrainingButton.vue';
 
 defineEmits(['node-contextmenu']);
 
@@ -21,6 +22,7 @@ const props = defineProps({
 
 const projectStore = useProjectStore();
 const vueFlowStore = useVueFlowStore();
+const trainingStore = useTrainingStore();
 
 const nodeObject = computed(() => {
   const nodeObject = vueFlowStore.getNode(props.nodeId);
@@ -59,7 +61,13 @@ function clickIcons() {
       !nodesData.value!.data.showVisConfigs;
   }
 }
+
+const lastTrainingDataForNode = trainingStore.lastVisualizerData(props.nodeId);
+const renderTrainingDataInHeader = computed(() => {
+  return Object.keys(lastTrainingDataForNode.value).length <= 2;
+});
 </script>
+
 <template>
   <NodeResizeControl
     v-if="shapeData.minSize !== undefined"
@@ -117,31 +125,48 @@ function clickIcons() {
         :shape-data="shapeData"
         :shape-group-data="shapeGroupData"
       />
-      <div
-        class="flex justify-between items-center p-1 cursor-pointer"
-        @click="clickIcons"
-      >
+      <div class="flex justify-between items-center p-1 cursor-pointer">
         <UIcon
           v-if="
             EditorConfig.nodeHasNonIdData(shapeData) &&
             shapeGroupData.group_identifier !== 'visualizer'
           "
           name="material-symbols:expand-more"
+          @click="clickIcons"
           :style="{
             transform: nodesData!.data.isExpanded
               ? 'rotate(0deg)'
               : 'rotate(270deg)',
           }"
         />
-        <UIcon :name="shapeGroupData.icon" />
+        <UIcon :name="shapeGroupData.icon" @click="clickIcons" />
         <UIcon
           v-if="shapeGroupData.group_identifier === 'visualizer'"
+          @click="clickIcons"
           :name="
             nodesData!.data.showVisConfigs
               ? 'mdi-settings'
               : 'mdi-settings-outline'
           "
         />
+        <StartTrainingButton
+          v-if="shapeData.identifier === 'Model'"
+          :node-id="props.nodeId"
+        />
+        <div
+          v-if="
+            shapeGroupData.group_identifier !== 'visualizer' &&
+            renderTrainingDataInHeader
+          "
+          class="flex flex-1 flex-wrap text-xs items-center justify-center"
+        >
+          <div v-for="(value, key) in lastTrainingDataForNode">
+            <span
+              class="bg-opacity-40 bg-gray-900 mx-0.5 p-0.5 rounded-sm text-nowrap leading-5"
+              >{{ key }} {{ value }}</span
+            >
+          </div>
+        </div>
       </div>
       <span
         class="font-semibold"
@@ -153,6 +178,20 @@ function clickIcons() {
       ></span>
     </div>
     <div class="w-full h-full nodrag nowheel cursor-default">
+      <div
+        v-if="
+          shapeGroupData.group_identifier !== 'visualizer' &&
+          !renderTrainingDataInHeader
+        "
+        class="font-mono flex flex-1 flex-wrap text-xs text-center justify-center mt-1"
+      >
+        <div v-for="(value, key) in lastTrainingDataForNode">
+          <span
+            class="bg-opacity-60 bg-gray-900 mx-0.5 p-0.5 rounded-sm text-nowrap leading-5"
+            >{{ key }}: {{ value }}</span
+          >
+        </div>
+      </div>
       <div
         v-if="
           shapeGroupData.group_identifier === 'visualizer' &&
