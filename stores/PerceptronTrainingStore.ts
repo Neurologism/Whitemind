@@ -75,6 +75,12 @@ export const usePerceptronTrainingStore = defineStore(
         );
       },
 
+      getSignNodePerceptron(signNodeId: string): Perceptron | undefined {
+        return this.data.perceptrons.find(
+          (perceptron) => perceptron.signNode?.id === signNodeId
+        );
+      },
+
       getInputNodeIndex(inputNodeId: string): number {
         return this.data.inputNodes.findIndex((nId) => nId === inputNodeId);
         // perceptron specific index
@@ -135,7 +141,7 @@ export const usePerceptronTrainingStore = defineStore(
         delete this.data.inputNodeUserValues[node.id];
       },
 
-      onConnectedInput(edge: Edge) {
+      onConnectedInput(edge: Edge, inputNodeUserValue: number = 0) {
         const vueFlowStore = useVueFlowStore();
         const sessionStore = useSessionStore();
         const newPerceptron = this.getOperatorNodePerceptron(edge.target);
@@ -143,7 +149,7 @@ export const usePerceptronTrainingStore = defineStore(
           !this.data.inputNodes.some((nodeId: string) => nodeId === edge.source)
         ) {
           this.data.inputNodes.push(edge.source);
-          this.data.inputNodeUserValues[edge.source] = 0;
+          this.data.inputNodeUserValues[edge.source] = inputNodeUserValue;
         }
         if (!newPerceptron) {
           sessionStore.errorToast('Perceptron does not exist.');
@@ -190,6 +196,23 @@ export const usePerceptronTrainingStore = defineStore(
         const inputNode = vueFlowStore.getNode(edge.source);
         if (!inputNode) throw new Error('Input node does not exist.');
         perceptron.updateInputNodeWeight(inputNode, weight);
+      },
+
+      calculatePerceptronRawOutput(perceptron: Perceptron): number {
+        if (perceptron.inputNodes?.length !== perceptron.weights.length) {
+          console.error('Invalid inputNodes for perceptron.');
+          return NaN;
+        }
+        const inputValues = perceptron.inputNodes.map(
+          (node) => this.data.inputNodeUserValues[node.id]
+        );
+        return perceptron.calculateRawOutput(inputValues);
+      },
+
+      calculatePerceptronSignedOutput(perceptron: Perceptron): number {
+        const rawOutput = this.calculatePerceptronRawOutput(perceptron);
+        if (isNaN(rawOutput)) return rawOutput;
+        return perceptron.activationFunction(rawOutput);
       },
     },
   }

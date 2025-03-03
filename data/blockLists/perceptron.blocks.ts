@@ -1,7 +1,8 @@
 import { type Edge } from '~/types/edge.type';
-import { type Node } from '@vue-flow/core';
+import { useVueFlow, type Node } from '@vue-flow/core';
 import { FlowOrientation, NodeDisplay } from '~/types/blocks.types';
 import type { NodeGroupDefinition, EdgeColors } from '~/types/blocks.types';
+import { activationFunctionNodes } from '../activationFunctionNodes';
 
 function getPerceptronInputEdgeDisplayText(edge: Edge): string {
   const perceptronTrainingStore = usePerceptronTrainingStore();
@@ -122,7 +123,7 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                 edgeDisplayText: getPerceptronInputEdgeDisplayText,
                 onConnected: (edge: Edge) => {
                   const perceptronTrainingStore = usePerceptronTrainingStore();
-                  perceptronTrainingStore.onConnectedInput(edge);
+                  perceptronTrainingStore.onConnectedInput(edge, 1);
                 },
                 onDisconnected: (edge: Edge) => {
                   const perceptronTrainingStore = usePerceptronTrainingStore();
@@ -243,17 +244,42 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                     console.error('Perceptron not found.');
                     return '';
                   }
-                  if (
-                    perceptron.inputNodes?.length !== perceptron.weights.length
-                  ) {
-                    console.error('Invalid inputNodes for perceptron.');
-                    return '';
-                  }
-                  const inputValues = perceptron.inputNodes.map(
-                    (node) =>
-                      perceptronTrainingStore.data.inputNodeUserValues[node.id]
+                  return String(
+                    perceptronTrainingStore.calculatePerceptronRawOutput(
+                      perceptron
+                    )
                   );
-                  return String(perceptron.calculateRawOutput(inputValues));
+                },
+                onConnected(edge) {
+                  const perceptronTrainingStore = usePerceptronTrainingStore();
+                  const vueFlowStore = useVueFlowStore();
+                  const perceptron =
+                    perceptronTrainingStore.getOperatorNodePerceptron(
+                      edge.source
+                    );
+                  if (!perceptron) {
+                    console.error('Perceptron not found.');
+                    return;
+                  }
+                  const signNode = vueFlowStore.getNode(edge.target);
+                  if (!signNode) {
+                    console.error('Sign Node not found.');
+                    return;
+                  }
+                  perceptron.signNode = signNode;
+                  perceptron.activationFunction =
+                    activationFunctionNodes[signNode.type ?? ''] ?? ((x) => x);
+                },
+                onDisconnected(edge) {
+                  const perceptronTrainingStore = usePerceptronTrainingStore();
+                  const perceptron =
+                    perceptronTrainingStore.getSignNodePerceptron(edge.target);
+                  if (!perceptron) {
+                    console.error('Perceptron not found.');
+                    return;
+                  }
+                  perceptron.signNode = undefined;
+                  perceptron.activationFunction = (x) => x;
                 },
               },
             },
@@ -297,6 +323,20 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                   allowedCategories: ['perceptron_activation_output'],
                   min: 1,
                   max: 1,
+                },
+                edgeDisplayText: (edge: Edge) => {
+                  const perceptronTrainingStore = usePerceptronTrainingStore();
+                  const perceptron =
+                    perceptronTrainingStore.getSignNodePerceptron(edge.source);
+                  if (!perceptron) {
+                    console.error('Perceptron not found.');
+                    return '';
+                  }
+                  return String(
+                    perceptronTrainingStore.calculatePerceptronSignedOutput(
+                      perceptron
+                    )
+                  );
                 },
               },
             },
