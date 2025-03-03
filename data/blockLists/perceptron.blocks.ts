@@ -95,6 +95,10 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
               const perceptronTrainingStore = usePerceptronTrainingStore();
               perceptronTrainingStore.onInputNodeRemoval(node);
             },
+            onNodeCreation: (node: Node) => {
+              const perceptronTrainingStore = usePerceptronTrainingStore();
+              perceptronTrainingStore.data.inputNodeUserValues[node.id] = 0;
+            },
             contextMenuOptions: [
               // {
               //   label: 'Assign',

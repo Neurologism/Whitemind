@@ -147,7 +147,7 @@ export const usePerceptronTrainingStore = defineStore(
           !this.data.inputNodes.some((nodeId: string) => nodeId === edge.source)
         ) {
           this.data.inputNodes.push(edge.source);
-          this.data.inputNodeUserValues[edge.source] = inputNodeUserValue;
+          this.data.inputNodeUserValues[edge.source] ??= inputNodeUserValue;
         }
         if (!newPerceptron) {
           sessionStore.errorToast('Perceptron does not exist.');
@@ -183,7 +183,6 @@ export const usePerceptronTrainingStore = defineStore(
             return;
           }
           this.data.inputNodes.splice(index);
-          delete this.data.inputNodeUserValues[inputNode.id];
         }
       },
 
