@@ -382,6 +382,18 @@ watch(
 );
 
 const smallScreenNoteDismissed = ref(false);
+
+const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+  if (projectStore.syncStatus === SyncStatus.unsaved) {
+    event.preventDefault();
+    event.returnValue =
+      'Are you sure you want to leave? Your changes may not be saved.';
+  }
+};
+
+onMounted(() => {
+  window.addEventListener('beforeunload', handleBeforeUnload);
+});
 </script>
 
 <template>
