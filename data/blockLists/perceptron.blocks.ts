@@ -31,7 +31,7 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
         nodes: [
           {
             display: NodeDisplay.Circle,
-            circleDiameter: 60,
+            circleDiameter: 70,
             hideTopBar: true,
             type: 'input_value',
             name: 'Input Value',
@@ -69,6 +69,22 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                   );
                   if (inputNodeIndex === '-1') inputNodeIndex = 'i';
                   return `x<sub>${inputNodeIndex}</sub>`;
+                },
+                hasInput: true,
+                getInputValue: (node: Node) => {
+                  const perceptronTrainingStore = usePerceptronTrainingStore();
+                  return String(
+                    perceptronTrainingStore.getInputNodeUserValue(node.id)
+                  );
+                },
+                setInputValue: (node: Node, text: string) => {
+                  const perceptronTrainingStore = usePerceptronTrainingStore();
+                  const inputValue = Number(text);
+                  if (isNaN(inputValue)) return;
+                  perceptronTrainingStore.setInputNodeUserValue(
+                    node.id,
+                    inputValue
+                  );
                 },
               },
             },
