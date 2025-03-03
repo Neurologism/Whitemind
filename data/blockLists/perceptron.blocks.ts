@@ -233,6 +233,28 @@ export const perceptronBlocks: NodeGroupDefinition[] = [
                   min: 1,
                   max: 1,
                 },
+                edgeDisplayText: (edge: Edge) => {
+                  const perceptronTrainingStore = usePerceptronTrainingStore();
+                  const perceptron =
+                    perceptronTrainingStore.getOperatorNodePerceptron(
+                      edge.source
+                    );
+                  if (!perceptron) {
+                    console.error('Perceptron not found.');
+                    return '';
+                  }
+                  if (
+                    perceptron.inputNodes?.length !== perceptron.weights.length
+                  ) {
+                    console.error('Invalid inputNodes for perceptron.');
+                    return '';
+                  }
+                  const inputValues = perceptron.inputNodes.map(
+                    (node) =>
+                      perceptronTrainingStore.data.inputNodeUserValues[node.id]
+                  );
+                  return String(perceptron.calculateRawOutput(inputValues));
+                },
               },
             },
           },

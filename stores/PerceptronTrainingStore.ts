@@ -8,7 +8,7 @@ import type { OptionalExports } from '~/types/components.type';
 interface PerceptronTrainingStoreData {
   perceptrons: Perceptron[];
   inputNodes: string[];
-  inputNodeUserValues: number[];
+  inputNodeUserValues: Record<string, number>;
 }
 
 export const usePerceptronTrainingStore = defineStore(
@@ -19,7 +19,7 @@ export const usePerceptronTrainingStore = defineStore(
       data: {
         perceptrons: [],
         inputNodes: [],
-        inputNodeUserValues: [],
+        inputNodeUserValues: {},
       } as PerceptronTrainingStoreData,
     }),
     getters: {},
@@ -49,7 +49,7 @@ export const usePerceptronTrainingStore = defineStore(
             plainToInstance(Perceptron, perceptron)
         );
         this.data.inputNodes = state.inputNodes ?? [];
-        this.data.inputNodeUserValues = state.inputNodeUserValues ?? [];
+        this.data.inputNodeUserValues = state.inputNodeUserValues ?? {};
 
         this.initialized = true;
       },
@@ -88,19 +88,11 @@ export const usePerceptronTrainingStore = defineStore(
       },
 
       setInputNodeUserValue(inputNodeId: string, newValue: number): void {
-        const index = this.getInputNodeIndex(inputNodeId);
-        if (index === -1 || index >= this.data.inputNodeUserValues.length) {
-          console.error('Could not set input node user value.');
-          return;
-        }
-        this.data.inputNodeUserValues[index] = newValue;
+        this.data.inputNodeUserValues[inputNodeId] = newValue;
       },
 
       getInputNodeUserValue(inputNodeId: string): number {
-        const index = this.getInputNodeIndex(inputNodeId);
-        if (index === -1 || index >= this.data.inputNodeUserValues.length)
-          return 0;
-        return this.data.inputNodeUserValues[index];
+        return this.data.inputNodeUserValues[inputNodeId];
       },
 
       getInputNodePerceptron(inputNodeId: string): Perceptron | undefined {
@@ -140,7 +132,7 @@ export const usePerceptronTrainingStore = defineStore(
         perceptron.removeInput(node.id);
         const inputNodeIndex = this.getInputNodeIndex(node.id);
         this.data.inputNodes.splice(inputNodeIndex);
-        this.data.inputNodeUserValues.splice(inputNodeIndex);
+        delete this.data.inputNodeUserValues[node.id];
       },
 
       onConnectedInput(edge: Edge) {
@@ -151,7 +143,7 @@ export const usePerceptronTrainingStore = defineStore(
           !this.data.inputNodes.some((nodeId: string) => nodeId === edge.source)
         ) {
           this.data.inputNodes.push(edge.source);
-          this.data.inputNodeUserValues.push(0);
+          this.data.inputNodeUserValues[edge.source] = 0;
         }
         if (!newPerceptron) {
           sessionStore.errorToast('Perceptron does not exist.');
@@ -187,7 +179,7 @@ export const usePerceptronTrainingStore = defineStore(
             return;
           }
           this.data.inputNodes.splice(index);
-          this.data.inputNodeUserValues.splice(index);
+          delete this.data.inputNodeUserValues[inputNode.id];
         }
       },
 
