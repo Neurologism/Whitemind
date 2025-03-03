@@ -220,5 +220,14 @@ export const useProjectStore = defineStore('projectStore', {
       }
       return success;
     },
+
+    async resetProject() {
+      const vueFlowStore = useVueFlowStore();
+      const perceptronTrainingStore = usePerceptronTrainingStore();
+      vueFlowStore.$reset();
+      perceptronTrainingStore.$reset();
+      perceptronTrainingStore.initialized = true;
+      await this.syncProject();
+    },
   },
 });

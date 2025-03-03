@@ -71,10 +71,7 @@ async function cancelEditorChange() {
 
 async function confirmEditorChange() {
   showChangeProjectEditorModal.value = false;
-  vueFlowStore.nodes = [];
-  vueFlowStore.edges = [];
-  perceptronTrainingStore.$reset();
-
+  projectStore.resetProject();
   await updateProject();
 }
 
