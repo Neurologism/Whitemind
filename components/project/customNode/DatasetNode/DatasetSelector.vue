@@ -15,6 +15,26 @@ function bytesToSizeString(bytes: number) {
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
   return parseFloat((bytes / Math.pow(1024, i)).toFixed(2)) + sizes[i];
 }
+
+//remove all spaces and special characters + put everything to lowercase
+function normalizeString(str: string) {
+  return str.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+}
+
+const searchQuery = ref('');
+
+const searchResults = computed(() => {
+  if (searchQuery.value.trim() === '') {
+    return datasets;
+  }
+  const normalizedQuery = normalizeString(searchQuery.value);
+  return datasets.filter((dataset) => {
+    return (
+      normalizeString(dataset.name).includes(normalizedQuery) ||
+      normalizeString(dataset.description).includes(normalizedQuery)
+    );
+  });
+});
 </script>
 
 <template>
@@ -48,10 +68,11 @@ function bytesToSizeString(bytes: number) {
       size="md"
       placeholder="Search..."
       leading-icon="mdi-search"
+      v-model="searchQuery"
     ></UInput>
     <div class="flex-1 flex flex-col flex-nowrap overflow-y-auto h-96">
       <div
-        v-for="dataset in datasets"
+        v-for="dataset in searchResults"
         class="flex mx-5 flex-col flex-nowrap p-1 my-1 hover:scale-105 rounded transition-transform border cursor-pointer select-none bg-slate-700"
         @click="props.selectDataset(dataset)"
       >
