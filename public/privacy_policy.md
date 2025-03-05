@@ -1,7 +1,7 @@
 # WHITEMIND PRIVACY POLICY
 
 Effective: March 10, 2025 \
-Last Updated: March 4, 2025
+Last Updated: March 5, 2025
 
 1. [Welcome to WhiteMind!](#welcome-to-whitemind)
 2. [Information We Collect](#information-we-collect)
@@ -9,7 +9,16 @@ Last Updated: March 4, 2025
    - [Information We Collect Automatically](#information-we-collect-automatically)
    - [Information We Receive from Other Sources](#information-we-receive-from-other-sources)
 3. [How we use your information](#how-we-use-your-information)
-4.
+4. [How we disclose your information](#how-we-disclose-your-information)
+5. [Data retention](#data-retention)
+6. [How we protect your information](#how-we-protect-your-information)
+7. [How to control your privacy](#how-to-control-your-privacy)
+8. [International Data Transfers](#international-data-transfers)
+9. [Information About Local Privacy Laws](#information-about-local-privacy-laws)
+10. [Changes to This Privacy Policy](#changes-to-this-privacy-policy)
+11. [Contact Us](#contact-us)
+
+---
 
 ## Welcome to WhiteMind!
 
@@ -20,6 +29,8 @@ Your privacy is important to us. This Privacy Policy explains how we collect, us
 - Engaging with us through sales, marketing, events, or other related activities.
 
 We want to ensure you understand your rights and choices regarding your personal data. By using our services, you agree to the practices outlined in this policy. If you have any questions or concerns, feel free to contact us at **info@whitemind.net**.
+
+---
 
 ## Information We Collect
 
@@ -70,6 +81,8 @@ When you interact with WhiteMind advertisements or referral links on third-party
 We may receive information about you from external sources, including other users and third-party services. For example, if you interact with WhiteMind on social media, we may collect information such as your username from that platform.
 
 By using WhiteMind, you agree to the collection of this information as outlined above.
+
+---
 
 ## How we use your information
 
@@ -126,6 +139,8 @@ If necessary, we may process or share personal data to protect someone’s life 
 
 By using WhiteMind, you acknowledge that your data is processed in accordance with these principles.
 
+---
+
 ## How we disclose your information
 
 ### When You Authorize Us
@@ -167,3 +182,96 @@ If WhiteMind undergoes a merger, acquisition, reorganization, bankruptcy, or sal
 We may share information that has been aggregated or anonymized in a way that prevents it from being used to identify you. For example, we might publish user statistics to describe our services, demonstrate trends, or highlight product features to partners and the public.
 
 By using WhiteMind, you acknowledge that your data may be shared as described above.
+
+---
+
+## Data retention
+
+We retain your information for as long as necessary to fulfill the purposes outlined in this Privacy Policy. This includes providing services, resolving disputes, enforcing our policies, and complying with legal obligations. When we no longer need your data, we securely delete or anonymize it.
+
+---
+
+## How we protect your information
+
+We take extensive measures to safeguard your information. All data transmitted within our services is encrypted using HTTPS and Transport Layer Security (TLS) to prevent unauthorized access.
+
+Our systems are continuously monitored for vulnerabilities and potential threats, and we conduct regular security assessments to uphold the confidentiality, integrity, and availability of your data. Additionally, we implement industry best practices to reinforce our security framework and proactively address emerging risks.
+
+---
+
+## How to Control Your Privacy
+
+We believe that every WhiteMind user should have the ability to customize their experience, including their privacy preferences. While local laws may impose different requirements, we strive to provide all users with a consistent set of privacy controls, regardless of location. Below, you’ll find details on how to manage your data, delete or correct information, and request access to your data. Users in certain regions may have additional rights under local laws—these are outlined in the relevant sections below.
+
+### Disable or Delete Your Account
+
+You can delete your account at any time via the **User Settings** menu. This action permanently removes identifying information and anonymizes other associated data.
+
+### Manage Your Data
+
+You have control over your data and can edit or delete specific information within our services:
+
+- **Profile Information**: Update your display name, email address, and contact details.
+- **Created Content**: Edit or delete projects, files, and other content you've generated within WhiteMind.
+- **Payment Information**: Modify or remove stored payment methods.
+- **Activity & Interaction**: Manage your history, including projects, models, and purchases.
+
+In some cases, WhiteMind may retain certain data as described in this policy. Additionally, we may be legally required to preserve specific information even if you request its deletion.
+
+### Access Your Data
+
+You can request a copy of your data by contacting us at **info@whitemind.net**. Your data will be provided in a structured, commonly used, and machine-readable format. We aim to fulfill such requests within **30 days**.
+
+---
+
+## International Data Transfers
+
+WhiteMind is based in Germany, and we process and store information on servers located in Germany. However, depending on various factors—including the locations of our users and service providers—we may also store and process data on servers and equipment in other countries. These international data transfers enable us to provide our services efficiently.
+
+By accessing or using our services, or by providing information to us, you acknowledge that your data may be processed, transferred, and stored in Germany and other countries. These jurisdictions may have different data protection laws than your country of residence, and your rights under local law may not be the same.
+
+### Data Transfers Outside the EEA
+
+When transferring personal data outside the European Economic Area (EEA), we rely on the following safeguards:
+
+- **[Standard Contractual Clauses (SCCs)](https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32021D0914&from=EN)** (Module 1 and Module 2) approved by the European Commission.
+- **[Adequacy Decisions](https://ec.europa.eu/info/law/law-topic/data-protection/data-transfers-outside-eu/adequacy-protection-personal-data-non-eu-countries_en)** issued by the European Commission for certain countries.
+- Other legally recognized mechanisms to ensure compliance with data protection laws.
+
+### Compliance with Data Privacy Frameworks
+
+WhiteMind complies with the **EU-U.S. and Swiss-U.S. Data Privacy Frameworks**, as well as the **UK Extension to the EU-U.S. Data Privacy Framework**. These frameworks provide a legal basis for transferring personal data from the EU, Switzerland, and the UK to the United States.
+
+If you have any questions or concerns regarding our compliance with the Data Privacy Framework principles, you can contact us at **info@whitemind.net**. If we are unable to resolve your complaint, you may submit it free of charge to **[JAMS](https://www.jamsadr.com/eu-us-privacy-shield)**, an independent dispute resolution provider.
+
+Under certain conditions specified in the Data Privacy Framework principles, you may have the right to invoke **binding arbitration** for unresolved disputes. WhiteMind is also subject to the **investigatory and enforcement powers** of the **German Federal Commissioner for Data Protection and Freedom of Information (BfDI)**.
+
+In specific cases, WhiteMind may be held liable for the transfer of personal data from the EU, Switzerland, or the UK to third parties outside those regions. If there is any conflict between this privacy policy and the **EU-U.S. or Swiss-U.S. Data Privacy Framework Principles**, the **Principles shall govern**.
+
+---
+
+## Information About Local Privacy Laws
+
+If you are located in certain regions, including the European Union, you may have additional rights regarding your personal data. You can exercise these rights by contacting us:
+
+- **Right of Access** – Request a copy of your personal data.
+- **Right to Rectification** – Correct inaccurate or incomplete personal data.
+- **Right to Erasure** – Request the deletion of your personal data.
+- **Right to Restrict Processing** – Limit how your personal data is used.
+- **Right to Data Portability** – Receive your personal data in a structured, machine-readable format.
+- **Right to Object** – Object to the processing of your personal data in certain cases.
+- **Right to Withdraw Consent** – Withdraw consent at any time. Withdrawal does not affect the lawfulness of processing based on prior consent.
+
+If you have questions about these rights or wish to exercise them, please contact us at **info@whitemind.net**.
+
+---
+
+## Changes to This Privacy Policy
+
+We may update this Privacy Policy from time to time. The **last updated** date will always be displayed at the top of this page. If we make significant changes, we will provide notice as required by law, such as by sending an email or highlighting the updates within our services.
+
+---
+
+## Contact Us
+
+If you have any questions about this Privacy Policy or how we process your information, feel free to reach out to us at **info@whitemind.net**. We’re here to help.
