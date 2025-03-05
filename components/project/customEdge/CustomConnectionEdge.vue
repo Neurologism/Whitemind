@@ -11,9 +11,13 @@ const props = defineProps<ConnectionLineProps>();
 const sessionStore = useSessionStore();
 const projectStore = useProjectStore();
 
-const color = projectStore.editorConfig.getColorOfHandle(
-  props.sourceHandle!.id!
-);
+let color: string | undefined;
+
+try {
+  color = projectStore.editorConfig.getColorOfHandle(props.sourceHandle!.id!);
+} catch (e) {
+  color = projectStore.editorConfig.getColor;
+}
 
 const path = computed(() =>
   sessionStore.sessionData.smoothEdges

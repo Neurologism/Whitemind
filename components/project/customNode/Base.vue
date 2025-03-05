@@ -7,12 +7,9 @@ import { NodeDisplay } from '~/types/blocks.types';
 
 defineEmits(['node-contextmenu']);
 
-const props = defineProps({
-  nodeId: {
-    type: String,
-    required: true,
-  },
-});
+const props = defineProps<{
+  nodeId: string;
+}>();
 
 const projectStore = useProjectStore();
 

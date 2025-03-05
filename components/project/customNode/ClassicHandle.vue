@@ -29,10 +29,6 @@ const props = defineProps({
     type: Object as PropType<NodeConnectionConstraint>,
     required: false,
   },
-  shapeData: {
-    type: Object as PropType<NodeDefinition>,
-    required: true,
-  },
   shapeGroupData: {
     type: Object as PropType<NodeGroupDefinition>,
     required: true,
@@ -75,9 +71,12 @@ function checkConnection(
     sourceDirection = FlowOrientation.INPUT;
   } else if (connection.sourceHandle!.startsWith('val')) {
     let key = connection.sourceHandle!.split('-')[1];
-    if (
-      'constraints' in sourceNodeDefinition.data[key] &&
-      'flowOrientation' in sourceNodeDefinition.data[key]
+    if (key.endsWith('_dataset')) {
+      sourceConstraints = { allowedCategories: ['dataset'] };
+      sourceDirection = FlowOrientation.OUTPUT;
+    } else if (
+      'constraints' in (sourceNodeDefinition.data[key] ?? {}) &&
+      'flowOrientation' in (sourceNodeDefinition.data[key] ?? {})
     ) {
       sourceConstraints = sourceNodeDefinition.data[key].constraints;
       sourceDirection = sourceNodeDefinition.data[key].flowOrientation;
@@ -94,9 +93,12 @@ function checkConnection(
     targetDirection = FlowOrientation.OUTPUT;
   } else if (connection.targetHandle!.startsWith('val')) {
     const key = connection.targetHandle!.split('-')[1];
-    if (
-      'constraints' in targetNodeDefinition.data[key] &&
-      'flowOrientation' in targetNodeDefinition.data[key]
+    if (key.endsWith('_dataset')) {
+      targetConstraints = { allowedCategories: ['dataset'] };
+      targetDirection = FlowOrientation.OUTPUT;
+    } else if (
+      'constraints' in (targetNodeDefinition.data[key] ?? {}) &&
+      'flowOrientation' in (targetNodeDefinition.data[key] ?? {})
     ) {
       targetConstraints = targetNodeDefinition.data[key].constraints;
       targetDirection = targetNodeDefinition.data[key].flowOrientation;

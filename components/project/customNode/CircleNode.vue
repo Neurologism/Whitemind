@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Position, useNodesData } from '@vue-flow/core';
 import '@vue-flow/node-resizer/dist/style.css';
-import type { Reactive } from 'vue';
 import ClassicHandle from '~/components/project/customNode/ClassicHandle.vue';
 
 defineEmits(['node-contextmenu']);
@@ -114,7 +113,6 @@ function clickIcons() {
           :handle-id="`in-${props.nodeId}`"
           :is-input="true"
           :position="Position.Left"
-          :shape-data="shapeData"
           :shape-group-data="shapeGroupData"
         />
         <ClassicHandle
@@ -123,7 +121,6 @@ function clickIcons() {
           :handle-id="`out-${props.nodeId}`"
           :is-input="false"
           :position="Position.Right"
-          :shape-data="shapeData"
           :shape-group-data="shapeGroupData"
         />
         <div
@@ -193,7 +190,6 @@ function clickIcons() {
                   ? Position.Left
                   : Position.Right
               "
-              :shape-data="shapeData"
               :shape-group-data="shapeGroupData"
             />
           </div>

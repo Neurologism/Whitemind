@@ -1,6 +1,5 @@
-import { FlowOrientation } from '~/types/blocks.types';
-import { NodeDisplay } from '~/types/blocks.types';
-import type { NodeGroupDefinition, EdgeColors } from '~/types/blocks.types';
+import type { EdgeColors, NodeGroupDefinition } from '~/types/blocks.types';
+import { FlowOrientation, NodeDisplay } from '~/types/blocks.types';
 
 export const classicBlocks: NodeGroupDefinition[] = [
   {
@@ -13,6 +12,16 @@ export const classicBlocks: NodeGroupDefinition[] = [
       {
         name: 'UNCATEGORIZED',
         nodes: [
+          {
+            display: NodeDisplay.Classic,
+            type: 'dataset_node',
+            name: 'Dataset',
+            description: 'Select or Upload a dataset to use with your project',
+            identifier: 'dataset_node',
+            hideInput: true,
+            hideOutput: true,
+            data: {},
+          },
           {
             display: NodeDisplay.Classic,
             type: 'mnist',

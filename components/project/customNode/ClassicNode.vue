@@ -10,6 +10,7 @@ import '@vue-flow/node-resizer/dist/style.css';
 import ClassicHandle from '~/components/project/customNode/ClassicHandle.vue';
 import { EditorConfig } from '~/types/editorConfig.class';
 import StartTrainingButton from '../StartTrainingButton.vue';
+import DatasetNode from '~/components/project/customNode/DatasetNode/DatasetNode.vue';
 
 defineEmits(['node-contextmenu']);
 
@@ -113,7 +114,6 @@ const renderTrainingDataInHeader = computed(() => {
         :handle-id="`in-${props.nodeId}`"
         :is-input="true"
         :position="Position.Left"
-        :shape-data="shapeData"
         :shape-group-data="shapeGroupData"
       />
       <ClassicHandle
@@ -122,7 +122,6 @@ const renderTrainingDataInHeader = computed(() => {
         :handle-id="`out-${props.nodeId}`"
         :is-input="false"
         :position="Position.Right"
-        :shape-data="shapeData"
         :shape-group-data="shapeGroupData"
       />
       <div class="flex justify-between items-center p-1 cursor-pointer">
@@ -204,6 +203,13 @@ const renderTrainingDataInHeader = computed(() => {
           :nodeId="props.nodeId"
         ></component>
       </div>
+      <div v-if="shapeData.identifier === 'dataset_node'">
+        <DatasetNode
+          :node-id="nodeId"
+          :shape-data="shapeData"
+          :shape-group-data="shapeGroupData"
+        />
+      </div>
       <div
         :class="`${EditorConfig.nodeHasNonIdData(shapeData) && nodesData!.data.isExpanded ? 'mt-0.5 mb-1' : null}`"
       >
@@ -247,7 +253,6 @@ const renderTrainingDataInHeader = computed(() => {
                     ? Position.Left
                     : Position.Right
                 "
-                :shape-data="shapeData"
                 :shape-group-data="shapeGroupData"
               />
             </div>

@@ -235,6 +235,10 @@ export class EditorConfig {
       const group = this.getNodeGroup(node.type ?? '');
       return group?.color ?? '#000000';
     } else if (split.length === 3) {
+      if (split[1].endsWith('_dataset')) {
+        return this.getColorOfCategory('dataset');
+      }
+
       const node = vueFlowStore.getNode(nodeId!)!;
       const nodeDef = this.getCustomNodeConfig(node.type ?? '');
       if (!nodeDef) {
@@ -287,6 +291,12 @@ export class EditorConfig {
       } else return null;
     }
     if (split.length === 3) {
+      console.log(split);
+      if (split[1].endsWith('_dataset')) {
+        return {
+          allowedCategories: ['dataset'],
+        };
+      }
       const handleTypeKey = split[split.length - 2];
       if ('constraints' in nodeDef.data[handleTypeKey]) {
         return nodeDef.data[handleTypeKey].constraints;
