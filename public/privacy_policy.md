@@ -24,7 +24,7 @@ Last Updated: March 5, 2025
 
 Your privacy is important to us. This Privacy Policy explains how we collect, use, store, and share your personal information when you interact with our services, including:
 
-- Visiting our website at [http://www.whitemind.net](http://www.whitemind.net) or any affiliated site linking to this policy.
+- Visiting our website at [https://whitemind.net](https://whitemind.net) or any affiliated site linking to this policy.
 - Using **WhiteMind**, our AI-powered platform for learning, prototyping, collaboration, and innovation.
 - Engaging with us through sales, marketing, events, or other related activities.
 
