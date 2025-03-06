@@ -28,7 +28,7 @@ const DISPLAY_NODES: Record<NodeDisplay, any> = {
   <component
     :is="DISPLAY_NODES[shapeData.display]"
     :nodeId="props.nodeId"
-    @node-contextmenu="$emit('node-contextmenu', nodeId)"
+    @node-contextmenu="$emit('node-contextmenu', props.nodeId)"
   />
 </template>
 

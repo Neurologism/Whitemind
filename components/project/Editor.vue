@@ -487,7 +487,6 @@ onMounted(() => {
         v-slot:[`node-${node.type}`]="props"
       >
         <ProjectCustomNodeBase
-          :props="props"
           :node-id="props.id"
           @nodeContextmenu="onContextMenu"
           :key="route.fullPath.split('/')[2]"

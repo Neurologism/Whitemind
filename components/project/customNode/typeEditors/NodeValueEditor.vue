@@ -1,14 +1,7 @@
 <script lang="ts" setup>
-import NodeStringEditor from '~/components/project/customNode/typeEditors/editors/NodeStringEditor.vue';
-import NodeBoolEditor from '~/components/project/customNode/typeEditors/editors/NodeBoolEditor.vue';
-import NodeSelectEditor from '~/components/project/customNode/typeEditors/editors/NodeSelectEditor.vue';
-import NodeTupleEditor from '~/components/project/customNode/typeEditors/editors/NodeTupleEditor.vue';
-import NodeMultiselectEditor from '~/components/project/customNode/typeEditors/editors/NodeMultiselectEditor.vue';
 import type { NodeDefinitionDataEntry } from '~/types/blocks.types';
 import { useNodesData } from '@vue-flow/core';
-import NodeRangeEditor from '~/components/project/customNode/typeEditors/editors/NodeRangeEditor.vue';
-import NodeIntEditor from '~/components/project/customNode/typeEditors/editors/NodeIntEditor.vue';
-import NodeFloatEditor from '~/components/project/customNode/typeEditors/editors/NodeFloatEditor.vue';
+import { nodeDataEditors } from '~/data/classic.data.editors';
 
 const props = defineProps<{
   paramName: string;
@@ -18,22 +11,12 @@ const props = defineProps<{
 
 const nodesData = useNodesData(props.nodeId)!;
 
-const nodeDataEditors = {
-  string: NodeStringEditor,
-  boolean: NodeBoolEditor,
-  select: NodeSelectEditor,
-  float: NodeFloatEditor,
-  int: NodeIntEditor,
-  tuple: NodeTupleEditor,
-  multiselect: NodeMultiselectEditor,
-  range: NodeRangeEditor,
-} as Record<string, Component>;
-
 function deepEqual(a: any, b: any) {
   return JSON.stringify(a) === JSON.stringify(b);
 }
 
 const actionRequired = computed(() => {
+  if (props.shapeDefinition.type === 'nested') return false;
   if (props.shapeDefinition.type === 'id') return false;
   const required = !props.shapeDefinition.value !== undefined;
   return required && nodesData.value?.data[props.paramName] === undefined;
@@ -57,19 +40,18 @@ if (nodeDataEditors[props.shapeDefinition.type] === undefined) {
   >
     <div class="flex flex-row flex-nowrap">
       <div class="flex-none flex items-center justify-start">
-        <UTooltip :popper="{ adaptive: true, resize: true, placement: 'top' }">
+        <UTooltip :popper="{ adaptive: true, resize: false, placement: 'top' }">
           <span
             :class="{ 'blink-underline': actionRequired }"
             class="flex-none text-sm font-mono"
-            >{{ paramName }}</span
+            >{{ paramName.split('.').pop() }}</span
           >
           <template #text>
             <span class="text-sky-100 text-xs font-mono font-thin">
               <span class="font-semibold">type: </span
               >{{ shapeDefinition.type }}</span
             >
-            <br />
-            <span class="text-sky-100 text-xs font-mono font-thin">
+            <span class="ml-2 text-sky-100 text-xs font-mono font-thin">
               <span class="font-semibold">default: </span>
               {{ props.shapeDefinition }}
             </span>
@@ -113,9 +95,12 @@ if (nodeDataEditors[props.shapeDefinition.type] === undefined) {
       </div>
       <div
         v-if="
-          !deepEqual(shapeDefinition, nodesData?.data[paramName] ?? undefined)
+          !deepEqual(
+            shapeDefinition,
+            nodesData?.data[paramName] ?? undefined
+          ) && props.shapeDefinition.type !== 'nested'
         "
-        class="flex-none p-1 ml-1 z-10 flex items-center justify-center cursor-pointer"
+        class="flex-none p-1 ml-1 mr-1 z-10 flex items-center justify-center cursor-pointer"
         @click="nodesData!.data[paramName] = shapeDefinition"
       >
         <UIcon name="mdi-reload" />

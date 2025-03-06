@@ -121,6 +121,11 @@ export type NodeDefinitionDataEntry =
       step: number;
       value?: number | null;
       inline: boolean | undefined;
+    }
+  | {
+      type: 'nested';
+      shapes: Record<string, NodeDefinitionDataEntry>;
+      inline: boolean | undefined;
     };
 
 export type EdgeColors = Record<string, string>;

@@ -42,7 +42,7 @@ onMounted(() => {
       }"
     >
       <span class="flex-1">
-        {{ paramName }}
+        {{ paramName.split('.').pop() }}
       </span>
       <span>
         {{ nodesData!.data[paramName] }}
