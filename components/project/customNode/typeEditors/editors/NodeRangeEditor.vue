@@ -28,12 +28,16 @@ watch(
   }
 );
 
+function toFixed2(val: string) {
+  return parseFloat(val).toFixed(2);
+}
+
 onMounted(() => {
   inputCB();
 });
 </script>
 <template>
-  <div class="w-full">
+  <div class="">
     <div
       class="flex flex-row flex-nowrap h-6 absolute pointer-events-none pl-1.5 pr-1.5 pt-0.5 font-mono text-sm align-bottom"
       :style="{
@@ -41,11 +45,11 @@ onMounted(() => {
         height: rangeRef?.clientHeight + 'px',
       }"
     >
-      <span class="flex-1">
+      <span class="">
         {{ paramName.split('.').pop() }}
       </span>
-      <span>
-        {{ nodesData!.data[paramName] }}
+      <span class="flex-1 text-right">
+        {{ toFixed2(nodesData!.data[paramName]) }}
       </span>
     </div>
     <input

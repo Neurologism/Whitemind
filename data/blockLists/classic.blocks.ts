@@ -1162,7 +1162,8 @@ export const classicBlocks: NodeGroupDefinition[] = [
               },
               noise_shape: {
                 type: 'tuple',
-                itemType: 'number',
+                itemType: 'float',
+                inline: true,
                 value: null,
               },
               seed: {

@@ -102,7 +102,8 @@ export type NodeDefinitionDataEntry =
     }
   | {
       type: 'tuple';
-      itemType: 'number' | 'string';
+      itemType: 'int' | 'float' | 'string';
+      inline: boolean | undefined;
       value?: string[] | null;
     }
   | {
