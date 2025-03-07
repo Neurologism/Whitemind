@@ -24,6 +24,15 @@ if (nodeDataEditors[props.shapeDefinition.type] === undefined) {
   );
 }
 
+const isResettable = computed(() => {
+  if (props.shapeDefinition.type === 'nested') return false;
+  if (props.shapeDefinition.type === 'id') return false;
+  return (
+    JSON.stringify(nodesData.value?.data[props.paramName]) !==
+    JSON.stringify(props.shapeDefinition.value)
+  );
+});
+
 function resetValue() {
   if (props.shapeDefinition.type === 'nested') return;
   if (props.shapeDefinition.type === 'id') return;
@@ -71,6 +80,7 @@ function resetValue() {
         />
       </div>
       <div
+        v-if="isResettable"
         class="flex-none p-1 ml-1 z-10 flex items-center justify-center cursor-pointer"
         @click="resetValue"
       >
@@ -96,7 +106,7 @@ function resetValue() {
       />
     </div>
     <div
-      v-if="props.shapeDefinition.type !== 'nested'"
+      v-if="props.shapeDefinition.type !== 'nested' && isResettable"
       class="flex p-1 mr-1 z-10 items-center justify-center cursor-pointer"
       @click="resetValue"
     >
