@@ -23,6 +23,12 @@ if (nodeDataEditors[props.shapeDefinition.type] === undefined) {
     `No editor found for type "${props.shapeDefinition.type}" in NodeValueEditor`
   );
 }
+
+function resetValue() {
+  if (props.shapeDefinition.type === 'nested') return;
+  if (props.shapeDefinition.type === 'id') return;
+  nodesData.value!.data[props.paramName] = props.shapeDefinition.value;
+}
 </script>
 
 <template>
@@ -66,7 +72,7 @@ if (nodeDataEditors[props.shapeDefinition.type] === undefined) {
       </div>
       <div
         class="flex-none p-1 ml-1 z-10 flex items-center justify-center cursor-pointer"
-        @click="nodesData!.data[paramName] = shapeDefinition"
+        @click="resetValue"
       >
         <UIcon name="mdi-reload" />
       </div>
@@ -92,7 +98,7 @@ if (nodeDataEditors[props.shapeDefinition.type] === undefined) {
     <div
       v-if="props.shapeDefinition.type !== 'nested'"
       class="flex p-1 mr-1 z-10 items-center justify-center cursor-pointer"
-      @click="nodesData!.data[paramName] = shapeDefinition"
+      @click="resetValue"
     >
       <UIcon name="mdi-reload" />
     </div>

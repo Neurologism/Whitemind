@@ -40,6 +40,7 @@ const open = ref(false);
         :param-name="`${props.paramName}.${key}`"
         :shape-definition="option"
         :node-id="nodeId"
+        class="my-1.5"
       />
     </div>
   </div>

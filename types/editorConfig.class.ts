@@ -188,14 +188,25 @@ export class EditorConfig {
     const data = {} as Record<string, any>;
 
     for (const key in node.data) {
-      if (node.data[key] !== undefined) {
-        if ('value' in node.data[key]) {
-          data[key] = node.data[key].value;
-        } else {
-          data[key] = undefined;
+      if (node.data[key] === undefined) continue;
+      if (node.data[key].type === 'id') continue;
+      if (node.data[key].type === 'nested') {
+        for (const key2 in node.data[key].shapes) {
+          if ('value' in node.data[key].shapes[key2]) {
+            data[`${key}.${key2}`] = node.data[key].shapes[key2].value;
+          } else {
+            data[`${key}.${key2}`] = undefined;
+          }
         }
       }
+      if ('value' in node.data[key]) {
+        data[key] = node.data[key].value;
+      } else {
+        data[key] = undefined;
+      }
     }
+
+    console.log(data);
 
     return {
       id: Math.random().toString(36),

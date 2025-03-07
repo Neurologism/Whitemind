@@ -104,7 +104,7 @@ export type NodeDefinitionDataEntry =
       type: 'tuple';
       itemType: 'int' | 'float' | 'string';
       inline: boolean | undefined;
-      value?: string[] | null;
+      value?: (number | string)[] | null;
     }
   | {
       type: 'multiselect';
