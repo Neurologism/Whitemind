@@ -407,7 +407,6 @@ export const classicBlocks: NodeGroupDefinition[] = [
             },
             outputConstraints: {
               allowedCategories: ['layer'],
-              max: 1,
               min: 1,
             },
             data: {
@@ -457,7 +456,6 @@ export const classicBlocks: NodeGroupDefinition[] = [
             },
             outputConstraints: {
               allowedCategories: ['layer'],
-              max: 1,
               min: 1,
             },
             data: {
@@ -501,6 +499,47 @@ export const classicBlocks: NodeGroupDefinition[] = [
           },
           {
             display: NodeDisplay.Classic,
+            type: 'activation',
+            name: 'Activation Layer',
+            identifier: 'activation',
+            description: 'Applies an activation function to an output.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              activation: {
+                type: 'select',
+                options: [
+                  'relu',
+                  'sigmoid',
+                  'softmax',
+                  'softplus',
+                  'softsign',
+                  'tanh',
+                  'selu',
+                  'elu',
+                  'exponential',
+                  'leaky_relu',
+                  'relu6',
+                  'silu',
+                  'hard_silu',
+                  'gelu',
+                  'hard_sigmoid',
+                  'linear',
+                  'mish',
+                  'log_softmax',
+                ],
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
             type: 'embedding',
             name: 'Embedding Layer',
             identifier: 'embedding',
@@ -513,7 +552,6 @@ export const classicBlocks: NodeGroupDefinition[] = [
             },
             outputConstraints: {
               allowedCategories: ['layer'],
-              max: 1,
               min: 1,
             },
             data: {
@@ -534,529 +572,871 @@ export const classicBlocks: NodeGroupDefinition[] = [
               },
             },
           },
-          // {
-          // display: NodeDisplay.CLASSIC,
-          //   type: "activation",
-          //   name: "Activation Layer",
-          //   identifier: "activation",
-          //   description: "Applies an activation function to an output.",
-          //   data: {
-          //     activation: {
-          //       type: "select",
-          //       options: [
-          //         "relu",
-          //         "sigmoid",
-          //         "softmax",
-          //         "softplus",
-          //         "softsign",
-          //         "tanh",
-          //         "selu",
-          //         "elu",
-          //         "exponential",
-          //         "leaky_relu",
-          //         "relu6",
-          //         "silu",
-          //         "hard_silu",
-          //         "gelu",
-          //         "hard_sigmoid",
-          //         "linear",
-          //         "mish",
-          //         "log_softmax",
-          //       ],
-          //     },
-          //   },
-          // },
         ],
       },
-      // {
-      //   name: 'CONVOLUTION LAYERS',
-      //   nodes: [
-      //     // {
-      //      // display: NodeDisplay.CLASSIC,
-      //               //   type: "conv1d",
-      //               //   name: "1D Convolution Layer",
-      //               //   identifier: "conv1d",
-      //               //   description: "1D convolution layer.",
-      //               //   data: {
-      //               //     filters: {
-      //               //       type: "number",
-      //               //     },
-      //               //     kernel_size: {
-      //               //       type: "number",
-      //               //     },
-      //               //     strides: {
-      //               //       type: "number",
-      //               //       value: 1,
-      //               //     },
-      //               //     padding: {
-      //               //       type: "select",
-      //               //       options: ["valid", "same"],
-      //               //       value: "valid",
-      //               //     },
-      //               //     data_format: {
-      //               //       type: "select",
-      //               //       options: ["channels_first", "channels_last"],
-      //               //       value: "channels_last",
-      //               //     },
-      //               //     dilation_rate: {
-      //               //       type: "number",
-      //               //       value: 1,
-      //               //     },
-      //               //     groups: {
-      //               //       type: "number",
-      //               //       value: 1,
-      //               //     },
-      //               //     activation: {
-      //               //       type: "select",
-      //               //       options: [
-      //               //         "relu",
-      //               //         "sigmoid",
-      //               //         "softmax",
-      //               //         "softplus",
-      //               //         "softsign",
-      //               //         "tanh",
-      //               //         "selu",
-      //               //         "elu",
-      //               //         "exponential",
-      //               //         "leaky_relu",
-      //               //         "relu6",
-      //               //         "silu",
-      //               //         "hard_silu",
-      //               //         "gelu",
-      //               //         "hard_sigmoid",
-      //               //         "linear",
-      //               //         "mish",
-      //               //         "log_softmax",
-      //               //       ],
-      //               //       value: null,
-      //               //     },
-      //               //     use_bias: {
-      //               //       type: "boolean",
-      //               //       value: true,
-      //               //     },
-      //               //   },
-      //               // },
-      //               // {
-      //      // display: NodeDisplay.CLASSIC,
-      //               //   type: "conv2d",
-      //               //   name: "2D Convolution Layer",
-      //               //   identifier: "conv2d",
-      //               //   description: "2D convolution layer.",
-      //               //   data: {
-      //               //     filters: {
-      //               //       type: "number",
-      //               //     },
-      //               //     kernel_size: {
-      //               //       type: "tuple",
-      //               //       itemType: "number",
-      //               //     },
-      //               //     strides: {
-      //               //       type: "tuple",
-      //               //       itemType: "number",
-      //               //       value: [1, 1],
-      //               //     },
-      //               //     padding: {
-      //               //       type: "select",
-      //               //       options: ["valid", "same"],
-      //               //       value: "valid",
-      //               //     },
-      //               //     data_format: {
-      //               //       type: "select",
-      //               //       options: ["channels_first", "channels_last"],
-      //               //       value: "channels_last",
-      //               //     },
-      //               //     dilation_rate: {
-      //               //       type: "tuple",
-      //               //       itemType: "number",
-      //               //       value: [1, 1],
-      //               //     },
-      //               //     groups: {
-      //               //       type: "number",
-      //               //       value: 1,
-      //               //     },
-      //               //     activation: {
-      //               //       type: "select",
-      //               //       options: [
-      //               //         "relu",
-      //               //         "sigmoid",
-      //               //         "softmax",
-      //               //         "softplus",
-      //               //         "softsign",
-      //               //         "tanh",
-      //               //         "selu",
-      //               //         "elu",
-      //               //         "exponential",
-      //               //         "leaky_relu",
-      //               //         "relu6",
-      //               //         "silu",
-      //               //         "hard_silu",
-      //               //         "gelu",
-      //               //         "hard_sigmoid",
-      //               //         "linear",
-      //               //         "mish",
-      //               //         "log_softmax",
-      //               //       ],
-      //               //       value: null,
-      //               //     },
-      //               //     use_bias: {
-      //               //       type: "boolean",
-      //               //       value: true,
-      //               //     },
-      //               //   },
-      //               // },
-      //               // {
-      //      // display: NodeDisplay.CLASSIC,
-      //               //   type: "conv3d",
-      //               //   name: "3D Convolution Layer",
-      //               //   identifier: "conv3d",
-      //               //   description: "3D convolution layer.",
-      //               //   data: {
-      //               //     filters: {
-      //               //       type: "number",
-      //               //     },
-      //               //     kernel_size: {
-      //               //       type: "tuple",
-      //               //       itemType: "number",
-      //               //     },
-      //               //     strides: {
-      //               //       type: "tuple",
-      //               //       itemType: "number",
-      //               //       value: [1, 1, 1],
-      //               //     },
-      //               //     padding: {
-      //               //       type: "select",
-      //               //       options: ["valid", "same"],
-      //               //       value: "valid",
-      //               //     },
-      //               //     data_format: {
-      //               //       type: "select",
-      //               //       options: ["channels_first", "channels_last"],
-      //               //       value: "channels_last",
-      //               //     },
-      //               //     dilation_rate: {
-      //               //       type: "tuple",
-      //               //       itemType: "number",
-      //               //       value: [1, 1, 1],
-      //               //     },
-      //               //     groups: {
-      //               //       type: "number",
-      //               //       value: 1,
-      //               //     },
-      //               //     activation: {
-      //               //       type: "select",
-      //               //       options: [
-      //               //         "relu",
-      //               //         "sigmoid",
-      //               //         "softmax",
-      //               //         "softplus",
-      //               //         "softsign",
-      //               //         "tanh",
-      //               //         "selu",
-      //               //         "elu",
-      //               //         "exponential",
-      //               //         "leaky_relu",
-      //               //         "relu6",
-      //               //         "silu",
-      //               //         "hard_silu",
-      //               //         "gelu",
-      //               //         "hard_sigmoid",
-      //               //         "linear",
-      //               //         "mish",
-      //               //         "log_softmax",
-      //               //       ],
-      //               //       value: null,
-      //               //     },
-      //               //     use_bias: {
-      //               //       type: "boolean",
-      //               //       value: true,
-      //               //     },
-      //               //   },
-      //               // },
-      //               // {
-      //      // display: NodeDisplay.CLASSIC,
-      //               //   type: "maxpooling1d",
-      //               //   name: "MaxPooling1D Layer",
-      //               //   identifier: "maxpooling1d",
-      //               //   description: "Max pooling operation for 1D temporal data.",
-      //               //   data: {
-      //               //     pool_size: {
-      //               //       type: "number",
-      //               //     },
-      //               //     strides: {
-      //               //       type: "number",
-      //               //       value: null,
-      //               //     },
-      //               //     padding: {
-      //               //       type: "select",
-      //               //       options: ["valid", "same"],
-      //               //       value: "valid",
-      //               //     },
-      //               //     data_format: {
-      //               //       type: "select",
-      //               //       options: ["channels_first", "channels_last"],
-      //               //       value: "channels_last",
-      //               //     },
-      //               //   },
-      //               // },
-      //               // {
-      //               //   type: "maxpooling2d",
-      //               //   name: "MaxPooling2D Layer",
-      //               //   identifier: "maxpooling2d",
-      //               //   description: "Max pooling operation for 2D spatial data.",
-      //               //   data: {
-      //               //     pool_size: {
-      //               //       type: "tuple",
-      //               //       itemType: "number",
-      //               //       value: [2, 2],
-      //               //     },
-      //               //     strides: {
-      //               //       type: "tuple",
-      //               //       itemType: "number",
-      //               //       value: null,
-      //               //     },
-      //               //     padding: {
-      //               //       type: "select",
-      //               //       options: ["valid", "same"],
-      //               //       value: "valid",
-      //               //     },
-      //               //     data_format: {
-      //               //       type: "select",
-      //               //       options: ["channels_first", "channels_last"],
-      //               //       value: "channels_last",
-      //               //     },
-      //               //   },
-      //               // },
-      //               // {
-      //      // display: NodeDisplay.CLASSIC,
-      //               //   type: "maxpooling3d",
-      //               //   name: "MaxPooling3D Layer",
-      //               //   identifier: "maxpooling3d",
-      //               //   description: "Max pooling operation for 3D data.",
-      //               //   data: {
-      //               //     pool_size: {
-      //               //       type: "tuple",
-      //               //       itemType: "number",
-      //               //     },
-      //               //     strides: {
-      //               //       type: "tuple",
-      //               //       itemType: "number",
-      //               //       value: null,
-      //               //     },
-      //               //     padding: {
-      //               //       type: "select",
-      //               //       options: ["valid", "same"],
-      //               //       value: "valid",
-      //               //     },
-      //               //     data_format: {
-      //               //       type: "select",
-      //               //       options: ["channels_first", "channels_last"],
-      //               //       value: "channels_last",
-      //               //     },
-      //               //   },
-      //               // },
-      //               // {
-      //               //   type: "averagepooling1d",
-      //               //   name: "AveragePooling1D Layer",
-      //               //   identifier: "averagepooling1d",
-      //               //   description: "Average pooling operation for temporal data.",
-      //               //   data: {
-      //               //     pool_size: {
-      //               //       type: "number",
-      //               //     },
-      //               //     strides: {
-      //               //       type: "number",
-      //               //       value: null,
-      //               //     },
-      //               //     padding: {
-      //               //       type: "select",
-      //               //       options: ["valid", "same"],
-      //               //       value: "valid",
-      //               //     },
-      //               //     data_format: {
-      //               //       type: "select",
-      //               //       options: ["channels_first", "channels_last"],
-      //               //       value: "channels_last",
-      //               //     },
-      //               //   },
-      //               // },
-      //               // {
-      //      // display: NodeDisplay.CLASSIC,
-      //               //   type: "averagepooling2d",
-      //               //   name: "AveragePooling2D Layer",
-      //               //   identifier: "averagepooling2d",
-      //               //   description: "Average pooling operation for spatial data.",
-      //               //   data: {
-      //               //     pool_size: {
-      //               //       type: "tuple",
-      //               //       itemType: "number",
-      //               //       value: [2, 2],
-      //               //     },
-      //               //     strides: {
-      //               //       type: "tuple",
-      //               //       itemType: "number",
-      //               //       value: null,
-      //               //     },
-      //               //     padding: {
-      //               //       type: "select",
-      //               //       options: ["valid", "same"],
-      //               //       value: "valid",
-      //               //     },
-      //               //     data_format: {
-      //               //       type: "select",
-      //               //       options: ["channels_first", "channels_last"],
-      //               //       value: "channels_last",
-      //               //     },
-      //               //   },
-      //               // },
-      //               // {
-      //      // display: NodeDisplay.CLASSIC,
-      //               //   type: "averagepooling3d",
-      //               //   name: "AveragePooling3D Layer",
-      //               //   identifier: "averagepooling3d",
-      //               //   description: "Average pooling operation for 3D data.",
-      //               //   data: {
-      //               //     pool_size: {
-      //               //       type: "tuple",
-      //               //       itemType: "number",
-      //               //     },
-      //               //     strides: {
-      //               //       type: "tuple",
-      //               //       itemType: "number",
-      //               //       value: null,
-      //               //     },
-      //               //     padding: {
-      //               //       type: "select",
-      //               //       options: ["valid", "same"],
-      //               //       value: "valid",
-      //               //     },
-      //               //     data_format: {
-      //               //       type: "select",
-      //               //       options: ["channels_first", "channels_last"],
-      //               //       value: "channels_last",
-      //               //     },
-      //               //   },
-      //               // },
-      //               // {
-      //               //   type: "globalmaxpooling1d",
-      //               //   name: "GlobalMaxPooling1D Layer",
-      //               //   identifier: "globalmaxpooling1d",
-      //               //   description: "Global max pooling operation for temporal data.",
-      //               //   data: {
-      //               //     data_format: {
-      //               //       type: "select",
-      //               //       options: ["channels_first", "channels_last"],
-      //               //       value: "channels_last",
-      //               //     },
-      //               //     keepdims: {
-      //               //       type: "boolean",
-      //               //       value: false,
-      //               //     },
-      //               //   },
-      //               // },
-      //               // {
-      //      // display: NodeDisplay.CLASSIC,
-      //               //   type: "globalmaxpooling2d",
-      //               //   name: "GlobalMaxPooling2D Layer",
-      //               //   identifier: "globalmaxpooling2d",
-      //               //   description: "Global max pooling operation for 2D data.",
-      //               //   data: {
-      //               //     data_format: {
-      //               //       type: "select",
-      //               //       options: ["channels_first", "channels_last"],
-      //               //       value: "channels_last",
-      //               //     },
-      //               //     keepdims: {
-      //               //       type: "boolean",
-      //               //       value: false,
-      //               //     },
-      //               //   },
-      //               // },
-      //               // {
-      //      // display: NodeDisplay.CLASSIC,
-      //               //   type: "globalmaxpooling3d",
-      //               //   name: "GlobalMaxPooling3D Layer",
-      //               //   identifier: "globalmaxpooling3d",
-      //               //   description: "Global max pooling operation for 3D data.",
-      //               //   data: {
-      //               //     data_format: {
-      //               //       type: "select",
-      //               //       options: ["channels_first", "channels_last"],
-      //               //       value: "channels_last",
-      //               //     },
-      //               //     keepdims: {
-      //               //       type: "boolean",
-      //               //       value: false,
-      //               //     },
-      //               //   },
-      //               // },
-      //               // {
-      //      // display: NodeDisplay.CLASSIC,
-      //               //   type: "globalaveragepooling1d",
-      //               //   name: "GlobalAveragePooling1D layer",
-      //               //   identifier: "globalaveragepooling1d",
-      //               //   description: "Global average pooling operation for temporal data.",
-      //               //   data: {
-      //               //     data_format: {
-      //               //       type: "select",
-      //               //       options: ["channels_first", "channels_last"],
-      //               //       value: "channels_last",
-      //               //     },
-      //               //     keepdims: {
-      //               //       type: "boolean",
-      //               //       value: false,
-      //               //     },
-      //               //   },
-      //               // },
-      //               // {
-      //      // display: NodeDisplay.CLASSIC,
-      //               //   type: "globalaveragepooling2d",
-      //               //   name: "GlobalAveragePooling2D Layer",
-      //               //   identifier: "globalaveragepooling2d",
-      //               //   description: "Global average pooling operation for 2D data.",
-      //               //   data: {
-      //               //     data_format: {
-      //               //       type: "select",
-      //               //       options: ["channels_first", "channels_last"],
-      //               //       value: "channels_last",
-      //               //     },
-      //               //     keepdims: {
-      //               //       type: "boolean",
-      //               //       value: false,
-      //               //     },
-      //               //   },
-      //               // },
-      //               // {
-      //      // display: NodeDisplay.CLASSIC,
-      //               //   type: "globalaveragepooling3d",
-      //               //   name: "GlobalAveragePooling3D Layer",
-      //               //   identifier: "globalaveragepooling3d",
-      //               //   description: "Global average pooling operation for 3D data.",
-      //               //   data: {
-      //               //     data_format: {
-      //               //       type: "select",
-      //               //       options: ["channels_first", "channels_last"],
-      //               //       value: "channels_last",
-      //               //     },
-      //               //     keepdims: {
-      //               //       type: "boolean",
-      //               //       value: false,
-      //               //     },
-      //               //   },
-      //               // },
-      //   ]
-      // },
-      // {
-      //   name: 'POOLING LAYERS',
-      //   nodes: [
-      //
-      //   ]
-      // },
-      // {
-      //   name: 'RECURRENT LAYERS',
-      //   nodes: [
-      //
-      //   ]
-      // },
+      {
+        name: 'CONVOLUTION LAYERS',
+        nodes: [
+          {
+            display: NodeDisplay.Classic,
+            type: 'conv1d',
+            name: '1D Convolution Layer',
+            identifier: 'conv1d',
+            description: '1D convolution layer.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              filters: {
+                type: 'int',
+              },
+              kernel_size: {
+                type: 'int',
+              },
+              strides: {
+                type: 'int',
+                value: 1,
+              },
+              padding: {
+                type: 'select',
+                options: ['valid', 'same'],
+                value: 'valid',
+              },
+              data_format: {
+                type: 'select',
+                options: ['channels_first', 'channels_last'],
+                value: 'channels_last',
+              },
+              dilation_rate: {
+                type: 'int',
+                value: 1,
+              },
+              groups: {
+                type: 'int',
+                value: 1,
+              },
+              activation: {
+                type: 'select',
+                options: [
+                  'relu',
+                  'sigmoid',
+                  'softmax',
+                  'softplus',
+                  'softsign',
+                  'tanh',
+                  'selu',
+                  'elu',
+                  'exponential',
+                  'leaky_relu',
+                  'relu6',
+                  'silu',
+                  'hard_silu',
+                  'gelu',
+                  'hard_sigmoid',
+                  'linear',
+                  'mish',
+                  'log_softmax',
+                ],
+                value: null,
+              },
+              use_bias: {
+                type: 'boolean',
+                value: true,
+                inline: true,
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'conv2d',
+            name: '2D Convolution Layer',
+            identifier: 'conv2d',
+            description: '2D convolution layer.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              filters: {
+                type: 'int',
+              },
+              kernel_size: {
+                type: 'tuple',
+                itemType: 'int',
+                inline: true,
+              },
+              strides: {
+                type: 'tuple',
+                itemType: 'int',
+                inline: true,
+                // value: [1, 1],
+              },
+              padding: {
+                type: 'select',
+                options: ['valid', 'same'],
+                value: 'valid',
+              },
+              data_format: {
+                type: 'select',
+                options: ['channels_first', 'channels_last'],
+                value: 'channels_last',
+              },
+              dilation_rate: {
+                type: 'tuple',
+                itemType: 'int',
+                inline: true,
+                // value: [1, 1],
+              },
+              groups: {
+                type: 'int',
+                value: 1,
+              },
+              activation: {
+                type: 'select',
+                options: [
+                  'relu',
+                  'sigmoid',
+                  'softmax',
+                  'softplus',
+                  'softsign',
+                  'tanh',
+                  'selu',
+                  'elu',
+                  'exponential',
+                  'leaky_relu',
+                  'relu6',
+                  'silu',
+                  'hard_silu',
+                  'gelu',
+                  'hard_sigmoid',
+                  'linear',
+                  'mish',
+                  'log_softmax',
+                ],
+                value: null,
+              },
+              use_bias: {
+                type: 'boolean',
+                value: true,
+                inline: true,
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'conv3d',
+            name: '3D Convolution Layer',
+            identifier: 'conv3d',
+            description: '3D convolution layer.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              filters: {
+                type: 'int',
+              },
+              kernel_size: {
+                type: 'tuple',
+                itemType: 'int',
+                inline: true,
+              },
+              strides: {
+                type: 'tuple',
+                itemType: 'int',
+                inline: true,
+                // value: [1, 1, 1],
+              },
+              padding: {
+                type: 'select',
+                options: ['valid', 'same'],
+                value: 'valid',
+              },
+              data_format: {
+                type: 'select',
+                options: ['channels_first', 'channels_last'],
+                value: 'channels_last',
+              },
+              dilation_rate: {
+                type: 'tuple',
+                itemType: 'int',
+                inline: true,
+                // value: [1, 1, 1],
+              },
+              groups: {
+                type: 'int',
+                value: 1,
+              },
+              activation: {
+                type: 'select',
+                options: [
+                  'relu',
+                  'sigmoid',
+                  'softmax',
+                  'softplus',
+                  'softsign',
+                  'tanh',
+                  'selu',
+                  'elu',
+                  'exponential',
+                  'leaky_relu',
+                  'relu6',
+                  'silu',
+                  'hard_silu',
+                  'gelu',
+                  'hard_sigmoid',
+                  'linear',
+                  'mish',
+                  'log_softmax',
+                ],
+                value: null,
+              },
+              use_bias: {
+                type: 'boolean',
+                value: true,
+                inline: true,
+              },
+            },
+          },
+        ],
+      },
+      {
+        name: 'POOLING LAYERS',
+        nodes: [
+          {
+            display: NodeDisplay.Classic,
+            type: 'maxpooling1d',
+            name: 'MaxPooling1D Layer',
+            identifier: 'maxpooling1d',
+            description: 'Max pooling operation for 1D temporal data.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              pool_size: {
+                type: 'int',
+              },
+              strides: {
+                type: 'int',
+                value: null,
+              },
+              padding: {
+                type: 'select',
+                options: ['valid', 'same'],
+                value: 'valid',
+              },
+              data_format: {
+                type: 'select',
+                options: ['channels_first', 'channels_last'],
+                value: 'channels_last',
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'maxpooling2d',
+            name: 'MaxPooling2D Layer',
+            identifier: 'maxpooling2d',
+            description: 'Max pooling operation for 2D spatial data.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              pool_size: {
+                type: 'tuple',
+                itemType: 'int',
+                inline: true,
+                // value: [2, 2],
+              },
+              strides: {
+                type: 'tuple',
+                itemType: 'int',
+                inline: true,
+              },
+              padding: {
+                type: 'select',
+                options: ['valid', 'same'],
+                value: 'valid',
+              },
+              data_format: {
+                type: 'select',
+                options: ['channels_first', 'channels_last'],
+                value: 'channels_last',
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'maxpooling3d',
+            name: 'MaxPooling3D Layer',
+            identifier: 'maxpooling3d',
+            description: 'Max pooling operation for 3D data.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              pool_size: {
+                type: 'tuple',
+                itemType: 'int',
+                inline: true,
+              },
+              strides: {
+                type: 'tuple',
+                itemType: 'int',
+                inline: true,
+              },
+              padding: {
+                type: 'select',
+                options: ['valid', 'same'],
+                value: 'valid',
+              },
+              data_format: {
+                type: 'select',
+                options: ['channels_first', 'channels_last'],
+                value: 'channels_last',
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'averagepooling1d',
+            name: 'AveragePooling1D Layer',
+            identifier: 'averagepooling1d',
+            description: 'Average pooling operation for temporal data.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              pool_size: {
+                type: 'int',
+              },
+              strides: {
+                type: 'int',
+                value: null,
+              },
+              padding: {
+                type: 'select',
+                options: ['valid', 'same'],
+                value: 'valid',
+              },
+              data_format: {
+                type: 'select',
+                options: ['channels_first', 'channels_last'],
+                value: 'channels_last',
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'averagepooling2d',
+            name: 'AveragePooling2D Layer',
+            identifier: 'averagepooling2d',
+            description: 'Average pooling operation for spatial data.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              pool_size: {
+                type: 'tuple',
+                itemType: 'int',
+                inline: true,
+                // value: [2, 2],
+              },
+              strides: {
+                type: 'tuple',
+                itemType: 'int',
+                inline: true,
+              },
+              padding: {
+                type: 'select',
+                options: ['valid', 'same'],
+                value: 'valid',
+              },
+              data_format: {
+                type: 'select',
+                options: ['channels_first', 'channels_last'],
+                value: 'channels_last',
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'averagepooling3d',
+            name: 'AveragePooling3D Layer',
+            identifier: 'averagepooling3d',
+            description: 'Average pooling operation for 3D data.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              pool_size: {
+                type: 'tuple',
+                itemType: 'int',
+                inline: true,
+              },
+              strides: {
+                type: 'tuple',
+                itemType: 'int',
+                inline: true,
+              },
+              padding: {
+                type: 'select',
+                options: ['valid', 'same'],
+                value: 'valid',
+              },
+              data_format: {
+                type: 'select',
+                options: ['channels_first', 'channels_last'],
+                value: 'channels_last',
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'globalmaxpooling1d',
+            name: 'GlobalMaxPooling1D Layer',
+            identifier: 'globalmaxpooling1d',
+            description: 'Global max pooling operation for temporal data.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              data_format: {
+                type: 'select',
+                options: ['channels_first', 'channels_last'],
+                value: 'channels_last',
+              },
+              keepdims: {
+                type: 'boolean',
+                value: false,
+                inline: true,
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'globalmaxpooling2d',
+            name: 'GlobalMaxPooling2D Layer',
+            identifier: 'globalmaxpooling2d',
+            description: 'Global max pooling operation for 2D data.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              data_format: {
+                type: 'select',
+                options: ['channels_first', 'channels_last'],
+                value: 'channels_last',
+              },
+              keepdims: {
+                type: 'boolean',
+                value: false,
+                inline: true,
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'globalmaxpooling3d',
+            name: 'GlobalMaxPooling3D Layer',
+            identifier: 'globalmaxpooling3d',
+            description: 'Global max pooling operation for 3D data.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              data_format: {
+                type: 'select',
+                options: ['channels_first', 'channels_last'],
+                value: 'channels_last',
+              },
+              keepdims: {
+                type: 'boolean',
+                value: false,
+                inline: true,
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'globalaveragepooling1d',
+            name: 'GlobalAveragePooling1D layer',
+            identifier: 'globalaveragepooling1d',
+            description: 'Global average pooling operation for temporal data.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              data_format: {
+                type: 'select',
+                options: ['channels_first', 'channels_last'],
+                value: 'channels_last',
+              },
+              keepdims: {
+                type: 'boolean',
+                value: false,
+                inline: true,
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'globalaveragepooling2d',
+            name: 'GlobalAveragePooling2D Layer',
+            identifier: 'globalaveragepooling2d',
+            description: 'Global average pooling operation for 2D data.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              data_format: {
+                type: 'select',
+                options: ['channels_first', 'channels_last'],
+                value: 'channels_last',
+              },
+              keepdims: {
+                type: 'boolean',
+                value: false,
+                inline: true,
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'globalaveragepooling3d',
+            name: 'GlobalAveragePooling3D Layer',
+            identifier: 'globalaveragepooling3d',
+            description: 'Global average pooling operation for 3D data.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              data_format: {
+                type: 'select',
+                options: ['channels_first', 'channels_last'],
+                value: 'channels_last',
+              },
+              keepdims: {
+                type: 'boolean',
+                value: false,
+                inline: true,
+              },
+            },
+          },
+        ],
+      },
+      {
+        name: 'RECURRENT LAYERS',
+        nodes: [
+          {
+            display: NodeDisplay.Classic,
+            type: 'lstm',
+            name: 'LSTM Layer',
+            identifier: 'lstm',
+            description: 'Long Short-Term Memory layer.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              units: {
+                type: 'int',
+              },
+              activation: {
+                type: 'select',
+                options: [
+                  'relu',
+                  'sigmoid',
+                  'softmax',
+                  'softplus',
+                  'softsign',
+                  'tanh',
+                  'selu',
+                  'elu',
+                  'exponential',
+                  'leaky_relu',
+                  'relu6',
+                  'silu',
+                  'hard_silu',
+                  'gelu',
+                  'hard_sigmoid',
+                  'linear',
+                  'mish',
+                  'log_softmax',
+                ],
+                value: null,
+              },
+              recurrent_activation: {
+                type: 'select',
+                options: [
+                  'relu',
+                  'sigmoid',
+                  'softmax',
+                  'softplus',
+                  'softsign',
+                  'tanh',
+                  'selu',
+                  'elu',
+                  'exponential',
+                  'leaky_relu',
+                  'relu6',
+                  'silu',
+                  'hard_silu',
+                  'gelu',
+                  'hard_sigmoid',
+                  'linear',
+                  'mish',
+                  'log_softmax',
+                ],
+                value: null,
+              },
+              use_bias: {
+                type: 'boolean',
+                value: true,
+                inline: true,
+              },
+              dropout: {
+                type: 'float',
+                value: 0,
+              },
+              recurrent_dropout: {
+                type: 'float',
+                value: 0,
+              },
+              return_sequences: {
+                type: 'boolean',
+                value: false,
+                inline: true,
+              },
+              return_state: {
+                type: 'boolean',
+                value: false,
+                inline: true,
+              },
+              go_backwards: {
+                type: 'boolean',
+                value: false,
+                inline: true,
+              },
+              stateful: {
+                type: 'boolean',
+                value: false,
+                inline: true,
+              },
+              unroll: {
+                type: 'boolean',
+                value: false,
+                inline: true,
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'gru',
+            name: 'GRU Layer',
+            identifier: 'gru',
+            description: 'Gated Recurrent Unit layer.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              units: {
+                type: 'int',
+              },
+              activation: {
+                type: 'select',
+                options: [
+                  'relu',
+                  'sigmoid',
+                  'softmax',
+                  'softplus',
+                  'softsign',
+                  'tanh',
+                  'selu',
+                  'elu',
+                  'exponential',
+                  'leaky_relu',
+                  'relu6',
+                  'silu',
+                  'hard_silu',
+                  'gelu',
+                  'hard_sigmoid',
+                  'linear',
+                  'mish',
+                  'log_softmax',
+                ],
+                value: null,
+              },
+              recurrent_activation: {
+                type: 'select',
+                options: [
+                  'relu',
+                  'sigmoid',
+                  'softmax',
+                  'softplus',
+                  'softsign',
+                  'tanh',
+                  'selu',
+                  'elu',
+                  'exponential',
+                  'leaky_relu',
+                  'relu6',
+                  'silu',
+                  'hard_silu',
+                  'gelu',
+                  'hard_sigmoid',
+                  'linear',
+                  'mish',
+                  'log_softmax',
+                ],
+                value: null,
+              },
+              use_bias: {
+                type: 'boolean',
+                value: true,
+                inline: true,
+              },
+              dropout: {
+                type: 'float',
+                value: 0,
+              },
+              recurrent_dropout: {
+                type: 'float',
+                value: 0,
+              },
+              return_sequences: {
+                type: 'boolean',
+                value: false,
+                inline: true,
+              },
+              return_state: {
+                type: 'boolean',
+                value: false,
+                inline: true,
+              },
+              go_backwards: {
+                type: 'boolean',
+                value: false,
+                inline: true,
+              },
+              stateful: {
+                type: 'boolean',
+                value: false,
+                inline: true,
+              },
+              unroll: {
+                type: 'boolean',
+                value: false,
+                inline: true,
+              },
+              reset_after: {
+                type: 'boolean',
+                value: false,
+                inline: true,
+              },
+            },
+          },
+        ],
+      },
       {
         name: 'PREPROCESSING LAYERS',
         nodes: [
@@ -1074,7 +1454,6 @@ export const classicBlocks: NodeGroupDefinition[] = [
             },
             outputConstraints: {
               allowedCategories: ['layer'],
-              max: 1,
               min: 1,
             },
             data: {
@@ -1107,7 +1486,6 @@ export const classicBlocks: NodeGroupDefinition[] = [
             },
             outputConstraints: {
               allowedCategories: ['layer'],
-              max: 1,
               min: 1,
             },
             data: {
@@ -1118,6 +1496,112 @@ export const classicBlocks: NodeGroupDefinition[] = [
               momentum: {
                 type: 'float',
                 value: 0.99,
+              },
+              epsilon: {
+                type: 'float',
+                value: 0.001,
+              },
+              center: {
+                type: 'boolean',
+                value: true,
+                inline: true,
+              },
+              scale: {
+                type: 'boolean',
+                value: true,
+                inline: true,
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'layer_normalization',
+            name: 'Layer Normalization Layer',
+            identifier: 'layer_normalization',
+            description:
+              'Normalize the activations of the previous layer for each given example in a batch independently, rather than across a batch like Batch Normalization.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              axis: {
+                type: 'float',
+                value: -1,
+              },
+              epsilon: {
+                type: 'float',
+                value: 0.001,
+              },
+              center: {
+                type: 'boolean',
+                value: true,
+                inline: true,
+              },
+              scale: {
+                type: 'boolean',
+                value: true,
+                inline: true,
+              },
+              rms_scaling: {
+                type: 'boolean',
+                value: false,
+                inline: true,
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'unit_normalization',
+            name: 'Unit Normalization Layer',
+            identifier: 'unit_normalization',
+            description:
+              'Normalize a batch of inputs so that each input in the batch has a L2 norm equal to 1 (across the axes specified in axis).',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              axis: {
+                type: 'float',
+                value: -1,
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'group_normalization',
+            name: 'Group Normalization Layer',
+            identifier: 'group_normalization',
+            description:
+              'Normalize the activations of the previous layer at each step, across a batch of data.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              groups: {
+                type: 'int',
+                value: 1,
+              },
+              axis: {
+                type: 'float',
+                value: -1,
               },
               epsilon: {
                 type: 'float',
@@ -1153,7 +1637,6 @@ export const classicBlocks: NodeGroupDefinition[] = [
             },
             outputConstraints: {
               allowedCategories: ['layer'],
-              max: 1,
               min: 1,
             },
             data: {
@@ -1172,14 +1655,101 @@ export const classicBlocks: NodeGroupDefinition[] = [
               },
             },
           },
+          {
+            display: NodeDisplay.Classic,
+            type: 'gaussian_dropout',
+            name: 'Gaussian Dropout Layer',
+            identifier: 'gaussian_dropout',
+            description: 'Apply multiplicative 1-centered Gaussian noise.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              rate: {
+                type: 'float',
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'alpha_dropout',
+            name: 'Alpha Dropout Layer',
+            identifier: 'alpha_dropout',
+            description:
+              'Alpha Dropout is a Dropout that keeps mean and variance of inputs to their original values, in order to ensure the self-normalizing property even after this dropout.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              rate: {
+                type: 'float',
+              },
+              noise_shape: {
+                type: 'tuple',
+                itemType: 'float',
+                inline: true,
+                value: null,
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'gaussian_noise',
+            name: 'Gaussian Noise Layer',
+            identifier: 'gaussian_noise',
+            description: 'Apply additive zero-centered Gaussian noise.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            data: {
+              stddev: {
+                type: 'float',
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'activity_regularization',
+            name: 'Activity Regularization Layer',
+            identifier: 'activity_regularization',
+            description:
+              'Layer that applies an update to the cost function based on the activity.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            data: {
+              l1: {
+                type: 'float',
+                value: 0,
+              },
+              l2: {
+                type: 'float',
+                value: 0,
+              },
+            },
+          },
         ],
       },
-      // {
-      //   name: 'ATTENTION LAYERS',
-      //   nodes: [
-      //
-      //   ]
-      // },
+      {
+        name: 'ATTENTION LAYERS',
+        nodes: [],
+      },
       {
         name: 'RESHAPING LAYERS',
         nodes: [
@@ -1211,7 +1781,7 @@ export const classicBlocks: NodeGroupDefinition[] = [
       },
 
       // {
-      // display: NodeDisplay.CLASSIC,
+      // display: NodeDisplay.Classic,
       //   type: "ReLU",
       //   name: "ReLU Layer",
       //   identifier: "relu",
