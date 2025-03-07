@@ -1748,11 +1748,118 @@ export const classicBlocks: NodeGroupDefinition[] = [
       },
       {
         name: 'ATTENTION LAYERS',
-        nodes: [],
+        nodes: [
+          {
+            display: NodeDisplay.Classic,
+            type: 'multi_head_attention',
+            name: 'Multi Head Attention Layer',
+            identifier: 'multi_head_attention',
+            description:
+              'This is an implementation of multi-headed attention as described in the paper "Attention is all you Need" Vaswani et al., 2017.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              num_heads: {
+                type: 'int',
+              },
+              key_dim: {
+                type: 'int',
+              },
+              value_dim: {
+                type: 'int',
+                value: null,
+              },
+              dropout: {
+                type: 'float',
+                value: 0,
+              },
+              use_bias: {
+                type: 'boolean',
+                value: true,
+                inline: true,
+              },
+              output_shape: {
+                type: 'tuple',
+                itemType: 'int',
+                inline: true,
+                value: null,
+              },
+              attention_axes: {
+                type: 'tuple',
+                itemType: 'int',
+                inline: true,
+                value: null,
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'attention',
+            name: 'Attention Layer',
+            identifier: 'attention',
+            description:
+              'Dot-product attention layer, a.k.a. Luong-style attention.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              use_scale: {
+                type: 'boolean',
+                value: true,
+                inline: true,
+              },
+              score_mode: {
+                type: 'select',
+                options: ['dot', 'concat'],
+                value: 'dot',
+              },
+              dropout: {
+                type: 'float',
+                value: 0,
+              },
+            },
+          },
+        ],
       },
       {
         name: 'RESHAPING LAYERS',
         nodes: [
+          {
+            display: NodeDisplay.Classic,
+            type: 'reshape',
+            name: 'Reshape Layer',
+            identifier: 'reshape',
+            description: 'Layer that reshapes inputs into the given shape.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              target_shape: {
+                type: 'tuple',
+                itemType: 'int',
+                inline: true,
+              },
+            },
+          },
           {
             display: NodeDisplay.Classic,
             type: 'flatten',
@@ -1766,7 +1873,6 @@ export const classicBlocks: NodeGroupDefinition[] = [
             },
             outputConstraints: {
               allowedCategories: ['layer'],
-              max: 1,
               min: 1,
             },
             data: {
@@ -1777,53 +1883,393 @@ export const classicBlocks: NodeGroupDefinition[] = [
               },
             },
           },
+          {
+            display: NodeDisplay.Classic,
+            type: 'permute',
+            name: 'Permute Layer',
+            identifier: 'permute',
+            description:
+              'Permutes the dimensions of the input according to a given pattern.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              dims: {
+                type: 'tuple',
+                itemType: 'int',
+                inline: true,
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'zero_padding1d',
+            name: 'Zero Padding 1D Layer',
+            identifier: 'zero_padding1d',
+            description:
+              'Zero-padding layer for 1D input (e.g. temporal sequence).',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              padding: {
+                type: 'tuple',
+                itemType: 'int',
+                inline: true,
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'zero_padding2d',
+            name: 'Zero Padding 2D Layer',
+            identifier: 'zero_padding2d',
+            description: 'Zero-padding layer for 2D input (e.g. picture).',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              padding: {
+                type: 'tuple',
+                itemType: 'int',
+                inline: true,
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'zero_padding3d',
+            name: 'Zero Padding 3D Layer',
+            identifier: 'zero_padding3d',
+            description:
+              'Zero-padding layer for 3D data (spatial or spatio-temporal).',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              max: 1,
+              min: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              padding: {
+                type: 'tuple',
+                itemType: 'int',
+                inline: true,
+              },
+            },
+          },
         ],
       },
-
-      // {
-      // display: NodeDisplay.Classic,
-      //   type: "ReLU",
-      //   name: "ReLU Layer",
-      //   identifier: "relu",
-      //   description: "Applies the rectified linear unit activation function.",
-      //   data: {
-      //     max_value: {
-      //       type: "number",
-      //       value: null,
-      //     },
-      //     negative_slope: {
-      //       type: "number",
-      //       value: 0,
-      //     },
-      //     threshold: {
-      //       type: "number",
-      //       value: 0,
-      //     },
-      //   },
-      // },
-
-      // {
-      //   type: "reshape",
-      //   name: "Reshape Layer",
-      //   identifier: "reshape",
-      //   description: "Reshapes an output to a certain shape.",
-      //   data: {
-      //     target_shape: {
-      //       type: "tuple",
-      //       itemType: "number",
-      //     },
-      //   },
-      // },
-      // {
-      //   type: "average",
-      //   name: "Average Layer",
-      //   identifier: "average",
-      //   description: "Averages a list of input element-wise.",
-      //   data: {},
-      // },
-
-      // { name: 'G2', nodes: [] },
-      // { name: 'G3', nodes: [] },
+      {
+        name: 'MERGING LAYERS',
+        nodes: [
+          {
+            display: NodeDisplay.Classic,
+            type: 'concatenate',
+            name: 'Concatenate Layer',
+            identifier: 'concatenate',
+            description: 'Concatenates a list of inputs.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              min: 2,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              axis: {
+                type: 'int',
+                value: -1,
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'average',
+            name: 'Average Layer',
+            identifier: 'average',
+            description: 'Averages a list of inputs element-wise.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              min: 2,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {},
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'maximum',
+            name: 'Maximum Layer',
+            identifier: 'maximum',
+            description: 'Computes element-wise maximum on a list of inputs.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              min: 2,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {},
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'minimum',
+            name: 'Minimum Layer',
+            identifier: 'minimum',
+            description: 'Computes element-wise minimum on a list of inputs.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              min: 2,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {},
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'add',
+            name: 'Add Layer',
+            identifier: 'add',
+            description: 'Performs element-wise addition operation.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              min: 2,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {},
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'subtract',
+            name: 'Subtract Layer',
+            identifier: 'subtract',
+            description: 'Performs element-wise subtraction.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              min: 2,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {},
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'multiply',
+            name: 'Multiply Layer',
+            identifier: 'multiply',
+            description: 'Performs element-wise multiplication.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              min: 2,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {},
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'dot',
+            name: 'Dot Layer',
+            identifier: 'dot',
+            description: 'Computes element-wise dot product of two tensors.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              min: 2,
+              max: 2,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              axes: {
+                type: 'int',
+                value: -1,
+              },
+              normalize: {
+                type: 'boolean',
+                value: false,
+                inline: true,
+              },
+            },
+          },
+        ],
+      },
+      {
+        name: 'ACTIVATION LAYERS',
+        nodes: [
+          {
+            display: NodeDisplay.Classic,
+            type: 'relu',
+            name: 'ReLU Layer',
+            identifier: 'relu',
+            description:
+              'Applies the rectified linear unit activation function.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+              max: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              max_value: {
+                type: 'float',
+                value: null,
+              },
+              negative_slope: {
+                type: 'float',
+                value: 0,
+              },
+              threshold: {
+                type: 'float',
+                value: 0,
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'softmax',
+            name: 'Softmax Layer',
+            identifier: 'softmax',
+            description: 'Applies the softmax activation function.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+              max: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              axis: {
+                type: 'int',
+                value: -1,
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'leaky_relu',
+            name: 'Leaky ReLU Layer',
+            identifier: 'leaky_relu',
+            description:
+              'Leaky version of a Rectified Linear Unit activation layer. This layer allows a small gradient when the unit is not active.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+              max: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              negative_slope: {
+                type: 'float',
+                value: 0.3,
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'prelu',
+            name: 'PReLU Layer',
+            identifier: 'prelu',
+            description:
+              'Parametric Rectified Linear Unit activation layer. It allows learnable alpha.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+              max: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              alpha_initializer: {
+                type: 'select',
+                options: [
+                  'zeros',
+                  'ones',
+                  'constant',
+                  'random_normal',
+                  'random_uniform',
+                  'truncated_normal',
+                  'variance_scaling',
+                  'orthogonal',
+                  'glorot_normal',
+                  'glorot_uniform',
+                  'he_normal',
+                  'he_uniform',
+                ],
+                value: 'zeros',
+              },
+            },
+          },
+          {
+            display: NodeDisplay.Classic,
+            type: 'elu',
+            name: 'ELU Layer',
+            identifier: 'elu',
+            description:
+              'Exponential Linear Unit activation function. It follows: f(x) =  alpha * (exp(x) - 1.) for x < 0, f(x) = x for x >= 0.',
+            inputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+              max: 1,
+            },
+            outputConstraints: {
+              allowedCategories: ['layer'],
+              min: 1,
+            },
+            data: {
+              alpha: {
+                type: 'float',
+                value: 1,
+              },
+            },
+          },
+        ],
+      },
     ],
   },
 ];
