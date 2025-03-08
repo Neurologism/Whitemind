@@ -16,7 +16,7 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@nuxt/image',
   ],
-  css: ['~/assets/css/tailwind.css', 'animate.css'],
+  css: ['~/assets/css/tailwind.css'],
   colorMode: {
     preference: 'dark',
   },

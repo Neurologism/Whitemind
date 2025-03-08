@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { CustomNodes } from '~/utility/customNodeList.js';
 import {
   type ConnectionLineProps,
   SmoothStepEdge,
@@ -9,9 +8,16 @@ import {
 
 const props = defineProps<ConnectionLineProps>();
 
-const color = CustomNodes.getColorOfHandle(props.sourceHandle!.id!);
-
 const sessionStore = useSessionStore();
+const projectStore = useProjectStore();
+
+let color: string | undefined;
+
+try {
+  color = projectStore.editorConfig.getColorOfHandle(props.sourceHandle!.id!);
+} catch (e) {
+  color = projectStore.editorConfig.getColor;
+}
 
 const path = computed(() =>
   sessionStore.sessionData.smoothEdges

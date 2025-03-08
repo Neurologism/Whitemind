@@ -119,7 +119,6 @@ watchEffect(() => {
     option.value = {
       xAxis: {
         type: 'category',
-        // @ts-ignore - x_label is not defined in the type
         name: data[0][props.nodeId].x_label,
         data: data_x,
       },
@@ -132,7 +131,6 @@ watchEffect(() => {
             return `10${toSuperscript(exponent)}`; // Format as 10^x with superscripts
           },
         },
-        // @ts-ignore - y_label is not defined in the type
         name: data[0][props.nodeId].y_label,
       },
       series: series as any,

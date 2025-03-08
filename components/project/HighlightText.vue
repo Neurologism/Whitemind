@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { CustomNodes } from '~/utility/customNodeList';
-import type { NodeDefinition } from '~/data/blocks';
+import type { NodeDefinition } from '~/types/blocks.types';
 
 const props = defineProps<{
   text: string;
 }>();
 
-const nodesList = CustomNodes.allNodes;
+const projectStore = useProjectStore();
 
 function splitAtMultiple(text: string, nodes: NodeDefinition[]) {
   const justNames = nodes.map((node) => node.name);
@@ -25,10 +24,10 @@ const highlightedParts = computed(() => {
     icon?: string;
     color?: string;
   }[] = [];
-  const split = splitAtMultiple(props.text, nodesList);
+  const split = splitAtMultiple(props.text, projectStore.editorConfig.allNodes);
   for (const part of split) {
     if (part.node) {
-      let group = CustomNodes.getNodeGroup(part.node.type);
+      let group = projectStore.editorConfig.getNodeGroup(part.node.type);
       parts.push({
         text: part.text,
         icon: group?.icon,

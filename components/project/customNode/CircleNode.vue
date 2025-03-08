@@ -1,0 +1,210 @@
+<script setup lang="ts">
+import { Position, useNodesData } from '@vue-flow/core';
+import '@vue-flow/node-resizer/dist/style.css';
+import ClassicHandle from '~/components/project/customNode/ClassicHandle.vue';
+
+defineEmits(['node-contextmenu']);
+
+const props = defineProps({
+  nodeId: {
+    type: String,
+    required: true,
+  },
+});
+
+const projectStore = useProjectStore();
+const vueFlowStore = useVueFlowStore();
+const perceptronTrainingStore = usePerceptronTrainingStore();
+
+const nodeObject = computed(() => {
+  const nodeObject = vueFlowStore.getNode(props.nodeId);
+  if (!nodeObject) {
+    throw new Error('Node for specified nodeId does not exist.');
+  }
+  return nodeObject;
+});
+
+const nodesData = useNodesData(props.nodeId);
+const shapeData = projectStore.editorConfig.getCustomNodeConfig(
+  nodesData.value!.type
+)!;
+const shapeGroupData = projectStore.editorConfig.getNodeGroup(
+  nodesData.value!.type
+)!;
+
+if (nodesData.value === null) {
+  throw new Error('Node data is null.');
+}
+nodesData.value.data.isExpanded ??= true;
+nodesData.value.data.showVisConfigs ??= false;
+
+const attributeInputValues = ref<Record<string, string | null>>({});
+
+for (const key in shapeData.data) {
+  if (shapeData.data[key].type === 'id' && shapeData.data[key].hasInput) {
+    watch(
+      computed(() =>
+        shapeData.data[key].type === 'id' && shapeData.data[key].getInputValue
+          ? shapeData.data[key].getInputValue(nodeObject.value)
+          : '0'
+      ),
+      (newValue) => {
+        attributeInputValues.value[key] = newValue;
+      },
+      { immediate: true }
+    );
+  }
+}
+
+function onDeselectAttributeInputValue(key: string) {
+  if (
+    shapeData.data[key].type !== 'id' ||
+    !shapeData.data[key].setInputValue ||
+    attributeInputValues.value[key] === null
+  )
+    return;
+  shapeData.data[key].setInputValue(
+    nodeObject.value,
+    attributeInputValues.value[key]
+  );
+  const getInputValue = shapeData.data[key].getInputValue;
+  if (getInputValue)
+    attributeInputValues.value[key] = getInputValue(nodeObject.value);
+}
+
+function clickIcons() {
+  if (shapeGroupData.group_identifier !== 'visualizer') {
+    nodesData.value!.data.isExpanded = !nodesData.value!.data.isExpanded;
+  }
+  if (shapeGroupData.group_identifier === 'visualizer') {
+    nodesData.value!.data.showVisConfigs =
+      !nodesData.value!.data.showVisConfigs;
+  }
+}
+</script>
+<template>
+  <div
+    class="h-full w-full text-zinc-50 rounded-full bg-bg-3 flex flex-col border-2 border-accent-8 shadow-2xl cursor-all-scroll relative"
+    @contextmenu.prevent="$emit('node-contextmenu', props.nodeId)"
+    :style="{
+      width: `${shapeData.circleDiameter ?? shapeGroupData.default_width}px`,
+      height: `${shapeData.circleDiameter ?? shapeGroupData.default_width}px`,
+      borderColor: shapeGroupData.color,
+    }"
+  >
+    <div
+      class="w-full h-full rounded-full overflow-hidden absolute"
+      :class="{ hidden: shapeData.hideTopBar }"
+    >
+      <div
+        class="w-full flex justify-between items-center font-mono pt-0.5 pb-0.5 cursor-all-scroll rounded-t absolute"
+        :class="{
+          'pl-1.5': shapeData.hideInput !== true,
+          'pr-3': shapeData.hideOutput !== true,
+          'pr-1': shapeData.hideOutput === true,
+        }"
+        :style="{
+          backgroundColor: shapeGroupData.color,
+        }"
+      >
+        <ClassicHandle
+          v-if="shapeData.hideInput !== true"
+          :constraints="shapeData.inputConstraints"
+          :handle-id="`in-${props.nodeId}`"
+          :is-input="true"
+          :position="Position.Left"
+          :shape-group-data="shapeGroupData"
+        />
+        <ClassicHandle
+          v-if="shapeData.hideOutput !== true"
+          :constraints="shapeData.outputConstraints"
+          :handle-id="`out-${props.nodeId}`"
+          :is-input="false"
+          :position="Position.Right"
+          :shape-group-data="shapeGroupData"
+        />
+        <div
+          class="flex justify-between items-center p-1 cursor-pointer ml-auto"
+          @click="clickIcons"
+        >
+          <UIcon :name="shapeGroupData.icon" />
+        </div>
+        <span
+          class="font-semibold mr-auto"
+          v-html="
+            shapeData.dynamicNodeName
+              ? shapeData.dynamicNodeName(nodeObject)
+              : shapeData.name
+          "
+        >
+        </span>
+      </div>
+    </div>
+    <div class="my-auto">
+      <div v-for="(shapeDefinition, key) in shapeData.data">
+        <div
+          v-if="shapeDefinition.type === 'id'"
+          class="mt-0.5 mb-0.5 p-0.5"
+          :class="{
+            'ml-3 rounded-l-sm pr-0': shapeDefinition.invertPosition
+              ? !(shapeDefinition.flowOrientation === 'output')
+              : shapeDefinition.flowOrientation === 'output',
+            'mr-3 rounded-r-sm pl-0': shapeDefinition.invertPosition
+              ? !(shapeDefinition.flowOrientation === 'input')
+              : shapeDefinition.flowOrientation === 'input',
+            'justify-end flex': shapeDefinition.invertPosition
+              ? !(shapeDefinition.flowOrientation === 'output')
+              : shapeDefinition.flowOrientation === 'output',
+          }"
+        >
+          <div class="font-mono text-sm relative flex flex-row">
+            <input
+              v-if="
+                shapeDefinition.hasInput && attributeInputValues[key] !== null
+              "
+              v-model="attributeInputValues[key]"
+              class="mx-[-7px] w-8 bg-bg-2 border-text-3 rounded-lg border focus:border-editor-perceptron-blue px-[2px] text-center outline-none transition-colors duration-300"
+              @blur="onDeselectAttributeInputValue(key)"
+              @keyup.enter="onDeselectAttributeInputValue(key)"
+            />
+            <span
+              class="px-2.5 p-0.5 font-mono"
+              v-html="
+                shapeDefinition.dynamicAttributeName
+                  ? shapeDefinition.dynamicAttributeName(nodeObject)
+                  : key
+              "
+            >
+            </span>
+            <ClassicHandle
+              :constraints="shapeDefinition.constraints"
+              :handle-id="`val-${key}-${props.nodeId}`"
+              :key="`${key}-${props.nodeId}`"
+              :is-input="shapeDefinition.flowOrientation === 'input'"
+              :position="
+                (
+                  shapeDefinition.invertPosition
+                    ? !(shapeDefinition.flowOrientation === 'input')
+                    : shapeDefinition.flowOrientation === 'input'
+                )
+                  ? Position.Left
+                  : Position.Right
+              "
+              :shape-group-data="shapeGroupData"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.resize-arrow {
+  position: absolute;
+  left: -0.5px;
+  top: -0.5px;
+  font-size: 1rem;
+  color: black;
+}
+</style>

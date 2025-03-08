@@ -37,9 +37,10 @@ export const useTutorialStore = defineStore('tutorialStore', {
     },
   }),
   getters: {
-    isNextStepUnlocked(data): boolean {
+    isNextStepUnlocked(state): boolean {
       const vueFlowStore = useVueFlowStore();
-      const currentStep = data.tutorial.data?.steps[data.tutorial.currentStep];
+      const currentStep =
+        state.tutorial.data?.steps[state.tutorial.currentStep];
       if (currentStep === undefined) {
         return false;
       }
@@ -68,55 +69,55 @@ export const useTutorialStore = defineStore('tutorialStore', {
       return true;
     },
 
-    currentAddEdges(data) {
-      return data.tutorial.data === null
+    currentAddEdges(state) {
+      return state.tutorial.data === null
         ? []
-        : data.tutorial.data.steps[data.tutorial.currentStep].addEdges;
+        : state.tutorial.data.steps[state.tutorial.currentStep].addEdges;
     },
 
-    currentRemoveEdges(data) {
-      return data.tutorial.data === null
+    currentRemoveEdges(state) {
+      return state.tutorial.data === null
         ? []
-        : data.tutorial.data.steps[data.tutorial.currentStep].removeEdges;
+        : state.tutorial.data.steps[state.tutorial.currentStep].removeEdges;
     },
 
-    currentAddNodes(data) {
-      return data.tutorial.data === null
+    currentAddNodes(state) {
+      return state.tutorial.data === null
         ? []
-        : data.tutorial.data.steps[data.tutorial.currentStep].addNodes;
+        : state.tutorial.data.steps[state.tutorial.currentStep].addNodes;
     },
 
-    currentRemoveNodes(data) {
-      return data.tutorial.data === null
+    currentRemoveNodes(state) {
+      return state.tutorial.data === null
         ? []
-        : data.tutorial.data.steps[data.tutorial.currentStep].removeNodes;
+        : state.tutorial.data.steps[state.tutorial.currentStep].removeNodes;
     },
 
-    currentModifyNodes(data) {
-      return data.tutorial.data === null
+    currentModifyNodes(state) {
+      return state.tutorial.data === null
         ? []
-        : data.tutorial.data.steps[data.tutorial.currentStep].modifyNodes;
+        : state.tutorial.data.steps[state.tutorial.currentStep].modifyNodes;
     },
 
-    currentNarrator(data): string {
-      return data.tutorial.data === null
+    currentNarrator(state): string {
+      return state.tutorial.data === null
         ? ''
-        : data.tutorial.data.steps[data.visibleStep].narrator;
+        : state.tutorial.data.steps[state.visibleStep].narrator;
     },
 
-    progress(data): number {
-      return data.tutorial.data === null
+    progress(state): number {
+      return state.tutorial.data === null
         ? 0
-        : (data.visibleStep / (data.tutorial.data.steps.length - 1)) * 100;
+        : (state.visibleStep / (state.tutorial.data.steps.length - 1)) * 100;
     },
 
-    isLoaded(data): boolean {
-      return data.tutorial.data !== null;
+    isLoaded(state): boolean {
+      return state.tutorial.data !== null;
     },
 
-    isTrainingEnabled(data): boolean {
-      return data.openInEditor && data.tutorial.data
-        ? data.tutorial.data.steps[data.tutorial.currentStep].trainingEnabled
+    isTrainingEnabled(state): boolean {
+      return state.openInEditor && state.tutorial.data
+        ? state.tutorial.data.steps[state.tutorial.currentStep].trainingEnabled
         : true;
     },
   },

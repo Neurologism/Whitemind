@@ -8,7 +8,7 @@ export const useSessionStore = defineStore('sessionStore', {
     loadingText: 'Loading...',
     hasPfp: true,
     sessionData: ref({
-      smoothEdges: false,
+      smoothEdges: true,
       pinEditorSidebar: true,
       sessionStart: Date(),
       authorizationToken: '',
@@ -48,10 +48,19 @@ export const useSessionStore = defineStore('sessionStore', {
       return backmindHost + `/users/${state.sessionData.user._id}/get-pfp`;
     },
 
-    // @ts-ignore somehow this is not recognized as a getter
     isProd: () => import.meta.env.PROD,
   },
   actions: {
+    async errorToast(msg: string) {
+      const toast = useToast();
+      toast.add({
+        title: 'An error occurred.',
+        description: msg,
+        icon: 'mdi-alert-circle',
+        color: 'red',
+      });
+      console.error(msg);
+    },
     async updateSecondaryEmail(secondaryEmail: string) {
       if (!this.sessionData.user.emails) {
         return false;

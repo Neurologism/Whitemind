@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import type { Edge, Node } from '@vue-flow/core';
+import type { Node } from '@vue-flow/core';
+import type { Edge } from '~/types/edge.type';
+import type { Components, OptionalExports } from '~/types/components.type';
 
 export const useVueFlowStore = defineStore('vueFlowStore', {
   state: () => ({
@@ -14,7 +16,7 @@ export const useVueFlowStore = defineStore('vueFlowStore', {
     highlightedEdge: ref<string | null>(null),
   }),
   getters: {
-    components(state) {
+    components(state): Components {
       return {
         nodes: state.nodes,
         edges: state.edges,
@@ -23,14 +25,87 @@ export const useVueFlowStore = defineStore('vueFlowStore', {
     },
   },
   actions: {
+    export(): Components {
+      const projectStore = useProjectStore();
+      const additionalExports: OptionalExports =
+        projectStore.editorConfig.getAdditionalExports();
+      return {
+        ...this.components,
+        ...additionalExports,
+      };
+    },
+
+    addNodes(nodes: Node[] | Node): void {
+      if (!Array.isArray(nodes)) {
+        nodes = [nodes];
+      }
+      this.nodes = this.nodes.concat(nodes);
+
+      const projectStore = useProjectStore();
+      for (const node of nodes) {
+        const callback =
+          projectStore.editorConfig.getOnNodeCreationCallback(node);
+        if (callback) callback(node);
+      }
+    },
+
+    removeNodes(nodes: Node[] | Node): void {
+      if (!Array.isArray(nodes)) {
+        nodes = [nodes];
+      }
+
+      const projectStore = useProjectStore();
+      for (const node of nodes) {
+        const callback =
+          projectStore.editorConfig.getOnNodeRemovalCallback(node);
+        if (callback) callback(node);
+      }
+
+      this.nodes = this.nodes.filter(
+        (node: Node) => !nodes.some((n) => n.id === node.id)
+      );
+    },
+
+    addEdges(edges: Edge[] | Edge): void {
+      if (!Array.isArray(edges)) {
+        edges = [edges];
+      }
+      this.edges = this.edges.concat(edges);
+
+      const projectStore = useProjectStore();
+      for (const edge of edges) {
+        const callback =
+          projectStore.editorConfig.getOnEdgeConnectedCallback(edge);
+        if (callback) callback(edge);
+      }
+    },
+
+    removeEdge(edge: Edge): void {
+      this.edges = this.edges.filter(
+        (currentEdge) => currentEdge.id !== edge.id
+      );
+
+      const projectStore = useProjectStore();
+      const callback =
+        projectStore.editorConfig.getOnEdgeDisconnectedCallback(edge);
+      if (callback) callback(edge);
+      this.highlightedEdge = null;
+    },
+
     getNode(nodeId: string): Node | undefined {
       return this.nodes.find((node) => node.id === nodeId);
     },
 
-    removeEdge(edgeId: string) {
-      console.log('Removing edge', edgeId);
-      this.edges = this.edges.filter((edge) => edge.id !== edgeId);
-      this.highlightedEdge = null;
+    getEdge(edgeId: string): Edge | undefined {
+      return this.edges.find((edge) => edge.id === edgeId);
+    },
+
+    getEdgesByTargetId(targetId: string): Edge[] {
+      return this.edges.filter((edge: Edge) => edge.target === targetId);
+    },
+
+    getEdgesBySourceId(sourceId: string): Edge[] {
+      return this.edges.filter((edge: Edge) => edge.source === sourceId);
     },
 
     nodeExists(nodeId: string): boolean {

@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { VueFlow, useVueFlow, Panel } from '@vue-flow/core';
+import { VueFlow, useVueFlow, Panel, type Node } from '@vue-flow/core';
 // import { MiniMap } from "@vue-flow/minimap";
 // import "@vue-flow/minimap/dist/style.css";
-import { CustomNodes } from '~/utility/customNodeList';
 import { Background } from '@vue-flow/background';
 import { SyncStatus } from '~/types/syncStatus.enum';
 import CustomConnectionEdge from '~/components/project/customEdge/CustomConnectionEdge.vue';
 import CustomEdge from '~/components/project/customEdge/CustomEdge.vue';
 import { useMouse } from '@vueuse/core';
+import { type ContextMenuOption } from '~/types/blocks.types';
 
 const props = defineProps({
   tutorialProject: {
@@ -40,8 +40,6 @@ trainingStore.training.mean_absolute_error = null;
 
 const {
   onConnect,
-  addEdges,
-  addNodes,
   vueFlowRef,
   project,
   toObject,
@@ -55,9 +53,22 @@ const {
   removeNodes,
 } = useVueFlow();
 
+const baseContextMenuOptions = [
+  {
+    label: 'Duplicate',
+    onClick: contextMenuDuplicate,
+  },
+  {
+    label: 'Delete',
+    onClick: contextMenuDelete,
+  },
+] as ContextMenuOption[];
+const contextMenuOptions = ref<ContextMenuOption[]>([]);
+
 function handleDrop(event: DragEvent) {
   const nodeTypeString = event.dataTransfer?.getData('node') ?? '';
-  const nodeType = CustomNodes.getCustomNodeConfig(nodeTypeString);
+  const nodeType =
+    projectStore.editorConfig.getCustomNodeConfig(nodeTypeString);
   if (!nodeType) return;
 
   if (vueFlowRef.value === null) {
@@ -77,15 +88,26 @@ function handleDrop(event: DragEvent) {
     y: event.clientY - top,
   });
 
-  let newNode = CustomNodes.getDefaultData(nodeType.type, position);
+  const newNode = projectStore.editorConfig.getNodeDefaultData(
+    nodeType.type,
+    position
+  );
+  if (newNode === null) {
+    toast.add({
+      title: 'Failed to drop node',
+      description: 'Node type not found',
+      icon: 'mdi-alert-circle',
+      color: 'red',
+    });
+    return;
+  }
 
   addNewNode(newNode);
 }
 
-function addNewNode(newNode: any) {
+function addNewNode(newNode: Node) {
   if (!props.tutorialProject) {
-    // @ts-ignore
-    addNodes([newNode]);
+    vueFlowStore.addNodes([newNode]);
     return;
   }
 
@@ -109,15 +131,13 @@ function addNewNode(newNode: any) {
       },
     };
 
-    // @ts-ignore
-    addNodes([newNode]);
+    vueFlowStore.addNodes([newNode]);
     console.log('Adding tutorial node', newNode);
     return;
   }
 
   if (config.public.tutorialAllowUnlistedNodeCreation) {
-    // @ts-ignore
-    addNodes([newNode]);
+    vueFlowStore.addNodes([newNode]);
   } else {
     displayActionForbiddenToast();
   }
@@ -125,6 +145,15 @@ function addNewNode(newNode: any) {
 
 function onContextMenu(nodeId: string) {
   contextMenuTargetNodeId.value = nodeId;
+  const node = vueFlowStore.getNode(nodeId);
+  const nodeDef = projectStore.editorConfig.getCustomNodeConfig(
+    node?.type ?? ''
+  );
+  if (!nodeDef) {
+    console.error("Couldn't identify node.");
+  }
+  const additionalOptions = nodeDef?.contextMenuOptions ?? [];
+  contextMenuOptions.value = baseContextMenuOptions.concat(additionalOptions);
 
   const top = unref(mouse.y);
   const left = unref(mouse.x);
@@ -139,45 +168,61 @@ function onContextMenu(nodeId: string) {
   openContextMenu.value = true;
 }
 
-function contextMenuDuplicate() {
+function contextMenuAction(onClick: (node: Node) => void) {
   openContextMenu.value = false;
-  if (!contextMenuTargetNodeId.value) return;
-  const node = vueFlowStore.getNode(contextMenuTargetNodeId.value);
-  if (node === undefined) return;
-  const newNode = CustomNodes.getDefaultData(node.type!, {
+  const node = vueFlowStore.getNode(contextMenuTargetNodeId.value ?? '');
+  if (node === undefined) {
+    sessionStore.errorToast('Could not find node.');
+    return;
+  }
+  onClick(node);
+}
+
+function contextMenuDuplicate(node: Node) {
+  const newNode = projectStore.editorConfig.getNodeDefaultData(node.type!, {
     x: node.position.x + 100,
     y: node.position.y + 100,
   });
+  if (!newNode) {
+    toast.add({
+      title: 'Failed to duplicate node',
+      description: 'Node type not found',
+      icon: 'mdi-alert-circle',
+      color: 'red',
+    });
+    return;
+  }
   addNewNode(newNode);
 }
 
-function contextMenuDelete() {
-  openContextMenu.value = false;
-  if (!contextMenuTargetNodeId.value) return;
-  removeNodes([contextMenuTargetNodeId.value]);
+function contextMenuDelete(node: Node) {
+  removeNodes([node.id]);
 }
 
-function onNodeRemove(change: any) {
-  console.log('Node removed', change);
-  if (!props.tutorialProject) {
-    applyNodeChanges([change]);
+function onNodeRemove(change: { id: string; type: string }) {
+  const nodeId = change.id;
+  const node = vueFlowStore.getNode(nodeId);
+  const sessionStore = useSessionStore();
+  if (!node) {
+    sessionStore.errorToast('Tried to remove inexistent node.');
     return;
   }
-  console.log('Node removed', change);
+  if (!props.tutorialProject) {
+    vueFlowStore.removeNodes(node);
+    return;
+  }
 
   for (const removeNode of tutorialStore.currentRemoveNodes) {
     if (removeNode.id !== change.id) {
       continue;
     }
 
-    applyNodeChanges([change]);
-    console.log('Removing tutorial node', change);
+    vueFlowStore.removeNodes(node);
     return;
   }
-  console.log('Node removed', change);
 
   if (config.public.tutorialAllowUnlistedNodeDeletion) {
-    applyNodeChanges([change]);
+    vueFlowStore.removeNodes(node);
   } else {
     displayActionForbiddenToast();
   }
@@ -200,19 +245,20 @@ onEdgesChange((changes) => {
 });
 
 onConnect((newEdge: any) => {
-  console.log(newEdge);
   newEdge.type = 'smoothstep';
   newEdge.animated = false;
   newEdge.animationSpeed = 0.5;
   newEdge.style = {
     stroke:
-      CustomNodes.getEdgeColor(newEdge.sourceHandle, newEdge.targetHandle) ??
-      '#666',
+      projectStore.editorConfig.getEdgeColor(
+        newEdge.sourceHandle,
+        newEdge.targetHandle
+      ) ?? '#666',
     strokeWidth: 2,
   };
 
   if (!props.tutorialProject) {
-    addEdges([newEdge]);
+    vueFlowStore.addEdges([newEdge]);
     return;
   }
 
@@ -230,13 +276,14 @@ onConnect((newEdge: any) => {
       ...newEdge,
       ...addEdge,
     };
-    addEdges([newEdge]);
+
+    vueFlowStore.addEdges([newEdge]);
     console.log('Adding tutorial edge', newEdge);
     return;
   }
 
   if (config.public.tutorialAllowUnlistedEdgeCreation) {
-    addEdges([newEdge]);
+    vueFlowStore.addEdges([newEdge]);
   } else {
     displayActionForbiddenToast();
   }
@@ -255,7 +302,7 @@ function displayActionForbiddenToast() {
 
 function onRemoveEdge(infos: any) {
   if (!props.tutorialProject) {
-    vueFlowStore.removeEdge(infos.edge.id);
+    vueFlowStore.removeEdge(infos.edge);
     return;
   }
 
@@ -264,13 +311,13 @@ function onRemoveEdge(infos: any) {
       continue;
     }
 
-    vueFlowStore.removeEdge(infos.edge.id);
+    vueFlowStore.removeEdge(infos.edge);
     console.log('Removing tutorial edge', infos.edge);
     return;
   }
 
   if (config.public.tutorialAllowUnlistedEdgeDeletion) {
-    vueFlowStore.removeEdge(infos.edge.id);
+    vueFlowStore.removeEdge(infos.edge);
   } else {
     displayActionForbiddenToast();
   }
@@ -335,6 +382,18 @@ watch(
 );
 
 const smallScreenNoteDismissed = ref(false);
+
+const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+  if (projectStore.syncStatus === SyncStatus.unsaved) {
+    event.preventDefault();
+    event.returnValue =
+      'Are you sure you want to leave? Your changes may not be saved.';
+  }
+};
+
+onMounted(() => {
+  window.addEventListener('beforeunload', handleBeforeUnload);
+});
 </script>
 
 <template>
@@ -363,20 +422,13 @@ const smallScreenNoteDismissed = ref(false);
   <UContextMenu v-model="openContextMenu" :virtual-element="contextMenu">
     <div class="flex flex-col">
       <UButton
-        @click="contextMenuDuplicate"
+        v-for="option in contextMenuOptions"
+        @click="contextMenuAction(option.onClick)"
         class="w-full"
         variant="ghost"
         color="gray"
         size="lg"
-        >Duplicate</UButton
-      >
-      <UButton
-        @click="contextMenuDelete"
-        class="w-full"
-        variant="ghost"
-        color="gray"
-        size="lg"
-        >Delete</UButton
+        >{{ option.label }}</UButton
       >
     </div>
   </UContextMenu>
@@ -410,11 +462,9 @@ const smallScreenNoteDismissed = ref(false);
           <slot name="bottomright"></slot>
         </div>
       </Panel>
-      <!--        <MiniMap zoomable node-color="black" mask-color="rgba(56,56,56,0.5)" />-->
       <template #connection-line="props">
         <CustomConnectionEdge v-bind="props" />
       </template>
-      <!-- this warning is an webstorm/lang server error, code works -->
       <template #edge-smoothstep="props">
         <CustomEdge
           :id="props.id"
@@ -430,14 +480,13 @@ const smallScreenNoteDismissed = ref(false);
         />
       </template>
       <template
-        v-for="node in CustomNodes.nodesList.flatMap((group) =>
+        v-for="node in projectStore.editorConfig.nodesList.flatMap((group) =>
           group.groups.flatMap((subGroup) => subGroup.nodes)
         )"
         :key="node.type"
         v-slot:[`node-${node.type}`]="props"
       >
         <ProjectCustomNodeBase
-          :props="props"
           :node-id="props.id"
           @nodeContextmenu="onContextMenu"
           :key="route.fullPath.split('/')[2]"

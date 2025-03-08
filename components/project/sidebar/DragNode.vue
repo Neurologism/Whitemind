@@ -3,14 +3,15 @@ import type {
   NodeDefinition,
   NodeGroupDefinition,
   NodeSubGroupDefinition,
-} from '~/data/blocks';
-import { CustomNodes } from '~/utility/customNodeList';
+} from '~/types/blocks.types';
 
 defineProps<{
   nodeDefinition: NodeDefinition;
   nodeGroupDefinition: NodeGroupDefinition;
   nodeSubGroupDefinition: NodeSubGroupDefinition;
 }>();
+
+const projectStore = useProjectStore();
 
 function handleDragStart(event: DragEvent, nodeType: string) {
   event.dataTransfer!.setData('node', nodeType);
@@ -45,11 +46,12 @@ const isHovering = ref(false);
         class="flex-none h-3 w-3 rounded-t-sm flex items-center justify-center border-t border-l border-r border-accent-7"
         v-if="!nodeDefinition.hideInput"
         :style="{
-          backgroundImage: CustomNodes.getHardGradientOfMultipleCategories(
-            nodeDefinition.inputConstraints?.allowedCategories ?? [
-              nodeGroupDefinition.group_identifier,
-            ]
-          ),
+          backgroundImage:
+            projectStore.editorConfig.getHardGradientOfMultipleCategories(
+              nodeDefinition.inputConstraints?.allowedCategories ?? [
+                nodeGroupDefinition.group_identifier,
+              ]
+            ),
         }"
       >
         <UIcon
@@ -68,11 +70,12 @@ const isHovering = ref(false);
           "
           class="flex-none ml-1 h-3 w-3 rounded-t-full flex items-center justify-center"
           :style="{
-            backgroundImage: CustomNodes.getHardGradientOfMultipleCategories(
-              specialInputConnection.constraints?.allowedCategories ?? [
-                nodeGroupDefinition.group_identifier,
-              ]
-            ),
+            backgroundImage:
+              projectStore.editorConfig.getHardGradientOfMultipleCategories(
+                specialInputConnection.constraints?.allowedCategories ?? [
+                  nodeGroupDefinition.group_identifier,
+                ]
+              ),
           }"
         >
           <UIcon
@@ -93,11 +96,12 @@ const isHovering = ref(false);
           "
           class="flex-none mr-1 h-3 w-3 rounded-t-full flex items-center justify-center"
           :style="{
-            backgroundImage: CustomNodes.getHardGradientOfMultipleCategories(
-              specialOutputConnection.constraints?.allowedCategories ?? [
-                nodeGroupDefinition.group_identifier,
-              ]
-            ),
+            backgroundImage:
+              projectStore.editorConfig.getHardGradientOfMultipleCategories(
+                specialOutputConnection.constraints?.allowedCategories ?? [
+                  nodeGroupDefinition.group_identifier,
+                ]
+              ),
           }"
         >
           <UIcon
@@ -113,11 +117,12 @@ const isHovering = ref(false);
         class="flex-none h-3 w-3 rounded-t-sm flex items-center justify-center"
         v-if="!nodeDefinition.hideOutput"
         :style="{
-          backgroundImage: CustomNodes.getHardGradientOfMultipleCategories(
-            nodeDefinition.outputConstraints?.allowedCategories ?? [
-              nodeGroupDefinition.group_identifier,
-            ]
-          ),
+          backgroundImage:
+            projectStore.editorConfig.getHardGradientOfMultipleCategories(
+              nodeDefinition.outputConstraints?.allowedCategories ?? [
+                nodeGroupDefinition.group_identifier,
+              ]
+            ),
         }"
       >
         <UIcon

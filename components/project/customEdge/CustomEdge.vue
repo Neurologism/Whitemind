@@ -1,14 +1,18 @@
 <script lang="ts" setup>
 import {
+  type Node,
   BaseEdge,
   EdgeLabelRenderer,
   getSmoothStepPath,
   Position,
   getBezierPath,
 } from '@vue-flow/core';
+import { type Edge } from '~/types/edge.type';
+import { SyncStatus } from '~/types/syncStatus.enum';
 
-const flowStore = useVueFlowStore();
+const vueFlowStore = useVueFlowStore();
 const sessionStore = useSessionStore();
+const projectStore = useProjectStore();
 
 const props = defineProps({
   id: {
@@ -53,6 +57,101 @@ const props = defineProps({
   },
 });
 
+const edge = computed(() => vueFlowStore.getEdge(props.id)!);
+const sourceNode = computed(
+  (): Node => vueFlowStore.getNode(edge.value.source)!
+);
+const targetNode = computed(
+  (): Node => vueFlowStore.getNode(edge.value.target)!
+);
+const sourceNodeDefinition = computed(() =>
+  projectStore.editorConfig.getCustomNodeConfig(sourceNode.value.type ?? '')
+);
+const targetNodeDefinition = computed(() =>
+  projectStore.editorConfig.getCustomNodeConfig(targetNode.value.type ?? '')
+);
+const sourceDataAttribute = computed(() => {
+  const sourceDataAttribute =
+    sourceNodeDefinition.value?.data[
+      edge.value.sourceHandle?.split('-')[1] ?? ''
+    ];
+  if (sourceDataAttribute?.type === 'id') {
+    return sourceDataAttribute;
+  } else {
+    return undefined;
+  }
+});
+const targetDataAttribute = computed(() => {
+  const targetDataAttribute =
+    targetNodeDefinition.value?.data[
+      edge.value.targetHandle?.split('-')[1] ?? ''
+    ];
+  if (targetDataAttribute?.type === 'id') {
+    return targetDataAttribute;
+  } else {
+    return undefined;
+  }
+});
+const allowModifyDisplayText = computed((): boolean => {
+  const sourceVal = Boolean(sourceDataAttribute.value?.allowModifyDisplayText);
+  const targetVal = Boolean(targetDataAttribute.value?.allowModifyDisplayText);
+  const sessionStore = useSessionStore();
+  if (sourceVal && targetVal) {
+    sessionStore.errorToast(
+      `Both source and target data attributes cannot have allowModifyDisplayText set to true. \nnode types are ${sourceNode.value.type} and ${targetNode.value.type}`
+    );
+    return false;
+  } else {
+    return sourceVal !== targetVal;
+  }
+});
+const displayTextInputRef = ref<HTMLInputElement | null>(null);
+
+const edgeDisplayText = ref('');
+
+watch(
+  () => projectStore.editorConfig.getEdgeDisplayText(props.id),
+  (newValue: string) => {
+    edgeDisplayText.value = newValue;
+  },
+  { immediate: true }
+);
+
+function onDeselectDisplayTextInput() {
+  let setDisplayText: ((edge: Edge, text: string) => void) | undefined;
+  const sessionStore = useSessionStore();
+  if (sourceDataAttribute.value?.allowModifyDisplayText) {
+    setDisplayText = sourceDataAttribute.value.setDisplayText;
+  } else if (targetDataAttribute.value?.allowModifyDisplayText) {
+    setDisplayText = targetDataAttribute.value.setDisplayText;
+  } else {
+    sessionStore.errorToast(
+      `Both source and target data attributes cannot have allowModifyDisplayText set to true. \nnode types are ${sourceNode.value.type} and ${targetNode.value.type}`
+    );
+    return;
+  }
+  if (!setDisplayText) {
+    sessionStore.errorToast(
+      `setDisplayText function is not defined even though allowModifyDisplayText is set to true. \nnode types are ${sourceNode.value.type} and ${targetNode.value.type}`
+    );
+    return;
+  }
+  const currentDisplayText = projectStore.editorConfig.getEdgeDisplayText(
+    props.id
+  );
+  if (currentDisplayText !== edgeDisplayText.value) {
+    setDisplayText(edge.value, edgeDisplayText.value);
+    edgeDisplayText.value = projectStore.editorConfig.getEdgeDisplayText(
+      props.id
+    );
+    projectStore.syncStatus = SyncStatus.unsaved;
+  }
+}
+
+function onSubmitDisplayTextInput() {
+  displayTextInputRef.value?.blur();
+}
+
 // random offset between 15 and 35 based on string hash
 const offset = Math.abs(
   (props.id
@@ -62,8 +161,8 @@ const offset = Math.abs(
     15
 );
 
-const path = computed(() =>
-  sessionStore.sessionData.smoothEdges
+const path = computed(() => {
+  const path = sessionStore.sessionData.smoothEdges
     ? getBezierPath({
         sourceX: props.sourceX,
         sourceY: props.sourceY,
@@ -80,10 +179,26 @@ const path = computed(() =>
         sourcePosition: props.sourcePosition,
         targetPosition: props.targetPosition,
         offset,
-      })
-);
+      });
 
-const isHovered = computed(() => flowStore.highlightedEdge === props.id);
+  return path;
+});
+
+const coefficient = 10;
+const lengthX = computed(() => props.targetX - props.sourceX);
+const lengthY = computed(() => props.targetY - props.sourceY);
+const lengthVertical = computed(() =>
+  Math.sqrt(lengthX.value ** 2 + lengthY.value ** 2)
+);
+const angle = computed(() => Math.asin(lengthY.value / lengthVertical.value));
+const horizontalOffset = computed(() => {
+  return angle.value * coefficient;
+});
+const verticalOffset = computed(() => {
+  return -((1 / 2) * Math.PI - angle.value) * coefficient;
+});
+
+const isHovered = computed(() => vueFlowStore.highlightedEdge === props.id);
 </script>
 
 <script lang="ts">
@@ -95,7 +210,12 @@ export default {
 <template>
   <BaseEdge
     :path="path[0]"
-    :style="{ ...style, strokeWidth: isHovered ? 3 : 2 }"
+    class="duration-300"
+    :style="{
+      ...style,
+      strokeWidth: isHovered ? 3 : 2,
+      transitionProperty: 'stroke-width',
+    }"
   ></BaseEdge>
   <EdgeLabelRenderer>
     <div
@@ -103,14 +223,38 @@ export default {
         position: 'absolute',
         backgroundColor: style?.stroke ?? '#FFFFFF',
         transform: `translate(-50%, -50%) translate(${path[1]}px,${path[2]}px)`,
+        opacity: isHovered ? `1` : `0`,
       }"
-      class="h-4 w-4 hover:bg-bg-3 p-1 rounded-sm text-center flex justify-center items-center text-text-1 text-lg pointer-events-none shadow-2xl shadow-white"
-      :class="{
-        hidden: !isHovered,
-      }"
-      @click="flowStore.removeEdge(props.id)"
+      class="transition-opacity duration-300 h-4 w-4 pb-2 hover:bg-bg-3 p-1 rounded-sm text-center flex justify-center items-center text-text-1 text-lg pointer-events-none shadow-2xl shadow-white"
+      @click="vueFlowStore.removeEdge(edge)"
     >
-      ×
+      x
+    </div>
+    <div
+      :style="{
+        position: 'absolute',
+        transform: `translate(-50%, -50%) translate(${path[1] + horizontalOffset}px,${path[2] + verticalOffset}px)`,
+      }"
+      class="rounded-full text-center flex justify-center items-center text-text-2 text-sm z-10"
+      :class="{
+        'pointer-events-auto ': allowModifyDisplayText,
+        'cursor-text': allowModifyDisplayText,
+      }"
+      @mousedown.stop
+    >
+      <input
+        v-if="allowModifyDisplayText"
+        v-model="edgeDisplayText"
+        class="bg-transparent backdrop-blur-sm focus:bg-bg-2 border-bg-4 rounded-lg border focus:border-none px-[2px] focus:text-text-1 text-center"
+        :style="{
+          width: `${edgeDisplayText.length + 0.5}ch`,
+        }"
+        variant="none"
+        ref="displayTextInputRef"
+        @blur="onDeselectDisplayTextInput"
+        @keyup.enter="onSubmitDisplayTextInput"
+      />
+      <span v-else> {{ edgeDisplayText }} </span>
     </div>
   </EdgeLabelRenderer>
 </template>

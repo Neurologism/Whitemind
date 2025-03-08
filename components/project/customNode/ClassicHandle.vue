@@ -2,15 +2,15 @@
 import type { PropType } from 'vue';
 import type { Connection, GraphEdge, GraphNode } from '@vue-flow/core';
 import { Handle, Position } from '@vue-flow/core';
-import {
-  FlowOrientation,
-  type NodeConnectionConstraint,
-  type NodeDefinition,
-  type NodeGroupDefinition,
-} from '~/data/blocks';
-import { CustomNodes } from '~/utility/customNodeList';
+import { FlowOrientation } from '~/types/blocks.types';
+import type {
+  NodeConnectionConstraint,
+  NodeDefinition,
+  NodeGroupDefinition,
+} from '~/types/blocks.types';
 
-const flowStore = useVueFlowStore();
+const vueFlowStore = useVueFlowStore();
+const projectStore = useProjectStore();
 
 const props = defineProps({
   handleId: {
@@ -29,10 +29,6 @@ const props = defineProps({
     type: Object as PropType<NodeConnectionConstraint>,
     required: false,
   },
-  shapeData: {
-    type: Object as PropType<NodeDefinition>,
-    required: true,
-  },
   shapeGroupData: {
     type: Object as PropType<NodeGroupDefinition>,
     required: true,
@@ -40,7 +36,7 @@ const props = defineProps({
 });
 
 function getHandleConnectionCount(handleId: string): number {
-  return flowStore.edges.filter(
+  return vueFlowStore.edges.filter(
     (edge) => edge.sourceHandle === handleId || edge.targetHandle === handleId
   ).length;
 }
@@ -54,19 +50,17 @@ function checkConnection(
     targetNode: GraphNode;
   }
 ): boolean {
-  const sourceNodeDefinition: NodeDefinition = CustomNodes.getCustomNodeConfig(
-    elements.sourceNode.type
-  )!;
-  const targetNodeDefinition: NodeDefinition = CustomNodes.getCustomNodeConfig(
-    elements.targetNode.type
-  )!;
+  const sourceNodeDefinition: NodeDefinition =
+    projectStore.editorConfig.getCustomNodeConfig(elements.sourceNode.type)!;
+  const targetNodeDefinition: NodeDefinition =
+    projectStore.editorConfig.getCustomNodeConfig(elements.targetNode.type)!;
 
   if (connection.target === connection.source) {
     return false;
   }
 
-  let sourceConstraints: NodeConnectionConstraint | undefined;
-  let sourceDirection: FlowOrientation | undefined;
+  let sourceConstraints: NodeConnectionConstraint | undefined = undefined;
+  let sourceDirection: FlowOrientation | undefined = undefined;
   let targetConstraints: NodeConnectionConstraint | undefined;
   let targetDirection: FlowOrientation | undefined;
   if (connection.sourceHandle!.startsWith('out')) {
@@ -77,9 +71,20 @@ function checkConnection(
     sourceDirection = FlowOrientation.INPUT;
   } else if (connection.sourceHandle!.startsWith('val')) {
     let key = connection.sourceHandle!.split('-')[1];
-    sourceConstraints = sourceNodeDefinition.data[key].constraints;
-    sourceDirection = sourceNodeDefinition.data[key].flowOrientation;
+    if (key.endsWith('_dataset')) {
+      sourceConstraints = { allowedCategories: ['dataset'] };
+      sourceDirection = FlowOrientation.OUTPUT;
+    } else if (
+      'constraints' in (sourceNodeDefinition.data[key] ?? {}) &&
+      'flowOrientation' in (sourceNodeDefinition.data[key] ?? {})
+    ) {
+      sourceConstraints = sourceNodeDefinition.data[key].constraints;
+      sourceDirection = sourceNodeDefinition.data[key].flowOrientation;
+    }
+  } else {
+    throw new Error('Invalid handle type');
   }
+
   if (connection.targetHandle!.startsWith('in')) {
     targetConstraints = targetNodeDefinition.inputConstraints;
     targetDirection = FlowOrientation.INPUT;
@@ -87,14 +92,27 @@ function checkConnection(
     targetConstraints = targetNodeDefinition.outputConstraints;
     targetDirection = FlowOrientation.OUTPUT;
   } else if (connection.targetHandle!.startsWith('val')) {
-    let key = connection.targetHandle!.split('-')[1];
-    targetConstraints = targetNodeDefinition.data[key].constraints;
-    targetDirection = targetNodeDefinition.data[key].flowOrientation;
-  }
-  if (sourceDirection !== undefined && targetDirection !== undefined) {
-    if (sourceDirection === targetDirection) {
-      return false;
+    const key = connection.targetHandle!.split('-')[1];
+    if (key.endsWith('_dataset')) {
+      targetConstraints = { allowedCategories: ['dataset'] };
+      targetDirection = FlowOrientation.OUTPUT;
+    } else if (
+      'constraints' in (targetNodeDefinition.data[key] ?? {}) &&
+      'flowOrientation' in (targetNodeDefinition.data[key] ?? {})
+    ) {
+      targetConstraints = targetNodeDefinition.data[key].constraints;
+      targetDirection = targetNodeDefinition.data[key].flowOrientation;
     }
+  } else {
+    throw new Error('Invalid handle type');
+  }
+
+  if (
+    sourceDirection !== undefined &&
+    targetDirection !== undefined &&
+    sourceDirection === targetDirection
+  ) {
+    return false;
   }
 
   // Check if the connection is allowed by the constraints
@@ -102,15 +120,16 @@ function checkConnection(
     sourceConstraints?.allowedCategories &&
     targetConstraints?.allowedCategories
   ) {
-    let result = sourceConstraints.allowedCategories.some((category) =>
+    const result = sourceConstraints.allowedCategories.some((category) =>
       targetConstraints.allowedCategories!.includes(category)
     );
     if (!result) {
       return false;
     }
   }
+
   if (sourceConstraints?.min || sourceConstraints?.max) {
-    let newSourceConnectionCount =
+    const newSourceConnectionCount =
       getHandleConnectionCount(connection.sourceHandle!) + 1;
     if (
       !(
@@ -121,8 +140,9 @@ function checkConnection(
       return false;
     }
   }
+
   if (targetConstraints?.min || targetConstraints?.max) {
-    let newTargetConnectionCount =
+    const newTargetConnectionCount =
       getHandleConnectionCount(connection.targetHandle!) + 1;
     if (
       !(
@@ -171,7 +191,7 @@ const arrowRotation: ComputedRef<number> = computed(() => {
     class="z-10 rounded-sm h-4 w-4 hover:w-5 hover:h-5 origin-center text-center flex items-center justify-center border hover:border-2 border-accent-8"
     :style="{
       backgroundImage: constraints?.allowedCategories
-        ? CustomNodes.getHardGradientOfMultipleCategories(
+        ? projectStore.editorConfig.getHardGradientOfMultipleCategories(
             constraints!.allowedCategories,
             arrowRotation === Rotations.left ||
               arrowRotation === Rotations.right

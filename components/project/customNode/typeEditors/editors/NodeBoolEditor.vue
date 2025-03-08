@@ -8,12 +8,13 @@ const props = defineProps<{
 }>();
 
 const nodesData = useNodesData(props.nodeId)!;
+const label = props.paramName.split('.').pop();
 </script>
 
 <template>
   <UCheckbox
     class="font-mono"
     v-model="nodesData.data[paramName]"
-    :label="paramName"
+    :label="label"
   />
 </template>

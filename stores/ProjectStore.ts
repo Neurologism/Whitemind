@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia';
 import { SyncStatus } from '~/types/syncStatus.enum';
+import { editorConfigs } from '~/data/editorConfigs';
+import { EditorConfig } from '~/types/editorConfig.class';
 
 interface Model {
   _id: string;
@@ -22,11 +24,15 @@ export const useProjectStore = defineStore('projectStore', {
     models: [] as Model[],
     projects: [] as Project[],
   }),
-  getters: {},
+  getters: {
+    editorConfig(state): EditorConfig {
+      return editorConfigs[state.project?.data.editorType ?? 'classic'];
+    },
+  },
   actions: {
     async populateModels(): Promise<boolean> {
       if (!this.project) return false;
-      for (const modelId of this.project.data.models) {
+      for (const modelId of this.project.data.tasks) {
         const model = await this.fetchModel(modelId);
         if (!model) {
           return false;
@@ -35,6 +41,7 @@ export const useProjectStore = defineStore('projectStore', {
       }
       return true;
     },
+
     async fetchModel(modelId: string): Promise<Model | null> {
       const sessionStore = useSessionStore();
       let response = await sessionStore.fetch(`/tasks/${modelId}`, {
@@ -50,6 +57,7 @@ export const useProjectStore = defineStore('projectStore', {
       const data = await response.json();
       return data.task;
     },
+
     async loadProject(projectId: string = ''): Promise<boolean> {
       if (!projectId) {
         if (!this.project) {
@@ -77,6 +85,7 @@ export const useProjectStore = defineStore('projectStore', {
         this.project.data.components = {
           nodes: [],
           edges: [],
+          viewport: { x: 0.1, y: 0.1, zoom: 1.1 },
         };
       }
 
@@ -84,6 +93,11 @@ export const useProjectStore = defineStore('projectStore', {
       vueFlowStore.nodes = this.project.data.components.nodes;
       vueFlowStore.edges = this.project.data.components.edges;
       vueFlowStore.viewport = this.project.data.components.viewport;
+
+      this.editorConfig.importFromData(
+        this.editorConfig,
+        this.project.data.components
+      );
 
       this.syncStatus = SyncStatus.synced;
       return true;
@@ -176,7 +190,8 @@ export const useProjectStore = defineStore('projectStore', {
             description: project.data.description,
             visibility: project.data.visibility,
             components: project.data.components,
-            // ownerId: project.data.ownerId, this line can be uncommented when backmind issue #82 branch is merged
+            editorType: project.data.editorType,
+            ownerId: project.data.ownerId,
           },
         }),
       });
@@ -189,7 +204,7 @@ export const useProjectStore = defineStore('projectStore', {
       this.syncStatus = SyncStatus.syncing;
 
       const vueFlowStore = useVueFlowStore();
-      this.project.data.components = vueFlowStore.components;
+      this.project.data.components = vueFlowStore.export();
 
       const success = await this.updateProject();
 
@@ -204,6 +219,15 @@ export const useProjectStore = defineStore('projectStore', {
         this.syncStatus = SyncStatus.synced;
       }
       return success;
+    },
+
+    async resetProject() {
+      const vueFlowStore = useVueFlowStore();
+      const perceptronTrainingStore = usePerceptronTrainingStore();
+      vueFlowStore.$reset();
+      perceptronTrainingStore.$reset();
+      perceptronTrainingStore.initialized = true;
+      await this.syncProject();
     },
   },
 });
