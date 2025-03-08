@@ -22,95 +22,44 @@ export const classicBlocks: NodeGroupDefinition[] = [
             hideOutput: true,
             data: {},
           },
-          {
-            display: NodeDisplay.Classic,
-            type: 'mnist',
-            name: 'MNIST',
-            description: 'Load the MNIST dataset.',
-            identifier: 'dataset_mnist',
-            hideInput: true,
-            hideOutput: true,
-            data: {
-              batch_size: {
-                type: 'float',
-                value: 32,
-              },
-              train: {
-                type: 'id',
-                flowOrientation: FlowOrientation.OUTPUT,
-                constraints: {
-                  allowedCategories: ['dataset'],
-                },
-              },
-              test: {
-                type: 'id',
-                flowOrientation: FlowOrientation.OUTPUT,
-                constraints: {
-                  allowedCategories: ['dataset'],
-                },
-              },
-            },
-          },
-          {
-            display: NodeDisplay.Classic,
-            type: 'wine_quality',
-            name: 'Wine Quality',
-            description: 'Load the Wine Quality dataset.',
-            identifier: 'dataset_wine_quality',
-            hideInput: true,
-            hideOutput: true,
-            data: {
-              batch_size: {
-                type: 'float',
-                value: 32,
-              },
-              train: {
-                type: 'id',
-                flowOrientation: FlowOrientation.OUTPUT,
-                constraints: {
-                  allowedCategories: ['dataset'],
-                },
-              },
-            },
-          },
-          {
-            display: NodeDisplay.Classic,
-            type: 'split',
-            name: 'Split',
-            description: 'Split the dataset into two parts.',
-            identifier: 'split',
-            hideInput: false,
-            hideOutput: true,
-            inputConstraints: {
-              allowedCategories: ['dataset'],
-              max: 1,
-              min: 1,
-            },
-            data: {
-              ratio: {
-                type: 'range',
-                min: 0,
-                max: 1,
-                step: 0.01,
-                value: 0.75,
-                inline: true,
-              },
-              split1: {
-                type: 'id',
-                flowOrientation: FlowOrientation.OUTPUT,
-                constraints: {
-                  allowedCategories: ['dataset'],
-                },
-              },
-              split2: {
-                type: 'id',
-                flowOrientation: FlowOrientation.OUTPUT,
-                constraints: {
-                  allowedCategories: ['dataset'],
-                },
-              },
-            },
-          },
+          // {
+          //   display: NodeDisplay.Classic,
+          //   type: 'split',
+          //   name: 'Split',
+          //   description: 'Split the dataset into two parts.',
+          //   identifier: 'split',
+          //   hideInput: false,
+          //   hideOutput: true,
+          //   inputConstraints: {
+          //     allowedCategories: ['dataset'],
+          //     max: 1,
+          //     min: 1,
+          //   },
+          //   data: {
+          //     ratio: {
+          //       type: 'range',
+          //       min: 0,
+          //       max: 1,
+          //       step: 0.01,
+          //       value: 0.75,
+          //       inline: true,
+          //     },
+          //     split1: {
+          //       type: 'id',
+          //       flowOrientation: FlowOrientation.OUTPUT,
+          //       constraints: {
+          //         allowedCategories: ['dataset'],
+          //       },
+          //     },
+          //     split2: {
+          //       type: 'id',
+          //       flowOrientation: FlowOrientation.OUTPUT,
+          //       constraints: {
+          //         allowedCategories: ['dataset'],
+          //       },
+          //     },
+          //   },
+          // },
         ],
       },
     ],
