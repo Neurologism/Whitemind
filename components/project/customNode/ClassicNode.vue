@@ -203,7 +203,7 @@ const renderTrainingDataInHeader = computed(() => {
           :nodeId="props.nodeId"
         ></component>
       </div>
-      <div v-if="shapeData.identifier === 'dataset_node'">
+      <div v-if="shapeData.identifier === 'dataset'">
         <DatasetNode
           :node-id="nodeId"
           :shape-data="shapeData"

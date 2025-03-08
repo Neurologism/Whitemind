@@ -14,10 +14,10 @@ export const classicBlocks: NodeGroupDefinition[] = [
         nodes: [
           {
             display: NodeDisplay.Classic,
-            type: 'dataset_node',
+            type: 'dataset',
             name: 'Dataset',
             description: 'Select or Upload a dataset to use with your project',
-            identifier: 'dataset_node',
+            identifier: 'dataset',
             hideInput: true,
             hideOutput: true,
             data: {},
