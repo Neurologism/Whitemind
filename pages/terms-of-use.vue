@@ -5,7 +5,7 @@ const markdownContent = ref('# Loading...');
 
 onMounted(async () => {
   try {
-    const response = await fetch('/privacy_policy.md');
+    const response = await fetch('/terms_of_use.md');
     const text = await response.text();
     markdownContent.value = await marked(text);
   } catch (error) {
