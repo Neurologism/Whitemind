@@ -71,7 +71,7 @@ onBeforeUnmount(() => {
     <div
       v-for="option in options"
       class="flex flex-row flex-nowrap align-middle cursor-pointer hover:bg-bg-4 px-2 py-1"
-      @click="() => (nodesData!.data[paramName] = option)"
+      @click="() => (nodesData!.data[paramName] = option) && (isOpen = false)"
     >
       <span class="flex-1 font-mono text-sm line-clamp-1 text-ellipsis">
         <UTooltip :text="option" :open-delay="750">

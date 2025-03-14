@@ -83,6 +83,7 @@ checkNumber();
         <input
           type="number"
           inputmode="numeric"
+          placeholder="int"
           class="w-full bg-transparent border-0 outline-none"
           v-model="nodesData!.data[paramName]"
         />
