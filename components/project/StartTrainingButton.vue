@@ -25,6 +25,16 @@ async function trainingStart() {
     color: result.success ? 'green' : 'red',
   });
 }
+
+async function trainingStop() {
+  const result = await trainingStore.stopTraining();
+  toast.add({
+    icon: 'material-symbols:stop-circle',
+    title: result.success ? 'Training stopped' : 'Training stop failed',
+    description: result.message ?? undefined,
+    color: result.success ? 'orange' : 'red',
+  });
+}
 </script>
 
 <template>
@@ -50,7 +60,7 @@ async function trainingStart() {
     <span class="text-sm">Train</span>
   </UTooltip>
   <UTooltip
-    @click="trainingStart"
+    @click="trainingStop"
     v-if="
       trainingStore.training.running &&
       trainingStore.training.startNodeId === props.nodeId
