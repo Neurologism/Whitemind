@@ -73,8 +73,15 @@ const onInputChange = (value: string) => {
 };
 
 const onKeyDown = (event: KeyboardEvent) => {
-  if (event.key === 'Enter' && isInputValid.value && inputValue.value.trim()) {
+  if (
+    (event.key === 'Enter' || event.key === ' ' || event.key === ',') &&
+    isInputValid.value &&
+    inputValue.value.trim()
+  ) {
     addItem();
+    // with timeout, because the event is fired before the input value is updated
+    // works consistently
+    setTimeout(() => (inputValue.value = ''), 10);
   } else if (event.key === 'Backspace' && !inputValue.value) {
     removeLastItem();
   }
