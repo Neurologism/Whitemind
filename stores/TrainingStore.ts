@@ -151,7 +151,7 @@ export const useTrainingStore = defineStore('trainingStore', {
         Object.keys(data).includes(nodeID)
       );
     },
-    lastVisualizerData(nodeID: string) {
+    lastNodeTrainingData(nodeID: string) {
       const toFix2 = (input: string | number) => {
         if (typeof input === 'number') {
           return input.toFixed(2);
@@ -168,6 +168,7 @@ export const useTrainingStore = defineStore('trainingStore', {
         if (entries.length > 0) {
           let resultMap = entries[entries.length - 1][nodeID];
           for (const key in resultMap) {
+            if (key === 'url') continue;
             resultMap[key] = toFix2(resultMap[key]);
           }
           return resultMap;

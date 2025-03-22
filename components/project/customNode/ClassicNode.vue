@@ -11,6 +11,7 @@ import ClassicHandle from '~/components/project/customNode/ClassicHandle.vue';
 import { EditorConfig } from '~/types/editorConfig.class';
 import StartTrainingButton from '../StartTrainingButton.vue';
 import DatasetNode from '~/components/project/customNode/DatasetNode/DatasetNode.vue';
+import { downloadFile } from '~/utility/downloadFile';
 
 defineEmits(['node-contextmenu']);
 
@@ -63,10 +64,19 @@ function clickIcons() {
   }
 }
 
-const lastTrainingDataForNode = trainingStore.lastVisualizerData(props.nodeId);
+const lastTrainingDataForNode = trainingStore.lastNodeTrainingData(
+  props.nodeId
+);
 const renderTrainingDataInHeader = computed(() => {
   return Object.keys(lastTrainingDataForNode.value).length <= 2;
 });
+if (shapeData.identifier === 'export') {
+  watch(lastTrainingDataForNode, (trainingData) => {
+    if (trainingData['url']) {
+      downloadFile(trainingData['url']);
+    }
+  });
+}
 </script>
 
 <template>
