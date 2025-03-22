@@ -5,6 +5,7 @@ export const useTutorialStore = defineStore('tutorialStore', {
     openInEditor: false,
     syncInterval: null as NodeJS.Timeout | null,
     visibleStep: 0 as number,
+    tutorialId: ref(''),
     tutorial: {
       fetchedTime: null as null | Date,
       data: null as {
@@ -142,6 +143,8 @@ export const useTutorialStore = defineStore('tutorialStore', {
     },
 
     stepForward() {
+      const projectStore = useProjectStore();
+
       if (
         this.tutorial.data === null ||
         this.visibleStep >= this.tutorial.data.steps.length - 1
@@ -156,6 +159,7 @@ export const useTutorialStore = defineStore('tutorialStore', {
         if (this.tutorial.currentStep === this.tutorial.data.steps.length - 1) {
           this.tutorial.tutorialCompleted = true;
         }
+        projectStore.syncProject();
         this.syncState();
       }
       return true;
