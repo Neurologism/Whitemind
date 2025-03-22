@@ -4,7 +4,6 @@ import { SyncStatus } from '~/types/syncStatus.enum';
 const sessionStore = useSessionStore();
 const projectStore = useProjectStore();
 const vueFlowStore = useVueFlowStore();
-const route = useRoute();
 
 projectStore.project = null;
 
