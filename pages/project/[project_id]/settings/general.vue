@@ -5,7 +5,6 @@ definePageMeta({
 
 const projectStore = useProjectStore();
 const vueFlowStore = useVueFlowStore();
-const perceptronTrainingStore = usePerceptronTrainingStore();
 const toast = useToast();
 const route = useRoute();
 
@@ -132,7 +131,7 @@ projectStore.projectId = route.params.project_id as string;
     </template>
   </GenericModal>
   <div class="w-screen bg-bg-2" style="min-height: calc(100vh - 4rem)">
-    <SettingsBase :in-project="true">
+    <SettingsBase variant="project">
       <SettingsHeader>General</SettingsHeader>
       <SettingsInput
         label="Project Name"

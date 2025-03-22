@@ -34,7 +34,7 @@ async function saveSecondary() {
 async function swapPrimarySecondary() {}
 </script>
 <template>
-  <SettingsBase :in-project="false">
+  <SettingsBase variant="user">
     {{ primaryEmail.verified }}
     <SettingsHeader>Mail & Phone</SettingsHeader>
     <div

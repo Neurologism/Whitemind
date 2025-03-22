@@ -115,7 +115,7 @@ const newPasswordsMatch = computed(() => {
       </div>
     </template>
   </GenericModal>
-  <SettingsBase :in-project="false">
+  <SettingsBase variant="user">
     <SettingsHeader>Password</SettingsHeader>
     <SettingsText
       >You can change your password by clicking the button below.

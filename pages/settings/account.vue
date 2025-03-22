@@ -83,7 +83,7 @@ async function deleteAccount() {
       >
     </template>
   </GenericModal>
-  <SettingsBase :in-project="false">
+  <SettingsBase variant="user">
     <SettingsHeader>Account</SettingsHeader>
     <SettingsInput label="Username" placeholder="kurumi123" v-model="username">
       Beware, changing your username can result in side effects. If you want to

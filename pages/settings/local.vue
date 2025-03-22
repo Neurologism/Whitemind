@@ -47,7 +47,7 @@ const smoothEdgesTabs = [
 ];
 </script>
 <template>
-  <SettingsBase :in-project="false">
+  <SettingsBase variant="user">
     <SettingsHeader>Local Settings</SettingsHeader>
     <SettingsHeader :weight="2" class="mt-8">Edge display</SettingsHeader>
     <SettingsText>

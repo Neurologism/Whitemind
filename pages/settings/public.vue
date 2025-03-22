@@ -33,7 +33,7 @@ async function updateUser() {
 }
 </script>
 <template>
-  <SettingsBase :in-project="false">
+  <SettingsBase variant="user">
     <SettingsHeader>Public Profile</SettingsHeader>
     <div class="h-4"></div>
     <ProfilePicture
