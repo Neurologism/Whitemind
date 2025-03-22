@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import path from 'path';
+import { navigateToSubroute } from '~/utility/navigateToSubroute';
 
 definePageMeta({
-  layout: 'project',
+  layout: 'tutorial',
 });
 
 const route = useRoute();
+const tutorialStore = useTutorialStore();
 
-navigateTo(
-  route.fullPath + (route.fullPath.endsWith('/') ? '' : '/') + 'editor'
-);
+tutorialStore.tutorialId = route.params.tutorial_id as string;
+navigateToSubroute(route.fullPath, 3, 'editor');
 </script>
 
 <template></template>
