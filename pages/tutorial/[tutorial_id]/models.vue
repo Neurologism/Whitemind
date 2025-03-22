@@ -1,7 +1,15 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'project',
+  layout: 'tutorial',
 });
+
+const route = useRoute();
+const tutorialStore = useTutorialStore();
+
+tutorialStore.tutorialId = route.params.tutorial_id as string;
+tutorialStore.openInEditor = true;
 </script>
 
-<template></template>
+<template>
+  <ProjectModels />
+</template>

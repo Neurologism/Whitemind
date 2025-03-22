@@ -1,52 +1,12 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'project',
+  layout: 'tutorial',
 });
 
 const route = useRoute();
-const projectStore = useProjectStore();
 const tutorialStore = useTutorialStore();
 
-const tutorialId = route.params.tutorial_id as string;
-const toast = useToast();
-
-async function loadTutorial() {
-  const successGetTutorial = await tutorialStore.getTutorial(tutorialId);
-
-  if (!successGetTutorial) {
-    toast.add({
-      title: 'Failed to load tutorial',
-      icon: 'mdi-alert-circle',
-      color: 'red',
-    });
-  }
-
-  if (tutorialStore.tutorial.tutorialStarted === false) {
-    const successSetState = await tutorialStore.tutorialSetState(tutorialId);
-
-    if (!successSetState) {
-      toast.add({
-        title: 'Failed to initialize tutorial project',
-        icon: 'mdi-alert-circle',
-        color: 'red',
-      });
-    }
-  }
-
-  projectStore.projectId = tutorialStore.tutorial.projectId as string;
-}
-
-onMounted(() => {
-  loadTutorial();
-});
-
-watch(
-  () => tutorialStore.tutorial.projectId,
-  () => {
-    projectStore.projectId = tutorialStore.tutorial.projectId as string;
-  }
-);
-
+tutorialStore.tutorialId = route.params.tutorial_id as string;
 tutorialStore.openInEditor = true;
 </script>
 
@@ -57,5 +17,3 @@ tutorialStore.openInEditor = true;
     </template>
   </ProjectEditor>
 </template>
-
-<style scoped></style>
