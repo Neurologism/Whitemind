@@ -4,10 +4,11 @@ definePageMeta({
 });
 
 const route = useRoute();
-const tutorialId = route.params.tutorial_id as string;
+const projectStore = useProjectStore();
 const tutorialStore = useTutorialStore();
+
+const tutorialId = route.params.tutorial_id as string;
 const toast = useToast();
-const projectId = ref('');
 
 async function loadTutorial() {
   const successGetTutorial = await tutorialStore.getTutorial(tutorialId);
@@ -32,7 +33,7 @@ async function loadTutorial() {
     }
   }
 
-  projectId.value = tutorialStore.tutorial.projectId as string;
+  projectStore.projectId = tutorialStore.tutorial.projectId as string;
 }
 
 onMounted(() => {
@@ -42,7 +43,7 @@ onMounted(() => {
 watch(
   () => tutorialStore.tutorial.projectId,
   () => {
-    projectId.value = tutorialStore.tutorial.projectId as string;
+    projectStore.projectId = tutorialStore.tutorial.projectId as string;
   }
 );
 
