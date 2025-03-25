@@ -165,6 +165,7 @@ if (shapeData.identifier === 'export') {
         <div
           v-if="
             shapeGroupData.group_identifier !== 'visualizer' &&
+            shapeData.identifier !== 'export' &&
             renderTrainingDataInHeader
           "
           class="flex flex-1 flex-wrap text-xs items-center justify-center"
@@ -190,6 +191,7 @@ if (shapeData.identifier === 'export') {
       <div
         v-if="
           shapeGroupData.group_identifier !== 'visualizer' &&
+          shapeData.identifier !== 'export' &&
           !renderTrainingDataInHeader
         "
         class="font-mono flex flex-1 flex-wrap text-xs text-center justify-center mt-1"
