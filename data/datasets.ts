@@ -15,7 +15,7 @@ export const datasets: datasetDefinition[] = [
   {
     name: 'Wine Quality',
     description: 'Physicochemical properties of red and white wines',
-    identifier: 'wine',
+    identifier: 'wine_quality',
     url: 'https://archive.ics.uci.edu/ml/datasets/wine+quality',
     numberOfRecords: 6497,
     sizeInBytes: 258698,
