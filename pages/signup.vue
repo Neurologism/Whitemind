@@ -73,7 +73,7 @@ const onRegister = async () => {
     let data = await response.json();
     console.log(data);
     await sessionStore.loginWithSessionToken(data.access_token);
-    navigateTo('/tutorials');
+    navigateTo('/profile');
   } else {
     sessionStore.loading = false;
     toast.add({
@@ -195,7 +195,7 @@ const onRegister = async () => {
         <UCheckbox v-model="legalStuff" required>
           <template #label>
             I have read and agree to Whitemind's
-            <ULink to="/terms-and-conditions" class="text-blue-500">
+            <ULink to="/terms-of-use" class="text-blue-500">
               Terms and Conditions
             </ULink>
             and
