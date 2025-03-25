@@ -17,7 +17,7 @@
             <a href="/privacy-policy">Privacy Policy</a>
           </div>
           <div class="text-text-2 ml-4">
-            <a href="/terms-and-conditions">Terms and Conditions</a>
+            <a href="/terms-of-use">Terms and Conditions</a>
           </div>
           <div class="text-text-2 ml-4">
             <a href="/contact">Contact Us</a>
