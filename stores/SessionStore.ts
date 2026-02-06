@@ -233,7 +233,10 @@ export const useSessionStore = defineStore('sessionStore', {
      */
     async fetch(
       url: string | URL | globalThis.Request,
-      options: RequestInit = {}
+      options: (RequestInit & {
+        skipAuthHeader?: boolean;
+        skipAuthRedirect?: boolean;
+      }) = {}
     ): Promise<Response> {
       const backmindHost = useRuntimeConfig().public.backmindHost as string;
       if (url.toString().startsWith('/')) {
@@ -244,16 +247,20 @@ export const useSessionStore = defineStore('sessionStore', {
         );
       }
 
-      const headers = {
-        ...options.headers,
-        Authorization: `Bearer ${this.sessionData.authorizationToken}`,
-      };
+      const headers = options.skipAuthHeader
+        ? { ...options.headers }
+        : {
+            ...options.headers,
+            Authorization: `Bearer ${this.sessionData.authorizationToken}`,
+          };
+
+      const { skipAuthHeader, skipAuthRedirect, ...fetchOptions } = options;
 
       const result = await fetch(url, {
-        ...options,
+        ...fetchOptions,
         headers,
       });
-      if (result.status == 401) {
+      if (!skipAuthRedirect && result.status == 401) {
         this.$reset();
         navigateTo('/login');
       }

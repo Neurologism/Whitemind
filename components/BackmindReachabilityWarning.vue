@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const backmindHost = useRuntimeConfig().public.backmindHost as string;
+const sessionStore = useSessionStore();
 
 const isUnreachable = ref(false);
 const isChecking = ref(false);
@@ -29,15 +30,15 @@ const checkReachable = async () => {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 4000);
   try {
-    const url = new URL('/users/is-taken', backmindHost);
-    const response = await fetch(url.toString(), {
+    await sessionStore.fetch(backmindHost, {
       method: 'HEAD',
-      credentials: 'include',
       mode: 'no-cors',
       cache: 'no-store',
       signal: controller.signal,
+      skipAuthHeader: true,
+      skipAuthRedirect: true,
     });
-    isUnreachable.value = response.status !== 401 && !response.ok;
+    isUnreachable.value = false;
   } catch {
     isUnreachable.value = true;
   } finally {
