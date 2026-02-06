@@ -9,7 +9,7 @@ const sessionStore = useSessionStore();
 const backmindHost = useRuntimeConfig().public.backmindHost as string;
 const user = ref<User | undefined>(undefined);
 const userLoading = ref(true);
-const pfpUrl = ref<string>('https://whitemind.icinoxis.net/user.svg');
+const pfpUrl = ref<string>('https://whitemind.org/user.svg');
 
 const isSelf = computed(() => {
   return (

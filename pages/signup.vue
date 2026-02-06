@@ -18,6 +18,7 @@ const password2 = ref('');
 const legalStuff = ref(false);
 
 const toast = useToast();
+const backmindAuthFailure = useState<number>('backmind-auth-failure', () => 0);
 
 let usernameOrEmailChangeTimeout: NodeJS.Timeout | null = null;
 
@@ -52,21 +53,29 @@ const validateEmail = (email: string) => {
 
 const onRegister = async () => {
   sessionStore.showLoadingAnimation('Registering...');
-  let response = await sessionStore.fetch('/auth/register', {
-    method: 'POST',
-    cache: 'no-cache',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      agreedToTermsOfServiceAndPrivacyPolicy: legalStuff.value,
-      user: {
-        brainetTag: username.value,
-        email: email.value,
-        plainPassword: password.value,
+  let response: Response;
+  try {
+    response = await sessionStore.fetch('/auth/register', {
+      method: 'POST',
+      cache: 'no-cache',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    }),
-  });
+      body: JSON.stringify({
+        agreedToTermsOfServiceAndPrivacyPolicy: legalStuff.value,
+        user: {
+          brainetTag: username.value,
+          email: email.value,
+          plainPassword: password.value,
+        },
+      }),
+    });
+  } catch {
+    sessionStore.loading = false;
+    backmindAuthFailure.value += 1;
+    return;
+  }
+
   if (response.ok) {
     console.log('Registration successful');
     console.log(response.body);
@@ -76,6 +85,7 @@ const onRegister = async () => {
     navigateTo('/profile');
   } else {
     sessionStore.loading = false;
+    backmindAuthFailure.value += 1;
     toast.add({
       title: 'Registration failed',
       description: 'Please try again',

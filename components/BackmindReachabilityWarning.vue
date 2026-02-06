@@ -5,6 +5,11 @@ const isUnreachable = ref(false);
 const isChecking = ref(false);
 const toast = useToast();
 const toastId = 'backmind-unreachable';
+const authFailureTick = useState<number>('backmind-auth-failure', () => 0);
+const showUnreachableModal = useState<boolean>(
+  'backmind-unreachable-modal',
+  () => false
+);
 let intervalId: ReturnType<typeof setInterval> | undefined;
 
 const checkReachable = async () => {
@@ -56,6 +61,11 @@ watch(isUnreachable, (unreachable) => {
   }
 });
 
+watch(authFailureTick, () => {
+  showUnreachableModal.value = true;
+  void checkReachable();
+});
+
 const handleNetworkChange = () => {
   void checkReachable();
 };
@@ -77,4 +87,24 @@ onUnmounted(() => {
 });
 </script>
 
-<template></template>
+<template>
+  <UModal v-model="showUnreachableModal">
+    <UCard class="w-full">
+      <template #header>
+        <div class="flex items-center gap-2">
+          <UIcon name="mdi:server-off" class="h-5 w-5 text-amber-500" />
+          <span class="font-semibold">Backmind servers unreachable</span>
+        </div>
+      </template>
+      <p class="text-text-2">
+        Backmind servers are unreachable at the moment. Please try again in a
+        bit.
+      </p>
+      <template #footer>
+        <UButton color="gray" variant="solid" @click="showUnreachableModal = false">
+          Close
+        </UButton>
+      </template>
+    </UCard>
+  </UModal>
+</template>

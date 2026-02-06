@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const toast = useToast();
+const backmindAuthFailure = useState<number>('backmind-auth-failure', () => 0);
 
 definePageMeta({
   layout: 'plain',
@@ -27,33 +28,42 @@ const validateEmail = (email: string): boolean => {
 
 const onLogin = async () => {
   sessionStore.showLoadingAnimation('Logging in...');
-  let response = await sessionStore.fetch('/auth/login', {
-    method: 'POST',
-    cache: 'no-cache',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      user:
-        // selectedTab.value == LoginTab.EMAIL
-        email.value.includes('@')
-          ? {
-              email: email.value,
-              plainPassword: password.value,
-            }
-          : {
-              // brainetTag: username.value,
-              brainetTag: email.value,
-              plainPassword: password.value,
-            },
-    }),
-  });
+  let response: Response;
+  try {
+    response = await sessionStore.fetch('/auth/login', {
+      method: 'POST',
+      cache: 'no-cache',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        user:
+          // selectedTab.value == LoginTab.EMAIL
+          email.value.includes('@')
+            ? {
+                email: email.value,
+                plainPassword: password.value,
+              }
+            : {
+                // brainetTag: username.value,
+                brainetTag: email.value,
+                plainPassword: password.value,
+              },
+      }),
+    });
+  } catch {
+    sessionStore.loading = false;
+    backmindAuthFailure.value += 1;
+    return;
+  }
+
   if (response.ok) {
     const data = await response.json();
     await sessionStore.loginWithSessionToken(data.access_token);
     navigateTo('/profile');
   } else {
     sessionStore.loading = false;
+    backmindAuthFailure.value += 1;
     toast.add({
       title: 'Login failed',
       color: 'red',
