@@ -27,6 +27,11 @@
               <UIcon name="ic:baseline-discord" class="w-5 h-5" />
             </a>
           </div>
+          <div class="text-text-2 ml-3 mt-2 items-center">
+            <a href="https://github.com/Neurologism/Whitemind" target="_blank">
+              <UIcon name="mdi:github" class="w-5 h-5" />
+            </a>
+          </div>
         </div>
       </div>
     </div>
