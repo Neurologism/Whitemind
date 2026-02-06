@@ -1,2 +1,0 @@
-echo "$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')" | xargs prettier --write --ignore-unknown
-git update-index --again
