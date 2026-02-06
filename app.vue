@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import BackmindReachabilityWarning from '~/components/BackmindReachabilityWarning.vue';
 const route = useRoute();
 const sessionStore = useSessionStore();
 
@@ -29,6 +30,7 @@ onUnmounted(() => {
       <NuxtPage />
     </NuxtLayout>
     <UNotifications :class="{ 'mr-96': moveNotifications }" />
+    <BackmindReachabilityWarning />
     <ModalVerifyEmail />
   </div>
 </template>
