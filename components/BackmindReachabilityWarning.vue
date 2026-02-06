@@ -4,8 +4,6 @@ const sessionStore = useSessionStore();
 
 const isUnreachable = ref(false);
 const isChecking = ref(false);
-const toast = useToast();
-const toastId = 'backmind-unreachable';
 const authFailureTick = useState<number>('backmind-auth-failure', () => 0);
 const showUnreachableModal = useState<boolean>(
   'backmind-unreachable-modal',
@@ -47,20 +45,8 @@ const checkReachable = async () => {
   }
 };
 
-watch(isUnreachable, (unreachable) => {
-  if (unreachable) {
-    toast.remove(toastId);
-    toast.add({
-      id: toastId,
-      title: 'Backend servers unreachable',
-      description: 'Some features may not work until the connection returns.',
-      icon: 'mdi-alert-circle',
-      color: 'amber',
-      timeout: 0,
-    });
-  } else {
-    toast.remove(toastId);
-  }
+watch(isUnreachable, () => {
+  // Toast warning disabled; modal still appears on auth failures.
 });
 
 watch(authFailureTick, () => {
@@ -85,7 +71,6 @@ onUnmounted(() => {
   }
   window.removeEventListener('online', handleNetworkChange);
   window.removeEventListener('offline', handleNetworkChange);
-  toast.remove(toastId);
 });
 </script>
 
