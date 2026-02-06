@@ -30,13 +30,13 @@ const checkReachable = async () => {
   const timeoutId = setTimeout(() => controller.abort(), 4000);
 
   try {
-    await fetch(backmindHost, {
+    const response = await fetch(backmindHost, {
       method: 'HEAD',
       mode: 'no-cors',
       cache: 'no-store',
       signal: controller.signal,
     });
-    isUnreachable.value = false;
+    isUnreachable.value = response.status !== 401 && !response.ok;
   } catch {
     isUnreachable.value = true;
   } finally {
