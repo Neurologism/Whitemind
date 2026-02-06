@@ -28,10 +28,11 @@ const checkReachable = async () => {
   isChecking.value = true;
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 4000);
-
   try {
-    const response = await fetch(backmindHost, {
+    const url = new URL('/users/is-taken', backmindHost);
+    const response = await fetch(url.toString(), {
       method: 'HEAD',
+      credentials: 'include',
       mode: 'no-cors',
       cache: 'no-store',
       signal: controller.signal,
