@@ -22,8 +22,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      backmindHost:
-        process.env.BACKMIND_HOST || 'https://backmind.icinoxis.net',
+      backmindHost: process.env.BACKMIND_HOST || 'https://api.whitemind.org',
       tutorialAllowUnlistedNodeCreation: false,
       tutorialAllowUnlistedEdgeCreation: false,
       tutorialAllowUnlistedNodeDeletion: false,
