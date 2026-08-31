@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "whitemind",
+  "main": "./.output/server/index.mjs",
+  "compatibility_date": "2026-08-31",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./.output/public",
+    "binding": "ASSETS"
+  },
+  "routes": [{ "pattern": "whitemind.org", "custom_domain": true }],
+  "observability": {
+    "enabled": true
+  }
+}
